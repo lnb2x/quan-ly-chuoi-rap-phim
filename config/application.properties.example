@@ -1,0 +1,11 @@
+# Cấu hình kết nối Cơ sở dữ liệu (Tài khoản phân quyền tối thiểu cinema_app)
+# Sao chép tệp này thành config/application.properties khi chạy cục bộ
+
+db.url=jdbc:mysql://127.0.0.1:3306/cinema_chain?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true&useSSL=false
+db.user=cinema_app
+db.password=CinemaApp@2026!
+
+# Cấu hình cơ sở dữ liệu kiểm thử tự động
+test.db.url=jdbc:mysql://127.0.0.1:3306/cinema_chain_test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true&useSSL=false
+test.db.user=cinema_app
+test.db.password=CinemaApp@2026!

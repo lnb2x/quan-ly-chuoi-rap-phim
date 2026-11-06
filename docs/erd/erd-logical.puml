@@ -1,0 +1,155 @@
+@startuml erd-logical
+!pragma layout smetana
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam roundCorner 4
+skinparam linetype ortho
+
+title SƠ ĐỒ THỰC THỂ – LIÊN KẾT MỨC LOGIC (CROW'S FOOT ERD - 13 BẢNG CHUẨN 3NF)\nHỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
+
+entity "cinema_branch\n(Chi nhánh rạp)" as cinema_branch {
+  * **branch_id** : INT <<PK>>
+  --
+  * branch_code : VARCHAR(20) <<UQ>>
+  * branch_name : VARCHAR(120) <<UQ>>
+  * address : VARCHAR(255)
+  * city : VARCHAR(80)
+  * phone : VARCHAR(20) <<UQ>>
+  * active : TINYINT(1)
+}
+
+entity "screening_room\n(Phòng chiếu)" as screening_room {
+  * **room_id** : INT <<PK>>
+  --
+  * *branch_id* : INT <<FK, UQ1>>
+  * room_name : VARCHAR(60) <<UQ1>>
+  * room_type : VARCHAR(20)
+  * active : TINYINT(1)
+}
+
+entity "seat_type\n(Hạng ghế)" as seat_type {
+  * **seat_type_code** : VARCHAR(16) <<PK>>
+  --
+  * type_name : VARCHAR(60) <<UQ>>
+  * surcharge : DECIMAL(12,2)
+}
+
+entity "seat\n(Ghế vật lý)" as seat {
+  * **seat_id** : INT <<PK>>
+  --
+  * *room_id* : INT <<FK, UQ1>>
+  * seat_row : CHAR(1) <<UQ1>>
+  * seat_number : INT <<UQ1>>
+  * *seat_type_code* : VARCHAR(16) <<FK>>
+}
+
+entity "movie\n(Phim điện ảnh)" as movie {
+  * **movie_id** : INT <<PK>>
+  --
+  * movie_code : VARCHAR(20) <<UQ>>
+  * title : VARCHAR(180)
+  * duration_minutes : INT
+  * release_date : DATE
+  * age_rating : VARCHAR(10)
+  * country : VARCHAR(80)
+  description : TEXT
+}
+
+entity "genre\n(Thể loại phim)" as genre {
+  * **genre_id** : INT <<PK>>
+  --
+  * genre_name : VARCHAR(80) <<UQ>>
+  description : VARCHAR(255)
+}
+
+entity "movie_genre\n(Phim - Thể loại)" as movie_genre {
+  * ***movie_id*** : INT <<PK, FK>>
+  * ***genre_id*** : INT <<PK, FK>>
+}
+
+entity "screening\n(Suất chiếu)" as screening {
+  * **screening_id** : INT <<PK>>
+  --
+  * *movie_id* : INT <<FK>>
+  * *room_id* : INT <<FK>>
+  * start_time : DATETIME
+  * end_time : DATETIME
+  * base_price : DECIMAL(12,2)
+  * status : VARCHAR(20)
+}
+
+entity "customer\n(Khách hàng)" as customer {
+  * **customer_id** : INT <<PK>>
+  --
+  * full_name : VARCHAR(120)
+  * phone : VARCHAR(20) <<UQ>>
+  * email : VARCHAR(120) <<UQ>>
+  birth_date : DATE
+  * created_at : DATETIME
+}
+
+entity "employee\n(Nhân viên)" as employee {
+  * **employee_id** : INT <<PK>>
+  --
+  * *branch_id* : INT <<FK>>
+  * employee_code : VARCHAR(20) <<UQ>>
+  * full_name : VARCHAR(120)
+  * phone : VARCHAR(20) <<UQ>>
+  * role : VARCHAR(20)
+  * hired_date : DATE
+}
+
+entity "booking\n(Đơn đặt vé)" as booking {
+  * **booking_id** : INT <<PK>>
+  --
+  * booking_code : VARCHAR(30) <<UQ>>
+  * *screening_id* : INT <<FK>>
+  *customer_id* : INT <<FK, NULLable>>
+  * *employee_id* : INT <<FK>>
+  * booked_at : DATETIME
+  * booking_status : VARCHAR(20)
+}
+
+entity "ticket\n(Vé xem phim)" as ticket {
+  * **ticket_id** : INT <<PK>>
+  --
+  * *booking_id* : INT <<FK>>
+  * *screening_id* : INT <<FK>>
+  * *seat_id* : INT <<FK>>
+  * unit_price : DECIMAL(12,2)
+  * ticket_status : VARCHAR(20)
+  cancelled_at : DATETIME
+  active_seat_key : VARCHAR(64) <<GENERATED, UQ>>
+}
+
+entity "payment\n(Thanh toán)" as payment {
+  * **payment_id** : INT <<PK>>
+  --
+  * *booking_id* : INT <<FK>>
+  * amount : DECIMAL(12,2)
+  * payment_method : VARCHAR(20)
+  * payment_status : VARCHAR(20)
+  paid_at : DATETIME
+  transaction_ref : VARCHAR(60)
+  active_success_booking : INT <<GENERATED, UQ>>
+}
+
+cinema_branch ||--|{ screening_room : "sở hữu (1:N)"
+cinema_branch ||--|{ employee : "quản lý nhân sự (1:N)"
+screening_room ||--|{ seat : "chứa ghế (1:N)"
+seat_type ||--o{ seat : "phân hạng (1:N)"
+movie ||--|{ movie_genre : "thuộc (1:N)"
+genre ||--o{ movie_genre : "gồm (1:N)"
+movie ||--o{ screening : "được chiếu (1:N)"
+screening_room ||--o{ screening : "tổ chức tại (1:N)"
+screening ||--o{ booking : "có đơn đặt (1:N)"
+customer |o--o{ booking : "đặt mua (0..1:N)"
+employee ||--o{ booking : "lập đơn (1:N)"
+booking ||--|{ ticket : "bao gồm (1:N)"
+screening ||--o{ ticket : "phát hành vé (1:N)"
+seat ||--o{ ticket : "gán chỗ (1:N)"
+booking ||--|{ payment : "thanh toán (1:N)"
+
+@enduml
