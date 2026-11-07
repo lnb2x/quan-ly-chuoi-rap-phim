@@ -3,7 +3,7 @@
 -- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
 -- MỤC ĐÍCH: Định nghĩa lược đồ CSDL quan hệ chuẩn 3NF gồm 13 bảng với đầy đủ
 --           PK, FK, UNIQUE, CHECK, Generated Columns và Indexes.
--- TƯƠNG THÍCH: MySQL 8.x & MariaDB 10.4+ (InnoDB, utf8mb4_unicode_ci)
+-- TƯƠNG THÍCH: MySQL Community Server 8.4 LTS (InnoDB, utf8mb4_unicode_ci)
 -- =============================================================================
 
 SET NAMES utf8mb4;
@@ -252,16 +252,16 @@ CREATE TABLE ticket (
     CONSTRAINT uq_ticket_active_seat      UNIQUE (active_seat_key),
     CONSTRAINT fk_ticket_booking          FOREIGN KEY (booking_id)
         REFERENCES booking (booking_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
+        ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_ticket_booking_scr      FOREIGN KEY (booking_id, screening_id)
         REFERENCES booking (booking_id, screening_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
+        ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_ticket_screening        FOREIGN KEY (screening_id)
         REFERENCES screening (screening_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
+        ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_ticket_seat             FOREIGN KEY (seat_id)
         REFERENCES seat (seat_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
+        ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT chk_ticket_price           CHECK (unit_price >= 0),
     CONSTRAINT chk_ticket_status          CHECK (ticket_status IN ('VALID', 'CANCELLED')),
     INDEX idx_ticket_screening_status (screening_id, ticket_status),
@@ -288,7 +288,7 @@ CREATE TABLE payment (
     CONSTRAINT uq_payment_one_success UNIQUE (active_success_booking),
     CONSTRAINT fk_payment_booking     FOREIGN KEY (booking_id)
         REFERENCES booking (booking_id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
+        ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT chk_payment_amount     CHECK (amount >= 0),
     CONSTRAINT chk_payment_method     CHECK (payment_method IN ('CASH', 'CARD', 'TRANSFER', 'EWALLET')),
     CONSTRAINT chk_payment_status     CHECK (payment_status IN ('PENDING', 'SUCCESS', 'FAILED', 'REFUNDED')),

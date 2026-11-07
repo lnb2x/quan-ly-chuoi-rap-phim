@@ -86,6 +86,6 @@ Hàng ngày, hệ thống phải xử lý đồng thời các quy trình nghiệ
 - **04 Chi nhánh rạp** tại Hà Nội, TP. Hồ Chí Minh, Đà Nẵng và Hải Phòng.
 - **12 Phòng chiếu** (mỗi chi nhánh 3 phòng gồm `2D`, `3D`, `IMAX`), tổng cộng **960 ghế vật lý** (mỗi phòng 8 hàng A–H $\times$ 10 ghế = 80 ghế phân bổ `STD`, `VIP`, `COUPLE`).
 - **08 Thể loại phim** và **20 Bộ phim** điện ảnh có đầy đủ phân loại độ tuổi, thời lượng thực tế.
-- **12 Nhân viên** (thu ngân, quản lý chi nhánh, kế toán) và **40 Khách hàng thành viên** (cùng quy trình khách vãng lai).
-- **88 Suất chiếu** phân bổ hợp lệ không trùng lịch trên 12 phòng chiếu.
-- **160 Đơn đặt vé** với hơn **320 Vé xem phim** và **175 Giao dịch thanh toán** bao phủ toàn bộ các kịch bản: thanh toán thành công (`SUCCESS`), đang chờ (`PENDING`), thất bại (`FAILED`), hoàn tiền khi hủy (`REFUNDED`), đơn có thử lại thanh toán sau khi lỗi thẻ, và ghế bị hủy được bán lại thành công cho khách mới.
+- **12 Nhân viên** (thu ngân, quản lý chi nhánh, kế toán) và **45 Khách hàng thành viên** (cùng quy trình khách vãng lai).
+- **160 Suất chiếu** phân bổ hợp lệ không trùng lịch trên 12 phòng chiếu.
+- **160 Đơn đặt vé** với **373 Vé xem phim** (bao gồm 23 ghế hủy được bán lại hợp lệ) và **175 Giao dịch thanh toán** bao phủ toàn bộ các kịch bản: thanh toán thành công (`SUCCESS`), đang chờ (`PENDING`), thất bại (`FAILED`), hoàn tiền khi hủy (`REFUNDED`), đơn có thử lại thanh toán sau khi lỗi thẻ, và ghế bị hủy được bán lại thành công cho khách mới.

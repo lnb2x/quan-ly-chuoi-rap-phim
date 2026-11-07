@@ -2,7 +2,7 @@
 
 ## 1. Tổng quan Kiến trúc (Architecture Overview)
 
-Ứng dụng **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được thiết kế theo kiến trúc **Desktop Đa tầng Hướng tính năng (Feature-Oriented Layered Architecture)** trên nền tảng **Java 21 LTS**, **Java Swing (FlatLaf)** và **JDBC** kết nối trực tiếp tới hệ quản trị CSDL quan hệ (**MySQL 8.x / MariaDB 10.4**).
+Ứng dụng **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được thiết kế theo kiến trúc **Desktop Đa tầng Hướng tính năng (Feature-Oriented Layered Architecture)** trên nền tảng **Java 21 LTS**, **Java Swing (FlatLaf)** và **JDBC (MySQL Connector/J)** kết nối trực tiếp tới hệ quản trị CSDL quan hệ **MySQL Community Server 8.4 LTS (InnoDB)**.
 
 ```mermaid
 flowchart TD
@@ -32,7 +32,7 @@ flowchart TD
         TX["TransactionTemplate & ConnectionProvider"]
     end
 
-    subgraph DB["Tầng Cơ sở Dữ liệu (MySQL 8.x / MariaDB 10.4 - InnoDB)"]
+    subgraph DB["Tầng Cơ sở Dữ liệu (MySQL Community Server 8.4 LTS - InnoDB)"]
         DDL["13 Bảng Chuẩn 3NF + PK/FK/UNIQUE/CHECK + Triggers + Views"]
     end
 

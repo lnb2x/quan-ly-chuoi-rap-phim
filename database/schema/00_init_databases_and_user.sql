@@ -1,7 +1,10 @@
 -- =============================================================================
 -- TỆP: 00_init_databases_and_user.sql
--- MỤC ĐÍCH: Khởi tạo CSDL dự án (cinema_chain & cinema_chain_test) và tạo tài
---           khoản ứng dụng phân quyền tối thiểu (cinema_app).
+-- MỤC ĐÍCH: Khởi tạo 02 cơ sở dữ liệu dự án (cinema_chain & cinema_chain_test)
+--           trên MySQL Community Server 8.4 LTS với bộ mã utf8mb4_unicode_ci.
+-- BẢO MẬT: Tài khoản phân quyền tối thiểu (cinema_app) và mật khẩu được cấp phát
+--          động bởi database/setup.ps1 từ cấu hình cục bộ (config/application.properties)
+--          hoặc biến môi trường CINEMA_DB_PASSWORD (không lưu mật khẩu cứng trong Git).
 -- LƯU Ý AN TOÀN: Không chạm tới bất kỳ CSDL sẵn có nào khác của người dùng.
 -- =============================================================================
 
@@ -12,21 +15,3 @@ CREATE DATABASE IF NOT EXISTS cinema_chain
 CREATE DATABASE IF NOT EXISTS cinema_chain_test
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
-
--- Tạo tài khoản phân quyền tối thiểu cho ứng dụng Desktop (Least-Privilege User)
-CREATE USER IF NOT EXISTS 'cinema_app'@'localhost' IDENTIFIED BY 'CinemaApp@2026!';
-ALTER USER 'cinema_app'@'localhost' IDENTIFIED BY 'CinemaApp@2026!';
-
-CREATE USER IF NOT EXISTS 'cinema_app'@'127.0.0.1' IDENTIFIED BY 'CinemaApp@2026!';
-ALTER USER 'cinema_app'@'127.0.0.1' IDENTIFIED BY 'CinemaApp@2026!';
-
--- Chỉ cấp quyền thao tác dữ liệu (DML / SELECT / SHOW VIEW / EXECUTE) trên 2 CSDL dự án
-GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW, EXECUTE ON cinema_chain.* TO 'cinema_app'@'localhost';
-GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW, EXECUTE ON cinema_chain.* TO 'cinema_app'@'127.0.0.1';
-
-GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW, EXECUTE, CREATE, DROP, ALTER, INDEX, TRIGGER, CREATE VIEW
-    ON cinema_chain_test.* TO 'cinema_app'@'localhost';
-GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW, EXECUTE, CREATE, DROP, ALTER, INDEX, TRIGGER, CREATE VIEW
-    ON cinema_chain_test.* TO 'cinema_app'@'127.0.0.1';
-
-FLUSH PRIVILEGES;

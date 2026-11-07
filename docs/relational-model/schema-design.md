@@ -223,7 +223,8 @@ Lưu lịch sử thanh toán của đơn đặt vé.
 | `fk_booking_screening` | `booking` | `screening_id` | `screening` | `screening_id` | `RESTRICT` / `CASCADE` |
 | `fk_booking_customer` | `booking` | `customer_id` | `customer` | `customer_id` | `SET NULL` / `CASCADE` |
 | `fk_booking_employee` | `booking` | `employee_id` | `employee` | `employee_id` | `RESTRICT` / `CASCADE` |
-| `fk_ticket_booking` | `ticket` | `booking_id` | `booking` | `booking_id` | `RESTRICT` / `CASCADE` |
-| `fk_ticket_screening` | `ticket` | `screening_id` | `screening` | `screening_id` | `RESTRICT` / `CASCADE` |
-| `fk_ticket_seat` | `ticket` | `seat_id` | `seat` | `seat_id` | `RESTRICT` / `CASCADE` |
-| `fk_payment_booking` | `payment` | `booking_id` | `booking` | `booking_id` | `RESTRICT` / `CASCADE` |
+| `fk_ticket_booking` | `ticket` | `booking_id` | `booking` | `booking_id` | `RESTRICT` / `RESTRICT` |
+| `fk_ticket_booking_scr` | `ticket` | `(booking_id, screening_id)` | `booking` | `(booking_id, screening_id)` | `RESTRICT` / `RESTRICT` |
+| `fk_ticket_screening` | `ticket` | `screening_id` | `screening` | `screening_id` | `RESTRICT` / `RESTRICT` |
+| `fk_ticket_seat` | `ticket` | `seat_id` | `seat` | `seat_id` | `RESTRICT` / `RESTRICT` |
+| `fk_payment_booking` | `payment` | `booking_id` | `booking` | `booking_id` | `RESTRICT` / `RESTRICT` |

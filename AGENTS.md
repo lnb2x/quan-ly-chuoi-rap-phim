@@ -17,11 +17,11 @@ Xây dựng hoàn chỉnh dự án học phần Cơ sở dữ liệu **Hệ th�
 | Ngôn ngữ & Runtime | **Java 21 LTS** (Eclipse Temurin 21.x tại `%USERPROFILE%\.jdks\temurin-21`) | Biên dịch với `--release 21` và chạy thực tế trên JDK 21 |
 | Giao diện Desktop | **Java Swing** + **FlatLaf 3.5.x** (`FlatMacLightLaf`) | Phong cách hiện đại, sáng, bo góc tinh tế |
 | Quản lý Build | **Maven** (qua Maven Wrapper `mvnw.cmd`, sử dụng phân phối Maven tại `~/.m2/wrapper`) | Chạy độc lập không phụ thuộc biến môi trường hệ thống |
-| Hệ quản trị CSDL | **MariaDB 10.4.32** (XAMPP) chạy thực tế; viết SQL tương thích chuẩn **MySQL 8.x** | Dùng tài khoản phân quyền tối thiểu `cinema_app` cho ứng dụng; chỉ đánh dấu đã kiểm chứng trên MariaDB 10.4.32, giữ trạng thái MySQL 8 runtime là `UNVERIFIED` cho tới khi chạy trên MySQL 8 |
+| Hệ quản trị CSDL | **MySQL Community Server 8.4.0 LTS** (cài đặt portable chính thức tại `%USERPROFILE%\.mysql\mysql-8.4`, InnoDB, `utf8mb4_unicode_ci`) | Dùng tài khoản phân quyền tối thiểu `cinema_app` cho ứng dụng; mật khẩu chỉ lưu trong cấu hình cục bộ (`config/application.properties`) hoặc biến môi trường |
 | Kết nối CSDL | **JDBC** (`com.mysql:mysql-connector-j`) + `PreparedStatement` + `TransactionTemplate` | Cấm nhúng SQL vào tầng UI; cấm ghép chuỗi SQL gây lỗi SQL Injection |
-| Kiểm thử | **JUnit 5** + **ArchUnit** | Kiểm thử đơn vị, kiểm thử kiến trúc, kiểm thử tích hợp CSDL & đồng thời (concurrency) |
-| Xuất báo cáo PDF | **Apache PDFBox 3.x** (nhúng font Unicode tiếng Việt) | Đảm bảo hiển thị đầy đủ dấu tiếng Việt và khớp 100% với số liệu SQL |
-| Sơ đồ ERD & Tài liệu | **PlantUML** (`.puml` → `.png`/`.svg`), **Mermaid**, `python-docx` + **Microsoft Word** (`.docx` → `.pdf`) | Đảm bảo sơ đồ ERD chỉnh sửa được và báo cáo học thuật xuất bản chuyên nghiệp |
+| Kiểm thử | **JUnit 5** + **ArchUnit** (21 bài kiểm thử tự động) | Kiểm thử đơn vị, kiểm thử kiến trúc, kiểm thử tích hợp MySQL 8.4 & đồng thời (concurrency) |
+| Xuất báo cáo PDF | **Apache PDFBox 3.x** (nhúng font Unicode tiếng Việt) | Đảm bảo hiển thị đầy đủ dấu tiếng Việt và khớp 100% với số liệu SQL trên MySQL 8.4 |
+| Sơ đồ ERD & Tài liệu | **PlantUML** (`.puml` → `.png`/`.svg`), **Mermaid**, `python-docx` + **ReportLab** (`.docx` & `.pdf`) | Đảm bảo sơ đồ ERD chỉnh sửa được và báo cáo học thuật xuất bản chuyên nghiệp |
 
 ---
 

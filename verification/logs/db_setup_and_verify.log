@@ -1,5 +1,11 @@
-﻿=== DATABASE SETUP & VERIFICATION LOG (2026-11-07 01:15:59) ===
---- VERIFY CONSTRAINTS OUTPUT (connected as cinema_app) ---
+﻿=== MYSQL 8.4 LTS SETUP & VERIFICATION LOG (2026-11-07 11:45:38) ===
+--- MYSQL SERVER RUNTIME IDENTITY ---
++---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
+| mysql_version | distribution                 | sql_mode                                                                                                              | charset | collation          |
++---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
+| 8.4.0         | MySQL Community Server - GPL | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | utf8mb4 | utf8mb4_unicode_ci |
++---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
+--- VERIFY CONSTRAINTS OUTPUT ON MYSQL 8.4 (connected as cinema_app) ---
 +-------------------+-----------+
 | table_name        | row_count |
 +-------------------+-----------+
@@ -52,169 +58,192 @@
 +---------------------+--------------+--------------------+
 |         35165000.00 |  35165000.00 |               0.00 |
 +---------------------+--------------+--------------------+
---- BUSINESS QUERIES SAMPLE OUTPUT (connected as cinema_app) ---
-+---------+----------+-------------+------------+----------------+-----------------------+-----------+--------------------+-------------------+
-| seat_id | seat_row | seat_number | seat_label | seat_type_code | type_name             | surcharge | final_ticket_price | seat_availability |
-+---------+----------+-------------+------------+----------------+-----------------------+-----------+--------------------+-------------------+
-|       1 | A        |           1 | A01        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | OCCUPIED          |
-|       2 | A        |           2 | A02        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | OCCUPIED          |
-|       3 | A        |           3 | A03        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|       4 | A        |           4 | A04        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|       5 | A        |           5 | A05        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|       6 | A        |           6 | A06        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|       7 | A        |           7 | A07        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|       8 | A        |           8 | A08        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|       9 | A        |           9 | A09        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      10 | A        |          10 | A10        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      11 | B        |           1 | B01        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      12 | B        |           2 | B02        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      13 | B        |           3 | B03        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      14 | B        |           4 | B04        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      15 | B        |           5 | B05        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      16 | B        |           6 | B06        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      17 | B        |           7 | B07        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      18 | B        |           8 | B08        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      19 | B        |           9 | B09        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      20 | B        |          10 | B10        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      21 | C        |           1 | C01        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      22 | C        |           2 | C02        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      23 | C        |           3 | C03        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      24 | C        |           4 | C04        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      25 | C        |           5 | C05        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      26 | C        |           6 | C06        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      27 | C        |           7 | C07        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      28 | C        |           8 | C08        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      29 | C        |           9 | C09        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      30 | C        |          10 | C10        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      31 | D        |           1 | D01        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      32 | D        |           2 | D02        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      33 | D        |           3 | D03        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      34 | D        |           4 | D04        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      35 | D        |           5 | D05        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      36 | D        |           6 | D06        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      37 | D        |           7 | D07        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      38 | D        |           8 | D08        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      39 | D        |           9 | D09        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      40 | D        |          10 | D10        | STD            | Gh? Th??ng (Standard) |      0.00 |           85000.00 | AVAILABLE         |
-|      41 | E        |           1 | E01        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      42 | E        |           2 | E02        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      43 | E        |           3 | E03        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      44 | E        |           4 | E04        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      45 | E        |           5 | E05        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      46 | E        |           6 | E06        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      47 | E        |           7 | E07        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      48 | E        |           8 | E08        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      49 | E        |           9 | E09        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      50 | E        |          10 | E10        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      51 | F        |           1 | F01        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      52 | F        |           2 | F02        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      53 | F        |           3 | F03        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      54 | F        |           4 | F04        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      55 | F        |           5 | F05        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      56 | F        |           6 | F06        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      57 | F        |           7 | F07        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      58 | F        |           8 | F08        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      59 | F        |           9 | F09        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      60 | F        |          10 | F10        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      61 | G        |           1 | G01        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      62 | G        |           2 | G02        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      63 | G        |           3 | G03        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      64 | G        |           4 | G04        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      65 | G        |           5 | G05        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      66 | G        |           6 | G06        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      67 | G        |           7 | G07        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      68 | G        |           8 | G08        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      69 | G        |           9 | G09        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      70 | G        |          10 | G10        | VIP            | Gh? VIP Trung t?m     |  20000.00 |          105000.00 | AVAILABLE         |
-|      71 | H        |           1 | H01        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      72 | H        |           2 | H02        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      73 | H        |           3 | H03        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      74 | H        |           4 | H04        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      75 | H        |           5 | H05        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      76 | H        |           6 | H06        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      77 | H        |           7 | H07        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      78 | H        |           8 | H08        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      79 | H        |           9 | H09        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-|      80 | H        |          10 | H10        | COUPLE         | Gh? ??i Sweetbox      |  45000.00 |          130000.00 | AVAILABLE         |
-+---------+----------+-------------+------------+----------------+-----------------------+-----------+--------------------+-------------------+
-+--------------+------------+----------------------------------+------------------+------------+------------------------------+------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
-| screening_id | movie_code | movie_title                      | duration_minutes | age_rating | branch_name                  | room_name              | room_type | start_time          | end_time            | base_price | total_seats | sold_seats | available_seats | screening_status |
-+--------------+------------+----------------------------------+------------------+------------+------------------------------+------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
-|           23 | MV-002     | Mai                              |              131 | T18        | CineViet Aeon Mall H?i Ph?ng | Ph?ng 03 - Laser IMAX  | IMAX      | 2026-11-04 09:00:00 | 2026-11-04 11:31:00 |  145000.00 |          80 |          2 |              78 | OPEN             |
-|           19 | MV-008     | H? ?en T? Th?n (Interstellar)    |              162 | T13        | CineViet Aeon Mall H?i Ph?ng | Ph?ng 01 - Standard 2D | 2D        | 2026-11-04 09:00:00 | 2026-11-04 12:02:00 |   85000.00 |          80 |          0 |              80 | OPEN             |
-|           15 | MV-014     | B? Gi?                           |              128 | T13        | CineViet C?u R?ng ?? N?ng    | Ph?ng 02 - Dolby 3D    | 3D        | 2026-11-04 09:00:00 | 2026-11-04 11:28:00 |  110000.00 |          80 |          0 |              80 | OPEN             |
-|            7 | MV-006     | Oppenheimer                      |              160 | T16        | CineViet Landmark 81         | Ph?ng 01 - Standard 2D | 2D        | 2026-11-04 09:00:00 | 2026-11-04 12:00:00 |   85000.00 |          80 |          2 |              78 | OPEN             |
-|           11 | MV-020     | ??a ??o: M?t Tr?i Trong B?ng T?i |              124 | T16        | CineViet Landmark 81         | Ph?ng 03 - Laser IMAX  | IMAX      | 2026-11-04 09:00:00 | 2026-11-04 11:24:00 |  145000.00 |          80 |          0 |              80 | OPEN             |
-|            3 | MV-012     | Qu?t M? Tr?ng Ma (Exhuma)        |              134 | T16        | CineViet Vincom B? Tri?u     | Ph?ng 02 - Dolby 3D    | 3D        | 2026-11-04 09:00:00 | 2026-11-04 11:34:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
-|           21 | MV-015     |  ??t R?ng Ph??ng Nam             |              110 | K          | CineViet Aeon Mall H?i Ph?ng | Ph?ng 02 - Dolby 3D    | 3D        | 2026-11-04 13:00:00 | 2026-11-04 15:10:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
-|           17 | MV-001     | ??o, Ph? v? Piano                |              105 | T13        | CineViet C?u R?ng ?? N?ng    | Ph?ng 03 - Laser IMAX  | IMAX      | 2026-11-04 13:00:00 | 2026-11-04 15:05:00 |  145000.00 |          80 |          0 |              80 | OPEN             |
-|           13 | MV-007     | K? ??nh C?p Gi?c M? (Inception)  |              148 | T13        | CineViet C?u R?ng ?? N?ng    | Ph?ng 01 - Standard 2D | 2D        | 2026-11-04 13:00:00 | 2026-11-04 15:48:00 |   85000.00 |          80 |          0 |              80 | OPEN             |
-|            9 | MV-013     | Nh? B? N?                        |              102 | T16        | CineViet Landmark 81         | Ph?ng 02 - Dolby 3D    | 3D        | 2026-11-04 13:00:00 | 2026-11-04 15:02:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
-|            5 | MV-019     | K? Tr?m M?t Tr?ng 4              |               95 | P          | CineViet Vincom B? Tri?u     | Ph?ng 03 - Laser IMAX  | IMAX      | 2026-11-04 13:00:00 | 2026-11-04 14:55:00 |  145000.00 |          80 |          2 |              78 | OPEN             |
-|            1 | MV-005     | Dune: H?nh Tinh C?t - Ph?n Hai   |              165 | T13        | CineViet Vincom B? Tri?u     | Ph?ng 01 - Standard 2D | 2D        | 2026-11-04 13:00:00 | 2026-11-04 16:05:00 |   85000.00 |          80 |          2 |              78 | OPEN             |
-|           24 | MV-005     | Dune: H?nh Tinh C?t - Ph?n Hai   |              165 | T13        | CineViet Aeon Mall H?i Ph?ng | Ph?ng 03 - Laser IMAX  | IMAX      | 2026-11-04 17:00:00 | 2026-11-04 20:05:00 |  160000.00 |          80 |          3 |              77 | OPEN             |
-|           20 | MV-011     | K? Sinh Tr?ng (Parasite)         |              132 | T18        | CineViet Aeon Mall H?i Ph?ng | Ph?ng 01 - Standard 2D | 2D        | 2026-11-04 17:00:00 | 2026-11-04 19:32:00 |   95000.00 |          80 |          0 |              80 | OPEN             |
-|           16 | MV-017     | V? Binh D?i Ng?n H? 3            |              150 | T13        | CineViet C?u R?ng ?? N?ng    | Ph?ng 02 - Dolby 3D    | 3D        | 2026-11-04 17:00:00 | 2026-11-04 19:50:00 |  125000.00 |          80 |          0 |              80 | OPEN             |
-+--------------+------------+----------------------------------+------------------+------------+------------------------------+------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
-+-----------+-------------+------------------------------+-----------------+---------------------+---------------------+--------------------+
-| branch_id | branch_code | branch_name                  | city            | total_paid_bookings | total_valid_tickets | total_paid_revenue |
-+-----------+-------------+------------------------------+-----------------+---------------------+---------------------+--------------------+
-|         1 | CN-HN01     | CineViet Vincom B? Tri?u     | H? N?i          |                  36 |                  84 |        10140000.00 |
-|         2 | CN-HCM01    | CineViet Landmark 81         | TP. H? Ch? Minh |                  34 |                  79 |         9370000.00 |
-|         4 | CN-HP01     | CineViet Aeon Mall H?i Ph?ng | H?i Ph?ng       |                  29 |                  69 |         8325000.00 |
-|         3 | CN-DN01     | CineViet C?u R?ng ?? N?ng    | ?? N?ng         |                  26 |                  60 |         7330000.00 |
-+-----------+-------------+------------------------------+-----------------+---------------------+---------------------+--------------------+
-+--------------+-------------+------------------------------+--------------------+-------------------+--------------------+
-| revenue_date | branch_code | branch_name                  | paid_booking_count | paid_ticket_count | total_paid_revenue |
-+--------------+-------------+------------------------------+--------------------+-------------------+--------------------+
-| 2026-11-04   | CN-HCM01    | CineViet Landmark 81         |                  4 |                 9 |          940000.00 |
-| 2026-11-04   | CN-HN01     | CineViet Vincom B? Tri?u     |                  6 |                14 |         1710000.00 |
-| 2026-11-04   | CN-HP01     | CineViet Aeon Mall H?i Ph?ng |                  4 |                10 |         1350000.00 |
-| 2026-11-05   | CN-DN01     | CineViet C?u R?ng ?? N?ng    |                  6 |                14 |         1710000.00 |
-| 2026-11-05   | CN-HCM01    | CineViet Landmark 81         |                  6 |                14 |         1710000.00 |
-| 2026-11-05   | CN-HN01     | CineViet Vincom B? Tri?u     |                  6 |                14 |         1710000.00 |
-| 2026-11-05   | CN-HP01     | CineViet Aeon Mall H?i Ph?ng |                  6 |                14 |         1710000.00 |
-| 2026-11-06   | CN-DN01     | CineViet C?u R?ng ?? N?ng    |                  6 |                14 |         1710000.00 |
-| 2026-11-06   | CN-HCM01    | CineViet Landmark 81         |                  6 |                14 |         1710000.00 |
-| 2026-11-06   | CN-HN01     | CineViet Vincom B? Tri?u     |                  6 |                14 |         1710000.00 |
-| 2026-11-06   | CN-HP01     | CineViet Aeon Mall H?i Ph?ng |                  6 |                14 |         1710000.00 |
-| 2026-11-07   | CN-DN01     | CineViet C?u R?ng ?? N?ng    |                  2 |                 4 |          610000.00 |
-| 2026-11-07   | CN-HCM01    | CineViet Landmark 81         |                  6 |                14 |         1710000.00 |
-| 2026-11-07   | CN-HN01     | CineViet Vincom B? Tri?u     |                  6 |                14 |         1710000.00 |
-| 2026-11-07   | CN-HP01     | CineViet Aeon Mall H?i Ph?ng |                  6 |                14 |         1650000.00 |
-| 2026-11-08   | CN-DN01     | CineViet C?u R?ng ?? N?ng    |                  6 |                14 |         1650000.00 |
-| 2026-11-08   | CN-HCM01    | CineViet Landmark 81         |                  6 |                14 |         1650000.00 |
-| 2026-11-08   | CN-HN01     | CineViet Vincom B? Tri?u     |                  6 |                14 |         1650000.00 |
-| 2026-11-08   | CN-HP01     | CineViet Aeon Mall H?i Ph?ng |                  6 |                14 |         1650000.00 |
-| 2026-11-09   | CN-DN01     | CineViet C?u R?ng ?? N?ng    |                  6 |                14 |         1650000.00 |
-| 2026-11-09   | CN-HCM01    | CineViet Landmark 81         |                  6 |                14 |         1650000.00 |
-| 2026-11-09   | CN-HN01     | CineViet Vincom B? Tri?u     |                  6 |                14 |         1650000.00 |
-| 2026-11-09   | CN-HP01     | CineViet Aeon Mall H?i Ph?ng |                  1 |                 3 |          255000.00 |
-+--------------+-------------+------------------------------+--------------------+-------------------+--------------------+
-+--------------+----------------+-------------+-----------+------------------------------+------------------------+-----------+----------------------------------+---------------+--------------+-----------------+--------------------+---------------+
-| screening_id | screening_date | start_clock | end_clock | branch_name                  | room_name              | room_type | movie_title                      | room_capacity | tickets_sold | available_seats | occupancy_rate_pct | sales_revenue |
-+--------------+----------------+-------------+-----------+------------------------------+------------------------+-----------+----------------------------------+---------------+--------------+-----------------+--------------------+---------------+
-|            3 | 2026-11-04     | 09:00:00    | 11:34:00  | CineViet Vincom B? Tri?u     | Ph?ng 02 - Dolby 3D    | 3D        | Qu?t M? Tr?ng Ma (Exhuma)        |            80 |            3 |              77 |               3.75 |     330000.00 |
-|            7 | 2026-11-04     | 09:00:00    | 12:00:00  | CineViet Landmark 81         | Ph?ng 01 - Standard 2D | 2D        | Oppenheimer                      |            80 |            2 |              78 |               2.50 |     170000.00 |
-|           11 | 2026-11-04     | 09:00:00    | 11:24:00  | CineViet Landmark 81         | Ph?ng 03 - Laser IMAX  | IMAX      | ??a ??o: M?t Tr?i Trong B?ng T?i |            80 |            0 |              80 |               0.00 |          0.00 |
-|           15 | 2026-11-04     | 09:00:00    | 11:28:00  | CineViet C?u R?ng ?? N?ng    | Ph?ng 02 - Dolby 3D    | 3D        | B? Gi?                           |            80 |            0 |              80 |               0.00 |          0.00 |
-|           19 | 2026-11-04     | 09:00:00    | 12:02:00  | CineViet Aeon Mall H?i Ph?ng | Ph?ng 01 - Standard 2D | 2D        | H? ?en T? Th?n (Interstellar)    |            80 |            0 |              80 |               0.00 |          0.00 |
-|           23 | 2026-11-04     | 09:00:00    | 11:31:00  | CineViet Aeon Mall H?i Ph?ng | Ph?ng 03 - Laser IMAX  | IMAX      | Mai                              |            80 |            2 |              78 |               2.50 |     290000.00 |
-|            5 | 2026-11-04     | 13:00:00    | 14:55:00  | CineViet Vincom B? Tri?u     | Ph?ng 03 - Laser IMAX  | IMAX      | K? Tr?m M?t Tr?ng 4              |            80 |            2 |              78 |               2.50 |     290000.00 |
-|            1 | 2026-11-04     | 13:00:00    | 16:05:00  | CineViet Vincom B? Tri?u     | Ph?ng 01 - Standard 2D | 2D        | Dune: H?nh Tinh C?t - Ph?n Hai   |            80 |            2 |              78 |               2.50 |     170000.00 |
-|            9 | 2026-11-04     | 13:00:00    | 15:02:00  | CineViet Landmark 81         | Ph?ng 02 - Dolby 3D    | 3D        | Nh? B? N?                        |            80 |            3 |              77 |               3.75 |     330000.00 |
-|           13 | 2026-11-04     | 13:00:00    | 15:48:00  | CineViet C?u R?ng ?? N?ng    | Ph?ng 01 - Standard 2D | 2D        | K? ??nh C?p Gi?c M? (Inception)  |            80 |            0 |              80 |               0.00 |          0.00 |
-|           17 | 2026-11-04     | 13:00:00    | 15:05:00  | CineViet C?u R?ng ?? N?ng    | Ph?ng 03 - Laser IMAX  | IMAX      | ??o, Ph? v? Piano                |            80 |            0 |              80 |               0.00 |          0.00 |
-|           21 | 2026-11-04     | 13:00:00    | 15:10:00  | CineViet Aeon Mall H?i Ph?ng | Ph?ng 02 - Dolby 3D    | 3D        |  ??t R?ng Ph??ng Nam             |            80 |            3 |              77 |               3.75 |     330000.00 |
-|            4 | 2026-11-04     | 17:00:00    | 19:10:00  | CineViet Vincom B? Tri?u     | Ph?ng 02 - Dolby 3D    | 3D        |  ??t R?ng Ph??ng Nam             |            80 |            2 |              78 |               2.50 |     250000.00 |
-|            8 | 2026-11-04     | 17:00:00    | 18:56:00  | CineViet Landmark 81         | Ph?ng 01 - Standard 2D | 2D        | Nh?ng M?nh Gh?p C?m X?c 2        |            80 |            2 |              78 |               2.50 |     190000.00 |
-|           12 | 2026-11-04     | 17:00:00    | 19:38:00  | CineViet Landmark 81         | Ph?ng 03 - Laser IMAX  | IMAX      | L?t M?t 7: M?t ?i?u ??c          |            80 |            0 |              80 |               0.00 |          0.00 |
-|           16 | 2026-11-04     | 17:00:00    | 19:50:00  | CineViet C?u R?ng ?? N?ng    | Ph?ng 02 - Dolby 3D    | 3D        | V? Binh D?i Ng?n H? 3            |            80 |            0 |              80 |               0.00 |          0.00 |
-|           20 | 2026-11-04     | 17:00:00    | 19:32:00  | CineViet Aeon Mall H?i Ph?ng | Ph?ng 01 - Standard 2D | 2D        | K? Sinh Tr?ng (Parasite)         |            80 |            0 |              80 |               0.00 |          0.00 |
-|           24 | 2026-11-04     | 17:00:00    | 20:05:00  | CineViet Aeon Mall H?i Ph?ng | Ph?ng 03 - Laser IMAX  | IMAX      | Dune: H?nh Tinh C?t - Ph?n Hai   |            80 |            3 |              77 |               3.75 |     480000.00 |
-|            6 | 2026-11-04     | 20:30:00    | 23:01:00  | CineViet Vincom B? Tri?u     | Ph?ng 03 - Laser IMAX  | IMAX      | Mai                              |            80 |            3 |              77 |               3.75 |     480000.00 |
-|            2 | 2026-11-04     | 20:30:00    | 23:32:00  | CineViet Vincom B? Tri?u     | Ph?ng 01 - Standard 2D | 2D        | H? ?en T? Th?n (Interstellar)    |            80 |            2 |              78 |               2.50 |     190000.00 |
-+--------------+----------------+-------------+-----------+------------------------------+------------------------+-----------+----------------------------------+---------------+--------------+-----------------+--------------------+---------------+
+--- UTF-8 VIETNAMESE DIACRITICS & MYSQL VERSION CHECK (connected as cinema_app) ---
++----------------------+----------------------+
+| active_mysql_version | connected_user       |
++----------------------+----------------------+
+| 8.4.0                | cinema_app@127.0.0.1 |
++----------------------+----------------------+
++-----------+-------------+-----------------------------------+--------------------+
+| branch_id | branch_code | branch_name                       | city               |
++-----------+-------------+-----------------------------------+--------------------+
+|         1 | CN-HN01     | CineViet Vincom Bà Triệu          | Hà Nội             |
+|         2 | CN-HCM01    | CineViet Landmark 81              | TP. Hồ Chí Minh    |
+|         3 | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         | Đà Nẵng            |
+|         4 | CN-HP01     | CineViet Aeon Mall Hải Phòng      | Hải Phòng          |
++-----------+-------------+-----------------------------------+--------------------+
++----------+------------+-------------------------------------+
+| movie_id | movie_code | title                               |
++----------+------------+-------------------------------------+
+|        1 | MV-001     | Đào, Phở và Piano                   |
+|        2 | MV-002     | Mai                                 |
+|        3 | MV-003     | Lật Mặt 7: Một Điều Ước             |
+|        4 | MV-004     | Mắt Biếc                            |
+|        5 | MV-005     | Dune: Hành Tinh Cát - Phần Hai      |
++----------+------------+-------------------------------------+
+--- BUSINESS QUERIES SAMPLE OUTPUT ON MYSQL 8.4 (connected as cinema_app) ---
++---------+----------+-------------+------------+----------------+----------------------------+-----------+--------------------+-------------------+
+| seat_id | seat_row | seat_number | seat_label | seat_type_code | type_name                  | surcharge | final_ticket_price | seat_availability |
++---------+----------+-------------+------------+----------------+----------------------------+-----------+--------------------+-------------------+
+|       1 | A        |           1 | A01        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | OCCUPIED          |
+|       2 | A        |           2 | A02        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | OCCUPIED          |
+|       3 | A        |           3 | A03        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       4 | A        |           4 | A04        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       5 | A        |           5 | A05        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       6 | A        |           6 | A06        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       7 | A        |           7 | A07        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       8 | A        |           8 | A08        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       9 | A        |           9 | A09        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      10 | A        |          10 | A10        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      11 | B        |           1 | B01        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      12 | B        |           2 | B02        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      13 | B        |           3 | B03        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      14 | B        |           4 | B04        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      15 | B        |           5 | B05        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      16 | B        |           6 | B06        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      17 | B        |           7 | B07        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      18 | B        |           8 | B08        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      19 | B        |           9 | B09        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      20 | B        |          10 | B10        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      21 | C        |           1 | C01        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      22 | C        |           2 | C02        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      23 | C        |           3 | C03        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      24 | C        |           4 | C04        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      25 | C        |           5 | C05        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      26 | C        |           6 | C06        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      27 | C        |           7 | C07        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      28 | C        |           8 | C08        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      29 | C        |           9 | C09        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      30 | C        |          10 | C10        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      31 | D        |           1 | D01        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      32 | D        |           2 | D02        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      33 | D        |           3 | D03        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      34 | D        |           4 | D04        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      35 | D        |           5 | D05        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      36 | D        |           6 | D06        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      37 | D        |           7 | D07        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      38 | D        |           8 | D08        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      39 | D        |           9 | D09        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      40 | D        |          10 | D10        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      41 | E        |           1 | E01        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      42 | E        |           2 | E02        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      43 | E        |           3 | E03        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      44 | E        |           4 | E04        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      45 | E        |           5 | E05        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      46 | E        |           6 | E06        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      47 | E        |           7 | E07        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      48 | E        |           8 | E08        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      49 | E        |           9 | E09        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      50 | E        |          10 | E10        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      51 | F        |           1 | F01        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      52 | F        |           2 | F02        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      53 | F        |           3 | F03        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      54 | F        |           4 | F04        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      55 | F        |           5 | F05        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      56 | F        |           6 | F06        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      57 | F        |           7 | F07        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      58 | F        |           8 | F08        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      59 | F        |           9 | F09        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      60 | F        |          10 | F10        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      61 | G        |           1 | G01        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      62 | G        |           2 | G02        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      63 | G        |           3 | G03        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      64 | G        |           4 | G04        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      65 | G        |           5 | G05        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      66 | G        |           6 | G06        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      67 | G        |           7 | G07        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      68 | G        |           8 | G08        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      69 | G        |           9 | G09        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      70 | G        |          10 | G10        | VIP            | Ghế VIP Trung tâm          |  20000.00 |          105000.00 | AVAILABLE         |
+|      71 | H        |           1 | H01        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      72 | H        |           2 | H02        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      73 | H        |           3 | H03        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      74 | H        |           4 | H04        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      75 | H        |           5 | H05        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      76 | H        |           6 | H06        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      77 | H        |           7 | H07        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      78 | H        |           8 | H08        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      79 | H        |           9 | H09        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
+|      80 | H        |          10 | H10        | COUPLE         | Ghế Đôi Sweetbox           |  45000.00 |          130000.00 | AVAILABLE         |
++---------+----------+-------------+------------+----------------+----------------------------+-----------+--------------------+-------------------+
++--------------+------------+-----------------------------------------------+------------------+------------+-----------------------------------+-------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
+| screening_id | movie_code | movie_title                                   | duration_minutes | age_rating | branch_name                       | room_name               | room_type | start_time          | end_time            | base_price | total_seats | sold_seats | available_seats | screening_status |
++--------------+------------+-----------------------------------------------+------------------+------------+-----------------------------------+-------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
+|           19 | MV-008     | Hố Đen Tử Thần (Interstellar)                 |              162 | T13        | CineViet Aeon Mall Hải Phòng      | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 09:00:00 | 2026-11-04 12:02:00 |   85000.00 |          80 |          0 |              80 | OPEN             |
+|           23 | MV-002     | Mai                                           |              131 | T18        | CineViet Aeon Mall Hải Phòng      | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 09:00:00 | 2026-11-04 11:31:00 |  145000.00 |          80 |          2 |              78 | OPEN             |
+|           15 | MV-014     | Bố Già                                        |              128 | T13        | CineViet Cầu Rồng Đà Nẵng         | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 09:00:00 | 2026-11-04 11:28:00 |  110000.00 |          80 |          0 |              80 | OPEN             |
+|            7 | MV-006     | Oppenheimer                                   |              160 | T16        | CineViet Landmark 81              | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 09:00:00 | 2026-11-04 12:00:00 |   85000.00 |          80 |          2 |              78 | OPEN             |
+|           11 | MV-020     | Địa Đạo: Mặt Trời Trong Bóng Tối              |              124 | T16        | CineViet Landmark 81              | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 09:00:00 | 2026-11-04 11:24:00 |  145000.00 |          80 |          0 |              80 | OPEN             |
+|            3 | MV-012     | Quật Mộ Trùng Ma (Exhuma)                     |              134 | T16        | CineViet Vincom Bà Triệu          | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 09:00:00 | 2026-11-04 11:34:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
+|           21 | MV-015     |  Đất Rừng Phương Nam                          |              110 | K          | CineViet Aeon Mall Hải Phòng      | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 13:00:00 | 2026-11-04 15:10:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
+|           13 | MV-007     | Kẻ Đánh Cắp Giấc Mơ (Inception)               |              148 | T13        | CineViet Cầu Rồng Đà Nẵng         | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 13:00:00 | 2026-11-04 15:48:00 |   85000.00 |          80 |          0 |              80 | OPEN             |
+|           17 | MV-001     | Đào, Phở và Piano                             |              105 | T13        | CineViet Cầu Rồng Đà Nẵng         | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 13:00:00 | 2026-11-04 15:05:00 |  145000.00 |          80 |          0 |              80 | OPEN             |
+|            9 | MV-013     | Nhà Bà Nữ                                     |              102 | T16        | CineViet Landmark 81              | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 13:00:00 | 2026-11-04 15:02:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
+|            1 | MV-005     | Dune: Hành Tinh Cát - Phần Hai                |              165 | T13        | CineViet Vincom Bà Triệu          | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 13:00:00 | 2026-11-04 16:05:00 |   85000.00 |          80 |          2 |              78 | OPEN             |
+|            5 | MV-019     | Kẻ Trộm Mặt Trăng 4                           |               95 | P          | CineViet Vincom Bà Triệu          | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 13:00:00 | 2026-11-04 14:55:00 |  145000.00 |          80 |          2 |              78 | OPEN             |
+|           20 | MV-011     | Ký Sinh Trùng (Parasite)                      |              132 | T18        | CineViet Aeon Mall Hải Phòng      | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 17:00:00 | 2026-11-04 19:32:00 |   95000.00 |          80 |          0 |              80 | OPEN             |
+|           24 | MV-005     | Dune: Hành Tinh Cát - Phần Hai                |              165 | T13        | CineViet Aeon Mall Hải Phòng      | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 17:00:00 | 2026-11-04 20:05:00 |  160000.00 |          80 |          3 |              77 | OPEN             |
+|           16 | MV-017     | Vệ Binh Dải Ngân Hà 3                         |              150 | T13        | CineViet Cầu Rồng Đà Nẵng         | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 17:00:00 | 2026-11-04 19:50:00 |  125000.00 |          80 |          0 |              80 | OPEN             |
++--------------+------------+-----------------------------------------------+------------------+------------+-----------------------------------+-------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
++-----------+-------------+-----------------------------------+--------------------+---------------------+---------------------+--------------------+
+| branch_id | branch_code | branch_name                       | city               | total_paid_bookings | total_valid_tickets | total_paid_revenue |
++-----------+-------------+-----------------------------------+--------------------+---------------------+---------------------+--------------------+
+|         1 | CN-HN01     | CineViet Vincom Bà Triệu          | Hà Nội             |                  36 |                  84 |        10140000.00 |
+|         2 | CN-HCM01    | CineViet Landmark 81              | TP. Hồ Chí Minh    |                  34 |                  79 |         9370000.00 |
+|         4 | CN-HP01     | CineViet Aeon Mall Hải Phòng      | Hải Phòng          |                  29 |                  69 |         8325000.00 |
+|         3 | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         | Đà Nẵng            |                  26 |                  60 |         7330000.00 |
++-----------+-------------+-----------------------------------+--------------------+---------------------+---------------------+--------------------+
++--------------+-------------+-----------------------------------+--------------------+-------------------+--------------------+
+| revenue_date | branch_code | branch_name                       | paid_booking_count | paid_ticket_count | total_paid_revenue |
++--------------+-------------+-----------------------------------+--------------------+-------------------+--------------------+
+| 2026-11-04   | CN-HCM01    | CineViet Landmark 81              |                  4 |                 9 |          940000.00 |
+| 2026-11-04   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1710000.00 |
+| 2026-11-04   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  4 |                10 |         1350000.00 |
+| 2026-11-05   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  6 |                14 |         1710000.00 |
+| 2026-11-05   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1710000.00 |
+| 2026-11-05   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1710000.00 |
+| 2026-11-05   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  6 |                14 |         1710000.00 |
+| 2026-11-06   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  6 |                14 |         1710000.00 |
+| 2026-11-06   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1710000.00 |
+| 2026-11-06   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1710000.00 |
+| 2026-11-06   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  6 |                14 |         1710000.00 |
+| 2026-11-07   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  2 |                 4 |          610000.00 |
+| 2026-11-07   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1710000.00 |
+| 2026-11-07   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1710000.00 |
+| 2026-11-07   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  6 |                14 |         1650000.00 |
+| 2026-11-08   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  6 |                14 |         1650000.00 |
+| 2026-11-08   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1650000.00 |
+| 2026-11-08   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1650000.00 |
+| 2026-11-08   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  6 |                14 |         1650000.00 |
+| 2026-11-09   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  6 |                14 |         1650000.00 |
+| 2026-11-09   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1650000.00 |
+| 2026-11-09   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1650000.00 |
+| 2026-11-09   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  1 |                 3 |          255000.00 |
++--------------+-------------+-----------------------------------+--------------------+-------------------+--------------------+
++--------------+----------------+-------------+-----------+-----------------------------------+-------------------------+-----------+-----------------------------------------------+---------------+--------------+-----------------+--------------------+---------------+
+| screening_id | screening_date | start_clock | end_clock | branch_name                       | room_name               | room_type | movie_title                                   | room_capacity | tickets_sold | available_seats | occupancy_rate_pct | sales_revenue |
++--------------+----------------+-------------+-----------+-----------------------------------+-------------------------+-----------+-----------------------------------------------+---------------+--------------+-----------------+--------------------+---------------+
+|            3 | 2026-11-04     | 09:00:00    | 11:34:00  | CineViet Vincom Bà Triệu          | Phòng 02 - Dolby 3D     | 3D        | Quật Mộ Trùng Ma (Exhuma)                     |            80 |            3 |              77 |               3.75 |     330000.00 |
+|           11 | 2026-11-04     | 09:00:00    | 11:24:00  | CineViet Landmark 81              | Phòng 03 - Laser IMAX   | IMAX      | Địa Đạo: Mặt Trời Trong Bóng Tối              |            80 |            0 |              80 |               0.00 |          0.00 |
+|            7 | 2026-11-04     | 09:00:00    | 12:00:00  | CineViet Landmark 81              | Phòng 01 - Standard 2D  | 2D        | Oppenheimer                                   |            80 |            2 |              78 |               2.50 |     170000.00 |
+|           15 | 2026-11-04     | 09:00:00    | 11:28:00  | CineViet Cầu Rồng Đà Nẵng         | Phòng 02 - Dolby 3D     | 3D        | Bố Già                                        |            80 |            0 |              80 |               0.00 |          0.00 |
+|           19 | 2026-11-04     | 09:00:00    | 12:02:00  | CineViet Aeon Mall Hải Phòng      | Phòng 01 - Standard 2D  | 2D        | Hố Đen Tử Thần (Interstellar)                 |            80 |            0 |              80 |               0.00 |          0.00 |
+|           23 | 2026-11-04     | 09:00:00    | 11:31:00  | CineViet Aeon Mall Hải Phòng      | Phòng 03 - Laser IMAX   | IMAX      | Mai                                           |            80 |            2 |              78 |               2.50 |     290000.00 |
+|            1 | 2026-11-04     | 13:00:00    | 16:05:00  | CineViet Vincom Bà Triệu          | Phòng 01 - Standard 2D  | 2D        | Dune: Hành Tinh Cát - Phần Hai                |            80 |            2 |              78 |               2.50 |     170000.00 |
+|            5 | 2026-11-04     | 13:00:00    | 14:55:00  | CineViet Vincom Bà Triệu          | Phòng 03 - Laser IMAX   | IMAX      | Kẻ Trộm Mặt Trăng 4                           |            80 |            2 |              78 |               2.50 |     290000.00 |
+|            9 | 2026-11-04     | 13:00:00    | 15:02:00  | CineViet Landmark 81              | Phòng 02 - Dolby 3D     | 3D        | Nhà Bà Nữ                                     |            80 |            3 |              77 |               3.75 |     330000.00 |
+|           13 | 2026-11-04     | 13:00:00    | 15:48:00  | CineViet Cầu Rồng Đà Nẵng         | Phòng 01 - Standard 2D  | 2D        | Kẻ Đánh Cắp Giấc Mơ (Inception)               |            80 |            0 |              80 |               0.00 |          0.00 |
+|           17 | 2026-11-04     | 13:00:00    | 15:05:00  | CineViet Cầu Rồng Đà Nẵng         | Phòng 03 - Laser IMAX   | IMAX      | Đào, Phở và Piano                             |            80 |            0 |              80 |               0.00 |          0.00 |
+|           21 | 2026-11-04     | 13:00:00    | 15:10:00  | CineViet Aeon Mall Hải Phòng      | Phòng 02 - Dolby 3D     | 3D        |  Đất Rừng Phương Nam                          |            80 |            3 |              77 |               3.75 |     330000.00 |
+|            4 | 2026-11-04     | 17:00:00    | 19:10:00  | CineViet Vincom Bà Triệu          | Phòng 02 - Dolby 3D     | 3D        |  Đất Rừng Phương Nam                          |            80 |            2 |              78 |               2.50 |     250000.00 |
+|            8 | 2026-11-04     | 17:00:00    | 18:56:00  | CineViet Landmark 81              | Phòng 01 - Standard 2D  | 2D        | Những Mảnh Ghép Cảm Xúc 2                     |            80 |            2 |              78 |               2.50 |     190000.00 |
+|           12 | 2026-11-04     | 17:00:00    | 19:38:00  | CineViet Landmark 81              | Phòng 03 - Laser IMAX   | IMAX      | Lật Mặt 7: Một Điều Ước                       |            80 |            0 |              80 |               0.00 |          0.00 |
+|           16 | 2026-11-04     | 17:00:00    | 19:50:00  | CineViet Cầu Rồng Đà Nẵng         | Phòng 02 - Dolby 3D     | 3D        | Vệ Binh Dải Ngân Hà 3                         |            80 |            0 |              80 |               0.00 |          0.00 |
+|           20 | 2026-11-04     | 17:00:00    | 19:32:00  | CineViet Aeon Mall Hải Phòng      | Phòng 01 - Standard 2D  | 2D        | Ký Sinh Trùng (Parasite)                      |            80 |            0 |              80 |               0.00 |          0.00 |
+|           24 | 2026-11-04     | 17:00:00    | 20:05:00  | CineViet Aeon Mall Hải Phòng      | Phòng 03 - Laser IMAX   | IMAX      | Dune: Hành Tinh Cát - Phần Hai                |            80 |            3 |              77 |               3.75 |     480000.00 |
+|            2 | 2026-11-04     | 20:30:00    | 23:32:00  | CineViet Vincom Bà Triệu          | Phòng 01 - Standard 2D  | 2D        | Hố Đen Tử Thần (Interstellar)                 |            80 |            2 |              78 |               2.50 |     190000.00 |
+|            6 | 2026-11-04     | 20:30:00    | 23:01:00  | CineViet Vincom Bà Triệu          | Phòng 03 - Laser IMAX   | IMAX      | Mai                                           |            80 |            3 |              77 |               3.75 |     480000.00 |
++--------------+----------------+-------------+-----------+-----------------------------------+-------------------------+-----------+-----------------------------------------------+---------------+--------------+-----------------+--------------------+---------------+
 +--------------------------------+-------------------------+
 | independent_ticket_revenue_sum | view_report_revenue_sum |
 +--------------------------------+-------------------------+
