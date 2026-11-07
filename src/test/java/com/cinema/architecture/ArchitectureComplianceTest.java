@@ -7,7 +7,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Kiểm thử Kiến trúc Tự động (Gate B — Architecture Compliance).
@@ -56,6 +65,33 @@ class ArchitectureComplianceTest {
                 .or().haveSimpleNameEndingWith("Service")
                 .should().dependOnClassesThat().resideInAnyPackage("..ui..", "com.cinema.app..", "javax.swing..")
                 .because("Tầng nghiệp vụ và dữ liệu phải hoàn toàn độc lập với Swing UI")
+                .check(importedClasses);
+    }
+
+    @Test
+    @DisplayName("Gate B.4: Mã nguồn vận hành chính (src/main/java) tuyệt đối không chứa lệnh DROP, TRUNCATE hoặc DELETE hàng loạt")
+    void productionCodeMustNeverExecuteDestructiveSchemaOrBulkDeleteCommands() throws IOException {
+        Pattern destructiveSql = Pattern.compile(
+                "(?i)\\b(DROP\\s+DATABASE|DROP\\s+TABLE|TRUNCATE\\s+TABLE|DELETE\\s+FROM)\\b");
+        Path mainSrc = Path.of("src", "main", "java");
+        try (Stream<Path> files = Files.walk(mainSrc)) {
+            List<Path> javaFiles = files.filter(p -> p.toString().endsWith(".java")).toList();
+            for (Path file : javaFiles) {
+                String content = Files.readString(file, StandardCharsets.UTF_8);
+                assertTrue(!destructiveSql.matcher(content).find(),
+                        "Phát hiện câu lệnh SQL phá hủy trong mã nguồn vận hành: " + file);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Gate B.5: Khởi động ứng dụng (Main, AppShell) không được phép gọi tiến trình hệ thống để chạy script reset CSDL")
+    void applicationStartupMustNotInvokeExternalResetProcesses() {
+        noClasses()
+                .that().resideInAPackage("com.cinema..")
+                .should().dependOnClassesThat().areAssignableTo(ProcessBuilder.class)
+                .orShould().dependOnClassesThat().areAssignableTo(Runtime.class)
+                .because("Ứng dụng vận hành bình thường không được gọi script reset/khởi tạo CSDL bên ngoài")
                 .check(importedClasses);
     }
 }

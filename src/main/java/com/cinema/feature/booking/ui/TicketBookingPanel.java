@@ -378,4 +378,21 @@ public final class TicketBookingPanel extends JPanel {
     public SeatMapPanel getSeatMapPanel() {
         return seatMapPanel;
     }
+
+    public List<BookingSummaryView> getRecentBookings() {
+        return List.copyOf(recentBookings);
+    }
+
+    public boolean selectScreeningById(int screeningId) {
+        reloadScreeningsDropdown();
+        for (int i = 0; i < cboScreening.getItemCount(); i++) {
+            ScreeningDetailView item = cboScreening.getItemAt(i);
+            if (item != null && item.screeningId() == screeningId) {
+                cboScreening.setSelectedIndex(i);
+                refreshSeatMapAndBookings();
+                return true;
+            }
+        }
+        return false;
+    }
 }

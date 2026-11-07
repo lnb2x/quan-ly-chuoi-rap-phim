@@ -130,4 +130,37 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Profile kiểm thử tích hợp CSDL MySQL 8.4 LTS (mặc định kích hoạt trong clean verify và hỗ trợ gọi tường minh -Pmysql-it) -->
+        <profile>
+            <id>mysql-it</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>3.5.1</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*IT.java</include>
+                            </includes>
+                            <argLine>-Dfile.encoding=UTF-8</argLine>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

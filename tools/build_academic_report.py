@@ -695,14 +695,15 @@ CH6_VERIFICATION = (
 TEST_SUMMARY_TABLE = [
     "| Bộ Kiểm thử (Test Class) | Cổng Kiểm chứng | Số Test | Kết quả | Nội dung Kiểm chứng Cốt lõi trên MySQL 8.4.0 LTS |",
     "|---|---|---|---|---|",
-    "| `ArchitectureComplianceTest` | Gate B (Kiến trúc) | 03 | **PASS (3/3)** | Cấm SQL trong UI, không đảo chiều phụ thuộc, Repository tách biệt giao diện |",
-    "| `ScreeningValidationTest` | Gate A (Đơn vị) | 05 | **PASS (5/5)** | Kiểm tra hợp lệ thời lượng suất chiếu, giá cơ sở dương, thông báo tiếng Việt |",
-    "| `DatabaseIntegrityIT` | Gate C (MySQL 8.4) | 08 | **PASS (8/8)** | Xác nhận `SELECT VERSION() = 8.4.0` (`MySQL Community Server - GPL`), quy mô dữ liệu, Trigger chống trùng lịch & sai phòng, chống bán trùng ghế, chống thanh toán đúp, giá lịch sử, chuẩn UTF-8 |",
-    "| `ScreeningConcurrencyIT` | Gate C (Đồng thời) | 01 | **PASS (1/1)** | 12 luồng thêm đồng thời suất chiếu trùng giờ trong cùng phòng → đúng 01 thành công, 11 bị chặn |",
-    "| `BookingConcurrencyIT` | Gate C (Đồng thời) | 01 | **PASS (1/1)** | 20 luồng đặt đồng thời cùng 1 ghế → đúng 01 thành công, 19 bị chặn; hủy đơn → bán lại ghế thành công |",
-    "| `ScreeningSearchIT` | Gate D (Tra cứu) | 01 | **PASS (1/1)** | Tra cứu đa điều kiện và đối chiếu chính xác số ghế còn trống trên MySQL 8.4 |",
-    "| `ReportAccuracyIT` | Gate E (Báo cáo & PDF) | 02 | **PASS (2/2)** | Đối chiếu doanh thu khớp 100% SQL độc lập (`35.165.000 VNĐ`, sai lệch `0.00 VNĐ`) và kiểm tra PDF tiếng Việt |",
-    "| **TỔNG CỘNG** | **Gates A – E** | **21** | **PASS (21/21)** | **0 lỗi biên dịch, 0 lỗi kiểm thử, 09 ảnh chụp màn hình & 02 tệp PDF xác thực từ MySQL 8.4** |",
+    "| `ArchitectureComplianceTest` | Gate B (Kiến trúc) | 05 | **PASS (5/5)** | Cấm SQL trong UI, tách biệt phân tầng, cấm SQL phá hủy (`DROP`/`TRUNCATE`/`DELETE`) & gọi tiến trình trong `src/main/java` |",
+    "| `TestSafetyGuardTest` | Gate B (Bảo vệ DB) | 03 | **PASS (3/3)** | Chốt chặn `TestDatabaseGuard` chặn `cinema_chain`, chặn MariaDB, chặn `root` và ẩn mật khẩu trong cấu hình |",
+    "| `ScreeningValidationTest` | Gate A (Đơn vị) | 05 | **PASS (5/5)** | Kiểm tra hợp lệ thời lượng suất chiếu, giá cơ sở dương, danh sách ghế, thông báo tiếng Việt |",
+    "| `DatabaseIntegrityIT` | Gate C (MySQL 8.4) | 13 | **PASS (13/13)** | Xác nhận `SELECT VERSION() = 8.4.0`, Trigger chống trùng lịch (`INSERT` & `UPDATE`), chặn đổi phòng khi đã có vé, chặn phòng ngừng hoạt động, chống bán trùng ghế, chống thanh toán đúp, chặn xác nhận thanh toán đơn đã hủy, FK/CHECK/Savepoint, giá lịch sử, chuẩn UTF-8 |",
+    "| `ScreeningConcurrencyIT` | Gate C (Đồng thời) | 02 | **PASS (2/2)** | 12 luồng `CREATE` đồng thời và 8 luồng `UPDATE` đồng thời suất chiếu trùng giờ → đúng 01 thắng + chặn đổi phòng |",
+    "| `BookingConcurrencyIT` | Gate C (Đồng thời) | 01 | **PASS (1/1)** | 20 luồng đặt đồng thời cùng 1 ghế → đúng 01 thắng, 0 bản ghi mồ côi; hủy đơn → bán lại ghế; chuyển trạng thái `PENDING` |",
+    "| `ScreeningSearchIT` | Gate D (Tra cứu) | 02 | **PASS (2/2)** | Tra cứu đa điều kiện kèm số ghế trống và hiển thị đầy đủ `> 120` suất chiếu `OPEN` trên Màn hình Đặt vé |",
+    "| `ReportAccuracyIT` | Gate E (Báo cáo & PDF) | 03 | **PASS (3/3)** | Đối chiếu 2 báo cáo & PDF tiếng Việt với SQL độc lập (`35.165.000 VNĐ`, sai lệch `0.00 VNĐ`) và Known-Answer Fixture |",
+    "| **TỔNG CỘNG** | **Gates A – E** | **34** | **PASS (34/34)** | **0 lỗi biên dịch, 0 lỗi kiểm thử, 0 test bị bỏ qua (`Skipped = 0`), bảo toàn nguyên vẹn `cinema_chain`** |",
 ]
 
 SCREENSHOT_ITEMS = [

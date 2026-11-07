@@ -57,6 +57,7 @@ public final class AppShell extends JFrame {
         setLocationRelativeTo(null);
 
         ConnectionProvider connectionProvider = new ConnectionProvider(appConfig);
+        connectionProvider.logSafeStartupDiagnostics();
         TransactionTemplate transactionTemplate = new TransactionTemplate(connectionProvider);
         PdfReportWriter pdfReportWriter = new PdfReportWriter();
 

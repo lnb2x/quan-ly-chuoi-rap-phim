@@ -145,7 +145,20 @@ public final class ScreeningService {
             String status
     ) {
         transactionTemplate.execute(conn -> {
+            int oldRoomId = repository.lockScreeningAndGetRoomId(conn, screeningId);
             repository.lockRoomAndCheckActive(conn, roomId);
+            if (oldRoomId != roomId && repository.countTicketsForScreening(conn, screeningId, false) > 0) {
+                throw new BusinessRuleException(
+                        "Lỗi nghiệp vụ [BR-09]: Không thể đổi phòng chiếu cho suất chiếu #" + screeningId
+                                + " vì suất chiếu này đã phát sinh vé.");
+            }
+
+            if ("CANCELLED".equals(status) && repository.countTicketsForScreening(conn, screeningId, true) > 0) {
+                throw new BusinessRuleException(
+                        "Lỗi nghiệp vụ [BR-08]: Không thể hủy suất chiếu #" + screeningId
+                                + " khi vẫn còn vé hợp lệ chưa hoàn hủy.");
+            }
+
             Movie movie = repository.findMovieById(conn, movieId)
                     .orElseThrow(() -> new BusinessRuleException("Không tìm thấy bộ phim có mã #" + movieId));
 

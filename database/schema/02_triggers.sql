@@ -86,7 +86,10 @@ BEFORE UPDATE ON screening
 FOR EACH ROW
 BEGIN
     DECLARE v_duration INT DEFAULT 0;
+    DECLARE v_room_active TINYINT DEFAULT 0;
     DECLARE v_overlap_count INT DEFAULT 0;
+    DECLARE v_ticket_count INT DEFAULT 0;
+    DECLARE v_valid_ticket_count INT DEFAULT 0;
 
     IF NEW.end_time <= NEW.start_time THEN
         SIGNAL SQLSTATE '45000'
@@ -96,6 +99,38 @@ BEGIN
     IF NEW.base_price <= 0 THEN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Loi nghiep vu [BR-04]: Gia ve co so cua suat chieu phai lon hon 0.';
+    END IF;
+
+    SELECT active INTO v_room_active
+    FROM screening_room
+    WHERE room_id = NEW.room_id;
+
+    IF v_room_active = 0 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Loi nghiep vu [BR-01]: Phong chieu dang tam ngung hoat dong.';
+    END IF;
+
+    IF NEW.room_id <> OLD.room_id THEN
+        SELECT COUNT(*) INTO v_ticket_count
+        FROM ticket
+        WHERE screening_id = OLD.screening_id;
+
+        IF v_ticket_count > 0 THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Loi nghiep vu [BR-09]: Khong the doi phong chieu cho suat chieu da phat sinh ve.';
+        END IF;
+    END IF;
+
+    IF OLD.status = 'OPEN' AND NEW.status = 'CANCELLED' THEN
+        SELECT COUNT(*) INTO v_valid_ticket_count
+        FROM ticket
+        WHERE screening_id = OLD.screening_id
+          AND ticket_status = 'VALID';
+
+        IF v_valid_ticket_count > 0 THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Loi nghiep vu [BR-08]: Khong the huy suat chieu dang co ve hop le chua duoc hoan huy.';
+        END IF;
     END IF;
 
     SELECT duration_minutes INTO v_duration

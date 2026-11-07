@@ -4,10 +4,10 @@ import com.cinema.feature.booking.BookingRepository;
 import com.cinema.feature.booking.BookingService;
 import com.cinema.feature.screening.ScreeningRepository;
 import com.cinema.feature.screening.ScreeningService;
-import com.cinema.shared.config.AppConfig;
 import com.cinema.shared.db.ConnectionProvider;
 import com.cinema.shared.db.TransactionTemplate;
 import com.cinema.shared.validation.BusinessRuleException;
+import com.cinema.support.TestDatabaseGuard;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class BookingConcurrencyIT {
 
     @BeforeAll
     static void init() {
-        connectionProvider = new ConnectionProvider(AppConfig.loadTest());
+        connectionProvider = TestDatabaseGuard.verifyAndCreateTestProvider();
         TransactionTemplate tx = new TransactionTemplate(connectionProvider);
         screeningService = new ScreeningService(new ScreeningRepository(connectionProvider), tx);
         bookingService = new BookingService(new BookingRepository(connectionProvider), tx);
@@ -114,6 +114,11 @@ class BookingConcurrencyIT {
             assertEquals(threads - 1, rejectedCount.get(), "19 luồng đồng thời còn lại bắt buộc phải bị từ chối");
             assertTrue(winningBookingId.get() > 0);
             assertEquals(1, countTicketsByStatus(testScreeningId, targetSeatId, "VALID"));
+            // Kiểm chứng không để lại bất kỳ booking hay payment dở dang nào từ 19 giao dịch bị từ chối
+            assertEquals(1, countBookingsForScreening(testScreeningId),
+                    "Tuyệt đối không được để lại booking dở dang sau khi 19 luồng đồng thời bị từ chối");
+            assertEquals(1, countPaymentsForScreening(testScreeningId),
+                    "Tuyệt đối không được để lại payment dở dang sau khi 19 luồng đồng thời bị từ chối");
 
             // 2. Hủy đơn đặt vé vừa thắng (Cancellation) -> Thanh toán chuyển sang REFUNDED, vé chuyển sang CANCELLED
             bookingService.cancelBooking(winningBookingId.get());
@@ -152,6 +157,20 @@ class BookingConcurrencyIT {
             bookingService.transitionPendingPayment(pendingBookingId, "SUCCESS");
             assertEquals("SUCCESS", getPaymentStatus(pendingBookingId));
 
+            // 4b. Kiểm chứng chuyển tiếp PENDING -> FAILED: hủy đơn, giải phóng ghế để bán lại
+            int failedPendingBookingId = bookingService.createBooking(
+                    testScreeningId,
+                    3,
+                    3,
+                    List.of(47),
+                    "EWALLET",
+                    "PENDING"
+            );
+            bookingService.transitionPendingPayment(failedPendingBookingId, "FAILED");
+            assertEquals("FAILED", getPaymentStatus(failedPendingBookingId));
+            assertEquals(0, countTicketsByStatus(testScreeningId, 47, "VALID"),
+                    "Khi thanh toán PENDING thất bại (FAILED), ghế phải được giải phóng ngay");
+
             // 5. Kiểm thử hồi quy truy vấn lịch sử đơn đặt vé theo suất chiếu (listRecentBookings)
             assertFalse(bookingService.listRecentBookings(testScreeningId, 20).isEmpty(),
                     "Truy vấn danh sách đơn đặt vé theo suất chiếu phải trả về kết quả hợp lệ");
@@ -159,6 +178,35 @@ class BookingConcurrencyIT {
                     "Truy vấn danh sách đơn đặt vé toàn hệ thống phải trả về kết quả hợp lệ");
         } finally {
             cleanUpTestScreening();
+        }
+    }
+
+    private int countBookingsForScreening(int screeningId) throws Exception {
+        String sql = "SELECT COUNT(*) FROM booking WHERE screening_id = ?";
+        try (Connection conn = connectionProvider.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, screeningId);
+            try (ResultSet rs = ps.executeQuery()) {
+                assertTrue(rs.next());
+                return rs.getInt(1);
+            }
+        }
+    }
+
+    private int countPaymentsForScreening(int screeningId) throws Exception {
+        String sql = """
+                SELECT COUNT(*)
+                FROM payment pm
+                JOIN booking bk ON bk.booking_id = pm.booking_id
+                WHERE bk.screening_id = ?
+                """;
+        try (Connection conn = connectionProvider.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, screeningId);
+            try (ResultSet rs = ps.executeQuery()) {
+                assertTrue(rs.next());
+                return rs.getInt(1);
+            }
         }
     }
 

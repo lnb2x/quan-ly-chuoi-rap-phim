@@ -19,7 +19,7 @@ Xây dựng hoàn chỉnh dự án học phần Cơ sở dữ liệu **Hệ th�
 | Quản lý Build | **Maven** (qua Maven Wrapper `mvnw.cmd`, sử dụng phân phối Maven tại `~/.m2/wrapper`) | Chạy độc lập không phụ thuộc biến môi trường hệ thống |
 | Hệ quản trị CSDL | **MySQL Community Server 8.4.0 LTS** (cài đặt portable chính thức tại `%USERPROFILE%\.mysql\mysql-8.4`, InnoDB, `utf8mb4_unicode_ci`) | Dùng tài khoản phân quyền tối thiểu `cinema_app` cho ứng dụng; mật khẩu chỉ lưu trong cấu hình cục bộ (`config/application.properties`) hoặc biến môi trường |
 | Kết nối CSDL | **JDBC** (`com.mysql:mysql-connector-j`) + `PreparedStatement` + `TransactionTemplate` | Cấm nhúng SQL vào tầng UI; cấm ghép chuỗi SQL gây lỗi SQL Injection |
-| Kiểm thử | **JUnit 5** + **ArchUnit** (21 bài kiểm thử tự động) | Kiểm thử đơn vị, kiểm thử kiến trúc, kiểm thử tích hợp MySQL 8.4 & đồng thời (concurrency) |
+| Kiểm thử | **JUnit 5** + **ArchUnit** (34 bài kiểm thử tự động, `Skipped = 0`) | Kiểm thử đơn vị, chốt chặn bảo vệ `cinema_chain` (`TestDatabaseGuard`), kiểm thử kiến trúc, tích hợp MySQL 8.4 & đồng thời |
 | Xuất báo cáo PDF | **Apache PDFBox 3.x** (nhúng font Unicode tiếng Việt) | Đảm bảo hiển thị đầy đủ dấu tiếng Việt và khớp 100% với số liệu SQL trên MySQL 8.4 |
 | Sơ đồ ERD & Tài liệu | **PlantUML** (`.puml` → `.png`/`.svg`), **Mermaid**, `python-docx` + **ReportLab** (`.docx` & `.pdf`) | Đảm bảo sơ đồ ERD chỉnh sửa được và báo cáo học thuật xuất bản chuyên nghiệp |
 
@@ -71,23 +71,32 @@ com.cinema
 
 ## 5. Lệnh Kiểm chứng Bắt buộc (Required Verification Commands)
 
-1. **Khởi tạo an toàn (Normal Setup) hoặc Dựng lại sạch có xác nhận (Clean Reset) trên MySQL 8.4 LTS (Gate C):**
+1. **Khởi động/dừng đúng instance MySQL 8.4.0 LTS (`datadir = %USERPROFILE%\.mysql\data-8.4`) và chạy Normal Setup / Clean Reset (Gate C):**
    ```powershell
+   # Khởi động an toàn đúng instance MySQL 8.4.0 LTS (sau khi bật/khởi động lại Windows):
+   powershell -ExecutionPolicy Bypass -File database/start_mysql84.ps1
+
+   # Dừng an toàn đúng instance MySQL 8.4.0 LTS khi kết thúc phiên làm việc:
+   powershell -ExecutionPolicy Bypass -File database/stop_mysql84.ps1
+
    # Normal Setup (không xóa dữ liệu hiện có):
    powershell -ExecutionPolicy Bypass -File database/setup.ps1
 
    # Clean Reset (yêu cầu xác nhận 'YES', chỉ xóa và tạo lại tuần tự cinema_chain):
    powershell -ExecutionPolicy Bypass -File database/setup.ps1 -CleanReset
    ```
-2. **Biên dịch và chạy toàn bộ kiểm thử đơn vị, kiến trúc, tích hợp CSDL & đồng thời (Gate A, B, C, E):**
+2. **Biên dịch và chạy toàn bộ 34 kiểm thử tự động trên `cinema_chain_test` (Gate A, B, C, E):**
    ```powershell
-   .\mvnw.cmd clean verify
+   .\mvnw.cmd clean verify -Pmysql-it
    ```
-3. **Chạy kịch bản kiểm thử giao diện, chụp ảnh màn hình thực tế & xuất báo cáo mẫu (Gate D, E):**
+3. **Chạy kịch bản kiểm thử 5 màn hình GUI (hợp lệ + bị từ chối), kiểm chứng đóng/mở lại ứng dụng qua 2 JVM & chụp ảnh/xuất PDF trên `cinema_chain_test` (Gate D, E):**
    ```powershell
    .\mvnw.cmd test-compile exec:java "-Dexec.mainClass=com.cinema.gui.GuiVerificationRunner" "-Dexec.classpathScope=test"
+   .\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.gui.AppPersistenceVerificationRunner" "-Dexec.classpathScope=test" "-Dexec.args=--session1 target/persistence-session-state.properties"
+   .\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.gui.AppPersistenceVerificationRunner" "-Dexec.classpathScope=test" "-Dexec.args=--session2 target/persistence-session-state.properties"
    ```
-4. **Khởi chạy ứng dụng Desktop phục vụ demo:**
+   *(Hoặc chạy một lệnh kiểm chứng tổng hợp toàn bộ 5 bước và kiểm tra bảo toàn `cinema_chain`: `powershell -ExecutionPolicy Bypass -File database/verify_all.ps1`)*
+4. **Khởi chạy ứng dụng Desktop phục vụ demo (chỉ đọc/ghi nghiệp vụ chuẩn, tuyệt đối không reset dữ liệu):**
    ```powershell
    .\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.app.Main"
    ```

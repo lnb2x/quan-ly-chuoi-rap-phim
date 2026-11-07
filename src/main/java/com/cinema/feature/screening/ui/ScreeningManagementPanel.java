@@ -453,4 +453,29 @@ public final class ScreeningManagementPanel extends JPanel {
     public StatusBanner getStatusBanner() {
         return statusBanner;
     }
+
+    public List<ScreeningDetailView> getCurrentRows() {
+        return List.copyOf(currentRows);
+    }
+
+    public void filterByDateForVerification(String dateStr) {
+        txtFilterDate.setText(dateStr);
+        refreshTable();
+    }
+
+    public boolean selectScreeningInTableById(int screeningId) {
+        for (int i = 0; i < currentRows.size(); i++) {
+            if (currentRows.get(i).screeningId() == screeningId) {
+                table.setRowSelectionInterval(i, i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setRoomIndexForVerification(int roomIdx) {
+        if (roomIdx >= 0 && roomIdx < cboRoom.getItemCount()) {
+            cboRoom.setSelectedIndex(roomIdx);
+        }
+    }
 }

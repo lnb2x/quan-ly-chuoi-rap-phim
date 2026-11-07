@@ -78,7 +78,7 @@ public final class ScreeningSearchRepository {
             sql.append(" AND screening_status = 'OPEN' AND available_seats > 0");
         }
 
-        sql.append(" ORDER BY start_time ASC, branch_id ASC, room_id ASC LIMIT 250");
+        sql.append(" ORDER BY start_time ASC, branch_id ASC, room_id ASC LIMIT 1000");
 
         List<ScreeningDetailView> list = new ArrayList<>();
         try (Connection conn = connectionProvider.getConnection();

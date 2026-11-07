@@ -59,7 +59,7 @@ public final class BookingRepository {
             sql.append(" AND movie_id = ?");
             params.add(movieId);
         }
-        sql.append(" ORDER BY start_time ASC, screening_id ASC LIMIT 120");
+        sql.append(" ORDER BY start_time ASC, screening_id ASC LIMIT 1000");
 
         List<ScreeningDetailView> list = new ArrayList<>();
         try (Connection conn = connectionProvider.getConnection();
@@ -377,14 +377,35 @@ public final class BookingRepository {
     }
 
     public void transitionPendingPayment(Connection conn, int bookingId, String targetPaymentStatus) throws SQLException {
-        if ("SUCCESS".equals(targetPaymentStatus)) {
-            try (PreparedStatement ps = conn.prepareStatement(
-                    "UPDATE booking SET booking_status = 'CONFIRMED' WHERE booking_id = ?")) {
-                ps.setInt(1, bookingId);
-                ps.executeUpdate();
+        String lockSql = "SELECT booking_id, booking_status FROM booking WHERE booking_id = ? FOR UPDATE";
+        try (PreparedStatement ps = conn.prepareStatement(lockSql)) {
+            ps.setInt(1, bookingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new BusinessRuleException("Không tìm thấy đơn đặt vé #" + bookingId + ".");
+                }
+                String currentStatus = rs.getString("booking_status");
+                if (!"PENDING".equals(currentStatus)) {
+                    throw new BusinessRuleException(
+                            "Lỗi nghiệp vụ [BR-13]: Chỉ được chuyển tiếp thanh toán cho đơn đang ở trạng thái PENDING (trạng thái hiện tại: "
+                                    + currentStatus + ").");
+                }
             }
+        }
+
+        if ("SUCCESS".equals(targetPaymentStatus)) {
+            int updatedPayments;
             try (PreparedStatement ps = conn.prepareStatement(
                     "UPDATE payment SET payment_status = 'SUCCESS', paid_at = CURRENT_TIMESTAMP WHERE booking_id = ? AND payment_status = 'PENDING'")) {
+                ps.setInt(1, bookingId);
+                updatedPayments = ps.executeUpdate();
+            }
+            if (updatedPayments != 1) {
+                throw new BusinessRuleException(
+                        "Lỗi nghiệp vụ [BR-13]: Không tìm thấy giao dịch thanh toán PENDING hợp lệ cho đơn #" + bookingId + ".");
+            }
+            try (PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE booking SET booking_status = 'CONFIRMED' WHERE booking_id = ?")) {
                 ps.setInt(1, bookingId);
                 ps.executeUpdate();
             }

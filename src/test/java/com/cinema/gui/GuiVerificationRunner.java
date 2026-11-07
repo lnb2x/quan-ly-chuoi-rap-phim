@@ -8,6 +8,7 @@ import com.cinema.shared.config.AppConfig;
 import com.cinema.shared.db.ConnectionProvider;
 import com.cinema.shared.db.TransactionTemplate;
 import com.cinema.shared.ui.Theme;
+import com.cinema.support.TestDatabaseGuard;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -22,21 +23,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * Trình chạy Kiểm chứng Giao diện Thực tế & Chụp ảnh Màn hình Xác thực (Gate D — GUI Behavior).
- * Khởi chạy cửa sổ AppShell thật, thực hiện tuần tự đầy đủ các luồng nghiệp vụ người dùng
- * trên CSDL kiểm thử và ghi lại ảnh chụp màn hình thật vào verification/screenshots/:
- *  1. Thêm suất chiếu hợp lệ (01_screening_management_valid.png)
- *  2. Từ chối suất chiếu trùng lịch phòng (02_screening_management_overlap_rejected.png)
- *  3. Chọn ghế trên sơ đồ phòng chiếu (03_ticket_booking_seat_selection.png)
- *  4. Đặt vé thành công (04_ticket_booking_success.png)
- *  5. Từ chối đặt ghế đã có người mua trước (04b_ticket_booking_occupied_rejected.png)
- *  6. Tra cứu suất chiếu & ghế trống (05_screening_search.png)
- *  7. Xem trước & xuất PDF Báo cáo Doanh thu (06_revenue_report_preview.png + 08_exported_revenue_pdf_page1.png)
- *  8. Xem trước & xuất PDF Báo cáo Bán vé (07_ticket_sales_report_preview.png + 09_exported_sales_pdf_page1.png)
+ * Trình chạy Kiểm chứng Giao diện Thực tế & Chụp ảnh Màn hình Xác thực (Layer C / Gate D — Real GUI Behavior).
+ * <p>
+ * CAM KẾT BẢO TOÀN DỮ LIỆU DEMO:
+ * Chốt chặn {@link TestDatabaseGuard} bắt buộc trình kiểm thử này CHỈ được chạy trên {@code cinema_chain_test},
+ * tuyệt đối từ chối chạy nếu cấu hình trỏ sang {@code cinema_chain}.
+ * <p>
+ * Kiểm tra đầy đủ cả trường hợp HỢP LỆ và trường hợp BỊ TỪ CHỐI trực tiếp qua 5 màn hình Swing thật:
+ * <ol>
+ *   <li>Màn hình 1 (Quản lý Suất chiếu): Tạo hợp lệ + Từ chối trùng lịch [BR-06] + Từ chối đổi phòng khi đã có vé [BR-09].</li>
+ *   <li>Màn hình 2 (Đặt vé): Từ chối khi chưa chọn ghế [BR-08] + Chọn ghế & Đặt vé thành công + Từ chối ghế vừa bị quầy khác mua [BR-10].</li>
+ *   <li>Màn hình 3 (Tìm kiếm): Từ chối ngày sai định dạng + Tìm kiếm hợp lệ trả về danh sách suất chiếu & ghế trống.</li>
+ *   <li>Màn hình 4 (Báo cáo Doanh thu): Từ chối khoảng ngày ngược (Từ ngày > Đến ngày) + Xem trước & Xuất PDF hợp lệ.</li>
+ *   <li>Màn hình 5 (Báo cáo Bán vé): Từ chối ngày sai định dạng + Xem trước & Xuất PDF hợp lệ.</li>
+ * </ol>
  */
 public final class GuiVerificationRunner {
 
@@ -46,13 +49,21 @@ public final class GuiVerificationRunner {
     }
 
     public static void main(String[] args) throws Exception {
-        Files.createDirectories(SCREENSHOT_DIR);
-        boolean useProductionDb = Arrays.stream(args)
-                .anyMatch(a -> "--db=cinema_chain".equalsIgnoreCase(a) || "--production".equalsIgnoreCase(a));
-        AppConfig targetConfig = useProductionDb ? AppConfig.loadProduction() : AppConfig.loadTest();
-        cleanUpGuiDemoArtifacts(targetConfig);
+        for (String arg : args) {
+            if (arg.toLowerCase().contains("cinema_chain") && !arg.toLowerCase().contains("cinema_chain_test")) {
+                throw new SecurityException(
+                        "CHẶN AN TOÀN: GuiVerificationRunner có thực hiện thêm/xóa dữ liệu thử nghiệm nên CẤM chạy trên cinema_chain!");
+            }
+        }
 
-        ConnectionProvider cp = new ConnectionProvider(targetConfig);
+        Files.createDirectories(SCREENSHOT_DIR);
+        AppConfig testConfig = AppConfig.loadTest();
+        TestDatabaseGuard.assertSafeTestConfig(testConfig);
+
+        ConnectionProvider cp = new ConnectionProvider(testConfig);
+        TestDatabaseGuard.verifyLiveTestConnection(cp);
+        cleanUpGuiDemoArtifacts(cp);
+
         try (Connection conn = cp.getConnection();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(
@@ -73,7 +84,7 @@ public final class GuiVerificationRunner {
 
         final AppShell[] holder = new AppShell[1];
         SwingUtilities.invokeAndWait(() -> {
-            AppShell shell = new AppShell(targetConfig);
+            AppShell shell = new AppShell(testConfig);
             shell.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             shell.setSize(1420, 880);
             shell.setLocationRelativeTo(null);
@@ -83,41 +94,71 @@ public final class GuiVerificationRunner {
 
         AppShell shell = holder[0];
         try {
-            Thread.sleep(500);
+            Thread.sleep(450);
 
-            // Workflow 1: Thêm một suất chiếu hợp lệ trên Màn hình 1
+            // =========================================================================
+            // MÀN HÌNH 1: QUẢN LÝ SUẤT CHIẾU (Hợp lệ + 2 kịch bản Bị từ chối)
+            // =========================================================================
             SwingUtilities.invokeAndWait(() -> {
                 shell.showScreen(AppShell.TAB_SCREENING);
                 shell.getScreeningPanel().setFormValuesForVerification(
                         0, 0, 0, "2026-11-18", "09:00", "11:15", "95000");
                 shell.getScreeningPanel().handleCreateScreening();
+                requireBannerContains(shell.getScreeningPanel().getStatusBanner().currentText(),
+                        "[THÀNH CÔNG]", "Màn hình 1 (Tạo suất chiếu hợp lệ)");
             });
-            Thread.sleep(350);
+            Thread.sleep(300);
             captureWindow(shell, SCREENSHOT_DIR.resolve("01_screening_management_valid.png"));
 
-            // Workflow 2: Thử thêm một suất chiếu trùng lịch trong cùng phòng -> Bị từ chối [BR-06]
+            // Màn hình 1 - Từ chối #1: Tạo suất chiếu trùng lịch trong cùng phòng [BR-06]
             SwingUtilities.invokeAndWait(() -> {
                 shell.getScreeningPanel().setFormValuesForVerification(
                         0, 0, 1, "2026-11-18", "10:00", "12:30", "95000");
                 shell.getScreeningPanel().handleCreateScreening();
+                requireBannerContains(shell.getScreeningPanel().getStatusBanner().currentText(),
+                        "BR-06", "Màn hình 1 (Từ chối trùng lịch chiếu)");
             });
-            Thread.sleep(350);
+            Thread.sleep(300);
             captureWindow(shell, SCREENSHOT_DIR.resolve("02_screening_management_overlap_rejected.png"));
 
-            // Workflow 3: Chuyển sang Màn hình 2 (Đặt vé), chọn 2 ghế trống trên sơ đồ ghế
+            // Màn hình 1 - Từ chối #2: Chọn suất chiếu đã có vé (#1) và đổi sang phòng khác -> Bị từ chối [BR-09]
+            SwingUtilities.invokeAndWait(() -> {
+                shell.getScreeningPanel().filterByDateForVerification("2026-11-04");
+                if (!shell.getScreeningPanel().selectScreeningInTableById(1)) {
+                    throw new IllegalStateException("Không tìm thấy suất chiếu #1 trên bảng Màn hình 1");
+                }
+                shell.getScreeningPanel().setRoomIndexForVerification(1); // Đổi từ Phòng 01 sang Phòng 02
+                shell.getScreeningPanel().handleUpdateScreening();
+                requireBannerContains(shell.getScreeningPanel().getStatusBanner().currentText(),
+                        "BR-09", "Màn hình 1 (Từ chối đổi phòng cho suất chiếu đã có vé)");
+                shell.getScreeningPanel().filterByDateForVerification("");
+            });
+
+            // =========================================================================
+            // MÀN HÌNH 2: ĐẶT VÉ & CHỌN GHẾ (Từ chối chưa chọn ghế + Hợp lệ + Từ chối trùng ghế)
+            // =========================================================================
             SwingUtilities.invokeAndWait(() -> {
                 shell.showScreen(AppShell.TAB_BOOKING);
+                shell.getBookingPanel().getSeatMapPanel().clearSelection();
+                shell.getBookingPanel().handleCreateBooking();
+                requireBannerContains(shell.getBookingPanel().getStatusBanner().currentText(),
+                        "BR-08", "Màn hình 2 (Từ chối đặt vé khi chưa chọn ghế)");
+
                 shell.getBookingPanel().selectFirstAvailableSeatsForDemo(2);
             });
-            Thread.sleep(350);
+            Thread.sleep(300);
             captureWindow(shell, SCREENSHOT_DIR.resolve("03_ticket_booking_seat_selection.png"));
 
-            // Workflow 4: Xác nhận đặt vé thành công
-            SwingUtilities.invokeAndWait(() -> shell.getBookingPanel().handleCreateBooking());
-            Thread.sleep(350);
+            // Màn hình 2 - Hợp lệ: Xác nhận đặt vé thành công
+            SwingUtilities.invokeAndWait(() -> {
+                shell.getBookingPanel().handleCreateBooking();
+                requireBannerContains(shell.getBookingPanel().getStatusBanner().currentText(),
+                        "[THÀNH CÔNG]", "Màn hình 2 (Đặt vé hợp lệ)");
+            });
+            Thread.sleep(300);
             captureWindow(shell, SCREENSHOT_DIR.resolve("04_ticket_booking_success.png"));
 
-            // Workflow 4b: Thử đặt một ghế vừa bị quầy thu ngân khác mua mất -> Bị từ chối [BR-10]
+            // Màn hình 2 - Từ chối #2: Thử đặt ghế vừa bị quầy thu ngân khác mua mất -> Bị từ chối [BR-10]
             final int[] contestedSeatId = new int[1];
             final int[] activeScreeningId = new int[1];
             SwingUtilities.invokeAndWait(() -> {
@@ -126,43 +167,78 @@ public final class GuiVerificationRunner {
                 contestedSeatId[0] = selected.getFirst().seatId();
                 activeScreeningId[0] = concurrentCashierService.listOpenScreenings(null, null).getFirst().screeningId();
             });
-            // Quầy thu ngân thứ 2 chốt đơn ghế đó trước 1 tích tắc
             concurrentCashierService.createBooking(
                     activeScreeningId[0], null, 3, List.of(contestedSeatId[0]), "CASH", "SUCCESS");
-            // Người dùng trên giao diện nhấn Đặt vé cho ghế đã bị chiếm -> Hiển thị lỗi đỏ [BR-10]
-            SwingUtilities.invokeAndWait(() -> shell.getBookingPanel().handleCreateBooking());
-            Thread.sleep(350);
+            SwingUtilities.invokeAndWait(() -> {
+                shell.getBookingPanel().handleCreateBooking();
+                requireBannerContains(shell.getBookingPanel().getStatusBanner().currentText(),
+                        "BR-10", "Màn hình 2 (Từ chối ghế đã có người mua)");
+            });
+            Thread.sleep(300);
             captureWindow(shell, SCREENSHOT_DIR.resolve("04b_ticket_booking_occupied_rejected.png"));
 
-            // Workflow 5: Chuyển sang Màn hình 3 (Tra cứu suất chiếu & ghế trống)
+            // =========================================================================
+            // MÀN HÌNH 3: TRA CỨU SUẤT CHIẾU (Từ chối sai ngày + Tra cứu hợp lệ)
+            // =========================================================================
             SwingUtilities.invokeAndWait(() -> {
                 shell.showScreen(AppShell.TAB_SEARCH);
+                shell.getSearchPanel().setDateTextForVerification("2026-99-99");
                 shell.getSearchPanel().executeSearch();
+                requireBannerContains(shell.getSearchPanel().getStatusBanner().currentText(),
+                        "[LỖI]", "Màn hình 3 (Từ chối ngày chiếu sai định dạng)");
+
+                shell.getSearchPanel().setDateTextForVerification("2026-11-04");
+                shell.getSearchPanel().executeSearch();
+                requireBannerContains(shell.getSearchPanel().getStatusBanner().currentText(),
+                        "[THÀNH CÔNG]", "Màn hình 3 (Tra cứu suất chiếu hợp lệ)");
+                if (shell.getSearchPanel().getResultRowCount() <= 0) {
+                    throw new IllegalStateException("Màn hình 3 phải hiển thị danh sách suất chiếu ngày 2026-11-04");
+                }
             });
-            Thread.sleep(350);
+            Thread.sleep(300);
             captureWindow(shell, SCREENSHOT_DIR.resolve("05_screening_search.png"));
 
-            // Dọn dữ liệu tạm của Workflow 1..4b trước khi chụp và xuất 2 báo cáo tài chính chuẩn (khớp 35.165.000 VNĐ)
-            cleanUpGuiDemoArtifacts(targetConfig);
+            // Dọn dữ liệu tạm của Màn hình 1..2 trên cinema_chain_test trước khi kiểm tra & chụp 2 báo cáo chuẩn
+            cleanUpGuiDemoArtifacts(cp);
 
-            // Workflow 6: Chuyển sang Màn hình 4 (Báo cáo Doanh thu), xem trước & xuất PDF
+            // =========================================================================
+            // MÀN HÌNH 4: BÁO CÁO DOANH THU (Từ chối Từ ngày > Đến ngày + Preview & PDF hợp lệ)
+            // =========================================================================
             final Path[] revPdfHolder = new Path[1];
             SwingUtilities.invokeAndWait(() -> {
                 shell.showScreen(AppShell.TAB_REVENUE_REPORT);
+                shell.getRevenueReportPanel().setDateRangeForVerification("2026-11-20", "2026-11-01");
                 shell.getRevenueReportPanel().refreshPreview();
+                requireBannerContains(shell.getRevenueReportPanel().getStatusBanner().currentText(),
+                        "[LỖI]", "Màn hình 4 (Từ chối khoảng thời gian Từ ngày > Đến ngày)");
+
+                shell.getRevenueReportPanel().setDateRangeForVerification("2026-11-01", "2026-11-15");
+                shell.getRevenueReportPanel().refreshPreview();
+                requireBannerContains(shell.getRevenueReportPanel().getStatusBanner().currentText(),
+                        "[THÀNH CÔNG]", "Màn hình 4 (Xem trước Báo cáo Doanh thu hợp lệ)");
                 revPdfHolder[0] = shell.getRevenueReportPanel().exportDefaultPdf();
             });
-            Thread.sleep(350);
+            Thread.sleep(300);
             captureWindow(shell, SCREENSHOT_DIR.resolve("06_revenue_report_preview.png"));
 
-            // Workflow 7: Chuyển sang Màn hình 5 (Báo cáo Tình hình Bán vé), xem trước & xuất PDF
+            // =========================================================================
+            // MÀN HÌNH 5: BÁO CÁO BÁN VÉ (Từ chối ngày sai + Preview & PDF hợp lệ)
+            // =========================================================================
             final Path[] salesPdfHolder = new Path[1];
             SwingUtilities.invokeAndWait(() -> {
                 shell.showScreen(AppShell.TAB_SALES_REPORT);
+                shell.getSalesReportPanel().setDateRangeForVerification("ngay-sai", "2026-11-10");
                 shell.getSalesReportPanel().refreshPreview();
+                requireBannerContains(shell.getSalesReportPanel().getStatusBanner().currentText(),
+                        "[LỖI]", "Màn hình 5 (Từ chối ngày lọc sai định dạng)");
+
+                shell.getSalesReportPanel().setDateRangeForVerification("2026-11-04", "2026-11-10");
+                shell.getSalesReportPanel().refreshPreview();
+                requireBannerContains(shell.getSalesReportPanel().getStatusBanner().currentText(),
+                        "[THÀNH CÔNG]", "Màn hình 5 (Xem trước Báo cáo Bán vé hợp lệ)");
                 salesPdfHolder[0] = shell.getSalesReportPanel().exportDefaultPdf();
             });
-            Thread.sleep(350);
+            Thread.sleep(300);
             captureWindow(shell, SCREENSHOT_DIR.resolve("07_ticket_sales_report_preview.png"));
 
             if (!Files.exists(revPdfHolder[0]) || Files.size(revPdfHolder[0]) == 0) {
@@ -172,7 +248,6 @@ public final class GuiVerificationRunner {
                 throw new IllegalStateException("Báo cáo Bán vé PDF không được tạo hoặc rỗng: " + salesPdfHolder[0]);
             }
 
-            // Kết xuất trang 1 của 2 tệp PDF ra ảnh PNG để kiểm chứng trực quan
             renderPdfFirstPage(revPdfHolder[0], SCREENSHOT_DIR.resolve("08_exported_revenue_pdf_page1.png"));
             renderPdfFirstPage(salesPdfHolder[0], SCREENSHOT_DIR.resolve("09_exported_sales_pdf_page1.png"));
 
@@ -192,10 +267,10 @@ public final class GuiVerificationRunner {
                 }
             }
 
-            System.out.println("GUI verification and screenshot capture completed successfully.");
+            System.out.println("GUI verification (all 5 screens: valid + rejected cases) completed successfully on cinema_chain_test.");
         } finally {
             try {
-                cleanUpGuiDemoArtifacts(targetConfig);
+                cleanUpGuiDemoArtifacts(cp);
             } finally {
                 SwingUtilities.invokeAndWait(() -> {
                     for (Window w : Window.getWindows()) {
@@ -204,6 +279,13 @@ public final class GuiVerificationRunner {
                 });
             }
         }
+    }
+
+    private static void requireBannerContains(String actualBanner, String expectedToken, String context) {
+        if (actualBanner == null || !actualBanner.contains(expectedToken)) {
+            throw new IllegalStateException(context + " thất bại. Mong đợi '" + expectedToken + "' nhưng thực tế: " + actualBanner);
+        }
+        System.out.println("[GUI-ASSERT-PASS] " + context + " -> " + actualBanner);
     }
 
     private static void captureWindow(JFrame frame, Path outputFile) throws Exception {
@@ -232,8 +314,8 @@ public final class GuiVerificationRunner {
         }
     }
 
-    private static void cleanUpGuiDemoArtifacts(AppConfig config) throws Exception {
-        ConnectionProvider cp = new ConnectionProvider(config);
+    private static void cleanUpGuiDemoArtifacts(ConnectionProvider cp) throws Exception {
+        TestDatabaseGuard.verifyLiveTestConnection(cp);
         try (Connection conn = cp.getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement(
                     "DELETE FROM payment WHERE booking_id > 160")) {

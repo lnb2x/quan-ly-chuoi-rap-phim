@@ -276,4 +276,16 @@ public final class ScreeningSearchPanel extends JPanel {
             statusBanner.showError("Lỗi khi tra cứu suất chiếu: " + ex.getMessage());
         }
     }
+
+    public void setDateTextForVerification(String dateStr) {
+        txtDate.setText(dateStr);
+    }
+
+    public StatusBanner getStatusBanner() {
+        return statusBanner;
+    }
+
+    public int getResultRowCount() {
+        return tableModel.getRowCount();
+    }
 }

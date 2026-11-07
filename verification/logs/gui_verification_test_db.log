@@ -1,0 +1,49 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.cinema:cinema-chain-management >-----------------
+[INFO] Building H? Th?ng Qu?n L� Chu?i R?p Chi?u Phim 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec:3.5.0:java (default-cli) @ cinema-chain-management ---
+[GUI-VERIFY] Connected DB=cinema_chain_test | MySQL=8.4.0 (MySQL Community Server - GPL) | User=cinema_app@127.0.0.1
+[APP-STARTUP] Time=2026-11-07T13:15:39.242151400 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain_test | DB=cinema_chain_test | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
+[GUI-ASSERT-PASS] M�n h�nh 1 (T?o su?t chi?u h?p l?) -> [TH�NH C�NG]  ?� t?o th�nh c�ng Su?t chi?u #217 cho phim '?�o, Ph? v� Piano' t?i Ph�ng 01 - Standard 2D (18/11/2026 09:00 - 18/11/2026 11:15).
+Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\01_screening_management_valid.png
+[GUI-ASSERT-PASS] M�n h�nh 1 (T? ch?i tr�ng l?ch chi?u) -> [L?I]  L?i nghi?p v? [BR-06]: Tr�ng l?ch chi?u trong Ph�ng 01 - Standard 2D v?i su?t #217 (?�o, Ph? v� Piano: 18/11/2026 09:00 - 18/11/2026 11:15).
+Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\02_screening_management_overlap_rejected.png
+[GUI-ASSERT-PASS] M�n h�nh 1 (T? ch?i ??i ph�ng cho su?t chi?u ?� c� v�) -> [L?I]  L?i nghi?p v? [BR-09]: Kh�ng th? ??i ph�ng chi?u cho su?t chi?u #1 v� su?t chi?u n�y ?� ph�t sinh v�.
+[GUI-ASSERT-PASS] M�n h�nh 2 (T? ch?i ??t v� khi ch?a ch?n gh?) -> [L?I]  Vui l�ng ch?n �t nh?t 01 gh? tr�n s? ?? ph�ng chi?u [BR-08].
+Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\03_ticket_booking_seat_selection.png
+[GUI-ASSERT-PASS] M�n h�nh 2 (??t v� h?p l?) -> [TH�NH C�NG]  ??t v� th�nh c�ng! M� ??n #203 | Su?t #3 (Qu?t M? Tr�ng Ma (Exhuma)) | Gh?: A04, A05 | Thanh to�n: CASH (SUCCESS).
+Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\04_ticket_booking_success.png
+[GUI-ASSERT-PASS] M�n h�nh 2 (T? ch?i gh? ?� c� ng??i mua) -> [L?I]  L?i nghi?p v? [BR-10]: Gh? A06 ?� ???c b�n cho kh�ch h�ng kh�c trong su?t chi?u #3.
+Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\04b_ticket_booking_occupied_rejected.png
+[GUI-ASSERT-PASS] M�n h�nh 3 (T? ch?i ng�y chi?u sai ??nh d?ng) -> [L?I]  Ng�y chi?u c?n nh?p theo ??nh d?ng yyyy-MM-dd (v� d?: 2026-11-04).
+[GUI-ASSERT-PASS] M�n h�nh 3 (Tra c?u su?t chi?u h?p l?) -> [TH�NH C�NG]  T�m th?y 24 su?t chi?u ph� h?p (T?ng c?ng 1884 gh? c�n tr?ng).
+Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\05_screening_search.png
+[GUI-ASSERT-PASS] M�n h�nh 4 (T? ch?i kho?ng th?i gian T? ng�y > ??n ng�y) -> [L?I]  Ng�y k?t th�c k? b�o c�o kh�ng ???c nh? h?n ng�y b?t ??u.
+[GUI-ASSERT-PASS] M�n h�nh 4 (Xem tr??c B�o c�o Doanh thu h?p l?) -> [TH�NH C�NG]  ?� k?t xu?t b?n xem tr??c B�o c�o Doanh thu: 125 ??n th�nh c�ng, 292 v� h?p l?, T?ng th?c thu: 35.165.000 VN?.
+mvnw.cmd : SLF4J(W): No SLF4J providers were found.
+At C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\database\verify_all.ps1:66 char:15
++ ...   $guiOut = & .\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.gui.G ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (SLF4J(W): No SLF4J providers were found.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\06_revenue_report_preview.png
+[GUI-ASSERT-PASS] M�n h�nh 5 (T? ch?i ng�y l?c sai ??nh d?ng) -> [L?I]  T? ng�y kh�ng ?�ng ??nh d?ng chu?n yyyy-MM-dd.
+[GUI-ASSERT-PASS] M�n h�nh 5 (Xem tr??c B�o c�o B�n v� h?p l?) -> [TH�NH C�NG]  ?� k?t xu?t b?n xem tr??c B�o c�o B�n v�: 160 su?t chi?u, 292/12800 v� b�n ra (L?p ??y TB: 2.28%), Doanh thu: 35.165.000 VN?.
+Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\07_ticket_sales_report_preview.png
+Rendered PDF preview image: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\08_exported_revenue_pdf_page1.png
+Rendered PDF preview image: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\09_exported_sales_pdf_page1.png
+[GUI-VERIFY-POST] DB=cinema_chain_test | screenings=160 | bookings=160 | total_paid_revenue=35165000.00
+GUI verification (all 5 screens: valid + rejected cases) completed successfully on cinema_chain_test.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.219 s
+[INFO] Finished at: 2026-11-07T13:15:46+07:00
+[INFO] ------------------------------------------------------------------------

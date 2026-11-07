@@ -267,4 +267,13 @@ public final class TicketSalesReportPanel extends JPanel {
     public TicketSalesReportData getCurrentReportData() {
         return currentReportData;
     }
+
+    public void setDateRangeForVerification(String fromStr, String toStr) {
+        txtFromDate.setText(fromStr);
+        txtToDate.setText(toStr);
+    }
+
+    public StatusBanner getStatusBanner() {
+        return statusBanner;
+    }
 }

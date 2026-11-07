@@ -91,4 +91,20 @@ public final class AppConfig {
     public String password() {
         return password;
     }
+
+    /**
+     * Làm sạch URL kết nối trước khi ghi nhật ký khởi động để tuyệt đối không bao giờ lộ mật khẩu.
+     */
+    public static String sanitizeJdbcUrl(String rawUrl) {
+        if (rawUrl == null) {
+            return "";
+        }
+        int qIdx = rawUrl.indexOf('?');
+        return qIdx >= 0 ? rawUrl.substring(0, qIdx) : rawUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "AppConfig[url=" + sanitizeJdbcUrl(jdbcUrl) + ", user=" + username + "]";
+    }
 }

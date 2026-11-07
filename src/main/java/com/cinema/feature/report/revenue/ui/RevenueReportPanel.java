@@ -263,4 +263,13 @@ public final class RevenueReportPanel extends JPanel {
     public RevenueReportData getCurrentReportData() {
         return currentReportData;
     }
+
+    public void setDateRangeForVerification(String fromStr, String toStr) {
+        txtFromDate.setText(fromStr);
+        txtToDate.setText(toStr);
+    }
+
+    public StatusBanner getStatusBanner() {
+        return statusBanner;
+    }
 }

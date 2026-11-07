@@ -155,6 +155,31 @@ public final class ScreeningRepository {
         }
     }
 
+    public int lockScreeningAndGetRoomId(Connection conn, int screeningId) throws SQLException {
+        String sql = "SELECT room_id FROM screening WHERE screening_id = ? FOR UPDATE";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, screeningId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new BusinessRuleException("Không tìm thấy suất chiếu #" + screeningId + " để cập nhật.");
+                }
+                return rs.getInt("room_id");
+            }
+        }
+    }
+
+    public int countTicketsForScreening(Connection conn, int screeningId, boolean onlyValid) throws SQLException {
+        String sql = onlyValid
+                ? "SELECT COUNT(*) FROM ticket WHERE screening_id = ? AND ticket_status = 'VALID'"
+                : "SELECT COUNT(*) FROM ticket WHERE screening_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, screeningId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        }
+    }
+
     public void lockRoomAndCheckActive(Connection conn, int roomId) throws SQLException {
         String sql = "SELECT room_id, active FROM screening_room WHERE room_id = ? FOR UPDATE";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -293,7 +318,7 @@ public final class ScreeningRepository {
             sql.append(" AND screening_date = ?");
             params.add(Date.valueOf(dateFilter));
         }
-        sql.append(" ORDER BY start_time DESC, screening_id DESC LIMIT 200");
+        sql.append(" ORDER BY start_time DESC, screening_id DESC LIMIT 1000");
 
         List<ScreeningDetailView> result = new ArrayList<>();
         try (Connection conn = connectionProvider.getConnection();
