@@ -1,18 +1,20 @@
 -- =============================================================================
 -- TỆP: 03_views.sql
 -- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
--- BƯỚC KHỞI TẠO: [Bước 4 - Tạo View] Định nghĩa 04 khung nhìn (Views) phục vụ
---                Tra cứu Suất chiếu, Báo cáo Doanh thu và Báo cáo Bán vé theo
---                đúng quy tắc ghi nhận doanh thu (BR-14 & BR-15: chống nhân bản).
+-- BƯỚC KHỞI TẠO: [Bước 4 - Tạo View] Định nghĩa 04 khung nhìn (Views) trên
+--                lược đồ 14 bảng chuẩn 3NF phục vụ Tra cứu Suất chiếu,
+--                Báo cáo Doanh thu và Báo cáo Tình hình Bán vé.
 -- TƯƠNG THÍCH MYSQL 8.4 LTS:
---   - Sử dụng `CREATE OR REPLACE VIEW` chuẩn của MySQL 8.4 (không cần `DROP VIEW`),
---     tuân thủ nghiêm ngặt chế độ `ONLY_FULL_GROUP_BY`.
+--   - Sử dụng `CREATE OR REPLACE VIEW` chuẩn của MySQL 8.4, tuân thủ nghiêm ngặt
+--     chế độ `ONLY_FULL_GROUP_BY`.
 -- =============================================================================
 
 SET NAMES utf8mb4;
 
 -- -----------------------------------------------------------------------------
--- 1. Khung nhìn vw_screening_search (Tra cứu suất chiếu & ghế trống)
+-- 1. Khung nhìn vw_screening_search (Tra cứu suất chiếu & ghế trống trên lược đồ 3NF)
+--    Ghế đang bị giữ được đếm trực tiếp từ `screening_seat_lock` (mọi vé VALID
+--    của cả đơn CONFIRMED lẫn PENDING đều đang giữ chỗ vật lý trên sơ đồ ghế).
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_screening_search AS
 SELECT
@@ -35,10 +37,10 @@ SELECT
     s.base_price,
     s.status AS screening_status,
     (SELECT COUNT(*) FROM seat st WHERE st.room_id = s.room_id) AS total_seats,
-    (SELECT COUNT(*) FROM ticket tk WHERE tk.screening_id = s.screening_id AND tk.ticket_status = 'VALID') AS sold_seats,
+    (SELECT COUNT(*) FROM screening_seat_lock sl WHERE sl.screening_id = s.screening_id) AS sold_seats,
     (
         (SELECT COUNT(*) FROM seat st WHERE st.room_id = s.room_id) -
-        (SELECT COUNT(*) FROM ticket tk WHERE tk.screening_id = s.screening_id AND tk.ticket_status = 'VALID')
+        (SELECT COUNT(*) FROM screening_seat_lock sl WHERE sl.screening_id = s.screening_id)
     ) AS available_seats
 FROM screening s
 JOIN movie m          ON m.movie_id = s.movie_id
@@ -51,6 +53,7 @@ JOIN cinema_branch b  ON b.branch_id = r.branch_id;
 --    - Chỉ tính đơn có booking_status = 'CONFIRMED'
 --    - Có đúng 1 giao dịch payment_status = 'SUCCESS'
 --    - Chỉ cộng các vé có ticket_status = 'VALID'
+--    - Đơn PENDING, CANCELLED hoặc thanh toán FAILED / REFUNDED bị loại trừ 100%
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_verified_booking_revenue AS
 SELECT
@@ -106,7 +109,7 @@ GROUP BY
     pm.paid_at;
 
 -- -----------------------------------------------------------------------------
--- 3. Khung nhìn vw_branch_daily_revenue (Doanh thu theo ngày & chi nhánh)
+-- 3. Khung nhìn vw_branch_daily_revenue (Doanh thu theo ngày thanh toán & chi nhánh)
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_branch_daily_revenue AS
 SELECT
@@ -126,6 +129,10 @@ GROUP BY
 
 -- -----------------------------------------------------------------------------
 -- 4. Khung nhìn vw_screening_occupancy (Báo cáo bán vé & tỷ lệ lấp đầy suất chiếu)
+--    - `tickets_sold`, `occupancy_rate_pct`, `sales_revenue`: chỉ tính vé VALID
+--      thuộc đơn CONFIRMED đã có thanh toán SUCCESS.
+--    - `available_seats`: số ghế trống thực tế trên phòng (trừ mọi ghế đang giữ chỗ
+--      trong `screening_seat_lock`, bao gồm cả đơn PENDING đang chờ thanh toán).
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_screening_occupancy AS
 SELECT
@@ -150,13 +157,13 @@ SELECT
         FROM ticket tk
         JOIN booking bk ON bk.booking_id = tk.booking_id
         JOIN payment pm ON pm.booking_id = bk.booking_id AND pm.payment_status = 'SUCCESS'
-        WHERE tk.screening_id = s.screening_id
+        WHERE bk.screening_id = s.screening_id
           AND tk.ticket_status = 'VALID'
           AND bk.booking_status = 'CONFIRMED'
     ) AS tickets_sold,
     (
         (SELECT COUNT(*) FROM seat st WHERE st.room_id = s.room_id) -
-        (SELECT COUNT(*) FROM ticket tk WHERE tk.screening_id = s.screening_id AND tk.ticket_status = 'VALID')
+        (SELECT COUNT(*) FROM screening_seat_lock sl WHERE sl.screening_id = s.screening_id)
     ) AS available_seats,
     ROUND(
         100.0 * (
@@ -164,7 +171,7 @@ SELECT
             FROM ticket tk
             JOIN booking bk ON bk.booking_id = tk.booking_id
             JOIN payment pm ON pm.booking_id = bk.booking_id AND pm.payment_status = 'SUCCESS'
-            WHERE tk.screening_id = s.screening_id
+            WHERE bk.screening_id = s.screening_id
               AND tk.ticket_status = 'VALID'
               AND bk.booking_status = 'CONFIRMED'
         ) / NULLIF((SELECT COUNT(*) FROM seat st WHERE st.room_id = s.room_id), 0),
@@ -175,7 +182,7 @@ SELECT
         FROM ticket tk
         JOIN booking bk ON bk.booking_id = tk.booking_id
         JOIN payment pm ON pm.booking_id = bk.booking_id AND pm.payment_status = 'SUCCESS'
-        WHERE tk.screening_id = s.screening_id
+        WHERE bk.screening_id = s.screening_id
           AND tk.ticket_status = 'VALID'
           AND bk.booking_status = 'CONFIRMED'
     ), 0.00) AS sales_revenue

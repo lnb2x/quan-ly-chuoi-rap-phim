@@ -2,6 +2,7 @@ package com.cinema.feature.screening.ui;
 
 import com.cinema.domain.CinemaBranch;
 import com.cinema.domain.Movie;
+import com.cinema.domain.PageResult;
 import com.cinema.domain.ScreeningDetailView;
 import com.cinema.domain.ScreeningRoom;
 import com.cinema.feature.screening.ScreeningService;
@@ -27,6 +28,8 @@ import java.util.List;
  */
 public final class ScreeningManagementPanel extends JPanel {
 
+    public static final int PAGE_SIZE = 50;
+
     private final ScreeningService service;
     private final StatusBanner statusBanner = new StatusBanner();
 
@@ -48,6 +51,13 @@ public final class ScreeningManagementPanel extends JPanel {
     private List<CinemaBranch> branches = new ArrayList<>();
     private Integer selectedScreeningId = null;
     private final JLabel lblSelectedId = new JLabel("Chế độ: Tạo suất chiếu mới");
+
+    private int currentPage = 1;
+    private int totalPages = 1;
+    private int totalScreeningsCount = 0;
+    private final JLabel lblPageStatus = new JLabel("Trang 1/1 — Hiển thị 0–0 / Tổng 0 suất chiếu");
+    private final JButton btnPrevPage = Theme.createSecondaryButton("« Trang trước");
+    private final JButton btnNextPage = Theme.createSecondaryButton("Trang sau »");
 
     public ScreeningManagementPanel(ScreeningService service) {
         super(new BorderLayout(14, 14));
@@ -187,18 +197,39 @@ public final class ScreeningManagementPanel extends JPanel {
         filterBar.add(txtFilterDate);
 
         JButton btnFilter = Theme.createSecondaryButton("Lọc danh sách");
-        btnFilter.addActionListener(e -> refreshTable());
+        btnFilter.addActionListener(e -> {
+            currentPage = 1;
+            refreshTable();
+        });
         JButton btnResetFilter = Theme.createSecondaryButton("Tất cả");
         btnResetFilter.addActionListener(e -> {
             cboFilterBranch.setSelectedIndex(0);
             txtFilterDate.setText("");
+            currentPage = 1;
             refreshTable();
         });
         filterBar.add(btnFilter);
         filterBar.add(btnResetFilter);
 
+        JPanel paginationBar = new JPanel(new BorderLayout(8, 2));
+        paginationBar.setOpaque(false);
+        lblPageStatus.setFont(Theme.FONT_BOLD);
+        lblPageStatus.setForeground(Theme.TEXT_MUTED);
+        btnPrevPage.setName("btnScreeningPrevPage");
+        btnPrevPage.addActionListener(e -> previousPage());
+        btnNextPage.setName("btnScreeningNextPage");
+        btnNextPage.addActionListener(e -> nextPage());
+
+        JPanel pageButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        pageButtons.setOpaque(false);
+        pageButtons.add(btnPrevPage);
+        pageButtons.add(btnNextPage);
+        paginationBar.add(lblPageStatus, BorderLayout.WEST);
+        paginationBar.add(pageButtons, BorderLayout.EAST);
+
         card.add(filterBar, BorderLayout.NORTH);
         card.add(new JScrollPane(table), BorderLayout.CENTER);
+        card.add(paginationBar, BorderLayout.SOUTH);
         return card;
     }
 
@@ -275,7 +306,19 @@ public final class ScreeningManagementPanel extends JPanel {
                 dateFilter = LocalDate.parse(dateStr);
             }
 
-            currentRows = service.listScreenings(branchId, null, null, dateFilter);
+            PageResult<ScreeningDetailView> page = service.listScreeningsPage(
+                    branchId, null, null, dateFilter, currentPage, PAGE_SIZE);
+            currentRows = page.items();
+            currentPage = page.pageNumber();
+            totalPages = page.totalPages();
+            totalScreeningsCount = page.totalCount();
+
+            lblPageStatus.setText(String.format(
+                    "Trang %d/%d — Hiển thị %d–%d / Tổng %d suất chiếu (%d dòng/trang)",
+                    currentPage, totalPages, page.fromIndex(), page.toIndex(), totalScreeningsCount, PAGE_SIZE));
+            btnPrevPage.setEnabled(page.hasPrevious());
+            btnNextPage.setEnabled(page.hasNext());
+
             tableModel.setRowCount(0);
             for (ScreeningDetailView row : currentRows) {
                 tableModel.addRow(new Object[]{
@@ -297,6 +340,20 @@ public final class ScreeningManagementPanel extends JPanel {
             }
         } catch (Exception ex) {
             statusBanner.showError("Lỗi khi lọc danh sách suất chiếu: " + ex.getMessage());
+        }
+    }
+
+    public void nextPage() {
+        if (currentPage < totalPages) {
+            currentPage++;
+            refreshTable();
+        }
+    }
+
+    public void previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            refreshTable();
         }
     }
 
@@ -460,6 +517,7 @@ public final class ScreeningManagementPanel extends JPanel {
 
     public void filterByDateForVerification(String dateStr) {
         txtFilterDate.setText(dateStr);
+        currentPage = 1;
         refreshTable();
     }
 
@@ -470,7 +528,35 @@ public final class ScreeningManagementPanel extends JPanel {
                 return true;
             }
         }
+        int savedPage = currentPage;
+        for (int p = 1; p <= totalPages; p++) {
+            if (p == savedPage) {
+                continue;
+            }
+            currentPage = p;
+            refreshTable();
+            for (int i = 0; i < currentRows.size(); i++) {
+                if (currentRows.get(i).screeningId() == screeningId) {
+                    table.setRowSelectionInterval(i, i);
+                    return true;
+                }
+            }
+        }
+        currentPage = savedPage;
+        refreshTable();
         return false;
+    }
+
+    public int getTotalScreeningsCount() {
+        return totalScreeningsCount;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
     }
 
     public void setRoomIndexForVerification(int roomIdx) {

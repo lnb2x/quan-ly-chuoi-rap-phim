@@ -1,11 +1,11 @@
 ﻿$ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
-$mysqlDir   = Join-Path $env:USERPROFILE ".mysql\mysql-8.4"
+$mysqlDir        = Join-Path $env:USERPROFILE ".mysql\mysql-8.4"
 $expectedDataDir = (Join-Path $env:USERPROFILE ".mysql\data-8.4").Replace('\', '/').TrimEnd('/')
-$mysqldExe  = Join-Path $mysqlDir "bin\mysqld.exe"
-$mysqlExe   = Join-Path $mysqlDir "bin\mysql.exe"
-$myIni      = Join-Path $mysqlDir "my.ini"
+$mysqldExe       = Join-Path $mysqlDir "bin\mysqld.exe"
+$mysqlExe        = Join-Path $mysqlDir "bin\mysql.exe"
+$myIni           = Join-Path $mysqlDir "my.ini"
 
 if (-not (Test-Path $mysqldExe) -or -not (Test-Path $myIni)) {
     throw "Không tìm thấy bản cài đặt MySQL 8.4 LTS chuẩn tại $mysqlDir hoặc thiếu tệp $myIni."
@@ -27,6 +27,17 @@ function Test-Port3306Open {
     }
 }
 
+function New-RestrictedMySqlDefaultsFile([string]$user, [string]$pass) {
+    $tmpPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "cinema_mysql_" + [System.Guid]::NewGuid().ToString("N") + ".cnf")
+    $escaped = $pass.Replace('\', '\\').Replace('"', '\"')
+    $cfgContent = "[client]`nhost=127.0.0.1`nport=3306`nprotocol=TCP`nuser=$user`npassword=`"$escaped`"`n[mysql]`ndefault-character-set=utf8mb4`n"
+    [System.IO.File]::WriteAllText($tmpPath, $cfgContent, [System.Text.UTF8Encoding]::new($false))
+    if ($env:USERNAME) {
+        & icacls $tmpPath /inheritance:r /grant:r "$($env:USERNAME):(R,W)" | Out-Null
+    }
+    return $tmpPath
+}
+
 if (-not (Test-Port3306Open)) {
     Write-Output "Đang khởi động MySQL Community Server 8.4.0 LTS từ: $mysqldExe (--defaults-file=$myIni)..."
     Start-Process -FilePath $mysqldExe -ArgumentList "--defaults-file=$myIni" -WindowStyle Hidden
@@ -41,12 +52,15 @@ if (-not (Test-Port3306Open)) {
 }
 
 $rootPwd = if ($env:MYSQL_ROOT_PASSWORD) { $env:MYSQL_ROOT_PASSWORD } else { "" }
-$oldPwd = $env:MYSQL_PWD
+$cfgFile = New-RestrictedMySqlDefaultsFile "root" $rootPwd
 try {
-    $env:MYSQL_PWD = $rootPwd
-    $info = (& $mysqlExe --protocol=TCP -h 127.0.0.1 -P 3306 -u root -N -s -e "SELECT CONCAT(VERSION(), '|', @@version_comment, '|', REPLACE(@@datadir, '\\', '/'));") -join ""
+    $query = "SELECT CONCAT(VERSION(), '|', @@version_comment, '|', REPLACE(@@datadir, '\\', '/'));"
+    $info = ($query | & $mysqlExe "--defaults-extra-file=$cfgFile" -N -s) -join ""
+    if ($LASTEXITCODE -ne 0) {
+        throw "Không thể kiểm tra phiên bản MySQL trên 127.0.0.1:3306 (ExitCode=$LASTEXITCODE)."
+    }
 } finally {
-    $env:MYSQL_PWD = $oldPwd
+    Remove-Item -LiteralPath $cfgFile -Force -ErrorAction SilentlyContinue
 }
 
 $parts = $info.Split("|")

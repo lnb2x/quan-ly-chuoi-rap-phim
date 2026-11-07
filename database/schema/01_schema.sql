@@ -1,13 +1,17 @@
 -- =============================================================================
 -- TỆP: 01_schema.sql
 -- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
--- BƯỚC KHỞI TẠO: [Bước 1 - Tạo Bảng] Định nghĩa 13 bảng chuẩn 3NF với đầy đủ
---                PRIMARY KEY, UNIQUE, CHECK, STORED Generated Columns và INDEX.
+-- BƯỚC KHỞI TẠO: [Bước 1 - Tạo Bảng] Định nghĩa 14 bảng đạt chuẩn 3NF thực sự với
+--                PRIMARY KEY, UNIQUE, CHECK, chỉ mục vật lý có điều kiện và INDEX.
 -- THIẾT KẾ CHUẨN MỰC:
 --   - KHÔNG sử dụng `DROP TABLE` hay `SET FOREIGN_KEY_CHECKS = 0` để tránh
---     xóa nhầm dữ liệu khi chạy ở chế độ Normal Setup.
---   - Các ràng buộc Khóa ngoại (16 FOREIGN KEY) được tách riêng sang bước kế tiếp
---     tại tệp `01b_foreign_keys.sql` giúp quy trình khởi tạo tuần tự, rõ ràng.
+--     xóa nhầm dữ liệu khi chạy ở chế độ khởi tạo không phá hủy.
+--   - Bảng `ticket` đã loại bỏ hoàn toàn thuộc tính bắc cầu `screening_id`
+--     (vì `ticket_id -> booking_id -> screening_id`), đảm bảo đạt chuẩn 3NF chặt chẽ.
+--   - Bảng `screening_seat_lock` (quan hệ phân bổ ghế đang hiệu lực) bảo đảm
+--     chống bán trùng ghế `(screening_id, seat_id)` ngay ở mức B-Tree PRIMARY KEY
+--     của MySQL 8.4 InnoDB đồng thời cho phép bán lại ghế sau khi vé hủy (`CANCELLED`).
+--   - Các ràng buộc Khóa ngoại (17 FOREIGN KEY) được tách sang `01b_foreign_keys.sql`.
 -- TƯƠNG THÍCH: MySQL Community Server 8.4 LTS (InnoDB, utf8mb4_unicode_ci)
 -- =============================================================================
 
@@ -159,8 +163,8 @@ CREATE TABLE IF NOT EXISTS employee (
     phone         VARCHAR(20)  NOT NULL,
     role          VARCHAR(20)  NOT NULL DEFAULT 'CASHIER',
     hired_date    DATE         NOT NULL,
-    CONSTRAINT pk_employee      PRIMARY KEY (employee_id),
-    CONSTRAINT uq_employee_code UNIQUE (employee_code),
+    CONSTRAINT pk_employee       PRIMARY KEY (employee_id),
+    CONSTRAINT uq_employee_code  UNIQUE (employee_code),
     CONSTRAINT uq_employee_phone UNIQUE (phone),
     CONSTRAINT chk_employee_role CHECK (role IN ('CASHIER', 'MANAGER', 'ACCOUNTANT')),
     INDEX idx_employee_branch (branch_id)
@@ -168,6 +172,7 @@ CREATE TABLE IF NOT EXISTS employee (
 
 -- -----------------------------------------------------------------------------
 -- 11. Bảng booking (Đơn đặt vé; customer_id NULLable cho Khách vãng lai)
+--     Mỗi booking gắn với đúng 1 screening_id (booking_id -> screening_id).
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS booking (
     booking_id     INT         NOT NULL AUTO_INCREMENT,
@@ -177,10 +182,9 @@ CREATE TABLE IF NOT EXISTS booking (
     employee_id    INT         NOT NULL,
     booked_at      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     booking_status VARCHAR(20) NOT NULL DEFAULT 'CONFIRMED',
-    CONSTRAINT pk_booking              PRIMARY KEY (booking_id),
-    CONSTRAINT uq_booking_code         UNIQUE (booking_code),
-    CONSTRAINT uq_booking_id_screening UNIQUE (booking_id, screening_id),
-    CONSTRAINT chk_booking_status      CHECK (booking_status IN ('CONFIRMED', 'PENDING', 'CANCELLED')),
+    CONSTRAINT pk_booking         PRIMARY KEY (booking_id),
+    CONSTRAINT uq_booking_code    UNIQUE (booking_code),
+    CONSTRAINT chk_booking_status CHECK (booking_status IN ('CONFIRMED', 'PENDING', 'CANCELLED')),
     INDEX idx_booking_screening (screening_id, booking_status),
     INDEX idx_booking_customer (customer_id),
     INDEX idx_booking_employee (employee_id),
@@ -188,35 +192,48 @@ CREATE TABLE IF NOT EXISTS booking (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
--- 12. Bảng ticket (Vé xem phim chi tiết theo ghế)
---     active_seat_key đảm bảo không thể có 2 vé VALID cùng (screening_id, seat_id),
---     đồng thời giải phóng ghế (về NULL) khi vé chuyển sang CANCELLED.
+-- 12. Bảng ticket (Vé xem phim chi tiết theo ghế — Đạt chuẩn 3NF / BCNF)
+--     - Không lưu dư thừa `screening_id` (suy ra bảo toàn qua `booking.screening_id`).
+--     - Khóa dự tuyển tối tiểu trên toàn bảng: `{ticket_id}` (PK) và `{booking_id, seat_id}` (UQ).
+--     - Lưu giữ đầy đủ lịch sử vé hủy (`CANCELLED`) và đơn giá chốt lịch sử (`unit_price`).
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ticket (
-    ticket_id       INT           NOT NULL AUTO_INCREMENT,
-    booking_id      INT           NOT NULL,
-    screening_id    INT           NOT NULL,
-    seat_id         INT           NOT NULL,
-    unit_price      DECIMAL(12,2) NOT NULL,
-    ticket_status   VARCHAR(20)   NOT NULL DEFAULT 'VALID',
-    cancelled_at    DATETIME      NULL,
-    active_seat_key VARCHAR(64)   GENERATED ALWAYS AS (
-        CASE WHEN ticket_status = 'VALID' THEN CONCAT(screening_id, '-', seat_id) ELSE NULL END
-    ) STORED,
-    CONSTRAINT pk_ticket             PRIMARY KEY (ticket_id),
-    CONSTRAINT uq_ticket_active_seat UNIQUE (active_seat_key),
-    CONSTRAINT chk_ticket_price      CHECK (unit_price >= 0),
-    CONSTRAINT chk_ticket_status     CHECK (ticket_status IN ('VALID', 'CANCELLED')),
-    INDEX idx_ticket_screening_status (screening_id, ticket_status),
+    ticket_id     INT           NOT NULL AUTO_INCREMENT,
+    booking_id    INT           NOT NULL,
+    seat_id       INT           NOT NULL,
+    unit_price    DECIMAL(12,2) NOT NULL,
+    ticket_status VARCHAR(20)   NOT NULL DEFAULT 'VALID',
+    cancelled_at  DATETIME      NULL,
+    CONSTRAINT pk_ticket              PRIMARY KEY (ticket_id),
+    CONSTRAINT uq_ticket_booking_seat UNIQUE (booking_id, seat_id),
+    CONSTRAINT chk_ticket_price       CHECK (unit_price >= 0),
+    CONSTRAINT chk_ticket_status      CHECK (ticket_status IN ('VALID', 'CANCELLED')),
     INDEX idx_ticket_booking_status (booking_id, ticket_status),
-    INDEX idx_ticket_booking_scr (booking_id, screening_id),
     INDEX idx_ticket_seat (seat_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
--- 13. Bảng payment (Giao dịch thanh toán)
---     active_success_booking đảm bảo mỗi đơn đặt vé chỉ có tối đa 01 giao dịch
---     ở trạng thái SUCCESS, chống thanh toán đúp và nhân bản doanh thu.
+-- 13. Bảng screening_seat_lock (Phân bổ khóa ghế đang hiệu lực theo suất chiếu — 3NF / BCNF)
+--     - Biểu diễn tập ghế đang bị giữ bởi các vé có `ticket_status = 'VALID'`.
+--     - Khóa dự tuyển tối tiểu trên toàn bảng: `{screening_id, seat_id}` (PK) và `{ticket_id}` (UQ).
+--     - Đảm bảo chống bán trùng ghế ở mức chỉ mục B-Tree InnoDB cho cả giao dịch đồng thời,
+--       đồng thời tự động giải phóng khóa ghế khi vé chuyển sang `CANCELLED` để bán lại ghế.
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS screening_seat_lock (
+    screening_id INT NOT NULL,
+    seat_id      INT NOT NULL,
+    ticket_id    INT NOT NULL,
+    CONSTRAINT pk_screening_seat_lock PRIMARY KEY (screening_id, seat_id),
+    CONSTRAINT uq_ssl_ticket          UNIQUE (ticket_id),
+    INDEX idx_ssl_seat (seat_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------------------------
+-- 14. Bảng payment (Giao dịch thanh toán)
+--     - Khóa dự tuyển tối tiểu của quan hệ logic: duy nhất `{payment_id}` (PK).
+--     - Cột sinh vật lý `active_success_booking` là cơ chế chỉ mục duy nhất có điều kiện
+--       của MySQL 8.4 trên tập con `payment_status = 'SUCCESS'` (không phải khóa của toàn bảng),
+--       nhằm ngăn thanh toán thành công trùng lặp cho cùng một `booking_id`.
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS payment (
     payment_id             INT           NOT NULL AUTO_INCREMENT,

@@ -1,13 +1,13 @@
 -- =============================================================================
 -- TỆP: 01b_foreign_keys.sql
 -- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
--- BƯỚC KHỞI TẠO: [Bước 2 - Tạo Khóa ngoại] Thiết lập toàn bộ 16 ràng buộc
---                tham chiếu FOREIGN KEY giữa 13 bảng thực thể sau khi tạo bảng.
+-- BƯỚC KHỞI TẠO: [Bước 2 - Tạo Khóa ngoại] Thiết lập toàn bộ 17 ràng buộc
+--                tham chiếu FOREIGN KEY giữa 14 bảng chuẩn 3NF.
 -- LƯU Ý TƯƠNG THÍCH MYSQL 8.4 LTS:
---   - Các bảng `ticket` và `payment` có sử dụng cột sinh vật lý (`GENERATED ALWAYS
---     AS ... STORED`). Theo quy định của MySQL 8.4 InnoDB (mã lỗi 3108), các cột
---     cơ sở tham gia biểu thức STORED GENERATED không được dùng `ON UPDATE CASCADE`,
---     do đó được thiết kế chuẩn xác với `ON DELETE RESTRICT ON UPDATE RESTRICT`.
+--   - Bảng `payment` sử dụng cột sinh vật lý (`GENERATED ALWAYS AS ... STORED`)
+--     phục vụ chỉ mục duy nhất có điều kiện cho dòng `SUCCESS`. Theo quy định
+--     của MySQL 8.4 InnoDB (mã lỗi 3108), cột cơ sở `booking_id` tham gia biểu thức
+--     STORED GENERATED dùng `ON DELETE RESTRICT ON UPDATE RESTRICT`.
 -- =============================================================================
 
 SET NAMES utf8mb4;
@@ -63,22 +63,28 @@ ALTER TABLE booking
         REFERENCES employee (employee_id)
         ON DELETE RESTRICT ON UPDATE CASCADE;
 
--- 7. Vé xem phim gắn với Đơn đặt vé, Cặp (booking_id, screening_id), Suất chiếu & Ghế
+-- 7. Vé xem phim chuẩn 3NF gắn với Đơn đặt vé & Ghế vật lý
 ALTER TABLE ticket
     ADD CONSTRAINT fk_ticket_booking FOREIGN KEY (booking_id)
         REFERENCES booking (booking_id)
-        ON DELETE RESTRICT ON UPDATE RESTRICT,
-    ADD CONSTRAINT fk_ticket_booking_scr FOREIGN KEY (booking_id, screening_id)
-        REFERENCES booking (booking_id, screening_id)
-        ON DELETE RESTRICT ON UPDATE RESTRICT,
-    ADD CONSTRAINT fk_ticket_screening FOREIGN KEY (screening_id)
-        REFERENCES screening (screening_id)
-        ON DELETE RESTRICT ON UPDATE RESTRICT,
+        ON DELETE RESTRICT ON UPDATE CASCADE,
     ADD CONSTRAINT fk_ticket_seat FOREIGN KEY (seat_id)
         REFERENCES seat (seat_id)
-        ON DELETE RESTRICT ON UPDATE RESTRICT;
+        ON DELETE RESTRICT ON UPDATE CASCADE;
 
--- 8. Giao dịch thanh toán gắn với Đơn đặt vé
+-- 8. Khóa phân bổ ghế hiệu lực gắn với Suất chiếu, Ghế vật lý & Vé hợp lệ
+ALTER TABLE screening_seat_lock
+    ADD CONSTRAINT fk_ssl_screening FOREIGN KEY (screening_id)
+        REFERENCES screening (screening_id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    ADD CONSTRAINT fk_ssl_seat FOREIGN KEY (seat_id)
+        REFERENCES seat (seat_id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    ADD CONSTRAINT fk_ssl_ticket FOREIGN KEY (ticket_id)
+        REFERENCES ticket (ticket_id)
+        ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- 9. Giao dịch thanh toán gắn với Đơn đặt vé
 ALTER TABLE payment
     ADD CONSTRAINT fk_payment_booking FOREIGN KEY (booking_id)
         REFERENCES booking (booking_id)

@@ -11,6 +11,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,15 +96,15 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.3: Trigger CSDL phải từ chối vé có ghế thuộc phòng chiếu khác với phòng của suất chiếu [BR-09]")
+    @DisplayName("Gate C.3: Trigger CSDL chuẩn 3NF phải từ chối vé có ghế thuộc phòng chiếu khác với phòng của suất chiếu [BR-09]")
     void databaseTriggerMustRejectSeatFromWrongRoom() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
             try {
                 // Đơn #11 thuộc suất chiếu #1 (Phòng 1: seat_id 1..80). Ghế #85 thuộc Phòng 2!
                 String sql = """
-                        INSERT INTO ticket (booking_id, screening_id, seat_id, unit_price, ticket_status)
-                        VALUES (11, 1, 85, 95000.00, 'VALID')
+                        INSERT INTO ticket (booking_id, seat_id, unit_price, ticket_status)
+                        VALUES (11, 85, 95000.00, 'VALID')
                         """;
                 SQLException ex = assertThrows(SQLException.class, () -> {
                     try (Statement st = conn.createStatement()) {
@@ -116,30 +119,55 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.4: Chỉ mục duy nhất uq_ticket_active_seat phải chặn bán trùng ghế VALID trong cùng suất chiếu [BR-10]")
+    @DisplayName("Gate C.4: Khóa chính PK(screening_id, seat_id) trên screening_seat_lock và uq_ticket_booking_seat chặn tuyệt đối bán trùng ghế [BR-10]")
     void databaseUniqueIndexMustRejectDuplicateValidSeat() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
             try {
-                // Tìm 1 vé VALID đang có sẵn
                 int screeningId;
                 int seatId;
                 int bookingId;
                 try (Statement st = conn.createStatement();
-                     ResultSet rs = st.executeQuery(
-                             "SELECT booking_id, screening_id, seat_id FROM ticket WHERE ticket_status = 'VALID' LIMIT 1")) {
+                     ResultSet rs = st.executeQuery("""
+                             SELECT tk.booking_id, bk.screening_id, tk.seat_id
+                             FROM ticket tk
+                             JOIN booking bk ON bk.booking_id = tk.booking_id
+                             WHERE tk.ticket_status = 'VALID'
+                             LIMIT 1
+                             """)) {
                     assertTrue(rs.next());
                     bookingId = rs.getInt("booking_id");
                     screeningId = rs.getInt("screening_id");
                     seatId = rs.getInt("seat_id");
                 }
 
-                String dupSql = "INSERT INTO ticket (booking_id, screening_id, seat_id, unit_price, ticket_status) VALUES (?, ?, ?, 95000.00, 'VALID')";
+                // 1. Trùng ghế ngay trong cùng 1 booking -> bị chặn bởi uq_ticket_booking_seat (booking_id, seat_id)
+                String sameBookingDupSql = "INSERT INTO ticket (booking_id, seat_id, unit_price, ticket_status) VALUES (?, ?, 95000.00, 'VALID')";
                 assertThrows(SQLException.class, () -> {
-                    try (PreparedStatement ps = conn.prepareStatement(dupSql)) {
+                    try (PreparedStatement ps = conn.prepareStatement(sameBookingDupSql)) {
                         ps.setInt(1, bookingId);
-                        ps.setInt(2, screeningId);
-                        ps.setInt(3, seatId);
+                        ps.setInt(2, seatId);
+                        ps.executeUpdate();
+                    }
+                });
+
+                // 2. Tạo một booking KHÁC nhưng thuộc CÙNG suất chiếu, đặt CÙNG ghế VALID -> bị chặn bởi PK(screening_id, seat_id) trên screening_seat_lock
+                int secondBookingId;
+                try (PreparedStatement ps = conn.prepareStatement("""
+                        INSERT INTO booking (booking_code, screening_id, customer_id, employee_id, booked_at, booking_status)
+                        VALUES ('BK-3NF-DUP-SEAT-TEST', ?, 1, 3, CURRENT_TIMESTAMP, 'CONFIRMED')
+                        """, Statement.RETURN_GENERATED_KEYS)) {
+                    ps.setInt(1, screeningId);
+                    ps.executeUpdate();
+                    try (ResultSet keys = ps.getGeneratedKeys()) {
+                        assertTrue(keys.next());
+                        secondBookingId = keys.getInt(1);
+                    }
+                }
+                assertThrows(SQLException.class, () -> {
+                    try (PreparedStatement ps = conn.prepareStatement(sameBookingDupSql)) {
+                        ps.setInt(1, secondBookingId);
+                        ps.setInt(2, seatId);
                         ps.executeUpdate();
                     }
                 });
@@ -281,7 +309,12 @@ class DatabaseIntegrityIT {
                      ResultSet rs = st.executeQuery("""
                              SELECT s.screening_id, s.room_id
                              FROM screening s
-                             WHERE EXISTS (SELECT 1 FROM ticket tk WHERE tk.screening_id = s.screening_id)
+                             WHERE EXISTS (
+                                 SELECT 1
+                                 FROM ticket tk
+                                 JOIN booking bk ON bk.booking_id = tk.booking_id
+                                 WHERE bk.screening_id = s.screening_id
+                             )
                              ORDER BY s.screening_id ASC
                              LIMIT 1
                              """)) {
@@ -441,8 +474,8 @@ class DatabaseIntegrityIT {
                         tempBookingId = rs.getInt(1);
                     }
                     assertThrows(SQLException.class, () -> st.executeUpdate(
-                            "INSERT INTO ticket (booking_id, screening_id, seat_id, unit_price, ticket_status) VALUES ("
-                                    + tempBookingId + ", 1, 85, 95000.00, 'VALID')"));
+                            "INSERT INTO ticket (booking_id, seat_id, unit_price, ticket_status) VALUES ("
+                                    + tempBookingId + ", 85, 95000.00, 'VALID')"));
                     conn.rollback(sp);
                 }
                 assertEquals(bookingsBefore, countRows(conn, "booking"),
@@ -450,6 +483,176 @@ class DatabaseIntegrityIT {
             } finally {
                 conn.rollback();
             }
+        }
+    }
+
+    @Test
+    @DisplayName("Gate C.13: Kiểm chứng lược đồ 14 bảng đạt chuẩn 3NF (ticket không chứa screening_id/active_seat_key) và chống sửa trái phép khóa ghế")
+    void verifyTrue3nfTicketSchemaAndSeatLockTamperProtection() throws SQLException {
+        try (Connection conn = connectionProvider.getConnection()) {
+            // 1. Bảng ticket tuyệt đối không còn cột bắc cầu screening_id hay cột sinh active_seat_key
+            try (Statement st = conn.createStatement();
+                 ResultSet rs = st.executeQuery("""
+                         SELECT COUNT(*)
+                         FROM information_schema.COLUMNS
+                         WHERE TABLE_SCHEMA = DATABASE()
+                           AND TABLE_NAME = 'ticket'
+                           AND COLUMN_NAME IN ('screening_id', 'active_seat_key')
+                         """)) {
+                assertTrue(rs.next());
+                assertEquals(0, rs.getInt(1),
+                        "Bảng ticket chuẩn 3NF tuyệt đối không được chứa cột phụ thuộc bắc cầu screening_id hoặc active_seat_key");
+            }
+
+            // 2. Đủ 14 bảng cơ sở và nối không mất mát (lossless join) ticket ⋈ booking + đồng bộ 1-1 screening_seat_lock
+            try (Statement st = conn.createStatement();
+                 ResultSet rs = st.executeQuery("""
+                         SELECT
+                             (SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_TYPE = 'BASE TABLE') AS base_table_count,
+                             (SELECT COUNT(*) FROM ticket) AS total_tickets,
+                             (SELECT COUNT(*) FROM ticket tk INNER JOIN booking bk ON bk.booking_id = tk.booking_id) AS joined_tickets,
+                             (SELECT COUNT(*) FROM ticket WHERE ticket_status = 'VALID') AS valid_tickets,
+                             (SELECT COUNT(*) FROM screening_seat_lock) AS active_locks
+                         """)) {
+                assertTrue(rs.next());
+                assertEquals(14, rs.getInt("base_table_count"), "Lược đồ chuẩn 3NF phải có đúng 14 bảng cơ sở");
+                assertEquals(rs.getInt("total_tickets"), rs.getInt("joined_tickets"),
+                        "Phép nối tự nhiên ticket ⋈ booking phải bảo toàn không mất mát 100% số dòng vé");
+                assertEquals(rs.getInt("valid_tickets"), rs.getInt("active_locks"),
+                        "Số dòng khóa ghế trong screening_seat_lock phải bằng đúng số vé VALID");
+            }
+
+            // 3. Kiểm chứng các Trigger bảo vệ bất biến trên booking và screening_seat_lock
+            conn.setAutoCommit(false);
+            try {
+                int bookingWithTickets;
+                int currentScrId;
+                try (Statement st = conn.createStatement();
+                     ResultSet rs = st.executeQuery("""
+                             SELECT bk.booking_id, bk.screening_id
+                             FROM booking bk
+                             WHERE EXISTS (SELECT 1 FROM ticket tk WHERE tk.booking_id = bk.booking_id)
+                             LIMIT 1
+                             """)) {
+                    assertTrue(rs.next());
+                    bookingWithTickets = rs.getInt("booking_id");
+                    currentScrId = rs.getInt("screening_id");
+                }
+                int otherScrId = (currentScrId == 1) ? 2 : 1;
+                SQLException updBookingEx = assertThrows(SQLException.class, () -> {
+                    try (PreparedStatement ps = conn.prepareStatement(
+                            "UPDATE booking SET screening_id = ? WHERE booking_id = ?")) {
+                        ps.setInt(1, otherScrId);
+                        ps.setInt(2, bookingWithTickets);
+                        ps.executeUpdate();
+                    }
+                });
+                assertTrue(updBookingEx.getMessage().contains("BR-08"));
+
+                // Cấm xóa trực tiếp khóa ghế trong screening_seat_lock khi vé vẫn đang VALID
+                int activeLockedTicketId;
+                try (Statement st = conn.createStatement();
+                     ResultSet rs = st.executeQuery("SELECT ticket_id FROM screening_seat_lock LIMIT 1")) {
+                    assertTrue(rs.next());
+                    activeLockedTicketId = rs.getInt(1);
+                }
+                SQLException delLockEx = assertThrows(SQLException.class, () -> {
+                    try (PreparedStatement ps = conn.prepareStatement(
+                            "DELETE FROM screening_seat_lock WHERE ticket_id = ?")) {
+                        ps.setInt(1, activeLockedTicketId);
+                        ps.executeUpdate();
+                    }
+                });
+                assertTrue(delLockEx.getMessage().contains("BR-10"));
+
+                // Cấm chèn khóa ghế giả cho vé đã CANCELLED
+                int cancelledTicketId;
+                int cancelledSeatId;
+                int cancelledScrId;
+                try (Statement st = conn.createStatement();
+                     ResultSet rs = st.executeQuery("""
+                             SELECT tk.ticket_id, tk.seat_id, bk.screening_id
+                             FROM ticket tk
+                             JOIN booking bk ON bk.booking_id = tk.booking_id
+                             WHERE tk.ticket_status = 'CANCELLED'
+                             LIMIT 1
+                             """)) {
+                    assertTrue(rs.next());
+                    cancelledTicketId = rs.getInt("ticket_id");
+                    cancelledSeatId = rs.getInt("seat_id");
+                    cancelledScrId = rs.getInt("screening_id");
+                }
+                SQLException insLockEx = assertThrows(SQLException.class, () -> {
+                    try (PreparedStatement ps = conn.prepareStatement(
+                            "INSERT INTO screening_seat_lock (screening_id, seat_id, ticket_id) VALUES (?, ?, ?)")) {
+                        ps.setInt(1, cancelledScrId);
+                        ps.setInt(2, cancelledSeatId);
+                        ps.setInt(3, cancelledTicketId);
+                        ps.executeUpdate();
+                    }
+                });
+                assertTrue(insLockEx.getMessage().contains("BR-10"));
+            } finally {
+                conn.rollback();
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Gate C.14: Công cụ dấu vân tay SHA-256 phát hiện ngay sửa đổi nội dung 1 dòng dù số dòng và tổng doanh thu không đổi")
+    void pkOrderedFingerprintToolMustDetectSingleRowContentMutation() throws Exception {
+        Path tempFp = Files.createTempFile("test_db_fp_", ".json");
+        String originalName;
+        try (Connection conn = connectionProvider.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT full_name FROM customer WHERE customer_id = 1");
+             ResultSet rs = ps.executeQuery()) {
+            assertTrue(rs.next());
+            originalName = rs.getString(1);
+        }
+
+        try {
+            Process capProc = new ProcessBuilder(
+                    "python", "tools/db_fingerprint.py",
+                    "--db", "cinema_chain_test",
+                    "--file", tempFp.toAbsolutePath().toString(),
+                    "--mode", "capture"
+            ).redirectErrorStream(true).start();
+            String capOut = new String(capProc.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            assertEquals(0, capProc.waitFor(), "Chụp dấu vân tay phải thành công: " + capOut);
+
+            // Sửa tên của 1 khách hàng (số dòng của mọi bảng và tổng doanh thu 35.165.000 VNĐ giữ nguyên không đổi!)
+            try (Connection conn = connectionProvider.getConnection();
+                 PreparedStatement ps = conn.prepareStatement("UPDATE customer SET full_name = ? WHERE customer_id = 1")) {
+                ps.setString(1, originalName + " (Đã sửa thử nghiệm)");
+                ps.executeUpdate();
+            }
+
+            Process verifyMutated = new ProcessBuilder(
+                    "python", "tools/db_fingerprint.py",
+                    "--db", "cinema_chain_test",
+                    "--file", tempFp.toAbsolutePath().toString(),
+                    "--mode", "verify"
+            ).redirectErrorStream(true).start();
+            String mutatedOut = new String(verifyMutated.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            assertNotEquals(0, verifyMutated.waitFor(),
+                    "Dấu vân tay SHA-256 bắt buộc phải báo lỗi khi nội dung 1 dòng thay đổi dù số dòng và doanh thu không đổi!");
+            assertTrue(mutatedOut.contains("customer"), "Thông báo sai lệch phải chỉ đích danh bảng customer: " + mutatedOut);
+        } finally {
+            try (Connection conn = connectionProvider.getConnection();
+                 PreparedStatement ps = conn.prepareStatement("UPDATE customer SET full_name = ? WHERE customer_id = 1")) {
+                ps.setString(1, originalName);
+                ps.executeUpdate();
+            }
+            Process verifyRestored = new ProcessBuilder(
+                    "python", "tools/db_fingerprint.py",
+                    "--db", "cinema_chain_test",
+                    "--file", tempFp.toAbsolutePath().toString(),
+                    "--mode", "verify"
+            ).redirectErrorStream(true).start();
+            String restoredOut = new String(verifyRestored.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            int restoredExit = verifyRestored.waitFor();
+            Files.deleteIfExists(tempFp);
+            assertEquals(0, restoredExit, "Sau khi khôi phục giá trị gốc, dấu vân tay phải khớp lại 100%: " + restoredOut);
         }
     }
 

@@ -2,7 +2,9 @@ package com.cinema.feature.search;
 
 import com.cinema.domain.CinemaBranch;
 import com.cinema.domain.Movie;
+import com.cinema.domain.PageResult;
 import com.cinema.domain.ScreeningDetailView;
+import com.cinema.domain.SearchPageResult;
 import com.cinema.feature.screening.ScreeningRepository;
 import com.cinema.shared.validation.BusinessRuleException;
 
@@ -40,9 +42,7 @@ public final class ScreeningSearchService {
             LocalTime toTime,
             boolean onlyOpenWithAvailableSeats
     ) {
-        if (fromTime != null && toTime != null && toTime.isBefore(fromTime)) {
-            throw new BusinessRuleException("Khung giờ kết thúc tìm kiếm không được nhỏ hơn khung giờ bắt đầu.");
-        }
+        validateTimeRange(fromTime, toTime);
         return searchRepository.searchScreenings(
                 movieKeyword,
                 movieId,
@@ -52,5 +52,51 @@ public final class ScreeningSearchService {
                 toTime,
                 onlyOpenWithAvailableSeats
         );
+    }
+
+    public SearchPageResult searchPage(
+            String movieKeyword,
+            Integer movieId,
+            Integer branchId,
+            LocalDate screeningDate,
+            LocalTime fromTime,
+            LocalTime toTime,
+            boolean onlyOpenWithAvailableSeats,
+            int pageNumber,
+            int pageSize
+    ) {
+        validateTimeRange(fromTime, toTime);
+        int safePageSize = Math.max(1, pageSize);
+        ScreeningSearchRepository.SearchSummary summary = searchRepository.summarizeSearch(
+                movieKeyword, movieId, branchId, screeningDate, fromTime, toTime, onlyOpenWithAvailableSeats);
+        int totalCount = summary.totalCount();
+        int totalPages = totalCount <= 0 ? 1 : (int) Math.ceil((double) totalCount / safePageSize);
+        int effectivePage = Math.min(Math.max(1, pageNumber), totalPages);
+        int offset = (effectivePage - 1) * safePageSize;
+
+        List<ScreeningDetailView> items = totalCount == 0
+                ? List.of()
+                : searchRepository.searchScreeningsPage(
+                        movieKeyword,
+                        movieId,
+                        branchId,
+                        screeningDate,
+                        fromTime,
+                        toTime,
+                        onlyOpenWithAvailableSeats,
+                        safePageSize,
+                        offset
+                );
+        return new SearchPageResult(
+                new PageResult<>(items, totalCount, effectivePage, safePageSize),
+                summary.totalAvailableSeats(),
+                summary.totalSoldSeats()
+        );
+    }
+
+    private static void validateTimeRange(LocalTime fromTime, LocalTime toTime) {
+        if (fromTime != null && toTime != null && toTime.isBefore(fromTime)) {
+            throw new BusinessRuleException("Khung giờ kết thúc tìm kiếm không được nhỏ hơn khung giờ bắt đầu.");
+        }
     }
 }

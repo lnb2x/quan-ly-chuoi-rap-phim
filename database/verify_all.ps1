@@ -1,35 +1,78 @@
 ﻿$ErrorActionPreference = "Stop"
+[Console]::InputEncoding  = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 
 $rootDir = Split-Path -Parent $PSScriptRoot
 Push-Location $rootDir
 
+function Invoke-TestDbSqlStdin {
+    param(
+        [Parameter(Mandatory = $true)][string]$DatabaseName,
+        [Parameter(Mandatory = $true)][string]$SqlScriptPath,
+        [Parameter(Mandatory = $true)][string]$LogOutputPath
+    )
+    $mysqlExe = Join-Path $env:USERPROFILE ".mysql\mysql-8.4\bin\mysql.exe"
+    $appPropsPath = Join-Path $rootDir "config\application.properties"
+    $appPwd = if ($env:CINEMA_TEST_DB_PASSWORD) { $env:CINEMA_TEST_DB_PASSWORD } elseif ($env:CINEMA_DB_PASSWORD) { $env:CINEMA_DB_PASSWORD } else { "" }
+    $appUser = "cinema_app"
+    if ((-not $appPwd) -and (Test-Path $appPropsPath)) {
+        foreach ($line in Get-Content $appPropsPath -Encoding UTF8) {
+            if ($line -match '^\s*test\.db\.password\s*=\s*(.+)$') { $appPwd = $Matches[1].Trim() }
+            elseif ((-not $appPwd) -and ($line -match '^\s*db\.password\s*=\s*(.+)$')) { $appPwd = $Matches[1].Trim() }
+            if ($line -match '^\s*test\.db\.username\s*=\s*(.+)$') { $appUser = $Matches[1].Trim() }
+        }
+    }
+    $tmpDefaults = Join-Path ([System.IO.Path]::GetTempPath()) ("mysql_verify_" + [guid]::NewGuid().ToString("N") + ".cnf")
+    $escapedPwd = $appPwd.Replace('\', '\\').Replace('"', '\"')
+    $cnfContent = "[client]`r`nhost=127.0.0.1`r`nport=3306`r`nprotocol=TCP`r`ndefault-character-set=utf8mb4`r`nuser=$appUser`r`npassword=`"$escapedPwd`"`r`n"
+    [System.IO.File]::WriteAllText($tmpDefaults, $cnfContent, (New-Object System.Text.UTF8Encoding($false)))
+    & icacls $tmpDefaults /inheritance:r /grant:r "$($env:USERNAME):(R,W)" | Out-Null
+    try {
+        $sqlText = Get-Content -LiteralPath $SqlScriptPath -Raw -Encoding UTF8
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        $out = $sqlText | & $mysqlExe "--defaults-extra-file=$tmpDefaults" --table $DatabaseName 2>&1
+        $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+        $out | Out-File -FilePath $LogOutputPath -Encoding utf8
+        if ($exitCode -ne 0) {
+            throw "Thực thi $SqlScriptPath trên $DatabaseName thất bại (ExitCode=$exitCode)."
+        }
+    } finally {
+        if (Test-Path $tmpDefaults) {
+            Remove-Item -LiteralPath $tmpDefaults -Force -ErrorAction SilentlyContinue
+        }
+    }
+}
+
 try {
+    New-Item -ItemType Directory -Force -Path "verification\logs" | Out-Null
+    New-Item -ItemType Directory -Force -Path "verification\test-results" | Out-Null
+
     Write-Output "======================================================================"
-    Write-Output " [1/5] XÁC MINH INSTANCE MYSQL 8.4.0 LTS & ĐỒNG BỘ NORMAL SETUP AN TOÀN"
+    Write-Output " [1/6] XÁC MINH MYSQL 8.4.0 LTS & DẤU VÂN TAY SHA-256 BAN ĐẦU CỦA 'cinema_chain'"
+    Write-Output "       (CHỈ ĐỌC — TUYỆT ĐỐI KHÔNG GỌI setup.ps1 HAY SỬA SCHEMA/TÀI KHOẢN)"
     Write-Output "======================================================================"
     powershell -NoProfile -ExecutionPolicy Bypass -File "$PSScriptRoot\start_mysql84.ps1"
     if ($LASTEXITCODE -ne 0) { throw "start_mysql84.ps1 thất bại." }
 
-    powershell -NoProfile -ExecutionPolicy Bypass -File "$PSScriptRoot\setup.ps1"
-    if ($LASTEXITCODE -ne 0) { throw "setup.ps1 (Normal Setup) thất bại." }
-
-    # Ghi nhận trạng thái bất biến của cinema_chain trước khi chạy toàn bộ kiểm thử
-    $mysqlExe = Join-Path $env:USERPROFILE ".mysql\mysql-8.4\bin\mysql.exe"
-    $rootPwd = if ($env:MYSQL_ROOT_PASSWORD) { $env:MYSQL_ROOT_PASSWORD } else { "" }
-    $oldPwd = $env:MYSQL_PWD
-    try {
-        $env:MYSQL_PWD = $rootPwd
-        $demoBefore = (& $mysqlExe --protocol=TCP -h 127.0.0.1 -P 3306 -u root -N -s cinema_chain -e "SELECT CONCAT((SELECT COUNT(*) FROM screening), ',', (SELECT COUNT(*) FROM booking), ',', (SELECT COUNT(*) FROM ticket), ',', (SELECT COUNT(*) FROM payment), ',', (SELECT COALESCE(SUM(total_paid_revenue),0) FROM vw_branch_daily_revenue));").Trim()
-    } finally {
-        $env:MYSQL_PWD = $oldPwd
+    $baselineFp = "verification\logs\cinema_chain_baseline_fingerprint.json"
+    if (-not (Test-Path $baselineFp)) {
+        python tools\db_fingerprint.py --db cinema_chain --file $baselineFp --mode capture --use-root
+        if ($LASTEXITCODE -ne 0) { throw "Không thể chụp dấu vân tay ban đầu cho cinema_chain." }
+    } else {
+        python tools\db_fingerprint.py --db cinema_chain --file $baselineFp --mode verify --use-root
+        if ($LASTEXITCODE -ne 0) { throw "CSDL demo cinema_chain đã khác với dấu vân tay mốc ban đầu trước khi chạy kiểm thử!" }
     }
-    Write-Output "[DEMO-DB SNAPSHOT BEFORE TESTS] cinema_chain = $demoBefore"
 
     Write-Output ""
     Write-Output "======================================================================"
-    Write-Output " [2/5] CHẠY MAVEN CLEAN VERIFY (-Pmysql-it) & KIỂM TRA 0 SKIPPED TESTS"
+    Write-Output " [2/6] XÓA XML CŨ, CHẠY MAVEN CLEAN VERIFY (-Pmysql-it) & KIỂM TOÁN XML MỚI"
     Write-Output "======================================================================"
+    Remove-Item -Path "verification\test-results\TEST-*.xml" -Force -ErrorAction SilentlyContinue
+    $runStart = (Get-Date).AddSeconds(-2)
+
     $ErrorActionPreference = "Continue"
     $mvnOut = & .\mvnw.cmd clean verify -Pmysql-it 2>&1
     $mvnExit = $LASTEXITCODE
@@ -39,28 +82,61 @@ try {
         $mvnOut | Select-Object -Last 50 | Write-Output
         throw "mvnw.cmd clean verify -Pmysql-it thất bại (ExitCode=$mvnExit)."
     }
-    Copy-Item target\surefire-reports\TEST-*.xml verification\test-results\ -Force -ErrorAction SilentlyContinue
-    Copy-Item target\failsafe-reports\TEST-*.xml verification\test-results\ -Force -ErrorAction SilentlyContinue
     $mvnOut | Select-String "Tests run:|BUILD SUCCESS" | ForEach-Object { Write-Output $_.Line }
 
-    # Kiểm tra nghiêm ngặt tất cả XML báo cáo test: Failures=0, Errors=0, Skipped=0
+    $freshXmlFiles = @()
+    if (Test-Path "target\surefire-reports") {
+        $freshXmlFiles += Get-ChildItem "target\surefire-reports\TEST-*.xml"
+    }
+    if (Test-Path "target\failsafe-reports") {
+        $freshXmlFiles += Get-ChildItem "target\failsafe-reports\TEST-*.xml"
+    }
+    if ($freshXmlFiles.Count -eq 0) {
+        throw "Không tìm thấy bất kỳ tệp báo cáo TEST-*.xml mới nào trong target/surefire-reports hoặc target/failsafe-reports!"
+    }
+
+    $requiredSuites = @(
+        "com.cinema.unit.ScreeningValidationTest",
+        "com.cinema.unit.TestSafetyGuardTest",
+        "com.cinema.architecture.ArchitectureComplianceTest",
+        "com.cinema.integration.DatabaseIntegrityIT",
+        "com.cinema.integration.ScreeningConcurrencyIT",
+        "com.cinema.integration.BookingConcurrencyIT",
+        "com.cinema.integration.ScreeningSearchIT",
+        "com.cinema.integration.ReportAccuracyIT"
+    )
+    $observedSuites = @{}
     $totalRun = 0; $totalFail = 0; $totalErr = 0; $totalSkip = 0
-    foreach ($xmlFile in Get-ChildItem "verification\test-results\TEST-*.xml") {
+
+    foreach ($xmlFile in $freshXmlFiles) {
+        if ($xmlFile.LastWriteTime -lt $runStart) {
+            throw "Phát hiện tệp báo cáo XML cũ không thuộc lần chạy hiện tại: $($xmlFile.FullName) ($($xmlFile.LastWriteTime) < $runStart)"
+        }
         [xml]$doc = Get-Content $xmlFile.FullName -Encoding UTF8
         $ts = $doc.testsuite
+        $suiteName = [string]$ts.name
+        $observedSuites[$suiteName] = [int]$ts.tests
         $totalRun  += [int]$ts.tests
         $totalFail += [int]$ts.failures
         $totalErr  += [int]$ts.errors
         $totalSkip += [int]$ts.skipped
+        Copy-Item $xmlFile.FullName "verification\test-results\" -Force
     }
-    Write-Output "[JUNIT XML AUDIT] Total Tests=$totalRun | Failures=$totalFail | Errors=$totalErr | Skipped=$totalSkip"
+
+    foreach ($req in $requiredSuites) {
+        if (-not $observedSuites.ContainsKey($req) -or $observedSuites[$req] -le 0) {
+            throw "Thiếu lớp kiểm thử bắt buộc hoặc số test = 0 trong lần chạy hiện tại: $req"
+        }
+    }
+
+    Write-Output "[JUNIT FRESH XML AUDIT] RunTimestamp=$($runStart.ToString('yyyy-MM-dd HH:mm:ss')) | Suites=$($observedSuites.Count) | TotalTests=$totalRun | Failures=$totalFail | Errors=$totalErr | Skipped=$totalSkip"
     if ($totalRun -le 0 -or $totalFail -ne 0 -or $totalErr -ne 0 -or $totalSkip -ne 0) {
-        throw "Kiểm toán JUnit XML không đạt (Test bị bỏ qua không được tính là PASS)!"
+        throw "Kiểm toán JUnit XML không đạt (Failures/Errors/Skipped phải bằng 0)!"
     }
 
     Write-Output ""
     Write-Output "======================================================================"
-    Write-Output " [3/5] CHẠY KIỂM CHỨNG 5 MÀN HÌNH SWING THẬT & XUẤT 2 BÁO CÁO PDF"
+    Write-Output " [3/6] CHẠY KIỂM CHỨNG ĐIỀU KHIỂN 5 MÀN HÌNH SWING & XUẤT 2 BÁO CÁO PDF"
     Write-Output "======================================================================"
     $ErrorActionPreference = "Continue"
     $guiOut = & .\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.gui.GuiVerificationRunner" "-Dexec.classpathScope=test" 2>&1
@@ -75,7 +151,7 @@ try {
 
     Write-Output ""
     Write-Output "======================================================================"
-    Write-Output " [4/5] CHẠY KIỂM CHỨNG BẢO TOÀN DỮ LIỆU QUA 2 TIẾN TRÌNH JVM (ĐÓNG & MỞ LẠI)"
+    Write-Output " [4/6] KIỂM CHỨNG ĐÓNG & MỞ LẠI ỨNG DỤNG QUA 2 TIẾN TRÌNH JVM TÁCH BIỆT"
     Write-Output "======================================================================"
     $ErrorActionPreference = "Continue"
     $persistOut1 = & .\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.gui.AppPersistenceVerificationRunner" "-Dexec.classpathScope=test" "-Dexec.args=--session1 target/persistence-session-state.properties" 2>&1
@@ -98,19 +174,25 @@ try {
 
     Write-Output ""
     Write-Output "======================================================================"
-    Write-Output " [5/5] ĐỐI CHỨNG BẢO TOÀN TUYỆT ĐỐI CSDL DEMO 'cinema_chain'"
+    Write-Output " [5/6] THỰC THI BỘ TRUY VẤN SQL CHỨC NĂNG R5-R7 TRÊN 'cinema_chain_test'"
     Write-Output "======================================================================"
-    try {
-        $env:MYSQL_PWD = $rootPwd
-        $demoAfter = (& $mysqlExe --protocol=TCP -h 127.0.0.1 -P 3306 -u root -N -s cinema_chain -e "SELECT CONCAT((SELECT COUNT(*) FROM screening), ',', (SELECT COUNT(*) FROM booking), ',', (SELECT COUNT(*) FROM ticket), ',', (SELECT COUNT(*) FROM payment), ',', (SELECT COALESCE(SUM(total_paid_revenue),0) FROM vw_branch_daily_revenue));").Trim()
-    } finally {
-        $env:MYSQL_PWD = $oldPwd
+    $funcSqlPath = Join-Path $PSScriptRoot "queries\functional_sql_verification.sql"
+    if (Test-Path $funcSqlPath) {
+        Invoke-TestDbSqlStdin -DatabaseName "cinema_chain_test" -SqlScriptPath $funcSqlPath -LogOutputPath "verification\logs\functional_sql_examples_test_db.log"
+        Write-Output "[FUNCTIONAL SQL VERIFIED] Log saved to verification/logs/functional_sql_examples_test_db.log"
+    } else {
+        Write-Output "[INFO] Chưa có functional_sql_verification.sql — bỏ qua bước 5."
     }
-    Write-Output "[DEMO-DB SNAPSHOT AFTER TESTS]  cinema_chain = $demoAfter"
-    if ($demoBefore -ne $demoAfter) {
-        throw "LỖI BẢO TOÀN DỮ LIỆU DEMO: cinema_chain bị thay đổi ($demoBefore -> $demoAfter)!"
+
+    Write-Output ""
+    Write-Output "======================================================================"
+    Write-Output " [6/6] ĐỐI CHỨNG DẤU VÂN TAY SHA-256 ĐẦY ĐỦ CỦA CSDL DEMO 'cinema_chain'"
+    Write-Output "======================================================================"
+    python tools\db_fingerprint.py --db cinema_chain --file $baselineFp --mode verify --use-root
+    if ($LASTEXITCODE -ne 0) {
+        throw "LỖI BẢO TOÀN DỮ LIỆU DEMO: Dấu vân tay SHA-256 của cinema_chain bị sai lệch sau khi chạy kiểm chứng!"
     }
-    Write-Output "[ALL GATES PASSED] Môi trường, Toàn vẹn CSDL, Giao dịch đồng thời, 5 Màn hình GUI, 2 PDF và Bảo toàn dữ liệu đều ĐẠT 100%!"
+    Write-Output "[ALL VERIFICATION GATES PASSED] Đã xác minh trên MySQL 8.4.0 LTS thật; CSDL demo cinema_chain bảo toàn nguyên vẹn (SHA-256 khớp 100% phạm vi kiểm tra)."
 } finally {
     Pop-Location
 }

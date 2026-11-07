@@ -243,13 +243,17 @@ public final class RevenueReportPanel extends JPanel {
     }
 
     public Path exportDefaultPdf() {
+        return exportPdfTo(Path.of("reports", "exports", "BaoCaoDoanhThu_Mau.pdf").toAbsolutePath());
+    }
+
+    public Path exportPdfTo(Path targetPath) {
         if (currentReportData == null) {
             refreshPreview();
         }
-        Path targetPath = Path.of("reports", "exports", "BaoCaoDoanhThu_Mau.pdf").toAbsolutePath();
-        service.exportToPdf(currentReportData, targetPath);
-        statusBanner.showSuccess("Đã xuất thành công Báo cáo Doanh thu ra tệp PDF: " + targetPath);
-        return targetPath;
+        Path absPath = targetPath.toAbsolutePath();
+        service.exportToPdf(currentReportData, absPath);
+        statusBanner.showSuccess("Đã xuất thành công Báo cáo Doanh thu ra tệp PDF: " + absPath);
+        return absPath;
     }
 
     private LocalDate parseDate(String text, String label) {

@@ -1,0 +1,199 @@
+﻿=== MYSQL 8.4 LTS DEMO DB PROVISIONING LOG [TARGET: cinema_chain] (2026-11-07 14:58:40) ===
++---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
+| mysql_version | distribution                 | sql_mode                                                                                                              | charset | collation          |
++---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
+| 8.4.0         | MySQL Community Server - GPL | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | utf8mb4 | utf8mb4_unicode_ci |
++---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
+--- METADATA SUMMARY ON MYSQL 8.4 (cinema_chain) ---
+Tables=14 | ForeignKeys=17 | Triggers=12 | Views=4
+--- TABLE & COLUMN CHECK FOR 3NF TICKET / SCREENING_SEAT_LOCK (cinema_chain) ---
++---------------------+---------------+---------------+-------------+------------+
+| TABLE_NAME          | COLUMN_NAME   | COLUMN_TYPE   | IS_NULLABLE | COLUMN_KEY |
++---------------------+---------------+---------------+-------------+------------+
+| screening_seat_lock | screening_id  | int           | NO          | PRI        |
+| screening_seat_lock | seat_id       | int           | NO          | PRI        |
+| screening_seat_lock | ticket_id     | int           | NO          | UNI        |
+| ticket              | ticket_id     | int           | NO          | PRI        |
+| ticket              | booking_id    | int           | NO          | MUL        |
+| ticket              | seat_id       | int           | NO          | MUL        |
+| ticket              | unit_price    | decimal(12,2) | NO          |            |
+| ticket              | ticket_status | varchar(20)   | NO          |            |
+| ticket              | cancelled_at  | datetime      | YES         |            |
++---------------------+---------------+---------------+-------------+------------+
+--- VERIFY CONSTRAINTS OUTPUT ON MYSQL 8.4 (cinema_chain, connected as cinema_app) ---
++------------------------+-----------+
+| table_name             | row_count |
++------------------------+-----------+
+| 01_cinema_branch       |         4 |
+| 02_screening_room      |        12 |
+| 03_seat_type           |         3 |
+| 04_seat                |       960 |
+| 05_movie               |        20 |
+| 06_genre               |         8 |
+| 07_movie_genre         |        43 |
+| 08_screening           |       160 |
+| 09_customer            |        45 |
+| 10_employee            |        12 |
+| 11_booking             |       160 |
+| 12_ticket              |       373 |
+| 13_screening_seat_lock |       327 |
+| 14_payment             |       175 |
++------------------------+-----------+
++----------------------------------+
+| forbidden_non_3nf_ticket_columns |
++----------------------------------+
+|                                0 |
++----------------------------------+
++-----------------------------+
+| overlapping_open_screenings |
++-----------------------------+
+|                           0 |
++-----------------------------+
++--------------------+
+| wrong_room_tickets |
++--------------------+
+|                  0 |
++--------------------+
++-----------------------+
+| duplicate_valid_seats |
++-----------------------+
+|                     0 |
++-----------------------+
++---------------+-------------------+--------------------------+
+| valid_tickets | active_seat_locks | lock_sync_mismatch_count |
++---------------+-------------------+--------------------------+
+|           327 |               327 |                        0 |
++---------------+-------------------+--------------------------+
++--------------------------------+
+| multi_success_payment_bookings |
++--------------------------------+
+|                              0 |
++--------------------------------+
++---------------------------------+
+| resold_seats_after_cancellation |
++---------------------------------+
+|                              23 |
++---------------------------------+
++-----------------------------+
+| bookings_with_retry_payment |
++-----------------------------+
+|                          15 |
++-----------------------------+
++---------------------+--------------+--------------------+
+| independent_revenue | view_revenue | revenue_difference |
++---------------------+--------------+--------------------+
+|         35165000.00 |  35165000.00 |               0.00 |
++---------------------+--------------+--------------------+
+--- BUSINESS QUERIES SAMPLE OUTPUT ON MYSQL 8.4 (cinema_chain, connected as cinema_app) ---
++---------+----------+-------------+------------+----------------+----------------------------+-----------+--------------------+-------------------+
+| seat_id | seat_row | seat_number | seat_label | seat_type_code | type_name                  | surcharge | final_ticket_price | seat_availability |
++---------+----------+-------------+------------+----------------+----------------------------+-----------+--------------------+-------------------+
+|       1 | A        |           1 | A01        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | OCCUPIED          |
+|       2 | A        |           2 | A02        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | OCCUPIED          |
+|       3 | A        |           3 | A03        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       4 | A        |           4 | A04        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       5 | A        |           5 | A05        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       6 | A        |           6 | A06        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       7 | A        |           7 | A07        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       8 | A        |           8 | A08        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|       9 | A        |           9 | A09        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      10 | A        |          10 | A10        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      11 | B        |           1 | B01        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      12 | B        |           2 | B02        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      13 | B        |           3 | B03        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      14 | B        |           4 | B04        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      15 | B        |           5 | B05        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      16 | B        |           6 | B06        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      17 | B        |           7 | B07        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      18 | B        |           8 | B08        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      19 | B        |           9 | B09        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
+|      20 | B        |          10 | B10        | STD            | Ghế Thường (Standard)      |      0.00 |           85000.00 | AVAILABLE         |
++---------+----------+-------------+------------+----------------+----------------------------+-----------+--------------------+-------------------+
++---------------------------+
+| total_matching_screenings |
++---------------------------+
+|                        24 |
++---------------------------+
++--------------+------------+-----------------------------------------------+------------------+------------+-----------------------------------+-------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
+| screening_id | movie_code | movie_title                                   | duration_minutes | age_rating | branch_name                       | room_name               | room_type | start_time          | end_time            | base_price | total_seats | sold_seats | available_seats | screening_status |
++--------------+------------+-----------------------------------------------+------------------+------------+-----------------------------------+-------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
+|           19 | MV-008     | Hố Đen Tử Thần (Interstellar)                 |              162 | T13        | CineViet Aeon Mall Hải Phòng      | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 09:00:00 | 2026-11-04 12:02:00 |   85000.00 |          80 |          0 |              80 | OPEN             |
+|           23 | MV-002     | Mai                                           |              131 | T18        | CineViet Aeon Mall Hải Phòng      | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 09:00:00 | 2026-11-04 11:31:00 |  145000.00 |          80 |          2 |              78 | OPEN             |
+|           15 | MV-014     | Bố Già                                        |              128 | T13        | CineViet Cầu Rồng Đà Nẵng         | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 09:00:00 | 2026-11-04 11:28:00 |  110000.00 |          80 |          0 |              80 | OPEN             |
+|            7 | MV-006     | Oppenheimer                                   |              160 | T16        | CineViet Landmark 81              | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 09:00:00 | 2026-11-04 12:00:00 |   85000.00 |          80 |          2 |              78 | OPEN             |
+|           11 | MV-020     | Địa Đạo: Mặt Trời Trong Bóng Tối              |              124 | T16        | CineViet Landmark 81              | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 09:00:00 | 2026-11-04 11:24:00 |  145000.00 |          80 |          0 |              80 | OPEN             |
+|            3 | MV-012     | Quật Mộ Trùng Ma (Exhuma)                     |              134 | T16        | CineViet Vincom Bà Triệu          | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 09:00:00 | 2026-11-04 11:34:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
+|           21 | MV-015     |  Đất Rừng Phương Nam                          |              110 | K          | CineViet Aeon Mall Hải Phòng      | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 13:00:00 | 2026-11-04 15:10:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
+|           13 | MV-007     | Kẻ Đánh Cắp Giấc Mơ (Inception)               |              148 | T13        | CineViet Cầu Rồng Đà Nẵng         | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 13:00:00 | 2026-11-04 15:48:00 |   85000.00 |          80 |          0 |              80 | OPEN             |
+|           17 | MV-001     | Đào, Phở và Piano                             |              105 | T13        | CineViet Cầu Rồng Đà Nẵng         | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 13:00:00 | 2026-11-04 15:05:00 |  145000.00 |          80 |          0 |              80 | OPEN             |
+|            9 | MV-013     | Nhà Bà Nữ                                     |              102 | T16        | CineViet Landmark 81              | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 13:00:00 | 2026-11-04 15:02:00 |  110000.00 |          80 |          3 |              77 | OPEN             |
+|            1 | MV-005     | Dune: Hành Tinh Cát - Phần Hai                |              165 | T13        | CineViet Vincom Bà Triệu          | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 13:00:00 | 2026-11-04 16:05:00 |   85000.00 |          80 |          2 |              78 | OPEN             |
+|            5 | MV-019     | Kẻ Trộm Mặt Trăng 4                           |               95 | P          | CineViet Vincom Bà Triệu          | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 13:00:00 | 2026-11-04 14:55:00 |  145000.00 |          80 |          2 |              78 | OPEN             |
+|           20 | MV-011     | Ký Sinh Trùng (Parasite)                      |              132 | T18        | CineViet Aeon Mall Hải Phòng      | Phòng 01 - Standard 2D  | 2D        | 2026-11-04 17:00:00 | 2026-11-04 19:32:00 |   95000.00 |          80 |          0 |              80 | OPEN             |
+|           24 | MV-005     | Dune: Hành Tinh Cát - Phần Hai                |              165 | T13        | CineViet Aeon Mall Hải Phòng      | Phòng 03 - Laser IMAX   | IMAX      | 2026-11-04 17:00:00 | 2026-11-04 20:05:00 |  160000.00 |          80 |          3 |              77 | OPEN             |
+|           16 | MV-017     | Vệ Binh Dải Ngân Hà 3                         |              150 | T13        | CineViet Cầu Rồng Đà Nẵng         | Phòng 02 - Dolby 3D     | 3D        | 2026-11-04 17:00:00 | 2026-11-04 19:50:00 |  125000.00 |          80 |          0 |              80 | OPEN             |
++--------------+------------+-----------------------------------------------+------------------+------------+-----------------------------------+-------------------------+-----------+---------------------+---------------------+------------+-------------+------------+-----------------+------------------+
++-----------+-------------+-----------------------------------+--------------------+---------------------+---------------------+--------------------+
+| branch_id | branch_code | branch_name                       | city               | total_paid_bookings | total_valid_tickets | total_paid_revenue |
++-----------+-------------+-----------------------------------+--------------------+---------------------+---------------------+--------------------+
+|         1 | CN-HN01     | CineViet Vincom Bà Triệu          | Hà Nội             |                  36 |                  84 |        10140000.00 |
+|         2 | CN-HCM01    | CineViet Landmark 81              | TP. Hồ Chí Minh    |                  34 |                  79 |         9370000.00 |
+|         4 | CN-HP01     | CineViet Aeon Mall Hải Phòng      | Hải Phòng          |                  29 |                  69 |         8325000.00 |
+|         3 | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         | Đà Nẵng            |                  26 |                  60 |         7330000.00 |
++-----------+-------------+-----------------------------------+--------------------+---------------------+---------------------+--------------------+
++--------------+-------------+-----------------------------------+--------------------+-------------------+--------------------+
+| revenue_date | branch_code | branch_name                       | paid_booking_count | paid_ticket_count | total_paid_revenue |
++--------------+-------------+-----------------------------------+--------------------+-------------------+--------------------+
+| 2026-11-04   | CN-HCM01    | CineViet Landmark 81              |                  4 |                 9 |          940000.00 |
+| 2026-11-04   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1710000.00 |
+| 2026-11-04   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  4 |                10 |         1350000.00 |
+| 2026-11-05   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  6 |                14 |         1710000.00 |
+| 2026-11-05   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1710000.00 |
+| 2026-11-05   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1710000.00 |
+| 2026-11-05   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  6 |                14 |         1710000.00 |
+| 2026-11-06   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  6 |                14 |         1710000.00 |
+| 2026-11-06   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1710000.00 |
+| 2026-11-06   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1710000.00 |
+| 2026-11-06   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  6 |                14 |         1710000.00 |
+| 2026-11-07   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  2 |                 4 |          610000.00 |
+| 2026-11-07   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1710000.00 |
+| 2026-11-07   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1710000.00 |
+| 2026-11-07   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  6 |                14 |         1650000.00 |
+| 2026-11-08   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  6 |                14 |         1650000.00 |
+| 2026-11-08   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1650000.00 |
+| 2026-11-08   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1650000.00 |
+| 2026-11-08   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  6 |                14 |         1650000.00 |
+| 2026-11-09   | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         |                  6 |                14 |         1650000.00 |
+| 2026-11-09   | CN-HCM01    | CineViet Landmark 81              |                  6 |                14 |         1650000.00 |
+| 2026-11-09   | CN-HN01     | CineViet Vincom Bà Triệu          |                  6 |                14 |         1650000.00 |
+| 2026-11-09   | CN-HP01     | CineViet Aeon Mall Hải Phòng      |                  1 |                 3 |          255000.00 |
++--------------+-------------+-----------------------------------+--------------------+-------------------+--------------------+
++--------------+----------------+-------------+-----------+-----------------------------------+-------------------------+-----------+-----------------------------------------------+---------------+--------------+-----------------+--------------------+---------------+
+| screening_id | screening_date | start_clock | end_clock | branch_name                       | room_name               | room_type | movie_title                                   | room_capacity | tickets_sold | available_seats | occupancy_rate_pct | sales_revenue |
++--------------+----------------+-------------+-----------+-----------------------------------+-------------------------+-----------+-----------------------------------------------+---------------+--------------+-----------------+--------------------+---------------+
+|            3 | 2026-11-04     | 09:00:00    | 11:34:00  | CineViet Vincom Bà Triệu          | Phòng 02 - Dolby 3D     | 3D        | Quật Mộ Trùng Ma (Exhuma)                     |            80 |            3 |              77 |               3.75 |     330000.00 |
+|            7 | 2026-11-04     | 09:00:00    | 12:00:00  | CineViet Landmark 81              | Phòng 01 - Standard 2D  | 2D        | Oppenheimer                                   |            80 |            2 |              78 |               2.50 |     170000.00 |
+|           11 | 2026-11-04     | 09:00:00    | 11:24:00  | CineViet Landmark 81              | Phòng 03 - Laser IMAX   | IMAX      | Địa Đạo: Mặt Trời Trong Bóng Tối              |            80 |            0 |              80 |               0.00 |          0.00 |
+|           15 | 2026-11-04     | 09:00:00    | 11:28:00  | CineViet Cầu Rồng Đà Nẵng         | Phòng 02 - Dolby 3D     | 3D        | Bố Già                                        |            80 |            0 |              80 |               0.00 |          0.00 |
+|           23 | 2026-11-04     | 09:00:00    | 11:31:00  | CineViet Aeon Mall Hải Phòng      | Phòng 03 - Laser IMAX   | IMAX      | Mai                                           |            80 |            2 |              78 |               2.50 |     290000.00 |
+|           19 | 2026-11-04     | 09:00:00    | 12:02:00  | CineViet Aeon Mall Hải Phòng      | Phòng 01 - Standard 2D  | 2D        | Hố Đen Tử Thần (Interstellar)                 |            80 |            0 |              80 |               0.00 |          0.00 |
+|            1 | 2026-11-04     | 13:00:00    | 16:05:00  | CineViet Vincom Bà Triệu          | Phòng 01 - Standard 2D  | 2D        | Dune: Hành Tinh Cát - Phần Hai                |            80 |            2 |              78 |               2.50 |     170000.00 |
+|            5 | 2026-11-04     | 13:00:00    | 14:55:00  | CineViet Vincom Bà Triệu          | Phòng 03 - Laser IMAX   | IMAX      | Kẻ Trộm Mặt Trăng 4                           |            80 |            2 |              78 |               2.50 |     290000.00 |
+|            9 | 2026-11-04     | 13:00:00    | 15:02:00  | CineViet Landmark 81              | Phòng 02 - Dolby 3D     | 3D        | Nhà Bà Nữ                                     |            80 |            3 |              77 |               3.75 |     330000.00 |
+|           13 | 2026-11-04     | 13:00:00    | 15:48:00  | CineViet Cầu Rồng Đà Nẵng         | Phòng 01 - Standard 2D  | 2D        | Kẻ Đánh Cắp Giấc Mơ (Inception)               |            80 |            0 |              80 |               0.00 |          0.00 |
+|           17 | 2026-11-04     | 13:00:00    | 15:05:00  | CineViet Cầu Rồng Đà Nẵng         | Phòng 03 - Laser IMAX   | IMAX      | Đào, Phở và Piano                             |            80 |            0 |              80 |               0.00 |          0.00 |
+|           21 | 2026-11-04     | 13:00:00    | 15:10:00  | CineViet Aeon Mall Hải Phòng      | Phòng 02 - Dolby 3D     | 3D        |  Đất Rừng Phương Nam                          |            80 |            3 |              77 |               3.75 |     330000.00 |
+|            4 | 2026-11-04     | 17:00:00    | 19:10:00  | CineViet Vincom Bà Triệu          | Phòng 02 - Dolby 3D     | 3D        |  Đất Rừng Phương Nam                          |            80 |            2 |              78 |               2.50 |     250000.00 |
+|            8 | 2026-11-04     | 17:00:00    | 18:56:00  | CineViet Landmark 81              | Phòng 01 - Standard 2D  | 2D        | Những Mảnh Ghép Cảm Xúc 2                     |            80 |            2 |              78 |               2.50 |     190000.00 |
+|           12 | 2026-11-04     | 17:00:00    | 19:38:00  | CineViet Landmark 81              | Phòng 03 - Laser IMAX   | IMAX      | Lật Mặt 7: Một Điều Ước                       |            80 |            0 |              80 |               0.00 |          0.00 |
+|           16 | 2026-11-04     | 17:00:00    | 19:50:00  | CineViet Cầu Rồng Đà Nẵng         | Phòng 02 - Dolby 3D     | 3D        | Vệ Binh Dải Ngân Hà 3                         |            80 |            0 |              80 |               0.00 |          0.00 |
+|           24 | 2026-11-04     | 17:00:00    | 20:05:00  | CineViet Aeon Mall Hải Phòng      | Phòng 03 - Laser IMAX   | IMAX      | Dune: Hành Tinh Cát - Phần Hai                |            80 |            3 |              77 |               3.75 |     480000.00 |
+|           20 | 2026-11-04     | 17:00:00    | 19:32:00  | CineViet Aeon Mall Hải Phòng      | Phòng 01 - Standard 2D  | 2D        | Ký Sinh Trùng (Parasite)                      |            80 |            0 |              80 |               0.00 |          0.00 |
+|            2 | 2026-11-04     | 20:30:00    | 23:32:00  | CineViet Vincom Bà Triệu          | Phòng 01 - Standard 2D  | 2D        | Hố Đen Tử Thần (Interstellar)                 |            80 |            2 |              78 |               2.50 |     190000.00 |
+|            6 | 2026-11-04     | 20:30:00    | 23:01:00  | CineViet Vincom Bà Triệu          | Phòng 03 - Laser IMAX   | IMAX      | Mai                                           |            80 |            3 |              77 |               3.75 |     480000.00 |
++--------------+----------------+-------------+-----------+-----------------------------------+-------------------------+-----------+-----------------------------------------------+---------------+--------------+-----------------+--------------------+---------------+
++--------------------------------+-------------------------+
+| independent_ticket_revenue_sum | view_report_revenue_sum |
++--------------------------------+-------------------------+
+|                    35165000.00 |             35165000.00 |
++--------------------------------+-------------------------+

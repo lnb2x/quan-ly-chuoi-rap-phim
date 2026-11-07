@@ -1,6 +1,7 @@
 package com.cinema.feature.booking;
 
 import com.cinema.domain.BookingSummaryView;
+import com.cinema.domain.CinemaBranch;
 import com.cinema.domain.Customer;
 import com.cinema.domain.Employee;
 import com.cinema.domain.ScreeningDetailView;
@@ -19,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,39 @@ public final class BookingRepository {
         this.connectionProvider = connectionProvider;
     }
 
+    public List<CinemaBranch> findAllBranches() {
+        String sql = """
+                SELECT branch_id, branch_code, branch_name, address, city, phone, active
+                FROM cinema_branch
+                WHERE active = 1
+                ORDER BY branch_id ASC
+                """;
+        List<CinemaBranch> result = new ArrayList<>();
+        try (Connection conn = connectionProvider.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                result.add(new CinemaBranch(
+                        rs.getInt("branch_id"),
+                        rs.getString("branch_code"),
+                        rs.getString("branch_name"),
+                        rs.getString("address"),
+                        rs.getString("city"),
+                        rs.getString("phone"),
+                        rs.getBoolean("active")
+                ));
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw TransactionTemplate.translateSqlException(ex);
+        }
+    }
+
     public List<ScreeningDetailView> findOpenScreenings(Integer branchId, Integer movieId) {
+        return findOpenScreenings(branchId, movieId, null);
+    }
+
+    public List<ScreeningDetailView> findOpenScreenings(Integer branchId, Integer movieId, LocalDate screeningDate) {
         StringBuilder sql = new StringBuilder("""
                 SELECT screening_id, movie_id, movie_code, movie_title, duration_minutes, age_rating,
                        room_id, room_name, room_type, branch_id, branch_code, branch_name,
@@ -59,7 +93,11 @@ public final class BookingRepository {
             sql.append(" AND movie_id = ?");
             params.add(movieId);
         }
-        sql.append(" ORDER BY start_time ASC, screening_id ASC LIMIT 1000");
+        if (screeningDate != null) {
+            sql.append(" AND screening_date = ?");
+            params.add(Date.valueOf(screeningDate));
+        }
+        sql.append(" ORDER BY start_time ASC, screening_id ASC");
 
         List<ScreeningDetailView> list = new ArrayList<>();
         try (Connection conn = connectionProvider.getConnection();
@@ -145,19 +183,13 @@ public final class BookingRepository {
                     tp.type_name,
                     tp.surcharge,
                     (sc.base_price + tp.surcharge) AS final_unit_price,
-                    CASE
-                        WHEN EXISTS (
-                            SELECT 1
-                            FROM ticket tk
-                            WHERE tk.screening_id = sc.screening_id
-                              AND tk.seat_id = st.seat_id
-                              AND tk.ticket_status = 'VALID'
-                        ) THEN 1
-                        ELSE 0
-                    END AS is_occupied
+                    CASE WHEN sl.ticket_id IS NOT NULL THEN 1 ELSE 0 END AS is_occupied
                 FROM screening sc
                 JOIN seat st      ON st.room_id = sc.room_id
                 JOIN seat_type tp ON tp.seat_type_code = st.seat_type_code
+                LEFT JOIN screening_seat_lock sl
+                       ON sl.screening_id = sc.screening_id
+                      AND sl.seat_id = st.seat_id
                 WHERE sc.screening_id = ?
                 ORDER BY st.seat_row ASC, st.seat_number ASC
                 """;
@@ -216,17 +248,12 @@ public final class BookingRepository {
                     st.room_id,
                     CONCAT(st.seat_row, LPAD(st.seat_number, 2, '0')) AS seat_label,
                     tp.surcharge,
-                    CASE
-                        WHEN EXISTS (
-                            SELECT 1 FROM ticket tk
-                            WHERE tk.screening_id = ?
-                              AND tk.seat_id = st.seat_id
-                              AND tk.ticket_status = 'VALID'
-                        ) THEN 1
-                        ELSE 0
-                    END AS already_occupied
+                    CASE WHEN sl.ticket_id IS NOT NULL THEN 1 ELSE 0 END AS already_occupied
                 FROM seat st
                 JOIN seat_type tp ON tp.seat_type_code = st.seat_type_code
+                LEFT JOIN screening_seat_lock sl
+                       ON sl.screening_id = ?
+                      AND sl.seat_id = st.seat_id
                 WHERE st.seat_id = ?
                 """;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -284,21 +311,19 @@ public final class BookingRepository {
     public void insertTicket(
             Connection conn,
             int bookingId,
-            int screeningId,
             int seatId,
             BigDecimal unitPrice,
             String ticketStatus
     ) throws SQLException {
         String sql = """
-                INSERT INTO ticket (booking_id, screening_id, seat_id, unit_price, ticket_status)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO ticket (booking_id, seat_id, unit_price, ticket_status)
+                VALUES (?, ?, ?, ?)
                 """;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, bookingId);
-            ps.setInt(2, screeningId);
-            ps.setInt(3, seatId);
-            ps.setBigDecimal(4, unitPrice);
-            ps.setString(5, ticketStatus);
+            ps.setInt(2, seatId);
+            ps.setBigDecimal(3, unitPrice);
+            ps.setString(4, ticketStatus);
             ps.executeUpdate();
         }
     }
@@ -417,6 +442,10 @@ public final class BookingRepository {
     }
 
     public List<BookingSummaryView> findRecentBookings(Integer screeningId, int limit) {
+        return findRecentBookings(screeningId, Integer.valueOf(limit));
+    }
+
+    public List<BookingSummaryView> findRecentBookings(Integer screeningId, Integer limit) {
         StringBuilder sql = new StringBuilder("""
                 SELECT
                     bk.booking_id,
@@ -454,8 +483,11 @@ public final class BookingRepository {
                      bk.booking_id, bk.booking_code, bk.screening_id, mv.title, br.branch_name, rm.room_name,
                      sc.start_time, bk.customer_id, cu.full_name, em.full_name, bk.booked_at, bk.booking_status
                  ORDER BY bk.booking_id DESC
-                 LIMIT ?
                 """);
+        boolean applyLimit = limit != null && limit > 0;
+        if (applyLimit) {
+            sql.append(" LIMIT ?\n");
+        }
 
         List<BookingSummaryView> list = new ArrayList<>();
         try (Connection conn = connectionProvider.getConnection();
@@ -464,7 +496,9 @@ public final class BookingRepository {
             if (screeningId != null) {
                 ps.setInt(idx++, screeningId);
             }
-            ps.setInt(idx, limit);
+            if (applyLimit) {
+                ps.setInt(idx, limit);
+            }
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Timestamp st = rs.getTimestamp("start_time");

@@ -2,7 +2,9 @@ package com.cinema.feature.search.ui;
 
 import com.cinema.domain.CinemaBranch;
 import com.cinema.domain.Movie;
+import com.cinema.domain.PageResult;
 import com.cinema.domain.ScreeningDetailView;
+import com.cinema.domain.SearchPageResult;
 import com.cinema.feature.search.ScreeningSearchService;
 import com.cinema.shared.ui.StatusBanner;
 import com.cinema.shared.ui.Theme;
@@ -20,9 +22,11 @@ import java.util.List;
 /**
  * Màn hình Tìm kiếm Vận hành: Tra cứu Suất chiếu & Kiểm tra Ghế trống (Screen 3 - R6).
  * Cho phép tìm theo tên phim, chi nhánh, ngày chiếu và khoảng thời gian bắt đầu,
- * hiển thị kết quả trên JTable kèm số lượng ghế còn trống.
+ * hiển thị kết quả trên JTable có phân trang tường minh kèm tổng số ghế còn trống toàn bộ tập kết quả.
  */
 public final class ScreeningSearchPanel extends JPanel {
+
+    public static final int PAGE_SIZE = 50;
 
     private final ScreeningSearchService service;
     private final StatusBanner statusBanner = new StatusBanner();
@@ -43,6 +47,13 @@ public final class ScreeningSearchPanel extends JPanel {
     private final JTable table;
     private List<CinemaBranch> branches = new ArrayList<>();
     private List<Movie> movies = new ArrayList<>();
+
+    private int currentPage = 1;
+    private int totalPages = 1;
+    private int totalMatchedCount = 0;
+    private final JLabel lblPageStatus = new JLabel("Trang 1/1 — Hiển thị 0–0 / Tổng 0 suất chiếu");
+    private final JButton btnPrevPage = Theme.createSecondaryButton("« Trang trước");
+    private final JButton btnNextPage = Theme.createSecondaryButton("Trang sau »");
 
     public ScreeningSearchPanel(ScreeningSearchService service) {
         super(new BorderLayout(12, 12));
@@ -88,11 +99,28 @@ public final class ScreeningSearchPanel extends JPanel {
         table.setName("searchResultTable");
         Theme.styleTable(table);
 
+        JPanel paginationBar = new JPanel(new BorderLayout(8, 2));
+        paginationBar.setOpaque(false);
+        lblPageStatus.setFont(Theme.FONT_BOLD);
+        lblPageStatus.setForeground(Theme.TEXT_MUTED);
+        btnPrevPage.setName("btnSearchPrevPage");
+        btnPrevPage.addActionListener(e -> previousPage());
+        btnNextPage.setName("btnSearchNextPage");
+        btnNextPage.addActionListener(e -> nextPage());
+
+        JPanel pageButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        pageButtons.setOpaque(false);
+        pageButtons.add(btnPrevPage);
+        pageButtons.add(btnNextPage);
+        paginationBar.add(lblPageStatus, BorderLayout.WEST);
+        paginationBar.add(pageButtons, BorderLayout.EAST);
+
         JPanel tableCard = Theme.createCardPanel(new BorderLayout(8, 8));
         JLabel lblResult = new JLabel("Bảng Kết quả Tra cứu Suất chiếu và Số lượng Ghế trống:");
         lblResult.setFont(Theme.FONT_SUBTITLE);
         tableCard.add(lblResult, BorderLayout.NORTH);
         tableCard.add(new JScrollPane(table), BorderLayout.CENTER);
+        tableCard.add(paginationBar, BorderLayout.SOUTH);
 
         add(northContainer, BorderLayout.NORTH);
         add(tableCard, BorderLayout.CENTER);
@@ -192,6 +220,25 @@ public final class ScreeningSearchPanel extends JPanel {
     }
 
     public void executeSearch() {
+        currentPage = 1;
+        loadCurrentPage();
+    }
+
+    public void nextPage() {
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadCurrentPage();
+        }
+    }
+
+    public void previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            loadCurrentPage();
+        }
+    }
+
+    private void loadCurrentPage() {
         try {
             String keyword = txtMovieKeyword.getText().trim();
             Integer movieId = null;
@@ -233,15 +280,23 @@ public final class ScreeningSearchPanel extends JPanel {
                 }
             }
 
-            List<ScreeningDetailView> results = service.search(
-                    keyword, movieId, branchId, date, fromTime, toTime, chkOnlyAvailable.isSelected());
+            SearchPageResult searchResult = service.searchPage(
+                    keyword, movieId, branchId, date, fromTime, toTime,
+                    chkOnlyAvailable.isSelected(), currentPage, PAGE_SIZE);
+
+            PageResult<ScreeningDetailView> page = searchResult.page();
+            currentPage = page.pageNumber();
+            totalPages = page.totalPages();
+            totalMatchedCount = page.totalCount();
+
+            lblPageStatus.setText(String.format(
+                    "Trang %d/%d — Hiển thị %d–%d / Tổng %d suất chiếu khớp điều kiện (%d dòng/trang)",
+                    currentPage, totalPages, page.fromIndex(), page.toIndex(), totalMatchedCount, PAGE_SIZE));
+            btnPrevPage.setEnabled(page.hasPrevious());
+            btnNextPage.setEnabled(page.hasNext());
 
             tableModel.setRowCount(0);
-            int sumAvailable = 0;
-            int sumSold = 0;
-            for (ScreeningDetailView r : results) {
-                sumAvailable += r.availableSeats();
-                sumSold += r.soldSeats();
+            for (ScreeningDetailView r : page.items()) {
                 tableModel.addRow(new Object[]{
                         "#" + r.screeningId(),
                         r.movieCode(),
@@ -261,14 +316,17 @@ public final class ScreeningSearchPanel extends JPanel {
                 });
             }
 
-            lblKpiCount.setText(results.size() + " suất chiếu");
-            lblKpiAvailableSeats.setText(sumAvailable + " ghế trống");
-            lblKpiSoldSeats.setText(sumSold + " ghế đã bán");
+            lblKpiCount.setText(totalMatchedCount + " suất chiếu");
+            lblKpiAvailableSeats.setText(searchResult.totalAvailableSeats() + " ghế trống");
+            lblKpiSoldSeats.setText(searchResult.totalSoldSeats() + " ghế đã bán");
 
-            if (results.isEmpty()) {
+            if (totalMatchedCount == 0) {
                 statusBanner.showWarning("Không tìm thấy suất chiếu nào khớp với tiêu chí tra cứu.");
             } else {
-                statusBanner.showSuccess("Tìm thấy " + results.size() + " suất chiếu phù hợp (Tổng cộng " + sumAvailable + " ghế còn trống).");
+                statusBanner.showSuccess(String.format(
+                        "Tìm thấy tổng cộng %d suất chiếu phù hợp (Đang hiển thị trang %d/%d: dòng %d–%d | Tổng %d ghế trống).",
+                        totalMatchedCount, currentPage, totalPages, page.fromIndex(), page.toIndex(),
+                        searchResult.totalAvailableSeats()));
             }
         } catch (BusinessRuleException bre) {
             statusBanner.showError(bre.getMessage());
@@ -287,5 +345,17 @@ public final class ScreeningSearchPanel extends JPanel {
 
     public int getResultRowCount() {
         return tableModel.getRowCount();
+    }
+
+    public int getTotalMatchedCount() {
+        return totalMatchedCount;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
     }
 }

@@ -5,7 +5,11 @@
 
 ## 1. Tổng quan Sơ đồ Thực thể – Liên kết (ERD)
 
-Mô hình Thực thể – Liên kết của **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được xây dựng gồm **12 tập thực thể chính** và **01 quan hệ kết hợp nhiều – nhiều (`movie_genre`)**, tương ứng với **13 bảng quan hệ chuẩn 3NF** khi ánh xạ sang mô hình quan hệ.
+Mô hình Thực thể – Liên kết của **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được xây dựng gồm **12 tập thực thể nghiệp vụ chính**, **01 quan hệ kết hợp nhiều – nhiều (`movie_genre`)** và **01 thực thể kết hợp cấp phát ghế hiệu lực (`screening_seat_lock`)**, tương ứng chính xác với **14 bảng quan hệ đạt chuẩn 3NF nghiêm ngặt** khi ánh xạ sang mô hình quan hệ.
+
+Đặc biệt, trong mô hình ERD và lược đồ quan hệ chuẩn 3NF:
+- Thực thể **`Ticket` (`ticket`)** liên kết với **`Screening` (`screening`)** thông qua **`Booking` (`booking`)**, **không** tạo liên kết dư thừa trực tiếp `screening -> ticket` nhằm triệt tiêu hoàn toàn phụ thuộc hàm bắc cầu $\text{ticket\_id} \to \text{booking\_id} \to \text{screening\_id}$.
+- Thực thể kết hợp **`ScreeningSeatLock` (`screening_seat_lock`)** biểu diễn trạng thái cấp phát ghế đang có hiệu lực (`VALID`) của một tấm vé trên cặp `(screening_id, seat_id)`, vừa bảo toàn lịch sử mọi lần hủy vé/đặt lại ghế trong `ticket`, vừa đảm bảo tại mọi thời điểm mỗi ghế trong một suất chiếu chỉ gắn với tối đa một vé hợp lệ ngay ở mức khóa chính CSDL.
 
 Hệ thống cung cấp đồng thời:
 1. **Sơ đồ ERD mức khái niệm (Chen Notation):** Mã nguồn tại `docs/erd/erd-chen.puml`, ảnh kết xuất tại `docs/erd/erd-chen.png` và `docs/erd/erd-chen.svg`.
@@ -26,8 +30,10 @@ erDiagram
     customer |o--o{ booking : "dat_mua (0..1:N)"
     employee ||--o{ booking : "xu_ly_don (1:N)"
     booking ||--|{ ticket : "bao_gom_ve (1:N)"
-    screening ||--o{ ticket : "cap_ve_suat (1:N)"
-    seat ||--o{ ticket : "gan_cho_ngoi (1:N)"
+    seat ||--o{ ticket : "gan_cho_lich_su (1:N)"
+    screening ||--o{ screening_seat_lock : "quan_ly_ghe_hieu_luc (1:N)"
+    seat ||--o{ screening_seat_lock : "khoa_ghe_theo_suat (1:N)"
+    ticket ||--o| screening_seat_lock : "giu_khoa_khi_VALID (1:0..1)"
     booking ||--|{ payment : "thanh_toan (1:N)"
 
     cinema_branch {
@@ -114,13 +120,16 @@ erDiagram
     }
     ticket {
         int ticket_id PK
-        int booking_id FK
-        int screening_id FK
-        int seat_id FK
+        int booking_id FK,UK
+        int seat_id FK,UK
         decimal unit_price
         varchar ticket_status
         datetime cancelled_at
-        varchar active_seat_key UK
+    }
+    screening_seat_lock {
+        int screening_id PK,FK
+        int seat_id PK,FK
+        int ticket_id FK,UK
     }
     payment {
         int payment_id PK
@@ -130,15 +139,16 @@ erDiagram
         varchar payment_status
         datetime paid_at
         varchar transaction_ref
-        int active_success_booking UK
     }
 ```
 
 ---
 
-## 2. Thuyết minh Chi tiết Từng Tập Thực thể (Entities)
+## 2. Thuyết minh Chi tiết 14 Tập Thực thể & Thực thể Kết hợp (Entities)
 
-| STT | Tên Thực thể (Code / SQL) | Tên Tiếng Việt | Khóa chính (PK) | Khóa dự tuyển / Duy nhất (UQ) | Giải thích Ý nghĩa Nghiệp vụ |
+*(Lưu ý học thuật: Cột "Khóa dự tuyển khác (Alternate Keys)" dưới đây chỉ liệt kê các khóa tối thiểu định danh duy nhất trên **toàn bộ các bộ (rows)** của quan hệ; các biểu thức chỉ mục có điều kiện trên tập con trạng thái không phải khóa dự tuyển của quan hệ).*
+
+| STT | Tên Thực thể (Code / SQL) | Tên Tiếng Việt | Khóa chính (PK) | Khóa dự tuyển khác trên toàn bảng (Alternate Keys) | Giải thích Ý nghĩa Nghiệp vụ |
 |---:|---|---|---|---|---|
 | 1 | `CinemaBranch` (`cinema_branch`) | Chi nhánh rạp | `branch_id` | `branch_code`, `branch_name`, `phone` | Đại diện cho một cụm rạp chiếu phim thuộc chuỗi rạp đặt tại một địa điểm/thành phố cụ thể. |
 | 2 | `ScreeningRoom` (`screening_room`) | Phòng chiếu | `room_id` | `(branch_id, room_name)` | Không gian chiếu phim vật lý thuộc một chi nhánh rạp, phân loại theo công nghệ `2D`, `3D`, `IMAX`. |
@@ -151,8 +161,9 @@ erDiagram
 | 9 | `Customer` (`customer`) | Khách hàng | `customer_id` | `phone`, `email` | Khách hàng đăng ký thành viên của chuỗi rạp để lưu lịch sử mua vé và nhận thông tin. |
 | 10 | `Employee` (`employee`) | Nhân viên | `employee_id` | `employee_code`, `phone` | Nhân sự làm việc tại chi nhánh rạp gồm Thu ngân (`CASHIER`), Quản lý chi nhánh (`MANAGER`) và Kế toán (`ACCOUNTANT`). |
 | 11 | `Booking` (`booking`) | Đơn đặt vé | `booking_id` | `booking_code` | Phiên giao dịch đặt mua một hoặc nhiều vé cho một suất chiếu xác định (do khách thành viên hoặc khách vãng lai thực hiện). |
-| 12 | `Ticket` (`ticket`) | Vé xem phim | `ticket_id` | `active_seat_key` *(cho các vé VALID)* | Tấm vé cụ thể gán một chỗ ngồi (`seat_id`) trong một suất chiếu (`screening_id`) thuộc một đơn đặt vé (`booking_id`) với đơn giá lịch sử `unit_price`. |
-| 13 | `Payment` (`payment`) | Giao dịch thanh toán | `payment_id` | `active_success_booking` *(cho thanh toán SUCCESS)* | Bản ghi thanh toán cho đơn đặt vé, lưu số tiền, phương thức và trạng thái (`PENDING`, `SUCCESS`, `FAILED`, `REFUNDED`). |
+| 12 | `Ticket` (`ticket`) | Vé xem phim | `ticket_id` | `(booking_id, seat_id)` | Tấm vé cụ thể gán một ghế (`seat_id`) trong một đơn đặt vé (`booking_id`) với đơn giá lịch sử `unit_price` và trạng thái `VALID` / `CANCELLED`. Suất chiếu được xác định qua `booking` để đảm bảo chuẩn 3NF. |
+| 13 | `ScreeningSeatLock` (`screening_seat_lock`) | Khóa ghế hiệu lực | `(screening_id, seat_id)` | `ticket_id` | Thực thể kết hợp lưu sự phân bổ ghế đang có hiệu lực (`VALID`) của tấm vé `ticket_id` trên cặp `(screening_id, seat_id)`. Khi vé bị hủy (`CANCELLED`), bản ghi khóa ghế được giải phóng để cho phép bán lại ghế đó cho đơn mới. |
+| 14 | `Payment` (`payment`) | Giao dịch thanh toán | `payment_id` | — | Bản ghi giao dịch thanh toán cho đơn đặt vé (`PENDING`, `SUCCESS`, `FAILED`, `REFUNDED`). Ràng buộc tối đa 01 giao dịch `SUCCESS` cho mỗi `booking_id` là ràng buộc duy nhất trên tập con trạng thái, thực thi ở mức vật lý. |
 
 ---
 
@@ -177,10 +188,11 @@ erDiagram
 9. **`employee` (1) — Thực hiện — (0..N) `booking`:**
    - Một nhân viên thu ngân lập nhiều đơn đặt vé; mỗi đơn đặt vé được ghi nhận bởi đúng một nhân viên phụ trách (`booking.employee_id NOT NULL`).
 10. **`screening` (1) — Có đơn đặt — (0..N) `booking`:**
-    - Một suất chiếu có thể có nhiều đơn đặt vé; mỗi đơn đặt vé đặt chỗ cho một suất chiếu xác định (`booking.screening_id NOT NULL`).
-11. **`booking` (1) — Bao gồm — (1..N) `ticket`:**
-    - Một đơn đặt vé bao gồm từ một đến nhiều vé xem phim (mỗi vé ứng với một ghế); mỗi vé thuộc về duy nhất một đơn đặt vé (`ticket.booking_id NOT NULL`).
-12. **`screening` (1) & `seat` (1) — Phát hành vé & Gán chỗ ngồi — (0..N) `ticket`:**
-    - Mỗi vé tham chiếu tới suất chiếu (`ticket.screening_id`) và ghế vật lý (`ticket.seat_id`). Ràng buộc duy nhất trên khóa sinh `active_seat_key` đảm bảo tại mọi thời điểm chỉ có tối đa **01 vé hợp lệ (`VALID`)** cho mỗi cặp `(screening_id, seat_id)`, trong khi các vé đã hủy (`CANCELLED`) vẫn được lưu lịch sử.
+    - Một suất chiếu có thể có nhiều đơn đặt vé; mỗi đơn đặt vé đặt chỗ cho đúng một suất chiếu xác định (`booking.screening_id NOT NULL`).
+11. **`booking` (1) — Bao gồm — (1..N) `ticket` & `seat` (1) — Gán chỗ lịch sử — (0..N) `ticket`:**
+    - Một đơn đặt vé bao gồm từ một đến nhiều vé xem phim; mỗi vé gắn với một ghế vật lý `seat_id` và chỉ xuất hiện tối đa một lần trong cùng một đơn (`UNIQUE(booking_id, seat_id)`). Trên tập lịch sử nhiều đơn khác nhau, một `seat_id` có thể xuất hiện ở nhiều dòng `ticket` (ví dụ: đơn trước bị hủy `CANCELLED`, đơn sau đặt lại ghế đó ở trạng thái `VALID`).
+12. **`screening` (1), `seat` (1) & `ticket` (1) — Khóa ghế hiệu lực (`screening_seat_lock`) — bản số `1:0..N` (từ `screening`, `seat`) và `1:0..1` (từ `ticket`):**
+    - Mỗi tấm vé đang ở trạng thái hợp lệ (`ticket_status = 'VALID'`) giữ đúng `1` bản ghi trong `screening_seat_lock` (`UNIQUE(ticket_id)`), còn vé đã hủy (`CANCELLED`) có `0` bản ghi trong `screening_seat_lock` (bản số `1 : 0..1`).
+    - Khóa chính `PRIMARY KEY (screening_id, seat_id)` của `screening_seat_lock` đảm bảo tuyệt đối tại mọi thời điểm chỉ có tối đa **01 vé `VALID`** chiếm giữ một ghế trong một suất chiếu, không cần lưu dư thừa `screening_id` bên trong bảng `ticket`.
 13. **`booking` (1) — Thanh toán — (1..N) `payment`:**
-    - Một đơn đặt vé có thể có nhiều bản ghi giao dịch thanh toán (ví dụ: lần 1 quẹt thẻ `FAILED`, lần 2 chuyển khoản `SUCCESS`), nhưng ràng buộc duy nhất trên `active_success_booking` đảm bảo mỗi đơn chỉ có tối đa **01 giao dịch `SUCCESS`**.
+    - Một đơn đặt vé có thể có nhiều bản ghi giao dịch thanh toán theo thời gian (ví dụ: lần 1 quẹt thẻ `FAILED`, lần 2 chuyển khoản `SUCCESS`). Ràng buộc duy nhất có điều kiện ở tầng vật lý đảm bảo mỗi đơn chỉ có tối đa **01 giao dịch ở trạng thái `SUCCESS`**.

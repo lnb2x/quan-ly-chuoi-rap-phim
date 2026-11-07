@@ -1,0 +1,125 @@
+{
+  "database": "cinema_chain",
+  "table_count": 14,
+  "tables": {
+    "booking": {
+      "primary_key": [
+        "booking_id"
+      ],
+      "row_count": 160,
+      "ddl_sha256": "8f0e3257885dfabf976ef2e000e75e58e49f60373a94968572240840b2f3da59",
+      "data_sha256": "0a286807966a111f015be9fc8f527a1c9b46156929769cba4327a001d04ff6a2"
+    },
+    "cinema_branch": {
+      "primary_key": [
+        "branch_id"
+      ],
+      "row_count": 4,
+      "ddl_sha256": "b7b5999e7f68fc1cc3a2035b6f81559e714124b3c672cfedb07c38ec0fe828a3",
+      "data_sha256": "cde10a67b611ffa0d3925e77960d5289a002e4f47f71948f32150366e9b60b9b"
+    },
+    "customer": {
+      "primary_key": [
+        "customer_id"
+      ],
+      "row_count": 45,
+      "ddl_sha256": "bb7f5e6cab6c297d7f212e5a115e1fad08bf8c5fc0833e41426a3e6a355655f6",
+      "data_sha256": "dc0d06bd1b1fb38e197e214fd37f666b1d6ccd410ea18b6446d00138529c3e55"
+    },
+    "employee": {
+      "primary_key": [
+        "employee_id"
+      ],
+      "row_count": 12,
+      "ddl_sha256": "824d69ff6cb671bbafd3d62137ed2599014bf15a0424ea6910e1628407f07393",
+      "data_sha256": "937128728d7e7514fccab6bb6dbb8a857ece7c55489315246800facae7e1ada0"
+    },
+    "genre": {
+      "primary_key": [
+        "genre_id"
+      ],
+      "row_count": 8,
+      "ddl_sha256": "5c866be59c7caedbfce17e90b942a68a986bc9dd74ccf47e377afd1294c2a298",
+      "data_sha256": "f1b35c7427c97f6870114c402efb1fb06b213877c1fa5953c967ee508fe7df89"
+    },
+    "movie": {
+      "primary_key": [
+        "movie_id"
+      ],
+      "row_count": 20,
+      "ddl_sha256": "1f005186b426cb92a644a6df9c093e7bd61becc92d3073b86c419a3b535f8745",
+      "data_sha256": "b84e5419c02e737934d6642508e29dd2dac8e86815dbc3da7a66036ae8ba0ad4"
+    },
+    "movie_genre": {
+      "primary_key": [
+        "movie_id",
+        "genre_id"
+      ],
+      "row_count": 43,
+      "ddl_sha256": "656c2138c949b401ea8bd91421f35d5a6995d8a0e4cf9c602ee69d6ae613669b",
+      "data_sha256": "9b6ba7ff066cd55df4ffad1a5bda180adb552f842d2dfd0b257bac9ea8199a40"
+    },
+    "payment": {
+      "primary_key": [
+        "payment_id"
+      ],
+      "row_count": 175,
+      "ddl_sha256": "c87e10c057c27b8ecb205c7e3aec5cf620924a2f0bf71a10f1e2bde465c402e5",
+      "data_sha256": "7b7f7b9eac4b3f9ed9d0925c7d5c8d716dbb7291b94825a8a1aa075f5045f0b2"
+    },
+    "screening": {
+      "primary_key": [
+        "screening_id"
+      ],
+      "row_count": 160,
+      "ddl_sha256": "0b4d1cf9fcad1061cb5f3383714a250a0d78d1a2f6c8cf9d10b23e0af983a662",
+      "data_sha256": "919bd16df4205ea3d35202f7b40381da12f0b0bb52f856b51ec624bff268eb61"
+    },
+    "screening_room": {
+      "primary_key": [
+        "room_id"
+      ],
+      "row_count": 12,
+      "ddl_sha256": "5c1269a8b89a7699e97d422dc908f729a42d3f1aecc3800c23969d94e7b8a35a",
+      "data_sha256": "7c6db7c0481fb807a5be5fc012ceb24b97b01cd10a59dc677cca754bc5cc613e"
+    },
+    "screening_seat_lock": {
+      "primary_key": [
+        "screening_id",
+        "seat_id"
+      ],
+      "row_count": 327,
+      "ddl_sha256": "d75a1c82ae19f0cec7cc0a4fac5725167c1be069d02384fe053bc324f377e11d",
+      "data_sha256": "4c23370c59093279be614e8644d2b403f79b4d8525d0fdb0620f037e520aaf23"
+    },
+    "seat": {
+      "primary_key": [
+        "seat_id"
+      ],
+      "row_count": 960,
+      "ddl_sha256": "b90dfe8c660f52c62868a4ae96f9f53801dc8d8e2a80f10de70395fdc305c3eb",
+      "data_sha256": "45efa27c846a559e59eb954e9cab6c9cdc9fe09084bf71030420f5548bea7e98"
+    },
+    "seat_type": {
+      "primary_key": [
+        "seat_type_code"
+      ],
+      "row_count": 3,
+      "ddl_sha256": "2292617ba5f541617802844056540bc2a53e361f4190cb19074fe8f7e28a36cc",
+      "data_sha256": "07157eb823b8236f377be81750fd4a95deb5e3ff7d686902394137d9f64189ba"
+    },
+    "ticket": {
+      "primary_key": [
+        "ticket_id"
+      ],
+      "row_count": 373,
+      "ddl_sha256": "08d6e647399c41b212f644498f7d26852471d941ea8d7910540ae51b475f05aa",
+      "data_sha256": "07526c9d7340a4b60358eb8776e127895e98684359b5406fc30f6f4641300608"
+    }
+  },
+  "schema_objects": {
+    "triggers_sha256": "bd5e9319045d5f3c823215880352b2e7b15fc8383b39f3fcbf4dca0b154b4d11",
+    "views_sha256": "34a0328a0fa17c0089e9bc364fe0d61bd589adb84af87c9525855e885fbd0bc5"
+  },
+  "overall_sha256": "fc060239eb1a23e86c3bd1f4cff556be5d0f36598d70dfe4385da7ca37339c39"
+}

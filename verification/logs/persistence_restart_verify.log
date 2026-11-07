@@ -7,15 +7,15 @@
 [INFO] 
 [INFO] --- exec:3.5.0:java (default-cli) @ cinema-chain-management ---
 === [PERSISTENCE-TEST] SESSION 1: OPEN APPLICATION & CREATE DATA VIA SWING GUI ===
-[APP-STARTUP] Time=2026-11-07T13:15:49.144464500 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain_test | DB=cinema_chain_test | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
-[BEFORE-CLOSE] screening_id=218 | booking_id=205 (BK-20261107-131550-101) | tickets=[ticket_id=429(seat=1,price=105000.00,status=VALID), ticket_id=430(seat=2,price=105000.00,status=VALID)] | payment_id=227 (amount=210000.00)
+[APP-STARTUP] Time=2026-11-07T15:16:25.138817 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain_test | DB=cinema_chain_test | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
+[BEFORE-CLOSE] screening_id=196 | booking_id=186 (BK-20261107-151626-101) | tickets=[ticket_id=406(seat=1,price=105000.00,status=VALID), ticket_id=407(seat=2,price=105000.00,status=VALID)] | payment_id=201 (amount=210000.00)
 [BEFORE-CLOSE-REPORTS] RevenueReport(2026-11-07)=5890000.00 (21 bookings) | SalesReport(2026-12-27)=210000.00 (2 tickets)
 === [PERSISTENCE-TEST] SESSION 1 CLOSED COMPLETELY ===
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  3.934 s
-[INFO] Finished at: 2026-11-07T13:15:52+07:00
+[INFO] Total time:  3.855 s
+[INFO] Finished at: 2026-11-07T15:16:28+07:00
 [INFO] ------------------------------------------------------------------------
 [INFO] Scanning for projects...
 [INFO] 
@@ -26,13 +26,13 @@
 [INFO] 
 [INFO] --- exec:3.5.0:java (default-cli) @ cinema-chain-management ---
 === [PERSISTENCE-TEST] SESSION 2: REOPEN APPLICATION NORMALLY & VERIFY PERSISTENCE ===
-[APP-STARTUP] Time=2026-11-07T13:15:54.816208300 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain_test | DB=cinema_chain_test | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
-[AFTER-REOPEN] screening_id=218 | booking_id=205 (BK-20261107-131550-101) | tickets=[ticket_id=429(seat=1,price=105000.00,status=VALID), ticket_id=430(seat=2,price=105000.00,status=VALID)] | payment_id=227 (amount=210000.00)
+[APP-STARTUP] Time=2026-11-07T15:16:30.526781 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain_test | DB=cinema_chain_test | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
+[AFTER-REOPEN] screening_id=196 | booking_id=186 (BK-20261107-151626-101) | tickets=[ticket_id=406(seat=1,price=105000.00,status=VALID), ticket_id=407(seat=2,price=105000.00,status=VALID)] | payment_id=201 (amount=210000.00)
 [AFTER-REOPEN-REPORTS] RevenueReport(2026-11-07)=5890000.00 (21 bookings) | SalesReport(2026-12-27)=210000.00 (2 tickets)
 [PERSISTENCE-VERIFIED] 100% MATCH BEFORE CLOSE vs AFTER NORMAL REOPEN ACROSS FULL JVM RESTART (ZERO RESET ON STARTUP).
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  3.605 s
-[INFO] Finished at: 2026-11-07T13:15:57+07:00
+[INFO] Total time:  3.611 s
+[INFO] Finished at: 2026-11-07T15:16:33+07:00
 [INFO] ------------------------------------------------------------------------

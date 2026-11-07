@@ -187,6 +187,16 @@ public final class GuiVerificationRunner {
                 requireBannerContains(shell.getSearchPanel().getStatusBanner().currentText(),
                         "[LỖI]", "Màn hình 3 (Từ chối ngày chiếu sai định dạng)");
 
+                shell.getSearchPanel().resetFilters();
+                if (shell.getSearchPanel().getTotalMatchedCount() <= 50
+                        || shell.getSearchPanel().getTotalPages() < 2) {
+                    throw new IllegalStateException("Màn hình 3 khi xem toàn bộ phải có nhiều trang (> 50 suất chiếu)");
+                }
+                shell.getSearchPanel().nextPage();
+                if (shell.getSearchPanel().getCurrentPage() != 2 || shell.getSearchPanel().getResultRowCount() <= 0) {
+                    throw new IllegalStateException("Phân trang Màn hình 3 sang trang 2 không trả về dữ liệu hợp lệ");
+                }
+
                 shell.getSearchPanel().setDateTextForVerification("2026-11-04");
                 shell.getSearchPanel().executeSearch();
                 requireBannerContains(shell.getSearchPanel().getStatusBanner().currentText(),
@@ -317,6 +327,10 @@ public final class GuiVerificationRunner {
     private static void cleanUpGuiDemoArtifacts(ConnectionProvider cp) throws Exception {
         TestDatabaseGuard.verifyLiveTestConnection(cp);
         try (Connection conn = cp.getConnection()) {
+            try (PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE ticket SET ticket_status = 'CANCELLED', cancelled_at = COALESCE(cancelled_at, CURRENT_TIMESTAMP) WHERE booking_id > 160 AND ticket_status = 'VALID'")) {
+                ps.executeUpdate();
+            }
             try (PreparedStatement ps = conn.prepareStatement(
                     "DELETE FROM payment WHERE booking_id > 160")) {
                 ps.executeUpdate();

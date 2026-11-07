@@ -114,6 +114,8 @@ class BookingConcurrencyIT {
             assertEquals(threads - 1, rejectedCount.get(), "19 luồng đồng thời còn lại bắt buộc phải bị từ chối");
             assertTrue(winningBookingId.get() > 0);
             assertEquals(1, countTicketsByStatus(testScreeningId, targetSeatId, "VALID"));
+            assertEquals(1, countActiveSeatLocks(testScreeningId, targetSeatId),
+                    "Bảng khóa ghế 3NF screening_seat_lock phải giữ đúng 1 dòng khóa cho ghế VALID");
             // Kiểm chứng không để lại bất kỳ booking hay payment dở dang nào từ 19 giao dịch bị từ chối
             assertEquals(1, countBookingsForScreening(testScreeningId),
                     "Tuyệt đối không được để lại booking dở dang sau khi 19 luồng đồng thời bị từ chối");
@@ -124,6 +126,8 @@ class BookingConcurrencyIT {
             bookingService.cancelBooking(winningBookingId.get());
             assertEquals(0, countTicketsByStatus(testScreeningId, targetSeatId, "VALID"),
                     "Sau khi hủy đơn, số vé VALID của ghế phải về 0");
+            assertEquals(0, countActiveSeatLocks(testScreeningId, targetSeatId),
+                    "Sau khi hủy đơn, khóa ghế trong screening_seat_lock phải được giải phóng về 0");
             assertEquals(1, countTicketsByStatus(testScreeningId, targetSeatId, "CANCELLED"),
                     "Lịch sử vé CANCELLED phải được giữ nguyên");
             assertEquals("REFUNDED", getPaymentStatus(winningBookingId.get()),
@@ -141,6 +145,8 @@ class BookingConcurrencyIT {
             assertTrue(resoldBookingId > winningBookingId.get());
             assertEquals(1, countTicketsByStatus(testScreeningId, targetSeatId, "VALID"),
                     "Ghế sau khi hủy phải được bán lại thành công (1 vé VALID)");
+            assertEquals(1, countActiveSeatLocks(testScreeningId, targetSeatId),
+                    "Ghế bán lại thành công phải có đúng 1 khóa hiệu lực mới trong screening_seat_lock");
             assertEquals(1, countTicketsByStatus(testScreeningId, targetSeatId, "CANCELLED"),
                     "Vẫn bảo toàn 1 bản ghi lịch sử vé CANCELLED trước đó");
 
@@ -211,12 +217,32 @@ class BookingConcurrencyIT {
     }
 
     private int countTicketsByStatus(int screeningId, int seatId, String status) throws Exception {
-        String sql = "SELECT COUNT(*) FROM ticket WHERE screening_id = ? AND seat_id = ? AND ticket_status = ?";
+        String sql = """
+                SELECT COUNT(*)
+                FROM ticket tk
+                JOIN booking bk ON bk.booking_id = tk.booking_id
+                WHERE bk.screening_id = ?
+                  AND tk.seat_id = ?
+                  AND tk.ticket_status = ?
+                """;
         try (Connection conn = connectionProvider.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, screeningId);
             ps.setInt(2, seatId);
             ps.setString(3, status);
+            try (ResultSet rs = ps.executeQuery()) {
+                assertTrue(rs.next());
+                return rs.getInt(1);
+            }
+        }
+    }
+
+    private int countActiveSeatLocks(int screeningId, int seatId) throws Exception {
+        String sql = "SELECT COUNT(*) FROM screening_seat_lock WHERE screening_id = ? AND seat_id = ?";
+        try (Connection conn = connectionProvider.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, screeningId);
+            ps.setInt(2, seatId);
             try (ResultSet rs = ps.executeQuery()) {
                 assertTrue(rs.next());
                 return rs.getInt(1);
@@ -239,6 +265,16 @@ class BookingConcurrencyIT {
     private void cleanUpTestScreening() throws Exception {
         try (Connection conn = connectionProvider.getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement("""
+                    UPDATE ticket tk
+                    JOIN booking bk ON bk.booking_id = tk.booking_id
+                    JOIN screening sc ON sc.screening_id = bk.screening_id
+                    SET tk.ticket_status = 'CANCELLED', tk.cancelled_at = COALESCE(tk.cancelled_at, CURRENT_TIMESTAMP)
+                    WHERE DATE(sc.start_time) = '2026-12-25'
+                      AND tk.ticket_status = 'VALID'
+                    """)) {
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = conn.prepareStatement("""
                     DELETE pm FROM payment pm
                     JOIN booking bk ON bk.booking_id = pm.booking_id
                     JOIN screening sc ON sc.screening_id = bk.screening_id
@@ -248,7 +284,8 @@ class BookingConcurrencyIT {
             }
             try (PreparedStatement ps = conn.prepareStatement("""
                     DELETE tk FROM ticket tk
-                    JOIN screening sc ON sc.screening_id = tk.screening_id
+                    JOIN booking bk ON bk.booking_id = tk.booking_id
+                    JOIN screening sc ON sc.screening_id = bk.screening_id
                     WHERE DATE(sc.start_time) = '2026-12-25'
                     """)) {
                 ps.executeUpdate();

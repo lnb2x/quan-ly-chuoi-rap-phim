@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-failsafe-plugin/xsd/failsafe-test-report.xsd" version="3.0.2" name="com.cinema.integration.DatabaseIntegrityIT" time="0.252" tests="13" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-failsafe-plugin/xsd/failsafe-test-report.xsd" version="3.0.2" name="com.cinema.integration.DatabaseIntegrityIT" time="7.178" tests="15" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Users\LNB\.jdks\temurin-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\LNB\AppData\Local\Temp\surefire14555122493310805683\surefirebooter-20261107131532954_3.jar C:\Users\LNB\AppData\Local\Temp\surefire14555122493310805683 2026-11-07T13-15-32_838-jvmRun1 surefire-20261107131532954_1tmp surefire_0-20261107131532954_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\LNB\AppData\Local\Temp\surefire1568171702100953998\surefirebooter-20261107151601225_3.jar C:\Users\LNB\AppData\Local\Temp\surefire1568171702100953998 2026-11-07T15-16-01_107-jvmRun1 surefire-20261107151601225_1tmp surefire_0-20261107151601225_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\test-classes;C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\cinema-chain-management-1.0.0.jar;C:\Users\LNB\.m2\repository\com\formdev\flatlaf\3.5.2\flatlaf-3.5.2.jar;C:\Users\LNB\.m2\repository\com\mysql\mysql-connector-j\9.1.0\mysql-connector-j-9.1.0.jar;C:\Users\LNB\.m2\repository\com\google\protobuf\protobuf-java\4.26.1\protobuf-java-4.26.1.jar;C:\Users\LNB\.m2\repository\org\apache\pdfbox\pdfbox\3.0.3\pdfbox-3.0.3.jar;C:\Users\LNB\.m2\repository\org\apache\pdfbox\pdfbox-io\3.0.3\pdfbox-io-3.0.3.jar;C:\Users\LNB\.m2\repository\org\apache\pdfbox\fontbox\3.0.3\fontbox-3.0.3.jar;C:\Users\LNB\.m2\repository\commons-logging\commons-logging\1.3.3\commons-logging-1.3.3.jar;C:\Users\LNB\.m2\repository\org\junit\jupiter\junit-jupiter\5.11.3\junit-jupiter-5.11.3.jar;C:\Users\LNB\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\LNB\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\LNB\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\LNB\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\LNB\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\LNB\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\LNB\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;C:\Users\LNB\.m2\repository\com\tngtech\archunit\archunit-junit5\1.3.0\archunit-junit5-1.3.0.jar;C:\Users\LNB\.m2\repository\com\tngtech\archunit\archunit-junit5-api\1.3.0\archunit-junit5-api-1.3.0.jar;C:\Users\LNB\.m2\repository\com\tngtech\archunit\archunit\1.3.0\archunit-1.3.0.jar;C:\Users\LNB\.m2\repository\org\slf4j\slf4j-api\2.0.12\slf4j-api-2.0.12.jar;C:\Users\LNB\.m2\repository\com\tngtech\archunit\archunit-junit5-engine\1.3.0\archunit-junit5-engine-1.3.0.jar;C:\Users\LNB\.m2\repository\com\tngtech\archunit\archunit-junit5-engine-api\1.3.0\archunit-junit5-engine-api-1.3.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\LNB\AppData\Local\Temp\surefire14555122493310805683\surefirebooter-20261107131532954_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\LNB\AppData\Local\Temp\surefire1568171702100953998\surefirebooter-20261107151601225_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.13+9-LTS"/>
@@ -59,17 +59,19 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="databaseUniqueIndexMustRejectDuplicateValidSeat" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.072"/>
-  <testcase name="databaseVietnameseUtf8DiacriticsMustBeIntact" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.004"/>
+  <testcase name="pkOrderedFingerprintToolMustDetectSingleRowContentMutation" classname="com.cinema.integration.DatabaseIntegrityIT" time="6.86"/>
+  <testcase name="databaseUniqueIndexMustRejectDuplicateValidSeat" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.111"/>
+  <testcase name="databaseVietnameseUtf8DiacriticsMustBeIntact" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.007"/>
   <testcase name="databaseTriggerMustRejectOverlappingScreeningOnUpdate" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.008"/>
-  <testcase name="verifyRunningDatabaseEngineIsGenuineMySql8" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.004"/>
+  <testcase name="verifyRunningDatabaseEngineIsGenuineMySql8" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.006"/>
   <testcase name="databaseMustRejectSecondSuccessfulPaymentForSameBooking" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.01"/>
-  <testcase name="databaseTriggerMustRejectChangingRoomOfScreeningWithExistingTickets" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.009"/>
-  <testcase name="databaseTriggerMustRejectUpdatingScreeningToInactiveRoom" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.014"/>
+  <testcase name="databaseTriggerMustRejectChangingRoomOfScreeningWithExistingTickets" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.008"/>
+  <testcase name="databaseTriggerMustRejectUpdatingScreeningToInactiveRoom" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.017"/>
   <testcase name="databaseTriggerMustRejectOverlappingScreeningOnDirectSqlWrite" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.007"/>
-  <testcase name="verifySeedDataScale" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.005"/>
-  <testcase name="databaseTriggerMustRejectSeatFromWrongRoom" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.006"/>
-  <testcase name="paymentTransitionMustRejectCancelledBookingAndMaintainConsistentTotals" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.021"/>
-  <testcase name="foreignKeyCheckConstraintAndTransactionRollbackMustEnforceIntegrity" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.015"/>
-  <testcase name="historicalTicketPriceMustRemainUnchangedWhenCurrentPricingChanges" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.059"/>
+  <testcase name="verifySeedDataScale" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.012"/>
+  <testcase name="databaseTriggerMustRejectSeatFromWrongRoom" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.009"/>
+  <testcase name="paymentTransitionMustRejectCancelledBookingAndMaintainConsistentTotals" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.023"/>
+  <testcase name="foreignKeyCheckConstraintAndTransactionRollbackMustEnforceIntegrity" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.018"/>
+  <testcase name="verifyTrue3nfTicketSchemaAndSeatLockTamperProtection" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.017"/>
+  <testcase name="historicalTicketPriceMustRemainUnchangedWhenCurrentPricingChanges" classname="com.cinema.integration.DatabaseIntegrityIT" time="0.047"/>
 </testsuite>

@@ -2,6 +2,7 @@ package com.cinema.feature.screening;
 
 import com.cinema.domain.CinemaBranch;
 import com.cinema.domain.Movie;
+import com.cinema.domain.PageResult;
 import com.cinema.domain.ScreeningDetailView;
 import com.cinema.domain.ScreeningRoom;
 import com.cinema.shared.db.TransactionTemplate;
@@ -46,6 +47,25 @@ public final class ScreeningService {
 
     public List<ScreeningDetailView> listScreenings(Integer branchId, Integer roomId, Integer movieId, LocalDate dateFilter) {
         return repository.findScreenings(branchId, roomId, movieId, dateFilter);
+    }
+
+    public PageResult<ScreeningDetailView> listScreeningsPage(
+            Integer branchId,
+            Integer roomId,
+            Integer movieId,
+            LocalDate dateFilter,
+            int pageNumber,
+            int pageSize
+    ) {
+        int safePageSize = Math.max(1, pageSize);
+        int totalCount = repository.countScreenings(branchId, roomId, movieId, dateFilter);
+        int totalPages = totalCount <= 0 ? 1 : (int) Math.ceil((double) totalCount / safePageSize);
+        int effectivePage = Math.min(Math.max(1, pageNumber), totalPages);
+        int offset = (effectivePage - 1) * safePageSize;
+        List<ScreeningDetailView> items = totalCount == 0
+                ? List.of()
+                : repository.findScreeningsPage(branchId, roomId, movieId, dateFilter, safePageSize, offset);
+        return new PageResult<>(items, totalCount, effectivePage, safePageSize);
     }
 
     /**

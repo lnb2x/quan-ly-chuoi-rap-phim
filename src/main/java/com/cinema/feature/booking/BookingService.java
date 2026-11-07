@@ -1,6 +1,7 @@
 package com.cinema.feature.booking;
 
 import com.cinema.domain.BookingSummaryView;
+import com.cinema.domain.CinemaBranch;
 import com.cinema.domain.Customer;
 import com.cinema.domain.Employee;
 import com.cinema.domain.ScreeningDetailView;
@@ -10,6 +11,7 @@ import com.cinema.shared.validation.BusinessRuleException;
 import com.cinema.shared.validation.ValidationResult;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashSet;
@@ -35,8 +37,16 @@ public final class BookingService {
         this.transactionTemplate = transactionTemplate;
     }
 
+    public List<CinemaBranch> listBranches() {
+        return repository.findAllBranches();
+    }
+
     public List<ScreeningDetailView> listOpenScreenings(Integer branchId, Integer movieId) {
         return repository.findOpenScreenings(branchId, movieId);
+    }
+
+    public List<ScreeningDetailView> listOpenScreenings(Integer branchId, Integer movieId, LocalDate screeningDate) {
+        return repository.findOpenScreenings(branchId, movieId, screeningDate);
     }
 
     public List<Customer> listCustomers() {
@@ -53,6 +63,10 @@ public final class BookingService {
 
     public List<BookingSummaryView> listRecentBookings(Integer screeningId, int limit) {
         return repository.findRecentBookings(screeningId, limit);
+    }
+
+    public List<BookingSummaryView> listBookingsForScreening(int screeningId) {
+        return repository.findRecentBookings(screeningId, null);
     }
 
     public ValidationResult validateBookingRequest(
@@ -138,7 +152,7 @@ public final class BookingService {
 
             for (BookingRepository.SeatPriceInfo seatInfo : verifiedSeats) {
                 BigDecimal unitPrice = scr.basePrice().add(seatInfo.surcharge());
-                repository.insertTicket(conn, bookingId, screeningId, seatInfo.seatId(), unitPrice, "VALID");
+                repository.insertTicket(conn, bookingId, seatInfo.seatId(), unitPrice, "VALID");
             }
 
             String txnRef = "TXN-" + paymentMethod + "-" + bookingId;

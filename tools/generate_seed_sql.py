@@ -34,28 +34,20 @@ def generate():
     lines = []
     lines.append("-- =============================================================================")
     lines.append("-- TỆP: 10_seed.sql")
-    lines.append("-- MỤC ĐÍCH: Dữ liệu mẫu tất định (Reproducible Seed Data) cho Hệ thống Quản lý")
-    lines.append("--           Chuỗi Rạp Chiếu Phim:")
-    lines.append("--           4 chi nhánh, 12 phòng chiếu, 960 ghế, 8 thể loại, 20 bộ phim,")
-    lines.append("--           12 nhân viên, 45 khách hàng, 88 suất chiếu, 160 đơn đặt vé.")
+    lines.append("-- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM")
+    lines.append("-- BƯỚC KHỞI TẠO: [Bước 5 - Nạp Dữ liệu Mẫu] Dữ liệu mẫu tất định (Reproducible Seed):")
+    lines.append("--   - 04 chi nhánh rạp, 12 phòng chiếu, 960 ghế vật lý, 08 thể loại, 20 bộ phim,")
+    lines.append("--   - 12 nhân viên, 45 khách hàng thành viên, 160 suất chiếu, 160 đơn đặt vé,")
+    lines.append("--   - 373 bản ghi vé chuẩn 3NF (bao gồm 23 ghế hủy được bán lại; tự động sinh 327")
+    lines.append("--     khóa ghế hiệu lực trong screening_seat_lock qua Trigger), 175 giao dịch thanh toán.")
+    lines.append("-- THIẾT KẾ CHUẨN MỰC:")
+    lines.append("--   - KHÔNG dùng TRUNCATE TABLE, DELETE hay SET FOREIGN_KEY_CHECKS = 0.")
+    lines.append("--   - Dữ liệu được chèn tuần tự theo đúng thứ tự phụ thuộc Bảng Cha -> Bảng Con,")
+    lines.append("--     đi qua đầy đủ 17 Khóa ngoại, các ràng buộc CHECK/UNIQUE và 12 Trigger")
+    lines.append("--     trên MySQL Community Server 8.4 LTS.")
     lines.append("-- =============================================================================")
     lines.append("")
     lines.append("SET NAMES utf8mb4;")
-    lines.append("SET FOREIGN_KEY_CHECKS = 0;")
-    lines.append("TRUNCATE TABLE payment;")
-    lines.append("TRUNCATE TABLE ticket;")
-    lines.append("TRUNCATE TABLE booking;")
-    lines.append("TRUNCATE TABLE screening;")
-    lines.append("TRUNCATE TABLE movie_genre;")
-    lines.append("TRUNCATE TABLE employee;")
-    lines.append("TRUNCATE TABLE customer;")
-    lines.append("TRUNCATE TABLE seat;")
-    lines.append("TRUNCATE TABLE seat_type;")
-    lines.append("TRUNCATE TABLE screening_room;")
-    lines.append("TRUNCATE TABLE genre;")
-    lines.append("TRUNCATE TABLE movie;")
-    lines.append("TRUNCATE TABLE cinema_branch;")
-    lines.append("SET FOREIGN_KEY_CHECKS = 1;")
     lines.append("")
 
     # 1. Branches (4)
@@ -439,10 +431,11 @@ def generate():
         for b in bookings
     ) + ";\n")
 
-    lines.append(f"-- 12. Vé xem phim ({len(tickets)} vé, bao gồm cả ghế hủy và bán lại)")
-    lines.append("INSERT INTO ticket (ticket_id, booking_id, screening_id, seat_id, unit_price, ticket_status, cancelled_at) VALUES")
+    lines.append(f"-- 12. Vé xem phim chuẩn 3NF ({len(tickets)} vé, bao gồm cả ghế hủy và bán lại;")
+    lines.append("--     Trigger trg_ticket_lock_after_ins tự động điền 327 khóa ghế VALID vào screening_seat_lock)")
+    lines.append("INSERT INTO ticket (ticket_id, booking_id, seat_id, unit_price, ticket_status, cancelled_at) VALUES")
     lines.append(",\n".join(
-        f"({t[0]}, {t[1]}, {t[2]}, {t[3]}, {t[4]}, {sql_str(t[5])}, {sql_str(t[6])})"
+        f"({t[0]}, {t[1]}, {t[3]}, {t[4]}, {sql_str(t[5])}, {sql_str(t[6])})"
         for t in tickets
     ) + ";\n")
 

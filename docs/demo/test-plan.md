@@ -3,20 +3,23 @@
 
 ---
 
-## 1. Mục tiêu Kiểm thử (Testing Objectives)
+## 1. Mục tiêu Kiểm thử & Phân tách Minh bạch 3 Cấp độ Kiểm chứng
 
-Kế hoạch kiểm thử của dự án **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được thiết kế theo phương pháp **Verification-First Engineering**, đảm bảo mọi yêu cầu nghiệp vụ và chấm điểm học thuật (**R1 – R8**) đều được kiểm chứng bằng bằng chứng thực thi thực tế:
-1. **Kiểm chứng biên dịch & đóng gói trên Java 21 LTS (Gate A):** Toàn bộ dự án biên dịch sạch, không lỗi cú pháp, chạy tự động qua `mvnw.cmd clean verify`.
-2. **Kiểm chứng tuân thủ kiến trúc phân tầng (Gate B):** Kiểm tra tự động bằng **ArchUnit** (`ArchitectureComplianceTest`) xác nhận tầng giao diện Swing (`..ui..`) tuyệt đối không chứa SQL hay gọi trực tiếp JDBC (`java.sql.*`), không gọi trực tiếp `Repository`, và không mã hóa cứng tài khoản quản trị `root` (ứng dụng kết nối bằng tài khoản phân quyền tối thiểu `cinema_app`).
-3. **Kiểm chứng toàn vẹn Cơ sở dữ liệu & Xử lý đồng thời (Gate C):**
-   - Kiểm chứng quy mô dữ liệu khởi tạo ($\ge 4$ chi nhánh, $\ge 12$ phòng chiếu, $\ge 960$ ghế, $\ge 20$ bộ phim, $\ge 80$ suất chiếu, $\ge 150$ đơn đặt vé).
-   - Kiểm chứng Trigger và Ràng buộc CSDL từ chối trực tiếp các thao tác ghi SQL vi phạm quy tắc: trùng lịch chiếu trong cùng phòng (`BR-06`), thời lượng suất chiếu ngắn hơn thời lượng phim (`BR-05`), ghế trên vé không thuộc phòng chiếu của suất chiếu (`BR-09`), bán trùng ghế hợp lệ (`BR-10`), thanh toán `SUCCESS` thứ hai cho cùng một đơn (`BR-13`).
-   - Kiểm chứng an toàn giao dịch đồng thời:
-     - **12 luồng đồng thời** cùng tạo suất chiếu chồng lấn giờ trong một phòng chiếu $\rightarrow$ chỉ đúng **01 luồng thành công**, 11 luồng bị từ chối (`ScreeningConcurrencyIT`).
-     - **20 luồng đồng thời** cùng đặt một ghế trong một suất chiếu $\rightarrow$ chỉ đúng **01 luồng thành công**, 19 luồng bị từ chối (`BookingConcurrencyIT`).
-   - Kiểm chứng quy trình **Hủy vé & Bán lại ghế** (`CANCELLED` $\rightarrow$ giải phóng khóa `active_seat_key` $\rightarrow$ khách mới đặt lại thành công cùng ghế đó mà vẫn giữ lịch sử vé đã hủy) và chuyển tiếp trạng thái thanh toán (`PENDING` $\rightarrow$ `SUCCESS`, `SUCCESS` $\rightarrow$ `REFUNDED`).
-4. **Kiểm chứng hành vi ứng dụng Desktop & Giao diện tiếng Việt (Gate D):** Khởi chạy ứng dụng thật (`AppShell`), thực thi các luồng nghiệp vụ trên 5 màn hình bắt buộc và chụp ảnh màn hình xác thực (`verification/screenshots/01_*.png` .. `09_*.png`).
-5. **Kiểm chứng độ chính xác Báo cáo Tài chính & Xuất PDF tiếng Việt (Gate E):** Đối chiếu 100% số liệu tổng hợp trên màn hình và trong tệp PDF xuất ra (`BaoCaoDoanhThu_Mau.pdf`, `BaoCaoBanVe_Mau.pdf`) với truy vấn SQL độc lập trực tiếp trên bảng gốc, chứng minh không bị nhân bản doanh thu bởi các đơn có nhiều lần thử thanh toán (`FAILED` + `SUCCESS`).
+Kế hoạch kiểm thử của dự án **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được thiết kế theo phương pháp **Verification-First Engineering**, đảm bảo mọi yêu cầu nghiệp vụ và chấm điểm học thuật (**R1 – R8**) đều được kiểm chứng bằng mã chạy được thay vì chỉ ghi chú bằng lời:
+
+1. **Kiểm chứng biên dịch, xóa sạch XML cũ & chạy tươi trên Java 21 LTS (Gate A):** Trước mỗi lần chạy, kịch bản `verify_all.ps1` xóa sạch các tệp `TEST-*.xml` cũ và đối chiếu trực tiếp 8 bộ test bắt buộc với `Skipped = 0`, `Failures = 0`, `Errors = 0`.
+2. **Kiểm chứng tuân thủ kiến trúc & an toàn bảo mật/dữ liệu thực thi (Gate B):**
+   - **ArchUnit** (`ArchitectureComplianceTest`): cấm SQL trong UI (`..ui..`), phân tầng nghiêm ngặt, cấm SQL phá hủy (`DROP`/`TRUNCATE`/`DELETE`) và cấm gọi tiến trình hệ thống trong `src/main/java`.
+   - **Kiểm thử an toàn hành vi thực thi** (`TestSafetyGuardTest` — 6 bài test): kiểm tra `TestDatabaseGuard` chặn kết nối nhầm vào `cinema_chain`, kiểm tra thực thi `setup.ps1` từ chối mọi yêu cầu `-CleanReset` hoặc reset nhắm vào `cinema_chain`, kiểm tra `verify_all.ps1` không gọi `setup.ps1`, và dùng tiến trình giả lập `mysql_spy` để chứng minh mật khẩu không xuất hiện trên dòng lệnh (`CommandLine`) hay biến môi trường bổ sung của tiến trình con.
+3. **Kiểm chứng toàn vẹn CSDL 14 bảng chuẩn 3NF & xử lý đồng thời (Gate C):**
+   - Kiểm chứng bảng `ticket` không còn chứa `screening_id` / `active_seat_key` và bảng `screening_seat_lock` bảo vệ khóa ghế hiệu lực bằng `PRIMARY KEY (screening_id, seat_id)` + `UNIQUE (ticket_id)` + bộ Trigger chống sửa sai trực tiếp (`Gate C.13`).
+   - Kiểm chứng bộ tính dấu vân tay toàn phần SHA-256 theo thứ tự khóa chính (`tools/db_fingerprint.py`) phát hiện ngay cả thay đổi nội dung 1 dòng giữ nguyên `COUNT(*)` (`Gate C.14`).
+   - Kiểm chứng an toàn giao dịch đồng thời: **12 luồng CREATE** + **8 luồng UPDATE** suất chiếu chồng lấn giờ (`ScreeningConcurrencyIT`), và **20 luồng đồng thời** đặt cùng 1 ghế + hủy hoàn tiền & bán lại ghế (`BookingConcurrencyIT`).
+4. **Phân biệt Minh bạch 3 Cấp độ Kiểm chứng Chức năng & Giao diện (Gate D):**
+   - **Cấp độ (a) — Kiểm thử Tích hợp Tầng `Service` / `Repository` (`*IT.java`):** Gọi trực tiếp các phương thức nghiệp vụ và JDBC trên `cinema_chain_test` (MySQL 8.4.0 LTS thật).
+   - **Cấp độ (b) — Kiểm chứng Giao diện Swing Tự động trên EDT (`GuiVerificationRunner`, `AppPersistenceVerificationRunner`):** Khởi tạo cửa sổ thật `AppShell` trên Swing Event Dispatch Thread, điều khiển các component Swing bằng chương trình (bao gồm cả chuyển trang phân trang 50 dòng/trang, nhập dữ liệu hợp lệ & dữ liệu vi phạm quy tắc), xuất PDF, chụp ảnh màn hình thật và kiểm chứng đóng/mở lại qua **02 tiến trình JVM tách biệt**.
+   - **Cấp độ (c) — Tương tác Vật lý Bằng Chuột & Bàn phím của Người thật:** Kiểm thử tự động trên EDT không thay thế hoàn toàn thao tác bấm chuột/gõ phím vật lý của con người trên màn hình trình chiếu; do đó `DEMO_GUIDE.md` quy định danh mục diễn tập thủ công bắt buộc trước buổi bảo vệ.
+5. **Kiểm chứng độ chính xác Báo cáo Tài chính & Xuất PDF tiếng Việt (Gate E):** Đối chiếu số liệu trên màn hình và trong tệp PDF xuất ra (`BaoCaoDoanhThu_Mau.pdf`, `BaoCaoBanVe_Mau.pdf`) với truy vấn SQL độc lập trực tiếp trên bảng gốc và bộ dữ liệu tính tay (*Known-Answer Fixture*).
 
 ---
 
@@ -25,9 +28,9 @@ Kế hoạch kiểm thử của dự án **Hệ thống Quản lý Chuỗi Rạp
 | Thành phần | Cấu hình Thực thi |
 |---|---|
 | Hệ điều hành | Windows 11 (64-bit) |
-| Java Runtime & Compiler | Eclipse Temurin OpenJDK **21.0.13 LTS** (`%USERPROFILE%\.jdks\temurin-21`) |
-| Công cụ Build | Apache Maven 3.9.16 (qua `mvnw.cmd`) |
+| Java Runtime & Compiler | Eclipse Temurin OpenJDK **21.0.10+ LTS** (`%USERPROFILE%\.jdks\temurin-21`) |
+| Công cụ Build | Apache Maven 3.9.x (qua `mvnw.cmd`) |
 | Hệ quản trị CSDL | **MySQL Community Server 8.4.0 LTS** (`%USERPROFILE%\.mysql\mysql-8.4`, InnoDB, `utf8mb4_unicode_ci`, `ONLY_FULL_GROUP_BY`, `STRICT_TRANS_TABLES`) |
-| CSDL Kiểm thử độc lập | `cinema_chain_test` (tách biệt hoàn toàn với CSDL vận hành `cinema_chain`) |
-| Tài khoản kết nối ứng dụng | `cinema_app` (Least-Privilege User) |
+| CSDL Kiểm thử độc lập | `cinema_chain_test` (14 bảng chuẩn 3NF, tách biệt hoàn toàn với CSDL demo `cinema_chain`) |
+| Tài khoản kết nối ứng dụng | `cinema_app` (Least-Privilege User; cấu hình qua `config/application.properties` hoặc biến môi trường) |
 | Khung kiểm thử tự động | JUnit Jupiter 5.11.3, ArchUnit 1.3.0, Apache PDFBox 3.0.3 |

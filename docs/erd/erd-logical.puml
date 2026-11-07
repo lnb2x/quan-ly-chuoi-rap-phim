@@ -5,9 +5,8 @@ skinparam defaultFontName "Arial"
 skinparam defaultFontSize 11
 skinparam shadowing false
 skinparam roundCorner 4
-skinparam linetype ortho
 
-title SƠ ĐỒ THỰC THỂ – LIÊN KẾT MỨC LOGIC (CROW'S FOOT ERD - 13 BẢNG CHUẨN 3NF)\nHỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
+title SƠ ĐỒ THỰC THỂ – LIÊN KẾT MỨC LOGIC (CROW'S FOOT ERD — 14 BẢNG CHUẨN 3NF)\nHỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
 
 entity "cinema_branch\n(Chi nhánh rạp)" as cinema_branch {
   * **branch_id** : INT <<PK>>
@@ -23,7 +22,7 @@ entity "cinema_branch\n(Chi nhánh rạp)" as cinema_branch {
 entity "screening_room\n(Phòng chiếu)" as screening_room {
   * **room_id** : INT <<PK>>
   --
-  * *branch_id* : INT <<FK, UQ1>>
+  * //branch_id// : INT <<FK, UQ1>>
   * room_name : VARCHAR(60) <<UQ1>>
   * room_type : VARCHAR(20)
   * active : TINYINT(1)
@@ -39,10 +38,10 @@ entity "seat_type\n(Hạng ghế)" as seat_type {
 entity "seat\n(Ghế vật lý)" as seat {
   * **seat_id** : INT <<PK>>
   --
-  * *room_id* : INT <<FK, UQ1>>
+  * //room_id// : INT <<FK, UQ1>>
   * seat_row : CHAR(1) <<UQ1>>
   * seat_number : INT <<UQ1>>
-  * *seat_type_code* : VARCHAR(16) <<FK>>
+  * //seat_type_code// : VARCHAR(16) <<FK>>
 }
 
 entity "movie\n(Phim điện ảnh)" as movie {
@@ -65,15 +64,15 @@ entity "genre\n(Thể loại phim)" as genre {
 }
 
 entity "movie_genre\n(Phim - Thể loại)" as movie_genre {
-  * ***movie_id*** : INT <<PK, FK>>
-  * ***genre_id*** : INT <<PK, FK>>
+  * **//movie_id//** : INT <<PK, FK>>
+  * **//genre_id//** : INT <<PK, FK>>
 }
 
 entity "screening\n(Suất chiếu)" as screening {
   * **screening_id** : INT <<PK>>
   --
-  * *movie_id* : INT <<FK>>
-  * *room_id* : INT <<FK>>
+  * //movie_id// : INT <<FK>>
+  * //room_id// : INT <<FK>>
   * start_time : DATETIME
   * end_time : DATETIME
   * base_price : DECIMAL(12,2)
@@ -93,7 +92,7 @@ entity "customer\n(Khách hàng)" as customer {
 entity "employee\n(Nhân viên)" as employee {
   * **employee_id** : INT <<PK>>
   --
-  * *branch_id* : INT <<FK>>
+  * //branch_id// : INT <<FK>>
   * employee_code : VARCHAR(20) <<UQ>>
   * full_name : VARCHAR(120)
   * phone : VARCHAR(20) <<UQ>>
@@ -105,35 +104,41 @@ entity "booking\n(Đơn đặt vé)" as booking {
   * **booking_id** : INT <<PK>>
   --
   * booking_code : VARCHAR(30) <<UQ>>
-  * *screening_id* : INT <<FK>>
-  *customer_id* : INT <<FK, NULLable>>
-  * *employee_id* : INT <<FK>>
+  * //screening_id// : INT <<FK>>
+  //customer_id// : INT <<FK, NULLable>>
+  * //employee_id// : INT <<FK>>
   * booked_at : DATETIME
   * booking_status : VARCHAR(20)
 }
 
-entity "ticket\n(Vé xem phim)" as ticket {
+entity "ticket\n(Vé xem phim — Chuẩn 3NF)" as ticket {
   * **ticket_id** : INT <<PK>>
   --
-  * *booking_id* : INT <<FK>>
-  * *screening_id* : INT <<FK>>
-  * *seat_id* : INT <<FK>>
+  * //booking_id// : INT <<FK, UQ1>>
+  * //seat_id// : INT <<FK, UQ1>>
   * unit_price : DECIMAL(12,2)
   * ticket_status : VARCHAR(20)
   cancelled_at : DATETIME
-  active_seat_key : VARCHAR(64) <<GENERATED, UQ>>
+}
+
+entity "screening_seat_lock\n(Khóa ghế hiệu lực)" as screening_seat_lock {
+  * **//screening_id//** : INT <<PK, FK>>
+  * **//seat_id//** : INT <<PK, FK>>
+  --
+  * //ticket_id// : INT <<FK, UQ>>
 }
 
 entity "payment\n(Thanh toán)" as payment {
   * **payment_id** : INT <<PK>>
   --
-  * *booking_id* : INT <<FK>>
+  * //booking_id// : INT <<FK>>
   * amount : DECIMAL(12,2)
   * payment_method : VARCHAR(20)
   * payment_status : VARCHAR(20)
   paid_at : DATETIME
   transaction_ref : VARCHAR(60)
-  active_success_booking : INT <<GENERATED, UQ>>
+  --
+  active_success_booking : INT <<PHYSICAL SUBSET-IDX>>
 }
 
 cinema_branch ||--|{ screening_room : "sở hữu (1:N)"
@@ -148,8 +153,10 @@ screening ||--o{ booking : "có đơn đặt (1:N)"
 customer |o--o{ booking : "đặt mua (0..1:N)"
 employee ||--o{ booking : "lập đơn (1:N)"
 booking ||--|{ ticket : "bao gồm (1:N)"
-screening ||--o{ ticket : "phát hành vé (1:N)"
-seat ||--o{ ticket : "gán chỗ (1:N)"
+seat ||--o{ ticket : "gán chỗ lịch sử (1:N)"
+screening ||--o{ screening_seat_lock : "quản lý ghế hiệu lực (1:N)"
+seat ||--o{ screening_seat_lock : "khóa ghế theo suất (1:N)"
+ticket ||--o| screening_seat_lock : "giữ khóa khi VALID (1:0..1)"
 booking ||--|{ payment : "thanh toán (1:N)"
 
 @enduml

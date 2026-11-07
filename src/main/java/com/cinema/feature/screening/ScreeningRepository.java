@@ -170,8 +170,19 @@ public final class ScreeningRepository {
 
     public int countTicketsForScreening(Connection conn, int screeningId, boolean onlyValid) throws SQLException {
         String sql = onlyValid
-                ? "SELECT COUNT(*) FROM ticket WHERE screening_id = ? AND ticket_status = 'VALID'"
-                : "SELECT COUNT(*) FROM ticket WHERE screening_id = ?";
+                ? """
+                  SELECT COUNT(*)
+                  FROM ticket tk
+                  JOIN booking bk ON bk.booking_id = tk.booking_id
+                  WHERE bk.screening_id = ?
+                    AND tk.ticket_status = 'VALID'
+                  """
+                : """
+                  SELECT COUNT(*)
+                  FROM ticket tk
+                  JOIN booking bk ON bk.booking_id = tk.booking_id
+                  WHERE bk.screening_id = ?
+                  """;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, screeningId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -294,6 +305,46 @@ public final class ScreeningRepository {
     }
 
     public List<ScreeningDetailView> findScreenings(Integer branchId, Integer roomId, Integer movieId, LocalDate dateFilter) {
+        return queryScreeningsInternal(branchId, roomId, movieId, dateFilter, null, null);
+    }
+
+    public int countScreenings(Integer branchId, Integer roomId, Integer movieId, LocalDate dateFilter) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM vw_screening_search WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+        appendScreeningFilters(sql, params, branchId, roomId, movieId, dateFilter);
+
+        try (Connection conn = connectionProvider.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        } catch (SQLException ex) {
+            throw TransactionTemplate.translateSqlException(ex);
+        }
+    }
+
+    public List<ScreeningDetailView> findScreeningsPage(
+            Integer branchId,
+            Integer roomId,
+            Integer movieId,
+            LocalDate dateFilter,
+            int limit,
+            int offset
+    ) {
+        return queryScreeningsInternal(branchId, roomId, movieId, dateFilter, limit, offset);
+    }
+
+    private List<ScreeningDetailView> queryScreeningsInternal(
+            Integer branchId,
+            Integer roomId,
+            Integer movieId,
+            LocalDate dateFilter,
+            Integer limit,
+            Integer offset
+    ) {
         StringBuilder sql = new StringBuilder("""
                 SELECT screening_id, movie_id, movie_code, movie_title, duration_minutes, age_rating,
                        room_id, room_name, room_type, branch_id, branch_code, branch_name,
@@ -302,23 +353,13 @@ public final class ScreeningRepository {
                 WHERE 1=1
                 """);
         List<Object> params = new ArrayList<>();
-        if (branchId != null) {
-            sql.append(" AND branch_id = ?");
-            params.add(branchId);
+        appendScreeningFilters(sql, params, branchId, roomId, movieId, dateFilter);
+        sql.append(" ORDER BY start_time DESC, screening_id DESC");
+        if (limit != null && offset != null) {
+            sql.append(" LIMIT ? OFFSET ?");
+            params.add(limit);
+            params.add(offset);
         }
-        if (roomId != null) {
-            sql.append(" AND room_id = ?");
-            params.add(roomId);
-        }
-        if (movieId != null) {
-            sql.append(" AND movie_id = ?");
-            params.add(movieId);
-        }
-        if (dateFilter != null) {
-            sql.append(" AND screening_date = ?");
-            params.add(Date.valueOf(dateFilter));
-        }
-        sql.append(" ORDER BY start_time DESC, screening_id DESC LIMIT 1000");
 
         List<ScreeningDetailView> result = new ArrayList<>();
         try (Connection conn = connectionProvider.getConnection();
@@ -334,6 +375,32 @@ public final class ScreeningRepository {
             return result;
         } catch (SQLException ex) {
             throw TransactionTemplate.translateSqlException(ex);
+        }
+    }
+
+    private static void appendScreeningFilters(
+            StringBuilder sql,
+            List<Object> params,
+            Integer branchId,
+            Integer roomId,
+            Integer movieId,
+            LocalDate dateFilter
+    ) {
+        if (branchId != null) {
+            sql.append(" AND branch_id = ?");
+            params.add(branchId);
+        }
+        if (roomId != null) {
+            sql.append(" AND room_id = ?");
+            params.add(roomId);
+        }
+        if (movieId != null) {
+            sql.append(" AND movie_id = ?");
+            params.add(movieId);
+        }
+        if (dateFilter != null) {
+            sql.append(" AND screening_date = ?");
+            params.add(Date.valueOf(dateFilter));
         }
     }
 

@@ -1,6 +1,7 @@
 package com.cinema.feature.booking.ui;
 
 import com.cinema.domain.BookingSummaryView;
+import com.cinema.domain.CinemaBranch;
 import com.cinema.domain.Customer;
 import com.cinema.domain.Employee;
 import com.cinema.domain.ScreeningDetailView;
@@ -15,6 +16,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +33,9 @@ public final class TicketBookingPanel extends JPanel {
     private final StatusBanner statusBanner = new StatusBanner();
     private final SeatMapPanel seatMapPanel = new SeatMapPanel();
 
+    private final JComboBox<String> cboQuickBranch = new JComboBox<>();
+    private final JTextField txtQuickDate = new JTextField("", 9);
+    private final JLabel lblOpenScreeningCount = new JLabel("Đang mở bán: 0 suất");
     private final JComboBox<ScreeningDetailView> cboScreening = new JComboBox<>();
     private final JCheckBox chkWalkInCustomer = new JCheckBox("Khách vãng lai (Mua trực tiếp tại quầy)", false);
     private final JComboBox<Customer> cboCustomer = new JComboBox<>();
@@ -39,9 +45,12 @@ public final class TicketBookingPanel extends JPanel {
 
     private final JLabel lblSelectedSeats = new JLabel("Chưa chọn ghế nào");
     private final JLabel lblTotalPrice = new JLabel("0 VNĐ");
+    private final JLabel lblHistoryTitle = new JLabel(
+            "Danh sách Đơn đặt vé của Suất chiếu đang chọn (Hỗ trợ Hủy đơn & Mở bán lại ghế):");
 
     private final DefaultTableModel bookingTableModel;
     private final JTable bookingTable;
+    private List<CinemaBranch> branches = new ArrayList<>();
     private List<BookingSummaryView> recentBookings = new ArrayList<>();
 
     public TicketBookingPanel(BookingService service) {
@@ -122,7 +131,37 @@ public final class TicketBookingPanel extends JPanel {
         chkWalkInCustomer.addActionListener(e -> cboCustomer.setEnabled(!chkWalkInCustomer.isSelected()));
 
         int row = 0;
-        addVerticalField(form, gbc, row++, "1. Chọn Suất chiếu đang mở bán (*):", cboScreening);
+        JPanel quickFilterRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+        quickFilterRow.setOpaque(false);
+        quickFilterRow.add(cboQuickBranch);
+        quickFilterRow.add(new JLabel("Ngày:"));
+        quickFilterRow.add(txtQuickDate);
+        JButton btnQuickFilter = Theme.createSecondaryButton("Lọc suất");
+        btnQuickFilter.addActionListener(e -> reloadScreeningsDropdown());
+        JButton btnQuickAll = Theme.createSecondaryButton("Tất cả");
+        btnQuickAll.addActionListener(e -> {
+            cboQuickBranch.setSelectedIndex(0);
+            txtQuickDate.setText("");
+            reloadScreeningsDropdown();
+        });
+        quickFilterRow.add(btnQuickFilter);
+        quickFilterRow.add(btnQuickAll);
+        addVerticalField(form, gbc, row++, "Bộ lọc nhanh danh sách suất chiếu mở bán (Chi nhánh / yyyy-MM-dd):", quickFilterRow);
+
+        JPanel screeningSelectHeader = new JPanel(new BorderLayout(4, 2));
+        screeningSelectHeader.setOpaque(false);
+        JLabel lblScr = new JLabel("1. Chọn Suất chiếu đang mở bán (*):");
+        lblScr.setFont(Theme.FONT_BOLD);
+        lblOpenScreeningCount.setFont(Theme.FONT_SMALL);
+        lblOpenScreeningCount.setForeground(Theme.ACCENT_PRIMARY);
+        screeningSelectHeader.add(lblScr, BorderLayout.WEST);
+        screeningSelectHeader.add(lblOpenScreeningCount, BorderLayout.EAST);
+        JPanel screeningWrapper = new JPanel(new BorderLayout(2, 2));
+        screeningWrapper.setOpaque(false);
+        screeningWrapper.add(screeningSelectHeader, BorderLayout.NORTH);
+        screeningWrapper.add(cboScreening, BorderLayout.CENTER);
+        gbc.gridy = row++;
+        form.add(screeningWrapper, gbc);
 
         gbc.gridy = row++;
         form.add(chkWalkInCustomer, gbc);
@@ -171,9 +210,8 @@ public final class TicketBookingPanel extends JPanel {
         JPanel card = Theme.createCardPanel(new BorderLayout(8, 8));
         JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(false);
-        JLabel lbl = new JLabel("Danh sách Đơn đặt vé của Suất chiếu đang chọn (Hỗ trợ Hủy đơn & Mở bán lại ghế):");
-        lbl.setFont(Theme.FONT_SUBTITLE);
-        header.add(lbl, BorderLayout.WEST);
+        lblHistoryTitle.setFont(Theme.FONT_SUBTITLE);
+        header.add(lblHistoryTitle, BorderLayout.WEST);
 
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         actions.setOpaque(false);
@@ -207,6 +245,13 @@ public final class TicketBookingPanel extends JPanel {
 
     public void loadInitialData() {
         try {
+            branches = service.listBranches();
+            cboQuickBranch.removeAllItems();
+            cboQuickBranch.addItem("Tất cả CN");
+            for (CinemaBranch b : branches) {
+                cboQuickBranch.addItem(b.branchCode());
+            }
+
             cboCustomer.removeAllItems();
             for (Customer c : service.listCustomers()) {
                 cboCustomer.addItem(c);
@@ -224,10 +269,27 @@ public final class TicketBookingPanel extends JPanel {
     }
 
     public void reloadScreeningsDropdown() {
+        Integer filterBranchId = null;
+        int bIdx = cboQuickBranch.getSelectedIndex();
+        if (bIdx > 0 && bIdx - 1 < branches.size()) {
+            filterBranchId = branches.get(bIdx - 1).branchId();
+        }
+        LocalDate filterDate = null;
+        String dateText = txtQuickDate.getText().trim();
+        if (!dateText.isEmpty()) {
+            try {
+                filterDate = LocalDate.parse(dateText);
+            } catch (DateTimeParseException ex) {
+                statusBanner.showError("Ngày lọc nhanh suất chiếu không đúng định dạng yyyy-MM-dd (ví dụ: 2026-11-04).");
+                return;
+            }
+        }
+
         ScreeningDetailView prev = (ScreeningDetailView) cboScreening.getSelectedItem();
         Integer prevId = prev != null ? prev.screeningId() : null;
         cboScreening.removeAllItems();
-        List<ScreeningDetailView> screenings = service.listOpenScreenings(null, null);
+        List<ScreeningDetailView> screenings = service.listOpenScreenings(filterBranchId, null, filterDate);
+        lblOpenScreeningCount.setText("Hiển thị đầy đủ: " + screenings.size() + " suất mở bán");
         int toSelect = 0;
         for (int i = 0; i < screenings.size(); i++) {
             ScreeningDetailView s = screenings.get(i);
@@ -247,12 +309,16 @@ public final class TicketBookingPanel extends JPanel {
         if (selected == null) {
             seatMapPanel.setSeats(List.of());
             bookingTableModel.setRowCount(0);
+            lblHistoryTitle.setText("Danh sách Đơn đặt vé của Suất chiếu đang chọn (0 đơn):");
             return;
         }
         List<SeatAvailabilityView> seats = service.getSeatMap(selected.screeningId());
         seatMapPanel.setSeats(seats);
 
-        recentBookings = service.listRecentBookings(selected.screeningId(), 40);
+        recentBookings = service.listBookingsForScreening(selected.screeningId());
+        lblHistoryTitle.setText(String.format(
+                "Danh sách Đơn đặt vé của Suất #%d (Hiển thị đầy đủ %d đơn — Hỗ trợ Hủy đơn & Mở bán lại ghế):",
+                selected.screeningId(), recentBookings.size()));
         bookingTableModel.setRowCount(0);
         for (BookingSummaryView b : recentBookings) {
             bookingTableModel.addRow(new Object[]{
@@ -304,6 +370,52 @@ public final class TicketBookingPanel extends JPanel {
                 }
             }
         }
+    }
+
+    public boolean selectAvailableSeatsByTypeCodes(String... typeCodes) {
+        ScreeningDetailView selected = (ScreeningDetailView) cboScreening.getSelectedItem();
+        if (selected == null || typeCodes == null || typeCodes.length == 0) {
+            return false;
+        }
+        seatMapPanel.clearSelection();
+        List<SeatAvailabilityView> seats = service.getSeatMap(selected.screeningId());
+        List<Integer> chosenIds = new ArrayList<>();
+        for (String code : typeCodes) {
+            boolean matched = false;
+            for (SeatAvailabilityView s : seats) {
+                if (!s.occupied() && code.equalsIgnoreCase(s.seatTypeCode()) && !chosenIds.contains(s.seatId())) {
+                    seatMapPanel.toggleSeatSelection(s.seatId());
+                    chosenIds.add(s.seatId());
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                return false;
+            }
+        }
+        return chosenIds.size() == typeCodes.length;
+    }
+
+    public void setPaymentOptionsForVerification(boolean walkIn, String method, String status) {
+        chkWalkInCustomer.setSelected(walkIn);
+        cboCustomer.setEnabled(!walkIn);
+        if (method != null) {
+            cboPaymentMethod.setSelectedItem(method);
+        }
+        if (status != null) {
+            cboPaymentStatus.setSelectedItem(status);
+        }
+    }
+
+    public boolean selectBookingInTableById(int bookingId) {
+        for (int i = 0; i < recentBookings.size(); i++) {
+            if (recentBookings.get(i).bookingId() == bookingId) {
+                bookingTable.setRowSelectionInterval(i, i);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void handleCreateBooking() {
@@ -391,6 +503,19 @@ public final class TicketBookingPanel extends JPanel {
                 cboScreening.setSelectedIndex(i);
                 refreshSeatMapAndBookings();
                 return true;
+            }
+        }
+        if (cboQuickBranch.getSelectedIndex() > 0 || !txtQuickDate.getText().trim().isEmpty()) {
+            cboQuickBranch.setSelectedIndex(0);
+            txtQuickDate.setText("");
+            reloadScreeningsDropdown();
+            for (int i = 0; i < cboScreening.getItemCount(); i++) {
+                ScreeningDetailView item = cboScreening.getItemAt(i);
+                if (item != null && item.screeningId() == screeningId) {
+                    cboScreening.setSelectedIndex(i);
+                    refreshSeatMapAndBookings();
+                    return true;
+                }
             }
         }
         return false;

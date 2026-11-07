@@ -343,6 +343,17 @@ class ReportAccuracyIT {
         String d = fixtureDate.toString();
         try (Connection conn = connectionProvider.getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement("""
+                    UPDATE ticket tk
+                    JOIN booking bk ON bk.booking_id = tk.booking_id
+                    JOIN screening sc ON sc.screening_id = bk.screening_id
+                    SET tk.ticket_status = 'CANCELLED', tk.cancelled_at = COALESCE(tk.cancelled_at, CURRENT_TIMESTAMP)
+                    WHERE DATE(sc.start_time) = ?
+                      AND tk.ticket_status = 'VALID'
+                    """)) {
+                ps.setString(1, d);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = conn.prepareStatement("""
                     DELETE pm FROM payment pm
                     JOIN booking bk ON bk.booking_id = pm.booking_id
                     JOIN screening sc ON sc.screening_id = bk.screening_id
@@ -353,7 +364,8 @@ class ReportAccuracyIT {
             }
             try (PreparedStatement ps = conn.prepareStatement("""
                     DELETE tk FROM ticket tk
-                    JOIN screening sc ON sc.screening_id = tk.screening_id
+                    JOIN booking bk ON bk.booking_id = tk.booking_id
+                    JOIN screening sc ON sc.screening_id = bk.screening_id
                     WHERE DATE(sc.start_time) = ?
                     """)) {
                 ps.setString(1, d);

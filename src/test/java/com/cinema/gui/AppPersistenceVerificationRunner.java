@@ -378,6 +378,17 @@ public final class AppPersistenceVerificationRunner {
         TestDatabaseGuard.verifyLiveTestConnection(cp);
         try (Connection conn = cp.getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement("""
+                    UPDATE ticket tk
+                    JOIN booking bk ON bk.booking_id = tk.booking_id
+                    JOIN screening sc ON sc.screening_id = bk.screening_id
+                    SET tk.ticket_status = 'CANCELLED', tk.cancelled_at = COALESCE(tk.cancelled_at, CURRENT_TIMESTAMP)
+                    WHERE DATE(sc.start_time) = ?
+                      AND tk.ticket_status = 'VALID'
+                    """)) {
+                ps.setString(1, TEST_SCREENING_DATE);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = conn.prepareStatement("""
                     DELETE pm FROM payment pm
                     JOIN booking bk ON bk.booking_id = pm.booking_id
                     JOIN screening sc ON sc.screening_id = bk.screening_id
@@ -388,7 +399,8 @@ public final class AppPersistenceVerificationRunner {
             }
             try (PreparedStatement ps = conn.prepareStatement("""
                     DELETE tk FROM ticket tk
-                    JOIN screening sc ON sc.screening_id = tk.screening_id
+                    JOIN booking bk ON bk.booking_id = tk.booking_id
+                    JOIN screening sc ON sc.screening_id = bk.screening_id
                     WHERE DATE(sc.start_time) = ?
                     """)) {
                 ps.setString(1, TEST_SCREENING_DATE);

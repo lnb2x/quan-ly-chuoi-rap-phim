@@ -115,7 +115,7 @@ public final class TicketSalesReportRepository {
                 SELECT COALESCE(SUM(tk.unit_price), 0.00) AS total_sales_rev
                 FROM ticket tk
                 JOIN booking bk        ON bk.booking_id = tk.booking_id
-                JOIN screening sc      ON sc.screening_id = tk.screening_id
+                JOIN screening sc      ON sc.screening_id = bk.screening_id
                 JOIN screening_room rm ON rm.room_id = sc.room_id
                 WHERE tk.ticket_status = 'VALID'
                   AND bk.booking_status = 'CONFIRMED'

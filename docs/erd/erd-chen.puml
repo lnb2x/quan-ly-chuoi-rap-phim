@@ -6,13 +6,17 @@ skinparam defaultFontSize 12
 skinparam shadowing false
 skinparam roundCorner 6
 
-title SƠ ĐỒ THỰC THỂ – LIÊN KẾT MỨC KHÁI NIỆM (CHEN ERD)\nHỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
+title SƠ ĐỒ THỰC THỂ – LIÊN KẾT MỨC KHÁI NIỆM (CHEN ERD — 14 BẢNG CHUẨN 3NF)\nHỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
 
 skinparam rectangle {
   BackgroundColor<<Entity>> #EBF5FB
   BorderColor<<Entity>> #1F618D
   FontColor<<Entity>> #0B2545
   FontStyle<<Entity>> bold
+  BackgroundColor<<AssocEntity>> #E8F8F5
+  BorderColor<<AssocEntity>> #117864
+  FontColor<<AssocEntity>> #0E6251
+  FontStyle<<AssocEntity>> bold
 }
 
 skinparam hexagon {
@@ -22,32 +26,35 @@ skinparam hexagon {
   FontStyle<<Rel>> bold
 }
 
-rectangle "CHI NHÁNH RẠP\n(CinemaBranch)\n---\nPK: branch_id\nbranch_code, branch_name\naddress, city, phone, active" <<Entity>> as E_BRANCH
-rectangle "PHÒNG CHIẾU\n(ScreeningRoom)\n---\nPK: room_id\nroom_name, room_type\nactive" <<Entity>> as E_ROOM
-rectangle "HẠNG GHẾ\n(SeatType)\n---\nPK: seat_type_code\ntype_name, surcharge" <<Entity>> as E_SEAT_TYPE
-rectangle "GHẾ VẬT LÝ\n(Seat)\n---\nPK: seat_id\nseat_row, seat_number" <<Entity>> as E_SEAT
-rectangle "PHIM ĐIỆN ẢNH\n(Movie)\n---\nPK: movie_id\nmovie_code, title\nduration_minutes, release_date\nage_rating, country" <<Entity>> as E_MOVIE
-rectangle "THỂ LOẠI PHIM\n(Genre)\n---\nPK: genre_id\ngenre_name, description" <<Entity>> as E_GENRE
+rectangle "CHI NHÁNH RẠP\n(CinemaBranch)\n---\nPK: branch_id\nUQ: branch_code, branch_name, phone\naddress, city, active" <<Entity>> as E_BRANCH
+rectangle "PHÒNG CHIẾU\n(ScreeningRoom)\n---\nPK: room_id\nUQ: (branch_id, room_name)\nroom_type, active" <<Entity>> as E_ROOM
+rectangle "HẠNG GHẾ\n(SeatType)\n---\nPK: seat_type_code\nUQ: type_name\nsurcharge" <<Entity>> as E_SEAT_TYPE
+rectangle "GHẾ VẬT LÝ\n(Seat)\n---\nPK: seat_id\nUQ: (room_id, seat_row, seat_number)" <<Entity>> as E_SEAT
+rectangle "PHIM ĐIỆN ẢNH\n(Movie)\n---\nPK: movie_id\nUQ: movie_code\ntitle, duration_minutes\nrelease_date, age_rating, country" <<Entity>> as E_MOVIE
+rectangle "THỂ LOẠI PHIM\n(Genre)\n---\nPK: genre_id\nUQ: genre_name\ndescription" <<Entity>> as E_GENRE
 rectangle "SUẤT CHIẾU\n(Screening)\n---\nPK: screening_id\nstart_time, end_time\nbase_price, status" <<Entity>> as E_SCREENING
-rectangle "KHÁCH HÀNG\n(Customer)\n---\nPK: customer_id\nfull_name, phone\nemail, birth_date" <<Entity>> as E_CUSTOMER
-rectangle "NHÂN VIÊN\n(Employee)\n---\nPK: employee_id\nemployee_code, full_name\nphone, role, hired_date" <<Entity>> as E_EMPLOYEE
-rectangle "ĐƠN ĐẶT VÉ\n(Booking)\n---\nPK: booking_id\nbooking_code, booked_at\nbooking_status" <<Entity>> as E_BOOKING
-rectangle "VÉ XEM PHIM\n(Ticket)\n---\nPK: ticket_id\nunit_price, ticket_status\ncancelled_at" <<Entity>> as E_TICKET
+rectangle "KHÁCH HÀNG\n(Customer)\n---\nPK: customer_id\nUQ: phone, email\nfull_name, birth_date, created_at" <<Entity>> as E_CUSTOMER
+rectangle "NHÂN VIÊN\n(Employee)\n---\nPK: employee_id\nUQ: employee_code, phone\nfull_name, role, hired_date" <<Entity>> as E_EMPLOYEE
+rectangle "ĐƠN ĐẶT VÉ\n(Booking)\n---\nPK: booking_id\nUQ: booking_code\nbooked_at, booking_status" <<Entity>> as E_BOOKING
+rectangle "VÉ XEM PHIM\n(Ticket)\n---\nPK: ticket_id\nUQ: (booking_id, seat_id)\nunit_price, ticket_status, cancelled_at" <<Entity>> as E_TICKET
+rectangle "KHÓA GHẾ HIỆU LỰC\n(ScreeningSeatLock)\n---\nPK: (screening_id, seat_id)\nUQ: ticket_id" <<AssocEntity>> as E_SEAT_LOCK
 rectangle "THANH TOÁN\n(Payment)\n---\nPK: payment_id\namount, payment_method\npayment_status, paid_at\ntransaction_ref" <<Entity>> as E_PAYMENT
 
 hexagon "Sở hữu\n(Owns)" <<Rel>> as R_BRANCH_ROOM
 hexagon "Tuyển dụng\n(Employs)" <<Rel>> as R_BRANCH_EMP
 hexagon "Chứa ghế\n(Contains)" <<Rel>> as R_ROOM_SEAT
 hexagon "Phân hạng\n(ClassifiedAs)" <<Rel>> as R_TYPE_SEAT
-hexagon "Thuộc thể loại\n(MovieGenre)" <<Rel>> as R_MOVIE_GENRE
+hexagon "Thuộc thể loại\n(MovieGenre - M:N)" <<Rel>> as R_MOVIE_GENRE
 hexagon "Xếp lịch chiếu\n(Shows)" <<Rel>> as R_MOVIE_SCR
 hexagon "Tổ chức tại\n(HostedIn)" <<Rel>> as R_ROOM_SCR
 hexagon "Đặt mua\n(Places)" <<Rel>> as R_CUST_BOOK
 hexagon "Thực hiện\n(ProcessedBy)" <<Rel>> as R_EMP_BOOK
 hexagon "Đặt cho suất\n(ForScreening)" <<Rel>> as R_SCR_BOOK
 hexagon "Bao gồm vé\n(Includes)" <<Rel>> as R_BOOK_TICKET
-hexagon "Cấp cho suất\n(IssuedFor)" <<Rel>> as R_SCR_TICKET
 hexagon "Gán chỗ ngồi\n(AssignsSeat)" <<Rel>> as R_SEAT_TICKET
+hexagon "Khóa theo suất\n(LocksInScreening)" <<Rel>> as R_LOCK_SCR
+hexagon "Giữ chỗ ghế\n(LocksSeat)" <<Rel>> as R_LOCK_SEAT
+hexagon "Kích hoạt khi VALID\n(HoldsActiveLock)" <<Rel>> as R_LOCK_TICKET
 hexagon "Thanh toán đơn\n(PaidBy)" <<Rel>> as R_BOOK_PAY
 
 E_BRANCH "1" -- R_BRANCH_ROOM
@@ -83,11 +90,17 @@ R_SCR_BOOK -- "0..N" E_BOOKING
 E_BOOKING "1" -- R_BOOK_TICKET
 R_BOOK_TICKET -- "1..N" E_TICKET
 
-E_SCREENING "1" -- R_SCR_TICKET
-R_SCR_TICKET -- "0..N" E_TICKET
-
 E_SEAT "1" -- R_SEAT_TICKET
 R_SEAT_TICKET -- "0..N" E_TICKET
+
+E_SCREENING "1" -- R_LOCK_SCR
+R_LOCK_SCR -- "0..N" E_SEAT_LOCK
+
+E_SEAT "1" -- R_LOCK_SEAT
+R_LOCK_SEAT -- "0..N" E_SEAT_LOCK
+
+E_TICKET "1" -- R_LOCK_TICKET
+R_LOCK_TICKET -- "0..1" E_SEAT_LOCK
 
 E_BOOKING "1" -- R_BOOK_PAY
 R_BOOK_PAY -- "1..N" E_PAYMENT

@@ -40,6 +40,14 @@ public final class ConnectionProvider {
             String db = rs.next() ? rs.getString("db_name") : "unknown";
             String ver = rs.getString("mysql_ver");
             int port = rs.getInt("port");
+            try (ResultSet schemaRs = st.executeQuery(
+                    "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'screening_seat_lock'")) {
+                if (schemaRs.next() && schemaRs.getInt(1) == 0) {
+                    throw new DataAccessException(
+                            "Cơ sở dữ liệu '" + db + "' chưa có lược đồ 14 bảng chuẩn 3NF (thiếu bảng screening_seat_lock). "
+                                    + "Vui lòng chủ động chuẩn bị CSDL bằng database/prepare_demo_db.ps1 (hoặc nâng cấp tại chỗ bằng database/migrations/apply_migration_cinema_chain.ps1) trước khi mở ứng dụng trên '" + db + "'.");
+                }
+            }
             String line = String.format(
                     "[APP-STARTUP] Time=%s | Mode=NORMAL_READ_ONLY_INIT | JDBC=%s | DB=%s | User=%s | MySQL=%s | Port=%d | Java=%s | DestructiveReset=DISABLED",
                     LocalDateTime.now(),

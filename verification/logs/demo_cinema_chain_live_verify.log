@@ -1,0 +1,75 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.cinema:cinema-chain-management >-----------------
+[INFO] Building H? Th?ng Qu?n L� Chu?i R?p Chi?u Phim 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec:3.5.0:java (default-cli) @ cinema-chain-management ---
+[DEMO-MAIN-DB-CHECK] Connected DB=cinema_chain | Tables=14 | MySQL=8.4.0 (MySQL Community Server - GPL) | User=cinema_app@127.0.0.1
+=== [DEMO-CINEMA-CHAIN] SESSION 1 (JVM #1): LAUNCH com.cinema.app.Main ON 'cinema_chain' ===
+[APP-STARTUP] Time=2026-11-07T15:14:10.294678900 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain | DB=cinema_chain | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
+[DEMO-SEED-BASELINE] RevenueReport(2026-11-01..2026-11-15) before demo input = 35165000.00
+[DEMO-ASSERT-PASS] Form 1 tr�n cinema_chain (T? ch?i gi� v� <= 0) -> [L?I]  Gi� v� c? s? c?a su?t chi?u ph?i l?n h?n 0 VN? [BR-04].
+[DEMO-ASSERT-PASS] Form 1 tr�n cinema_chain (T? ch?i gi? k?t th�c ng?n h?n th?i l??ng phim) -> [L?I]  Kho?ng th?i gian su?t chi?u (60 ph�t) nh? h?n th?i l??ng b? phim '?�o, Ph? v� Piano' (105 ph�t) [BR-05].
+[DEMO-ASSERT-PASS] Form 1 tr�n cinema_chain (T? ch?i ch?ng l?n l?ch chi?u) -> [L?I]  L?i nghi?p v? [BR-06]: Tr�ng l?ch chi?u trong Ph�ng 01 - Standard 2D v?i su?t #1 (Dune: H�nh Tinh C�t - Ph?n Hai: 04/11/2026 13:00 - 04/11/2026 16:05).
+Captured demo screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_01_screening_rejected.png
+[DEMO-ASSERT-PASS] Form 1 tr�n cinema_chain (T? ch?i ??i ph�ng su?t chi?u ?� ph�t sinh v�) -> [L?I]  L?i nghi?p v? [BR-09]: Kh�ng th? ??i ph�ng chi?u cho su?t chi?u #1 v� su?t chi?u n�y ?� ph�t sinh v�.
+[DEMO-ASSERT-PASS] Form 1 tr�n cinema_chain (T?o su?t chi?u demo h?p l?) -> [TH�NH C�NG]  ?� t?o th�nh c�ng Su?t chi?u #161 cho phim '?�o, Ph? v� Piano' t?i Ph�ng 01 - Standard 2D (18/11/2026 09:00 - 18/11/2026 11:15).
+Captured demo screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_02_screening_created.png
+[DEMO-ASSERT-PASS] Form 2 tr�n cinema_chain (T? ch?i ??t v� khi ch?a ch?n gh?) -> [L?I]  Vui l�ng ch?n �t nh?t 01 gh? tr�n s? ?? ph�ng chi?u [BR-08].
+[DEMO-ASSERT-PASS] Form 2 tr�n cinema_chain (??t v� 1 gh? STD + 1 gh? VIP th�nh c�ng) -> [TH�NH C�NG]  ??t v� th�nh c�ng! M� ??n #161 | Su?t #161 (?�o, Ph? v� Piano) | Gh?: A01, E01 | Thanh to�n: CARD (SUCCESS).
+Captured demo screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_03_booking_confirmed.png
+[DEMO-ASSERT-PASS] Form 2 tr�n cinema_chain (T? ch?i gh? ?� b? qu?y thu ng�n kh�c gi? kh�a) -> [L?I]  L?i nghi?p v? [BR-10]: Gh? A02 ?� ???c b�n cho kh�ch h�ng kh�c trong su?t chi?u #161.
+Captured demo screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_04_booking_occupied_rejected.png
+[DEMO-ASSERT-PASS] Form 2 tr�n cinema_chain (H?y ??n & gi?i ph�ng kh�a gh? th�nh c�ng) -> [TH�NH C�NG]  ?� h?y th�nh c�ng ??n BK-20261107-151414-102 (#162). C�c gh? [A02] ?� ???c gi?i ph�ng ?? b�n l?i.
+[DEMO-ASSERT-PASS] M�n h�nh 3 tr�n cinema_chain (T? ch?i ng�y sai ??nh d?ng) -> [L?I]  Ng�y chi?u c?n nh?p theo ??nh d?ng yyyy-MM-dd (v� d?: 2026-11-04).
+[DEMO-ASSERT-PASS] M�n h�nh 3 tr�n cinema_chain (Tra c?u ng�y 2026-11-18 h?p l?) -> [TH�NH C�NG]  T�m th?y t?ng c?ng 1 su?t chi?u ph� h?p (?ang hi?n th? trang 1/1: d�ng 1�1 | T?ng 78 gh? tr?ng).
+Captured demo screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_05_search_verified.png
+[DEMO-ASSERT-PASS] M�n h�nh 4 tr�n cinema_chain (T? ch?i kho?ng ng�y ng??c) -> [L?I]  Ng�y k?t th�c k? b�o c�o kh�ng ???c nh? h?n ng�y b?t ??u.
+[DEMO-ASSERT-PASS] M�n h�nh 4 tr�n cinema_chain (Xem tr??c B�o c�o Doanh thu) -> [TH�NH C�NG]  ?� k?t xu?t b?n xem tr??c B�o c�o Doanh thu: 126 ??n th�nh c�ng, 294 v� h?p l?, T?ng th?c thu: 35.375.000 VN?.
+mvnw.cmd : SLF4J(W): No SLF4J providers were found.
+At line:2 char:10
++ $s1Out = & .\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.gui.Demo ...
++          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (SLF4J(W): No SLF4J providers were found.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+Captured demo screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_06_revenue_report.png
+[DEMO-ASSERT-PASS] M�n h�nh 5 tr�n cinema_chain (T? ch?i ng�y sai ??nh d?ng) -> [L?I]  T? ng�y kh�ng ?�ng ??nh d?ng chu?n yyyy-MM-dd.
+[DEMO-ASSERT-PASS] M�n h�nh 5 tr�n cinema_chain (Xem tr??c B�o c�o B�n v�) -> [TH�NH C�NG]  ?� k?t xu?t b?n xem tr??c B�o c�o B�n v�: 161 su?t chi?u, 294/12880 v� b�n ra (L?p ??y TB: 2.28%), Doanh thu: 35.375.000 VN?.
+Captured demo screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_07_sales_report.png
+Rendered demo PDF preview: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_08_revenue_pdf_page1.png
+Rendered demo PDF preview: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_09_sales_pdf_page1.png
+[DEMO-PDF-SQL-RECONCILED] RevenuePDF=BaoCaoDoanhThu_CinemaChain_Demo.pdf (UI=35375000.00 == SQL=35375000.00) | SalesPDF=BaoCaoBanVe_CinemaChain_Demo.pdf (UI=35375000.00 == SQL=35375000.00)
+[DEMO-BEFORE-CLOSE] screening_id=161 | confirmed_booking_id=161 (BK-20261107-151413-101) | cancelled_booking_id=162 | tickets=[ticket_id=374(seat=1,price=95000.00,status=VALID), ticket_id=375(seat=41,price=115000.00,status=VALID)] | payment_id=176 (amount=210000.00)
+=== [DEMO-CINEMA-CHAIN] SESSION 1 (JVM #1) CLOSED COMPLETELY ===
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  08:34 min
+[INFO] Finished at: 2026-11-07T15:14:19+07:00
+[INFO] ------------------------------------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.cinema:cinema-chain-management >-----------------
+[INFO] Building H? Th?ng Qu?n L� Chu?i R?p Chi?u Phim 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec:3.5.0:java (default-cli) @ cinema-chain-management ---
+[DEMO-MAIN-DB-CHECK] Connected DB=cinema_chain | Tables=14 | MySQL=8.4.0 (MySQL Community Server - GPL) | User=cinema_app@127.0.0.1
+=== [DEMO-CINEMA-CHAIN] SESSION 2 (JVM #2): REOPEN com.cinema.app.Main NORMALLY ON 'cinema_chain' ===
+[APP-STARTUP] Time=2026-11-07T15:14:22.018636500 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain | DB=cinema_chain | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
+Captured demo screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\demo_cinema_chain_10_reopened_persistence.png
+[DEMO-AFTER-REOPEN] screening_id=161 | confirmed_booking_id=161 (BK-20261107-151413-101) | tickets=[ticket_id=374(seat=1,price=95000.00,status=VALID), ticket_id=375(seat=41,price=115000.00,status=VALID)] | payment_id=176 (amount=210000.00)
+[DEMO-REPORTS-AFTER-REOPEN] RevenueReport=35375000.00 (126 bookings, 294 tickets) | SalesReport=35375000.00 (161 screenings, 294 tickets)
+[DEMO-CINEMA-CHAIN-PERSISTENCE-VERIFIED] 100% MATCH ACROSS FULL 2-JVM RESTART OF com.cinema.app.Main ON 'cinema_chain' (DEMO DATA REMAINS INTACT).
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.287 s
+[INFO] Finished at: 2026-11-07T15:14:25+07:00
+[INFO] ------------------------------------------------------------------------

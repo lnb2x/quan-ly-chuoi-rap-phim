@@ -25,11 +25,22 @@ if (-not $isListening) {
     exit 0
 }
 
+function New-RestrictedMySqlDefaultsFile([string]$user, [string]$pass) {
+    $tmpPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "cinema_mysql_" + [System.Guid]::NewGuid().ToString("N") + ".cnf")
+    $escaped = $pass.Replace('\', '\\').Replace('"', '\"')
+    $cfgContent = "[client]`nhost=127.0.0.1`nport=3306`nprotocol=TCP`nuser=$user`npassword=`"$escaped`"`n"
+    [System.IO.File]::WriteAllText($tmpPath, $cfgContent, [System.Text.UTF8Encoding]::new($false))
+    if ($env:USERNAME) {
+        & icacls $tmpPath /inheritance:r /grant:r "$($env:USERNAME):(R,W)" | Out-Null
+    }
+    return $tmpPath
+}
+
 $rootPwd = if ($env:MYSQL_ROOT_PASSWORD) { $env:MYSQL_ROOT_PASSWORD } else { "" }
-$oldPwd = $env:MYSQL_PWD
+$cfgFile = New-RestrictedMySqlDefaultsFile "root" $rootPwd
 try {
-    $env:MYSQL_PWD = $rootPwd
-    $info = (& $mysqlExe --protocol=TCP -h 127.0.0.1 -P 3306 -u root -N -s -e "SELECT CONCAT(VERSION(), '|', REPLACE(@@datadir, '\\', '/'));") -join ""
+    $query = "SELECT CONCAT(VERSION(), '|', REPLACE(@@datadir, '\\', '/'));"
+    $info = ($query | & $mysqlExe "--defaults-extra-file=$cfgFile" -N -s) -join ""
     $parts = $info.Split("|")
     $ver = $parts[0]
     $liveDataDir = $parts[1].TrimEnd('/')
@@ -39,12 +50,12 @@ try {
     }
 
     Write-Output "Đang dừng an toàn (graceful InnoDB shutdown) instance MySQL $ver tại $liveDataDir..."
-    & $mysqlAdminExe --protocol=TCP -h 127.0.0.1 -P 3306 -u root shutdown
+    & $mysqlAdminExe "--defaults-extra-file=$cfgFile" shutdown
     if ($LASTEXITCODE -ne 0) {
         throw "Lệnh mysqladmin shutdown thất bại với mã thoát $LASTEXITCODE."
     }
 } finally {
-    $env:MYSQL_PWD = $oldPwd
+    Remove-Item -LiteralPath $cfgFile -Force -ErrorAction SilentlyContinue
 }
 
 Write-Output "[OK] Đã dừng an toàn instance MySQL 8.4 LTS (bảo toàn 100% dữ liệu InnoDB)."
