@@ -814,7 +814,8 @@ def generate_docx() -> None:
     render_docx_table(doc, TEST_SUMMARY_TABLE)
 
     for app_title, sql_rel in [
-        ("PHỤ LỤC A. MÃ LỆNH DDL KHỞI TẠO 13 BẢNG QUAN HỆ TRÊN MYSQL 8.4 (01_schema.sql)", "database/schema/01_schema.sql"),
+        ("PHỤ LỤC A1. MÃ LỆNH DDL KHỞI TẠO 13 BẢNG QUAN HỆ TRÊN MYSQL 8.4 (01_schema.sql)", "database/schema/01_schema.sql"),
+        ("PHỤ LỤC A2. MÃ LỆNH THIẾT LẬP 16 RÀNG BUỘC KHÓA NGOẠI (01b_foreign_keys.sql)", "database/schema/01b_foreign_keys.sql"),
         ("PHỤ LỤC B. MÃ LỆNH TRIGGER BẢO VỆ TOÀN VẸN NGHIỆP VỤ (02_triggers.sql)", "database/schema/02_triggers.sql"),
         ("PHỤ LỤC C. MÃ LỆNH VIEW TRA CỨU & ĐỐI SOÁT DOANH THU (03_views.sql)", "database/schema/03_views.sql"),
         ("PHỤ LỤC D. CÁC TRUY VẤN NGHIỆP VỤ, GIAO DỊCH & BÁO CÁO (business_queries.sql)", "database/queries/business_queries.sql"),
@@ -938,7 +939,8 @@ def generate_pdf() -> None:
 
     # SQL Appendices
     for app_title, sql_rel in [
-        ("PHỤ LỤC A. MÃ LỆNH DDL KHỞI TẠO 13 BẢNG QUAN HỆ TRÊN MYSQL 8.4 (01_schema.sql)", "database/schema/01_schema.sql"),
+        ("PHỤ LỤC A1. MÃ LỆNH DDL KHỞI TẠO 13 BẢNG QUAN HỆ TRÊN MYSQL 8.4 (01_schema.sql)", "database/schema/01_schema.sql"),
+        ("PHỤ LỤC A2. MÃ LỆNH THIẾT LẬP 16 RÀNG BUỘC KHÓA NGOẠI (01b_foreign_keys.sql)", "database/schema/01b_foreign_keys.sql"),
         ("PHỤ LỤC B. MÃ LỆNH TRIGGER BẢO VỆ TOÀN VẸN NGHIỆP VỤ (02_triggers.sql)", "database/schema/02_triggers.sql"),
         ("PHỤ LỤC C. MÃ LỆNH VIEW TRA CỨU & ĐỐI SOÁT DOANH THU (03_views.sql)", "database/schema/03_views.sql"),
         ("PHỤ LỤC D. CÁC TRUY VẤN NGHIỆP VỤ, GIAO DỊCH & BÁO CÁO (business_queries.sql)", "database/queries/business_queries.sql"),

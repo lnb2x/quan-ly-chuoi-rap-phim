@@ -1,10 +1,11 @@
-﻿=== MYSQL 8.4 LTS SETUP & VERIFICATION LOG (2026-11-07 11:45:38) ===
---- MYSQL SERVER RUNTIME IDENTITY ---
+﻿=== MYSQL 8.4 LTS SETUP & VERIFICATION LOG [MODE: NORMAL SETUP] (2026-11-07 12:17:25) ===
 +---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
 | mysql_version | distribution                 | sql_mode                                                                                                              | charset | collation          |
 +---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
 | 8.4.0         | MySQL Community Server - GPL | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | utf8mb4 | utf8mb4_unicode_ci |
 +---------------+------------------------------+-----------------------------------------------------------------------------------------------------------------------+---------+--------------------+
+--- METADATA SUMMARY ON MYSQL 8.4 ---
+13 bảng, 16 FK, 6 Trigger, 4 View | Dữ liệu: cinema_branch=4, screening_room=12, movie=20, screening=160, booking=160, ticket=373, payment=175
 --- VERIFY CONSTRAINTS OUTPUT ON MYSQL 8.4 (connected as cinema_app) ---
 +-------------------+-----------+
 | table_name        | row_count |
@@ -72,15 +73,6 @@
 |         3 | CN-DN01     | CineViet Cầu Rồng Đà Nẵng         | Đà Nẵng            |
 |         4 | CN-HP01     | CineViet Aeon Mall Hải Phòng      | Hải Phòng          |
 +-----------+-------------+-----------------------------------+--------------------+
-+----------+------------+-------------------------------------+
-| movie_id | movie_code | title                               |
-+----------+------------+-------------------------------------+
-|        1 | MV-001     | Đào, Phở và Piano                   |
-|        2 | MV-002     | Mai                                 |
-|        3 | MV-003     | Lật Mặt 7: Một Điều Ước             |
-|        4 | MV-004     | Mắt Biếc                            |
-|        5 | MV-005     | Dune: Hành Tinh Cát - Phần Hai      |
-+----------+------------+-------------------------------------+
 --- BUSINESS QUERIES SAMPLE OUTPUT ON MYSQL 8.4 (connected as cinema_app) ---
 +---------+----------+-------------+------------+----------------+----------------------------+-----------+--------------------+-------------------+
 | seat_id | seat_row | seat_number | seat_label | seat_type_code | type_name                  | surcharge | final_ticket_price | seat_availability |

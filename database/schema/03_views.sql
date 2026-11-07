@@ -1,19 +1,20 @@
 -- =============================================================================
 -- TỆP: 03_views.sql
--- MỤC ĐÍCH: Các khung nhìn (Views) phục vụ Tra cứu Suất chiếu, Báo cáo Doanh thu
---           và Báo cáo Tình hình Bán vé theo đúng quy tắc ghi nhận doanh thu
---           (BR-14 & BR-15: Không nhân bản dữ liệu khi join).
+-- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
+-- BƯỚC KHỞI TẠO: [Bước 4 - Tạo View] Định nghĩa 04 khung nhìn (Views) phục vụ
+--                Tra cứu Suất chiếu, Báo cáo Doanh thu và Báo cáo Bán vé theo
+--                đúng quy tắc ghi nhận doanh thu (BR-14 & BR-15: chống nhân bản).
+-- TƯƠNG THÍCH MYSQL 8.4 LTS:
+--   - Sử dụng `CREATE OR REPLACE VIEW` chuẩn của MySQL 8.4 (không cần `DROP VIEW`),
+--     tuân thủ nghiêm ngặt chế độ `ONLY_FULL_GROUP_BY`.
 -- =============================================================================
 
-DROP VIEW IF EXISTS vw_screening_occupancy;
-DROP VIEW IF EXISTS vw_branch_daily_revenue;
-DROP VIEW IF EXISTS vw_verified_booking_revenue;
-DROP VIEW IF EXISTS vw_screening_search;
+SET NAMES utf8mb4;
 
 -- -----------------------------------------------------------------------------
 -- 1. Khung nhìn vw_screening_search (Tra cứu suất chiếu & ghế trống)
 -- -----------------------------------------------------------------------------
-CREATE VIEW vw_screening_search AS
+CREATE OR REPLACE VIEW vw_screening_search AS
 SELECT
     s.screening_id,
     s.movie_id,
@@ -51,7 +52,7 @@ JOIN cinema_branch b  ON b.branch_id = r.branch_id;
 --    - Có đúng 1 giao dịch payment_status = 'SUCCESS'
 --    - Chỉ cộng các vé có ticket_status = 'VALID'
 -- -----------------------------------------------------------------------------
-CREATE VIEW vw_verified_booking_revenue AS
+CREATE OR REPLACE VIEW vw_verified_booking_revenue AS
 SELECT
     bk.booking_id,
     bk.booking_code,
@@ -107,7 +108,7 @@ GROUP BY
 -- -----------------------------------------------------------------------------
 -- 3. Khung nhìn vw_branch_daily_revenue (Doanh thu theo ngày & chi nhánh)
 -- -----------------------------------------------------------------------------
-CREATE VIEW vw_branch_daily_revenue AS
+CREATE OR REPLACE VIEW vw_branch_daily_revenue AS
 SELECT
     revenue_date,
     branch_id,
@@ -126,7 +127,7 @@ GROUP BY
 -- -----------------------------------------------------------------------------
 -- 4. Khung nhìn vw_screening_occupancy (Báo cáo bán vé & tỷ lệ lấp đầy suất chiếu)
 -- -----------------------------------------------------------------------------
-CREATE VIEW vw_screening_occupancy AS
+CREATE OR REPLACE VIEW vw_screening_occupancy AS
 SELECT
     s.screening_id,
     DATE(s.start_time) AS screening_date,

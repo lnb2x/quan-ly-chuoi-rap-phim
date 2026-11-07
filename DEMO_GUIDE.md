@@ -3,20 +3,44 @@
 
 ---
 
-## Bước 1 — Kiểm chứng Cơ sở dữ liệu & Dữ liệu mẫu (2 phút)
+## Bước 1 — Kiểm chứng Cơ sở dữ liệu MySQL 8.4 LTS: Normal Setup & Clean Reset (2 phút)
 
-1. Chạy lệnh khởi tạo và kiểm chứng toàn vẹn CSDL trên PowerShell:
+Dự án phân tách rõ ràng **2 chế độ khởi tạo CSDL** chuyên nghiệp để dễ dàng trình bày khi bảo vệ bài tập lớn CSDL:
+
+### 1.1. Chế độ 1 — `Normal Setup` (Mặc định, An toàn 100%, KHÔNG xóa dữ liệu hiện có)
+1. Chạy lệnh khởi tạo an toàn trên PowerShell:
    ```powershell
    powershell -ExecutionPolicy Bypass -File database/setup.ps1
    ```
-2. Quan sát bảng kết quả trả về trực tiếp từ tài khoản phân quyền tối thiểu `cinema_app`:
+2. **Điểm nhấn trình bày trước Hội đồng:**
+   - Kết nối tới **MySQL Community Server 8.4.0 LTS** (`InnoDB`, `utf8mb4_unicode_ci`) và kiểm tra chặn MariaDB tự động.
+   - Chạy `00_init_databases_and_user.sql` (`CREATE DATABASE IF NOT EXISTS`), kiểm tra/tạo bảng bằng `CREATE TABLE IF NOT EXISTS` (`01_schema.sql`), kiểm tra khóa ngoại qua `information_schema.REFERENTIAL_CONSTRAINTS` (`01b_foreign_keys.sql`), đồng bộ Trigger (`02_triggers.sql`) & View (`03_views.sql`).
+   - **Bảo toàn dữ liệu tuyệt đối:** Nếu `cinema_chain` đã có dữ liệu vận hành, hệ thống **giữ nguyên 100% dữ liệu hiện có**, tuyệt đối không chạy `DROP TABLE`, không `TRUNCATE TABLE`, và không ghi đè dữ liệu mẫu.
+
+### 1.2. Chế độ 2 — `Clean Reset` (Xóa `cinema_chain` có xác nhận & Dựng lại tuần tự từ đầu)
+1. Khi muốn trình diễn dựng lại CSDL từ con số 0 trước Giảng viên, chạy:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File database/setup.ps1 -CleanReset
+   ```
+2. **Điểm nhấn an toàn & kiến trúc SQL chuẩn mực:**
+   - **Cơ chế xác nhận bắt buộc:** Hiển thị bảng cảnh báo trạng thái hiện tại và yêu cầu nhập chính xác chuỗi `'YES'` (phân biệt hoa/thường); nhập `'NO'` hoặc phím khác sẽ hủy ngay lập tức và giữ nguyên dữ liệu.
+   - **Phạm vi cô lập tuyệt đối:** Chỉ xóa duy nhất `cinema_chain` (`00_clean_reset_cinema_chain.sql`), tuyệt đối không đụng chạm tới `mysql`, `sys`, `cinema_chain_test` hay bất kỳ dữ liệu XAMPP nào.
+   - **Quy trình 6 bước tuần tự không cần `DROP TABLE` hay `SET FOREIGN_KEY_CHECKS = 0`:**
+     1. `[Bước 1/6]` Xóa & tạo mới `cinema_chain` (`00_clean_reset_cinema_chain.sql`) + cấp quyền tối thiểu `cinema_app`
+     2. `[Bước 2/6]` Tạo 13 bảng chuẩn 3NF (`01_schema.sql`)
+     3. `[Bước 3/6]` Thiết lập 16 ràng buộc Khóa ngoại `FOREIGN KEY` (`01b_foreign_keys.sql`)
+     4. `[Bước 4/6]` Thiết lập 06 `TRIGGER` kiểm tra toàn vẹn nghiệp vụ (`02_triggers.sql`)
+     5. `[Bước 5/6]` Thiết lập 04 `VIEW` tra cứu & báo cáo (`03_views.sql`)
+     6. `[Bước 6/6]` Nạp dữ liệu mẫu theo đúng thứ tự tô-pô **Bảng Cha $\to$ Bảng Con** (`10_seed.sql`)
+
+### 1.3. Quan sát bảng đối chứng toàn vẹn trả về từ tài khoản phân quyền tối thiểu `cinema_app`
    - `cinema_branch`: **4 chi nhánh** (`CN-HN01`, `CN-HCM01`, `CN-DN01`, `CN-HP01`)
    - `screening_room`: **12 phòng chiếu** (`2D`, `3D`, `IMAX`)
    - `seat`: **960 ghế vật lý** (`STD`, `VIP`, `COUPLE`)
    - `movie`: **20 bộ phim** | `genre`: **8 thể loại** | `movie_genre`: **43 liên kết**
    - `screening`: **160 suất chiếu** (`overlapping_open_screenings = 0`)
    - `booking`: **160 đơn đặt vé** | `ticket`: **373 vé** | `payment`: **175 giao dịch**
-   - `resold_seats_after_cancellation = 23` (chứng minh 23 ghế đã hủy được bán lại thành công)
+   - `resold_seats_after_cancellation >= 1` (chứng minh ghế thuộc đơn đã hủy được mở khóa và bán lại thành công)
    - `bookings_with_retry_payment = 15` (15 đơn có cả `FAILED` và `SUCCESS`)
    - `independent_revenue = 35165000.00` khớp tuyệt đối `view_revenue = 35165000.00` (`revenue_difference = 0.00`).
 

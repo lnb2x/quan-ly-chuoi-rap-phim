@@ -1,27 +1,18 @@
 -- =============================================================================
 -- TỆP: 10_seed.sql
--- MỤC ĐÍCH: Dữ liệu mẫu tất định (Reproducible Seed Data) cho Hệ thống Quản lý
---           Chuỗi Rạp Chiếu Phim:
---           4 chi nhánh, 12 phòng chiếu, 960 ghế, 8 thể loại, 20 bộ phim,
---           12 nhân viên, 45 khách hàng, 88 suất chiếu, 160 đơn đặt vé.
+-- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
+-- BƯỚC KHỞI TẠO: [Bước 5 - Nạp Dữ liệu Mẫu] Dữ liệu mẫu tất định (Reproducible Seed):
+--   - 04 chi nhánh rạp, 12 phòng chiếu, 960 ghế vật lý, 08 thể loại, 20 bộ phim,
+--   - 12 nhân viên, 45 khách hàng thành viên, 160 suất chiếu, 160 đơn đặt vé,
+--   - 373 bản ghi vé (bao gồm 23 ghế hủy được bán lại), 175 giao dịch thanh toán.
+-- THIẾT KẾ CHUẨN MỰC:
+--   - KHÔNG dùng TRUNCATE TABLE, DELETE hay SET FOREIGN_KEY_CHECKS = 0.
+--   - Dữ liệu được chèn tuần tự theo đúng thứ tự phụ thuộc Bảng Cha -> Bảng Con,
+--     đi qua đầy đủ 16 Khóa ngoại, các ràng buộc CHECK/UNIQUE và 06 Trigger
+--     trên MySQL Community Server 8.4 LTS.
 -- =============================================================================
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE TABLE payment;
-TRUNCATE TABLE ticket;
-TRUNCATE TABLE booking;
-TRUNCATE TABLE screening;
-TRUNCATE TABLE movie_genre;
-TRUNCATE TABLE employee;
-TRUNCATE TABLE customer;
-TRUNCATE TABLE seat;
-TRUNCATE TABLE seat_type;
-TRUNCATE TABLE screening_room;
-TRUNCATE TABLE genre;
-TRUNCATE TABLE movie;
-TRUNCATE TABLE cinema_branch;
-SET FOREIGN_KEY_CHECKS = 1;
 
 -- 1. Chi nhánh rạp (4 chi nhánh)
 INSERT INTO cinema_branch (branch_id, branch_code, branch_name, address, city, phone, active) VALUES

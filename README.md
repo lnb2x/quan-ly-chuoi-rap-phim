@@ -10,7 +10,7 @@
 Dự án đáp ứng đầy đủ 8 tiêu chí chấm điểm học thuật (**R1 – R8**, tổng 10.0 điểm):
 - **R1 (1.0đ):** Phân tích yêu cầu nghiệp vụ & dữ liệu cần lưu trữ (`docs/requirements/requirements.md`, `docs/requirements/business-rules.md`).
 - **R2 (2.5đ):** Sơ đồ Thực thể – Liên kết (ERD) hoàn chỉnh theo cả chuẩn **Chen** và **Crow's Foot** (`docs/erd/erd-chen.puml/.png/.svg`, `docs/erd/erd-logical.puml/.png/.svg`, `docs/erd/erd-explanation.md`).
-- **R3 (2.0đ):** Lược đồ CSDL quan hệ 13 bảng chuẩn 3NF và từ điển dữ liệu chi tiết (`docs/relational-model/schema-design.md`, `database/schema/01_schema.sql`, `02_triggers.sql`, `03_views.sql`).
+- **R3 (2.0đ):** Lược đồ CSDL quan hệ 13 bảng chuẩn 3NF và từ điển dữ liệu chi tiết (`docs/relational-model/schema-design.md`, `database/schema/01_schema.sql`, `01b_foreign_keys.sql`, `02_triggers.sql`, `03_views.sql`).
 - **R4 (1.0đ):** Phân tích phụ thuộc hàm, tìm khóa dự tuyển bằng bao đóng thuộc tính và chứng minh đạt chuẩn **1NF, 2NF, 3NF** cho cả 13 quan hệ (`docs/normalization/normalization.md`).
 - **R5 (1.0đ):** Hai màn hình nhập liệu vận hành có kiểm tra hợp lệ đầy đủ và an toàn giao dịch đồng thời:
   1. **Màn hình Quản lý Suất chiếu** (`ScreeningManagementPanel`) — kiểm tra thời lượng phim, giá cơ sở và chống chồng lấn lịch chiếu trong cùng một phòng chiếu (`SELECT ... FOR UPDATE` + Trigger `BR-06`).
@@ -36,12 +36,21 @@ Sao chép `config/application.properties.example` thành tệp cục bộ `confi
 - **Username:** `cinema_app` (Least-Privilege User)
 - **Password:** Đọc từ tệp cục bộ `config/application.properties` hoặc biến môi trường `CINEMA_DB_PASSWORD`
 
-### 2.3. Bước 2 — Khởi tạo Cơ sở dữ liệu MySQL 8.4, Tài khoản `cinema_app` & Dữ liệu mẫu
-Chạy script PowerShell tự động kiểm tra phiên bản MySQL Server 8.4, nạp lược đồ 13 bảng, 6 Trigger, 4 View, tài khoản `cinema_app` và bộ dữ liệu mẫu quy mô lớn (4 chi nhánh, 12 phòng chiếu, 960 ghế, 20 phim, 160 suất chiếu, 160 đơn đặt vé):
+### 2.3. Bước 2 — Khởi tạo Cơ sở dữ liệu MySQL 8.4 LTS (`Normal Setup` & `Clean Reset`)
 
-```powershell
-powershell -ExecutionPolicy Bypass -File database/setup.ps1
-```
+Script `database/setup.ps1` hỗ trợ **2 chế độ khởi tạo rõ ràng** trên **MySQL Community Server 8.4 LTS** (tự động kiểm tra phiên bản MySQL 8.x, chặn MariaDB, và tuyệt đối không tác động tới các CSDL khác hoặc dữ liệu XAMPP):
+
+- **Chế độ 1 — `Normal Setup` (Mặc định, An toàn, KHÔNG xóa dữ liệu hiện có):**
+  Kiểm tra/tạo CSDL nếu chưa tồn tại, tạo bảng bằng `CREATE TABLE IF NOT EXISTS`, bổ sung khóa ngoại nếu thiếu, đồng bộ Trigger & View, và **chỉ nạp dữ liệu mẫu khi CSDL đang rỗng** (giữ nguyên 100% dữ liệu đang có):
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File database/setup.ps1
+  ```
+
+- **Chế độ 2 — `Clean Reset` (Xóa `cinema_chain` có xác nhận `'YES'` & Dựng lại tuần tự từ đầu):**
+  Hiển thị cảnh báo và yêu cầu người dùng nhập chính xác `'YES'` trước khi xóa **duy nhất** database `cinema_chain`, sau đó tạo mới lại từ đầu theo đúng trình tự chuẩn: **Tạo 13 Bảng (`01_schema.sql`) $\to$ Tạo 16 Khóa ngoại (`01b_foreign_keys.sql`) $\to$ Tạo 6 Trigger (`02_triggers.sql`) $\to$ Tạo 4 View (`03_views.sql`) $\to$ Nạp Dữ liệu Mẫu (`10_seed.sql`)**:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File database/setup.ps1 -CleanReset
+  ```
 
 ### 2.4. Bước 3 — Biên dịch và Chạy Toàn bộ Kiểm thử Tự động trên MySQL 8.4 (21 bài test)
 ```powershell
@@ -69,8 +78,8 @@ QuanLyChuoiRapPhim/
 ├── config/
 │   └── application.properties.example
 ├── database/
-│   ├── setup.ps1                    # Script tự động khởi tạo & kiểm chứng CSDL
-│   ├── schema/                      # 00_init, 01_schema.sql, 02_triggers.sql, 03_views.sql
+│   ├── setup.ps1                    # Script khởi tạo & kiểm chứng CSDL (Normal Setup / Clean Reset)
+│   ├── schema/                      # 00_init, 00_clean_reset, 01_schema, 01b_foreign_keys, 02_triggers, 03_views
 │   ├── seed/                        # 10_seed.sql (4 chi nhánh, 12 phòng, 960 ghế, 20 phim, 160 suất, 160 đơn)
 │   ├── queries/                     # business_queries.sql (Truy vấn nghiệp vụ & đối soát)
 │   └── verification/                # verify_constraints.sql (Kiểm chứng toàn vẹn CSDL)

@@ -1,10 +1,19 @@
 -- =============================================================================
 -- TỆP: 02_triggers.sql
--- MỤC ĐÍCH: Các Trigger bảo vệ quy tắc nghiệp vụ ở tầng Hệ quản trị CSDL:
+-- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
+-- BƯỚC KHỞI TẠO: [Bước 3 - Tạo Trigger] Thiết lập 06 Trigger bảo vệ quy tắc
+--                nghiệp vụ trực tiếp ở tầng Hệ quản trị MySQL 8.4 LTS:
 --   1. Chống trùng lịch chiếu trong cùng phòng & đảm bảo thời lượng tối thiểu.
 --   2. Đảm bảo ghế trên vé thuộc đúng phòng chiếu của suất chiếu & đúng đơn.
 --   3. Đảm bảo tính nhất quán của thời điểm hủy vé và thời điểm thanh toán.
+-- LƯU Ý KỸ THUẬT MYSQL 8.4:
+--   MySQL 8.4 không hỗ trợ cú pháp `CREATE OR REPLACE TRIGGER` (khác với View),
+--   do đó sử dụng `DROP TRIGGER IF EXISTS` cho siêu dữ liệu thủ tục này để đảm bảo
+--   tính lũy đẳng (idempotent) khi chạy Normal Setup mà hoàn toàn không ảnh hưởng
+--   tới bất kỳ dữ liệu nào trong các bảng.
 -- =============================================================================
+
+SET NAMES utf8mb4;
 
 DROP TRIGGER IF EXISTS trg_screening_validate_ins;
 DROP TRIGGER IF EXISTS trg_screening_validate_upd;

@@ -1,7 +1,7 @@
-[INFO] Scanning for projects...
+ï»¿[INFO] Scanning for projects...
 [INFO] 
 [INFO] -----------------< com.cinema:cinema-chain-management >-----------------
-[INFO] Building H? Th?ng Qu?n Lý Chu?i R?p Chi?u Phim 1.0.0
+[INFO] Building H? Th?ng Qu?n Lï¿½ Chu?i R?p Chi?u Phim 1.0.0
 [INFO]   from pom.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
@@ -28,13 +28,19 @@
 [INFO] -------------------------------------------------------
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
-SLF4J(W): No SLF4J providers were found.
+mvnw.cmd : SLF4J(W): No SLF4J providers were found.
+At line:6 char:11
++ $mvnOut = & .\mvnw.cmd clean verify 2>&1
++           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (SLF4J(W): No SLF4J providers were found.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
 SLF4J(W): Defaulting to no-operation (NOP) logger implementation
 SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
 [INFO] Running com.cinema.architecture.ArchitectureComplianceTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.715 s -- in com.cinema.architecture.ArchitectureComplianceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.514 s -- in com.cinema.architecture.ArchitectureComplianceTest
 [INFO] Running com.cinema.unit.ScreeningValidationTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in com.cinema.unit.ScreeningValidationTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in com.cinema.unit.ScreeningValidationTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -54,15 +60,15 @@ SLF4J(W): No SLF4J providers were found.
 SLF4J(W): Defaulting to no-operation (NOP) logger implementation
 SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
 [INFO] Running com.cinema.integration.BookingConcurrencyIT
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.548 s -- in com.cinema.integration.BookingConcurrencyIT
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.471 s -- in com.cinema.integration.BookingConcurrencyIT
 [INFO] Running com.cinema.integration.DatabaseIntegrityIT
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.153 s -- in com.cinema.integration.DatabaseIntegrityIT
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.155 s -- in com.cinema.integration.DatabaseIntegrityIT
 [INFO] Running com.cinema.integration.ReportAccuracyIT
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.086 s -- in com.cinema.integration.ReportAccuracyIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.980 s -- in com.cinema.integration.ReportAccuracyIT
 [INFO] Running com.cinema.integration.ScreeningConcurrencyIT
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.070 s -- in com.cinema.integration.ScreeningConcurrencyIT
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 s -- in com.cinema.integration.ScreeningConcurrencyIT
 [INFO] Running com.cinema.integration.ScreeningSearchIT
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.cinema.integration.ScreeningSearchIT
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.cinema.integration.ScreeningSearchIT
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -73,6 +79,6 @@ SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  16.379 s
-[INFO] Finished at: 2026-11-07T11:59:15+07:00
+[INFO] Total time:  10.023 s
+[INFO] Finished at: 2026-11-07T12:24:24+07:00
 [INFO] ------------------------------------------------------------------------

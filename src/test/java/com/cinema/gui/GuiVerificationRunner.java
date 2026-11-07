@@ -20,6 +20,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,10 +47,25 @@ public final class GuiVerificationRunner {
 
     public static void main(String[] args) throws Exception {
         Files.createDirectories(SCREENSHOT_DIR);
-        AppConfig testConfig = AppConfig.loadTest();
-        cleanUpGuiDemoArtifacts(testConfig);
+        boolean useProductionDb = Arrays.stream(args)
+                .anyMatch(a -> "--db=cinema_chain".equalsIgnoreCase(a) || "--production".equalsIgnoreCase(a));
+        AppConfig targetConfig = useProductionDb ? AppConfig.loadProduction() : AppConfig.loadTest();
+        cleanUpGuiDemoArtifacts(targetConfig);
 
-        ConnectionProvider cp = new ConnectionProvider(testConfig);
+        ConnectionProvider cp = new ConnectionProvider(targetConfig);
+        try (Connection conn = cp.getConnection();
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(
+                     "SELECT DATABASE() AS db_name, VERSION() AS mysql_ver, @@version_comment AS dist, CURRENT_USER() AS db_user")) {
+            if (rs.next()) {
+                System.out.printf("[GUI-VERIFY] Connected DB=%s | MySQL=%s (%s) | User=%s%n",
+                        rs.getString("db_name"),
+                        rs.getString("mysql_ver"),
+                        rs.getString("dist"),
+                        rs.getString("db_user"));
+            }
+        }
+
         BookingService concurrentCashierService = new BookingService(
                 new BookingRepository(cp), new TransactionTemplate(cp));
 
@@ -55,7 +73,7 @@ public final class GuiVerificationRunner {
 
         final AppShell[] holder = new AppShell[1];
         SwingUtilities.invokeAndWait(() -> {
-            AppShell shell = new AppShell(testConfig);
+            AppShell shell = new AppShell(targetConfig);
             shell.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             shell.setSize(1420, 880);
             shell.setLocationRelativeTo(null);
@@ -125,7 +143,7 @@ public final class GuiVerificationRunner {
             captureWindow(shell, SCREENSHOT_DIR.resolve("05_screening_search.png"));
 
             // Dọn dữ liệu tạm của Workflow 1..4b trước khi chụp và xuất 2 báo cáo tài chính chuẩn (khớp 35.165.000 VNĐ)
-            cleanUpGuiDemoArtifacts(testConfig);
+            cleanUpGuiDemoArtifacts(targetConfig);
 
             // Workflow 6: Chuyển sang Màn hình 4 (Báo cáo Doanh thu), xem trước & xuất PDF
             final Path[] revPdfHolder = new Path[1];
@@ -147,18 +165,44 @@ public final class GuiVerificationRunner {
             Thread.sleep(350);
             captureWindow(shell, SCREENSHOT_DIR.resolve("07_ticket_sales_report_preview.png"));
 
+            if (!Files.exists(revPdfHolder[0]) || Files.size(revPdfHolder[0]) == 0) {
+                throw new IllegalStateException("Báo cáo Doanh thu PDF không được tạo hoặc rỗng: " + revPdfHolder[0]);
+            }
+            if (!Files.exists(salesPdfHolder[0]) || Files.size(salesPdfHolder[0]) == 0) {
+                throw new IllegalStateException("Báo cáo Bán vé PDF không được tạo hoặc rỗng: " + salesPdfHolder[0]);
+            }
+
             // Kết xuất trang 1 của 2 tệp PDF ra ảnh PNG để kiểm chứng trực quan
             renderPdfFirstPage(revPdfHolder[0], SCREENSHOT_DIR.resolve("08_exported_revenue_pdf_page1.png"));
             renderPdfFirstPage(salesPdfHolder[0], SCREENSHOT_DIR.resolve("09_exported_sales_pdf_page1.png"));
 
+            try (Connection conn = cp.getConnection();
+                 Statement st = conn.createStatement();
+                 ResultSet rs = st.executeQuery(
+                         "SELECT DATABASE() AS db_name, "
+                                 + "(SELECT COUNT(*) FROM screening) AS scr_cnt, "
+                                 + "(SELECT COUNT(*) FROM booking) AS bk_cnt, "
+                                 + "(SELECT COALESCE(SUM(total_paid_revenue), 0) FROM vw_branch_daily_revenue) AS total_rev")) {
+                if (rs.next()) {
+                    System.out.printf("[GUI-VERIFY-POST] DB=%s | screenings=%d | bookings=%d | total_paid_revenue=%s%n",
+                            rs.getString("db_name"),
+                            rs.getInt("scr_cnt"),
+                            rs.getInt("bk_cnt"),
+                            rs.getBigDecimal("total_rev").toPlainString());
+                }
+            }
+
             System.out.println("GUI verification and screenshot capture completed successfully.");
         } finally {
-            cleanUpGuiDemoArtifacts(testConfig);
-            SwingUtilities.invokeAndWait(() -> {
-                for (Window w : Window.getWindows()) {
-                    w.dispose();
-                }
-            });
+            try {
+                cleanUpGuiDemoArtifacts(targetConfig);
+            } finally {
+                SwingUtilities.invokeAndWait(() -> {
+                    for (Window w : Window.getWindows()) {
+                        w.dispose();
+                    }
+                });
+            }
         }
     }
 

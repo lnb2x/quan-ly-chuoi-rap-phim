@@ -64,16 +64,20 @@ com.cinema
   1. `docs/erd/` (Sơ đồ ERD)
   2. `docs/relational-model/schema-design.md` (Mô hình quan hệ)
   3. `docs/normalization/normalization.md` (Chứng minh 3NF)
-  4. `database/schema/01_schema.sql` & `02_triggers.sql` (Mã lệnh DDL)
-- **An toàn dữ liệu:** Các script khởi tạo chỉ thao tác trên hai cơ sở dữ liệu dự án là `cinema_chain` (vận hành/demo) và `cinema_chain_test` (kiểm thử tự động). Tuyệt đối không xóa hoặc sửa các cơ sở dữ liệu có sẵn khác của người dùng.
+  4. `database/schema/01_schema.sql`, `01b_foreign_keys.sql` & `02_triggers.sql` (Mã lệnh DDL)
+- **An toàn dữ liệu:** Script `database/setup.ps1` phân tách rõ 2 chế độ: **Normal Setup** (mặc định, bảo toàn 100% dữ liệu hiện có, không xóa bảng) và **Clean Reset** (`-CleanReset`, bắt buộc xác nhận `'YES'`, chỉ xóa và dựng lại duy nhất `cinema_chain`). Tuyệt đối không xóa hoặc sửa các cơ sở dữ liệu có sẵn khác của người dùng hay XAMPP.
 
 ---
 
 ## 5. Lệnh Kiểm chứng Bắt buộc (Required Verification Commands)
 
-1. **Kiểm tra nạp lược đồ, trigger, dữ liệu mẫu và kiểm chứng toàn vẹn SQL (Gate C):**
+1. **Khởi tạo an toàn (Normal Setup) hoặc Dựng lại sạch có xác nhận (Clean Reset) trên MySQL 8.4 LTS (Gate C):**
    ```powershell
+   # Normal Setup (không xóa dữ liệu hiện có):
    powershell -ExecutionPolicy Bypass -File database/setup.ps1
+
+   # Clean Reset (yêu cầu xác nhận 'YES', chỉ xóa và tạo lại tuần tự cinema_chain):
+   powershell -ExecutionPolicy Bypass -File database/setup.ps1 -CleanReset
    ```
 2. **Biên dịch và chạy toàn bộ kiểm thử đơn vị, kiến trúc, tích hợp CSDL & đồng thời (Gate A, B, C, E):**
    ```powershell
