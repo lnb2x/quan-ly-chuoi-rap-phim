@@ -17,6 +17,7 @@ import com.cinema.feature.search.ScreeningSearchService;
 import com.cinema.feature.search.ui.ScreeningSearchPanel;
 import com.cinema.reporting.PdfReportWriter;
 import com.cinema.shared.config.AppConfig;
+import com.cinema.feature.payment.SandboxPaymentService;
 import com.cinema.shared.db.ConnectionProvider;
 import com.cinema.shared.db.TransactionTemplate;
 import com.cinema.shared.ui.Theme;
@@ -50,6 +51,10 @@ public final class AppShell extends JFrame {
     private final TicketSalesReportPanel salesReportPanel;
 
     public AppShell(AppConfig appConfig) {
+        this(appConfig, null);
+    }
+
+    public AppShell(AppConfig appConfig, SandboxPaymentService sandboxPayments) {
         super("Hệ Thống Quản Lý Chuỗi Rạp Chiếu Phim CineViet — Java 21 LTS & MySQL 8.4 LTS");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1420, 880);
@@ -77,7 +82,7 @@ public final class AppShell extends JFrame {
         TicketSalesReportService salesService = new TicketSalesReportService(salesRepository, screeningRepository, pdfReportWriter);
 
         this.screeningPanel = new ScreeningManagementPanel(screeningService);
-        this.bookingPanel = new TicketBookingPanel(bookingService);
+        this.bookingPanel = new TicketBookingPanel(bookingService, sandboxPayments);
         this.searchPanel = new ScreeningSearchPanel(searchService);
         this.revenueReportPanel = new RevenueReportPanel(revenueService);
         this.salesReportPanel = new TicketSalesReportPanel(salesService);

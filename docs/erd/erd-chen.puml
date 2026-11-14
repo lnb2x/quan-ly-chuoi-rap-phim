@@ -1,108 +1,191 @@
-@startuml erd-chen
-!pragma layout smetana
+@startchen erd-chen
 skinparam backgroundColor #FFFFFF
 skinparam defaultFontName "Arial"
 skinparam defaultFontSize 12
 skinparam shadowing false
-skinparam roundCorner 6
 
-title SƠ ĐỒ THỰC THỂ – LIÊN KẾT MỨC KHÁI NIỆM (CHEN ERD — 14 BẢNG CHUẨN 3NF)\nHỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
+title SƠ ĐỒ E–R THEO BÀI GIẢNG — QUẢN LÝ CHUỖI RẠP PHIM\nHỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
 
-skinparam rectangle {
-  BackgroundColor<<Entity>> #EBF5FB
-  BorderColor<<Entity>> #1F618D
-  FontColor<<Entity>> #0B2545
-  FontStyle<<Entity>> bold
-  BackgroundColor<<AssocEntity>> #E8F8F5
-  BorderColor<<AssocEntity>> #117864
-  FontColor<<AssocEntity>> #0E6251
-  FontStyle<<AssocEntity>> bold
+' Bản số 1/N là lực lượng liên kết theo slide 3, trang 18.
+' Dấu = là tham gia đầy đủ; bản draw.io/SVG xuất thành hai nét theo slide 3, trang 17.
+' associative: movie_genre, screening_seat_lock
+' Bản draw.io là bản vẽ chính; PlantUML đối chiếu ngữ nghĩa các liên kết.
+' Các thành phần khóa ghép được gạch chân đồng thời, không duy nhất riêng lẻ.
+entity "CHI NHÁNH RẠP\n(cinema_branch)" as cinema_branch {
+  branch_id <<key>>
+  branch_code
+  branch_name
+  address
+  city
+  phone
+  active
+}
+entity "PHÒNG CHIẾU\n(screening_room)" as screening_room {
+  room_id <<key>>
+  room_name
+  room_type
+  active
+}
+entity "HẠNG GHẾ\n(seat_type)" as seat_type {
+  seat_type_code <<key>>
+  type_name
+  surcharge
+}
+entity "GHẾ VẬT LÝ\n(seat)" as seat {
+  seat_id <<key>>
+  seat_row
+  seat_number
+}
+entity "PHIM ĐIỆN ẢNH\n(movie)" as movie {
+  movie_id <<key>>
+  movie_code
+  title
+  duration_minutes
+  release_date
+  age_rating
+  country
+  description
+}
+entity "THỂ LOẠI PHIM\n(genre)" as genre {
+  genre_id <<key>>
+  genre_name
+  description
+}
+entity "PHIM – THỂ LOẠI\n(movie_genre)" as movie_genre {
+  movie_id <<key>>
+  genre_id <<key>>
+}
+entity "SUẤT CHIẾU\n(screening)" as screening {
+  screening_id <<key>>
+  start_time
+  end_time
+  base_price
+  status
+}
+entity "KHÁCH HÀNG\n(customer)" as customer {
+  customer_id <<key>>
+  full_name
+  phone
+  email
+  birth_date
+  created_at
+}
+entity "NHÂN VIÊN\n(employee)" as employee {
+  employee_id <<key>>
+  employee_code
+  full_name
+  phone
+  role
+  hired_date
+}
+entity "ĐƠN ĐẶT VÉ\n(booking)" as booking {
+  booking_id <<key>>
+  booking_code
+  booked_at
+  booking_status
+}
+entity "VÉ XEM PHIM\n(ticket)" as ticket {
+  ticket_id <<key>>
+  unit_price
+  ticket_status
+  cancelled_at
+}
+entity "PHÂN BỔ GHẾ HIỆU LỰC\n(screening_seat_lock)" as screening_seat_lock {
+  screening_id <<key>>
+  seat_id <<key>>
+}
+entity "THANH TOÁN\n(payment)" as payment {
+  payment_id <<key>>
+  amount
+  payment_method
+  payment_status
+  paid_at
+  transaction_ref
 }
 
-skinparam hexagon {
-  BackgroundColor<<Rel>> #FEF9E7
-  BorderColor<<Rel>> #B7950B
-  FontColor<<Rel>> #5D4037
-  FontStyle<<Rel>> bold
+relationship "Sở hữu" as R_BRANCH_ROOM {
 }
+cinema_branch -1- R_BRANCH_ROOM
+R_BRANCH_ROOM =N= screening_room
 
-rectangle "CHI NHÁNH RẠP\n(CinemaBranch)\n---\nPK: branch_id\nUQ: branch_code, branch_name, phone\naddress, city, active" <<Entity>> as E_BRANCH
-rectangle "PHÒNG CHIẾU\n(ScreeningRoom)\n---\nPK: room_id\nUQ: (branch_id, room_name)\nroom_type, active" <<Entity>> as E_ROOM
-rectangle "HẠNG GHẾ\n(SeatType)\n---\nPK: seat_type_code\nUQ: type_name\nsurcharge" <<Entity>> as E_SEAT_TYPE
-rectangle "GHẾ VẬT LÝ\n(Seat)\n---\nPK: seat_id\nUQ: (room_id, seat_row, seat_number)" <<Entity>> as E_SEAT
-rectangle "PHIM ĐIỆN ẢNH\n(Movie)\n---\nPK: movie_id\nUQ: movie_code\ntitle, duration_minutes\nrelease_date, age_rating, country" <<Entity>> as E_MOVIE
-rectangle "THỂ LOẠI PHIM\n(Genre)\n---\nPK: genre_id\nUQ: genre_name\ndescription" <<Entity>> as E_GENRE
-rectangle "SUẤT CHIẾU\n(Screening)\n---\nPK: screening_id\nstart_time, end_time\nbase_price, status" <<Entity>> as E_SCREENING
-rectangle "KHÁCH HÀNG\n(Customer)\n---\nPK: customer_id\nUQ: phone, email\nfull_name, birth_date, created_at" <<Entity>> as E_CUSTOMER
-rectangle "NHÂN VIÊN\n(Employee)\n---\nPK: employee_id\nUQ: employee_code, phone\nfull_name, role, hired_date" <<Entity>> as E_EMPLOYEE
-rectangle "ĐƠN ĐẶT VÉ\n(Booking)\n---\nPK: booking_id\nUQ: booking_code\nbooked_at, booking_status" <<Entity>> as E_BOOKING
-rectangle "VÉ XEM PHIM\n(Ticket)\n---\nPK: ticket_id\nUQ: (booking_id, seat_id)\nunit_price, ticket_status, cancelled_at" <<Entity>> as E_TICKET
-rectangle "KHÓA GHẾ HIỆU LỰC\n(ScreeningSeatLock)\n---\nPK: (screening_id, seat_id)\nUQ: ticket_id" <<AssocEntity>> as E_SEAT_LOCK
-rectangle "THANH TOÁN\n(Payment)\n---\nPK: payment_id\namount, payment_method\npayment_status, paid_at\ntransaction_ref" <<Entity>> as E_PAYMENT
+relationship "Quản lý nhân sự" as R_BRANCH_EMP {
+}
+cinema_branch -1- R_BRANCH_EMP
+R_BRANCH_EMP =N= employee
 
-hexagon "Sở hữu\n(Owns)" <<Rel>> as R_BRANCH_ROOM
-hexagon "Tuyển dụng\n(Employs)" <<Rel>> as R_BRANCH_EMP
-hexagon "Chứa ghế\n(Contains)" <<Rel>> as R_ROOM_SEAT
-hexagon "Phân hạng\n(ClassifiedAs)" <<Rel>> as R_TYPE_SEAT
-hexagon "Thuộc thể loại\n(MovieGenre - M:N)" <<Rel>> as R_MOVIE_GENRE
-hexagon "Xếp lịch chiếu\n(Shows)" <<Rel>> as R_MOVIE_SCR
-hexagon "Tổ chức tại\n(HostedIn)" <<Rel>> as R_ROOM_SCR
-hexagon "Đặt mua\n(Places)" <<Rel>> as R_CUST_BOOK
-hexagon "Thực hiện\n(ProcessedBy)" <<Rel>> as R_EMP_BOOK
-hexagon "Đặt cho suất\n(ForScreening)" <<Rel>> as R_SCR_BOOK
-hexagon "Bao gồm vé\n(Includes)" <<Rel>> as R_BOOK_TICKET
-hexagon "Gán chỗ ngồi\n(AssignsSeat)" <<Rel>> as R_SEAT_TICKET
-hexagon "Khóa theo suất\n(LocksInScreening)" <<Rel>> as R_LOCK_SCR
-hexagon "Giữ chỗ ghế\n(LocksSeat)" <<Rel>> as R_LOCK_SEAT
-hexagon "Kích hoạt khi VALID\n(HoldsActiveLock)" <<Rel>> as R_LOCK_TICKET
-hexagon "Thanh toán đơn\n(PaidBy)" <<Rel>> as R_BOOK_PAY
+relationship "Chứa ghế" as R_ROOM_SEAT {
+}
+screening_room -1- R_ROOM_SEAT
+R_ROOM_SEAT =N= seat
 
-E_BRANCH "1" -- R_BRANCH_ROOM
-R_BRANCH_ROOM -- "1..N" E_ROOM
+relationship "Phân hạng" as R_TYPE_SEAT {
+}
+seat_type -1- R_TYPE_SEAT
+R_TYPE_SEAT =N= seat
 
-E_BRANCH "1" -- R_BRANCH_EMP
-R_BRANCH_EMP -- "1..N" E_EMPLOYEE
+relationship "Có phân loại" as R_MOVIE_MG {
+}
+movie -1- R_MOVIE_MG
+R_MOVIE_MG =N= movie_genre
 
-E_ROOM "1" -- R_ROOM_SEAT
-R_ROOM_SEAT -- "1..N" E_SEAT
+relationship "Gán thể loại" as R_GENRE_MG {
+}
+genre -1- R_GENRE_MG
+R_GENRE_MG =N= movie_genre
 
-E_SEAT_TYPE "1" -- R_TYPE_SEAT
-R_TYPE_SEAT -- "0..N" E_SEAT
+relationship "Xếp lịch chiếu" as R_MOVIE_SCR {
+}
+movie -1- R_MOVIE_SCR
+R_MOVIE_SCR =N= screening
 
-E_MOVIE "0..N" -- R_MOVIE_GENRE
-R_MOVIE_GENRE -- "1..N" E_GENRE
+relationship "Tổ chức tại" as R_ROOM_SCR {
+}
+screening_room -1- R_ROOM_SCR
+R_ROOM_SCR =N= screening
 
-E_MOVIE "1" -- R_MOVIE_SCR
-R_MOVIE_SCR -- "0..N" E_SCREENING
+relationship "Đặt mua" as R_CUST_BOOK {
+}
+customer -1- R_CUST_BOOK
+R_CUST_BOOK -N- booking
 
-E_ROOM "1" -- R_ROOM_SCR
-R_ROOM_SCR -- "0..N" E_SCREENING
+relationship "Lập đơn" as R_EMP_BOOK {
+}
+employee -1- R_EMP_BOOK
+R_EMP_BOOK =N= booking
 
-E_CUSTOMER "0..1" -- R_CUST_BOOK
-R_CUST_BOOK -- "0..N" E_BOOKING
+relationship "Đặt cho suất" as R_SCR_BOOK {
+}
+screening -1- R_SCR_BOOK
+R_SCR_BOOK =N= booking
 
-E_EMPLOYEE "1" -- R_EMP_BOOK
-R_EMP_BOOK -- "0..N" E_BOOKING
+relationship "Bao gồm vé" as R_BOOK_TICKET {
+}
+' BR-08: đơn mua hoàn chỉnh có ít nhất một vé; điều kiện được BookingService bảo vệ.
+booking =1= R_BOOK_TICKET
+R_BOOK_TICKET =N= ticket
 
-E_SCREENING "1" -- R_SCR_BOOK
-R_SCR_BOOK -- "0..N" E_BOOKING
+relationship "Gán chỗ lịch sử" as R_SEAT_TICKET {
+}
+seat -1- R_SEAT_TICKET
+R_SEAT_TICKET =N= ticket
 
-E_BOOKING "1" -- R_BOOK_TICKET
-R_BOOK_TICKET -- "1..N" E_TICKET
+relationship "Khóa theo suất" as R_LOCK_SCR {
+}
+screening -1- R_LOCK_SCR
+R_LOCK_SCR =N= screening_seat_lock
 
-E_SEAT "1" -- R_SEAT_TICKET
-R_SEAT_TICKET -- "0..N" E_TICKET
+relationship "Giữ chỗ ghế" as R_LOCK_SEAT {
+}
+seat -1- R_LOCK_SEAT
+R_LOCK_SEAT =N= screening_seat_lock
 
-E_SCREENING "1" -- R_LOCK_SCR
-R_LOCK_SCR -- "0..N" E_SEAT_LOCK
+relationship "Giữ khóa khi VALID" as R_LOCK_TICKET {
+}
+R_LOCK_TICKET -1- ticket
+R_LOCK_TICKET =1= screening_seat_lock
 
-E_SEAT "1" -- R_LOCK_SEAT
-R_LOCK_SEAT -- "0..N" E_SEAT_LOCK
-
-E_TICKET "1" -- R_LOCK_TICKET
-R_LOCK_TICKET -- "0..1" E_SEAT_LOCK
-
-E_BOOKING "1" -- R_BOOK_PAY
-R_BOOK_PAY -- "1..N" E_PAYMENT
-
-@enduml
+relationship "Thanh toán đơn" as R_BOOK_PAY {
+}
+booking -1- R_BOOK_PAY
+R_BOOK_PAY =N= payment
+@endchen

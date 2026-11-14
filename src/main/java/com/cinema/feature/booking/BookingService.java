@@ -86,6 +86,9 @@ public final class BookingService {
         if (seatIds == null || seatIds.isEmpty()) {
             vr.addError("Vui lòng chọn ít nhất 01 ghế trên sơ đồ phòng chiếu [BR-08].");
         } else {
+            if (seatIds.stream().anyMatch(id -> id == null || id <= 0)) {
+                vr.addError("Danh sách ghế chứa mã ghế không hợp lệ [BR-08].");
+            }
             Set<Integer> distinct = new LinkedHashSet<>(seatIds);
             if (distinct.size() != seatIds.size()) {
                 vr.addError("Danh sách ghế đặt trong cùng một đơn không được chứa ghế trùng lặp [BR-10].");
@@ -115,6 +118,15 @@ public final class BookingService {
             String paymentMethod,
             String paymentStatus
     ) {
+        return createBooking(screeningId,customerId,employeeId,seatIds,paymentMethod,paymentStatus,false);
+    }
+
+    public int createSandboxBooking(int screeningId, Integer customerId, int employeeId, List<Integer> seatIds) {
+        return createBooking(screeningId,customerId,employeeId,seatIds,"EWALLET","PENDING",true);
+    }
+
+    private int createBooking(int screeningId, Integer customerId, int employeeId, List<Integer> seatIds,
+                              String paymentMethod, String paymentStatus, boolean sandbox) {
         validateBookingRequest(screeningId, employeeId, seatIds, paymentMethod, paymentStatus).throwIfInvalid();
 
         return transactionTemplate.execute(conn -> {
@@ -122,6 +134,9 @@ public final class BookingService {
             if (!"OPEN".equals(scr.status())) {
                 throw new BusinessRuleException(
                         "Lỗi nghiệp vụ [BR-08]: Suất chiếu #" + screeningId + " đã bị hủy hoặc ngừng nhận đặt vé.");
+            }
+            if (sandbox && !scr.startTime().isAfter(LocalDateTime.now(java.time.ZoneId.of("Asia/Ho_Chi_Minh")))) {
+                throw new BusinessRuleException("Không thể thanh toán sandbox cho suất chiếu đã bắt đầu.");
             }
 
             BigDecimal totalAmount = BigDecimal.ZERO;
@@ -155,7 +170,7 @@ public final class BookingService {
                 repository.insertTicket(conn, bookingId, seatInfo.seatId(), unitPrice, "VALID");
             }
 
-            String txnRef = "TXN-" + paymentMethod + "-" + bookingId;
+            String txnRef = sandbox ? "VNPAY-" + bookingId : "TXN-" + paymentMethod + "-" + bookingId;
             LocalDateTime paidAt = "SUCCESS".equals(paymentStatus) ? now : null;
             repository.insertPayment(conn, bookingId, totalAmount, paymentMethod, paymentStatus, paidAt, txnRef);
 

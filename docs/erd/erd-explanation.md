@@ -5,36 +5,37 @@
 
 ## 1. Tổng quan Sơ đồ Thực thể – Liên kết (ERD)
 
-Mô hình Thực thể – Liên kết của **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được xây dựng gồm **12 tập thực thể nghiệp vụ chính**, **01 quan hệ kết hợp nhiều – nhiều (`movie_genre`)** và **01 thực thể kết hợp cấp phát ghế hiệu lực (`screening_seat_lock`)**, tương ứng chính xác với **14 bảng quan hệ đạt chuẩn 3NF nghiêm ngặt** khi ánh xạ sang mô hình quan hệ.
+Mô hình Thực thể – Liên kết của **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được xây dựng gồm **12 tập thực thể nghiệp vụ chính**, **01 thực thể kết hợp phân loại phim (`movie_genre`)** và **01 thực thể kết hợp cấp phát ghế hiệu lực (`screening_seat_lock`)**, tương ứng với **14 bảng quan hệ** trong lược đồ 3NF hiện có.
 
 Đặc biệt, trong mô hình ERD và lược đồ quan hệ chuẩn 3NF:
 - Thực thể **`Ticket` (`ticket`)** liên kết với **`Screening` (`screening`)** thông qua **`Booking` (`booking`)**, **không** tạo liên kết dư thừa trực tiếp `screening -> ticket` nhằm triệt tiêu hoàn toàn phụ thuộc hàm bắc cầu $\text{ticket\_id} \to \text{booking\_id} \to \text{screening\_id}$.
 - Thực thể kết hợp **`ScreeningSeatLock` (`screening_seat_lock`)** biểu diễn trạng thái cấp phát ghế đang có hiệu lực (`VALID`) của một tấm vé trên cặp `(screening_id, seat_id)`, vừa bảo toàn lịch sử mọi lần hủy vé/đặt lại ghế trong `ticket`, vừa đảm bảo tại mọi thời điểm mỗi ghế trong một suất chiếu chỉ gắn với tối đa một vé hợp lệ ngay ở mức khóa chính CSDL.
 
 Hệ thống cung cấp đồng thời:
-1. **Sơ đồ ERD mức khái niệm (Chen Notation):** Mã nguồn tại `docs/erd/erd-chen.puml`, ảnh kết xuất tại `docs/erd/erd-chen.png` và `docs/erd/erd-chen.svg`.
+1. **Sơ đồ E–R theo bài giảng:** Bản vẽ chính có thể chỉnh sửa tại `docs/erd/erd-chen.drawio`, ảnh kết xuất tại `docs/erd/erd-chen.png` và `docs/erd/erd-chen.svg`. Dùng nhãn `1/N`, đường kép cho tham gia đầy đủ và hình chữ nhật kèm hình thoi cho thực thể kết hợp. `erd-chen.puml` là bản đối chiếu ngữ nghĩa của các liên kết; hai thực thể kết hợp được khai báo trong chú thích của tệp này.
 2. **Sơ đồ ERD mức logic (Crow's Foot Notation):** Mã nguồn tại `docs/erd/erd-logical.puml`, ảnh kết xuất tại `docs/erd/erd-logical.png` và `docs/erd/erd-logical.svg`.
 3. **Sơ đồ Mermaid ER trực quan:** Hiển thị trực tiếp dưới đây.
+4. **Bản vẽ draw.io có thể chỉnh sửa:** [Chen](erd-chen.drawio) và [Crow's Foot](erd-logical.drawio). Mỗi thực thể, thuộc tính và đường liên kết là đối tượng riêng; mở tệp `.drawio` trong diagrams.net để chỉnh sửa. Nội dung được đối chiếu với các bản PlantUML và 17 FK SQL; bản vẽ draw.io cần được đồng bộ khi thay đổi lược đồ.
 
 ```mermaid
 erDiagram
-    cinema_branch ||--|{ screening_room : "so_huu (1:N)"
-    cinema_branch ||--|{ employee : "tuyen_dung (1:N)"
-    screening_room ||--|{ seat : "chua_ghe (1:N)"
+    cinema_branch ||--o{ screening_room : "so_huu (1:N)"
+    cinema_branch ||--o{ employee : "tuyen_dung (1:N)"
+    screening_room ||--o{ seat : "chua_ghe (1:N)"
     seat_type ||--o{ seat : "phan_hang (1:N)"
-    movie ||--|{ movie_genre : "co_the_loai (1:N)"
+    movie ||--o{ movie_genre : "co_the_loai (1:N)"
     genre ||--o{ movie_genre : "gom_phim (1:N)"
     movie ||--o{ screening : "xep_lich (1:N)"
     screening_room ||--o{ screening : "to_chuc_tai (1:N)"
     screening ||--o{ booking : "nhan_don_dat (1:N)"
     customer |o--o{ booking : "dat_mua (0..1:N)"
     employee ||--o{ booking : "xu_ly_don (1:N)"
-    booking ||--|{ ticket : "bao_gom_ve (1:N)"
+    booking ||--o{ ticket : "bao_gom_ve (1:N)"
     seat ||--o{ ticket : "gan_cho_lich_su (1:N)"
     screening ||--o{ screening_seat_lock : "quan_ly_ghe_hieu_luc (1:N)"
     seat ||--o{ screening_seat_lock : "khoa_ghe_theo_suat (1:N)"
     ticket ||--o| screening_seat_lock : "giu_khoa_khi_VALID (1:0..1)"
-    booking ||--|{ payment : "thanh_toan (1:N)"
+    booking ||--o{ payment : "thanh_toan (1:N)"
 
     cinema_branch {
         int branch_id PK
@@ -120,8 +121,8 @@ erDiagram
     }
     ticket {
         int ticket_id PK
-        int booking_id FK,UK
-        int seat_id FK,UK
+        int booking_id FK "UQ ghep (booking_id, seat_id)"
+        int seat_id FK "UQ ghep (booking_id, seat_id)"
         decimal unit_price
         varchar ticket_status
         datetime cancelled_at
@@ -143,6 +144,18 @@ erDiagram
 ```
 
 ---
+
+### Cách đọc và phạm vi ràng buộc
+
+- Bản E–R chọn thể hiện tường minh **12 thực thể nghiệp vụ và 2 thực thể kết hợp** để ánh xạ sang 14 bảng. Đây là lựa chọn mô hình hóa, không phải quy tắc đếm thực thể từ số bảng. `movie_genre` thể hiện phân loại Phim–Thể loại M:N; `screening_seat_lock` thể hiện phân bổ ghế hiệu lực. Hai thực thể kết hợp có ký hiệu chữ nhật kèm hình thoi theo slide 5, trang 18 và 32–33. Không vẽ thêm quan hệ M:N trực tiếp trùng lặp.
+- Theo slide 3, trang 17–18, thực thể là hình chữ nhật, liên kết là hình thoi, thuộc tính là hình elip, khóa chính được gạch chân. Nhãn `1/N` là lực lượng liên kết; đường kép biểu diễn tham gia đầy đủ, đường đơn biểu diễn tham gia một phần. Ví dụ: Chi nhánh **1** — Sở hữu — **N** Phòng; phía Phòng dùng đường kép vì mỗi phòng phải thuộc một chi nhánh. Nhãn `N` không tự khẳng định phải có ít nhất một phòng; điều kiện tối thiểu được thể hiện riêng bằng nét đơn/kép.
+- Bản logic Crow's Foot/Mermaid phản ánh DDL: FK cùng `NOT NULL` bắt buộc con tham chiếu đúng một cha nhưng không bắt buộc cha có con. Bản E–R bổ sung **BR-08**: Đơn **1** — Bao gồm — **N** Vé, cả hai phía dùng đường kép vì đơn mua hoàn chỉnh có ít nhất một vé và mỗi vé thuộc đúng một đơn. `BookingService.validateBookingRequest()` từ chối danh sách ghế rỗng; `createBooking()` tạo đơn và vé trong một giao dịch. Điều này được bảo vệ ở quy trình ứng dụng, không phải chỉ bởi FK.
+- Giả định cấu hình ban đầu: cho phép chi nhánh mới chưa có phòng/nhân viên và phòng mới chưa có ghế; các phía cha này tham gia một phần. Phim và thể loại có thể chưa được phân loại/gắn phim. Đây là phạm vi mô hình hiện tại được nêu rõ trong quy tắc nghiệp vụ, không phải kết luận rút ra chỉ từ việc SQL có FK.
+- Trong Crow's Foot, dấu `*` là `NOT NULL`; các cột mang cùng `UQ1` **trong một bảng** hợp thành một ràng buộc UNIQUE ghép. Riêng `ticket`, từng `booking_id` và `seat_id` đều không duy nhất độc lập; chỉ cặp `(booking_id, seat_id)` duy nhất. Mermaid ghi chú khóa ghép này bên cạnh hai cột.
+- `ticket` không có FK trực tiếp đến `screening`: suất chiếu được suy ra qua `ticket.booking_id → booking.screening_id`. `screening_seat_lock` có ba FK đến suất chiếu, ghế và vé; `UNIQUE(ticket_id)` cho quan hệ Vé–Khóa ghế là `1:0..1`. Trigger bảo đảm vé `VALID` có đúng một khóa, vé `CANCELLED` không có khóa và ghế/suất trong khóa khớp với vé.
+- Cột sinh vật lý `payment.active_success_booking` chỉ phục vụ UNIQUE có điều kiện cho thanh toán `SUCCESS`; được thể hiện riêng trong bản logic và không phải thuộc tính nghiệp vụ của bản Chen/Mermaid.
+
+Kiểm chứng tĩnh (không kết nối CSDL): `python tools/verify_erd.py`. Xuất SVG của bản E–R chính bằng `python tools/export_chen_svg.py`; PNG được raster hóa từ SVG đó bằng Sharp trong runtime tài liệu của Codex. Cả SVG và PNG đều xuất phát từ draw.io. Bản Crow's Foot vẫn kết xuất bằng JDK 21 và `tools/plantuml.jar`. Không dùng kết xuất Chen trực tiếp từ PlantUML thay cho ảnh nộp: PlantUML dùng nét đậm cho tham gia đầy đủ và không tự vẽ ký hiệu thực thể kết hợp giống slide.
 
 ## 2. Thuyết minh Chi tiết 14 Tập Thực thể & Thực thể Kết hợp (Entities)
 
@@ -169,16 +182,18 @@ erDiagram
 
 ## 3. Thuyết minh Chi tiết Các Mối Quan hệ và Bản số (Relationships & Cardinalities)
 
-1. **`cinema_branch` (1) — Sở hữu — (1..N) `screening_room`:**
-   - Một chi nhánh rạp phải có ít nhất một phòng chiếu và có thể sở hữu nhiều phòng chiếu. Mỗi phòng chiếu thuộc về duy nhất một chi nhánh (`screening_room.branch_id NOT NULL`).
-2. **`cinema_branch` (1) — Tuyển dụng — (1..N) `employee`:**
-   - Một chi nhánh quản lý nhiều nhân viên; mỗi nhân viên biên chế tại một chi nhánh xác định (`employee.branch_id NOT NULL`).
-3. **`screening_room` (1) — Chứa ghế — (1..N) `seat`:**
-   - Mỗi phòng chiếu có nhiều ghế vật lý được lắp đặt cố định; mỗi ghế vật lý thuộc duy nhất một phòng chiếu (`seat.room_id NOT NULL`).
+Các bản số trong danh sách dưới đây đọc theo đầu nối Crow's Foot. Bản Chen dùng `(min,max)` theo cách đọc tại phần chú giải ở trên.
+
+1. **`cinema_branch` (1) — Sở hữu — (0..N) `screening_room`:**
+   - Một chi nhánh có thể chưa có phòng chiếu hoặc có nhiều phòng chiếu. Mỗi phòng chiếu thuộc về duy nhất một chi nhánh (`screening_room.branch_id NOT NULL`).
+2. **`cinema_branch` (1) — Tuyển dụng — (0..N) `employee`:**
+   - Một chi nhánh có thể chưa có nhân viên hoặc quản lý nhiều nhân viên; mỗi nhân viên biên chế tại một chi nhánh xác định (`employee.branch_id NOT NULL`).
+3. **`screening_room` (1) — Chứa ghế — (0..N) `seat`:**
+   - Phòng chiếu có thể chưa lắp ghế hoặc có nhiều ghế; mỗi ghế vật lý thuộc duy nhất một phòng chiếu (`seat.room_id NOT NULL`).
 4. **`seat_type` (1) — Phân hạng — (0..N) `seat`:**
    - Một hạng ghế (`STD`, `VIP`, `COUPLE`) áp dụng cho nhiều ghế; mỗi ghế vật lý có đúng một hạng ghế (`seat.seat_type_code NOT NULL`).
-5. **`movie` (0..N) — Thuộc thể loại (`movie_genre`) — (1..N) `genre`:**
-   - Một bộ phim có ít nhất một hoặc nhiều thể loại; một thể loại có thể gắn cho nhiều bộ phim. Biểu diễn qua bảng `movie_genre(movie_id, genre_id)`.
+5. **`movie` (0..N) — Thuộc thể loại (`movie_genre`) — (0..N) `genre`:**
+   - Một phim có thể chưa được phân loại hoặc thuộc nhiều thể loại; một thể loại có thể chưa gắn phim hoặc gắn nhiều phim. Hai FK của `movie_genre(movie_id, genre_id)` đều `NOT NULL`: mỗi dòng kết hợp gắn đúng một phim và một thể loại, không bắt buộc mỗi phim/thể loại phải có dòng kết hợp.
 6. **`movie` (1) — Được xếp lịch — (0..N) `screening`:**
    - Một bộ phim có thể có không hoặc nhiều suất chiếu; mỗi suất chiếu trình chiếu đúng một bộ phim (`screening.movie_id NOT NULL`).
 7. **`screening_room` (1) — Tổ chức tại — (0..N) `screening`:**
@@ -189,10 +204,10 @@ erDiagram
    - Một nhân viên thu ngân lập nhiều đơn đặt vé; mỗi đơn đặt vé được ghi nhận bởi đúng một nhân viên phụ trách (`booking.employee_id NOT NULL`).
 10. **`screening` (1) — Có đơn đặt — (0..N) `booking`:**
     - Một suất chiếu có thể có nhiều đơn đặt vé; mỗi đơn đặt vé đặt chỗ cho đúng một suất chiếu xác định (`booking.screening_id NOT NULL`).
-11. **`booking` (1) — Bao gồm — (1..N) `ticket` & `seat` (1) — Gán chỗ lịch sử — (0..N) `ticket`:**
-    - Một đơn đặt vé bao gồm từ một đến nhiều vé xem phim; mỗi vé gắn với một ghế vật lý `seat_id` và chỉ xuất hiện tối đa một lần trong cùng một đơn (`UNIQUE(booking_id, seat_id)`). Trên tập lịch sử nhiều đơn khác nhau, một `seat_id` có thể xuất hiện ở nhiều dòng `ticket` (ví dụ: đơn trước bị hủy `CANCELLED`, đơn sau đặt lại ghế đó ở trạng thái `VALID`).
+11. **`booking` (1) — Bao gồm — (0..N) `ticket` & `seat` (1) — Gán chỗ lịch sử — (0..N) `ticket`:**
+    - DDL cho phép đơn chưa có vé; quy trình mua vé hoàn chỉnh tạo một hoặc nhiều vé trong giao dịch. Mỗi vé thuộc đúng một đơn và gắn một ghế vật lý `seat_id`, chỉ xuất hiện tối đa một lần trong cùng đơn (`UNIQUE(booking_id, seat_id)`). Trên tập lịch sử nhiều đơn khác nhau, một `seat_id` có thể xuất hiện ở nhiều dòng `ticket` (ví dụ: đơn trước bị hủy `CANCELLED`, đơn sau đặt lại ghế đó ở trạng thái `VALID`).
 12. **`screening` (1), `seat` (1) & `ticket` (1) — Khóa ghế hiệu lực (`screening_seat_lock`) — bản số `1:0..N` (từ `screening`, `seat`) và `1:0..1` (từ `ticket`):**
     - Mỗi tấm vé đang ở trạng thái hợp lệ (`ticket_status = 'VALID'`) giữ đúng `1` bản ghi trong `screening_seat_lock` (`UNIQUE(ticket_id)`), còn vé đã hủy (`CANCELLED`) có `0` bản ghi trong `screening_seat_lock` (bản số `1 : 0..1`).
     - Khóa chính `PRIMARY KEY (screening_id, seat_id)` của `screening_seat_lock` đảm bảo tuyệt đối tại mọi thời điểm chỉ có tối đa **01 vé `VALID`** chiếm giữ một ghế trong một suất chiếu, không cần lưu dư thừa `screening_id` bên trong bảng `ticket`.
-13. **`booking` (1) — Thanh toán — (1..N) `payment`:**
-    - Một đơn đặt vé có thể có nhiều bản ghi giao dịch thanh toán theo thời gian (ví dụ: lần 1 quẹt thẻ `FAILED`, lần 2 chuyển khoản `SUCCESS`). Ràng buộc duy nhất có điều kiện ở tầng vật lý đảm bảo mỗi đơn chỉ có tối đa **01 giao dịch ở trạng thái `SUCCESS`**.
+13. **`booking` (1) — Thanh toán — (0..N) `payment`:**
+    - Một đơn đặt vé có thể chưa có thanh toán hoặc có nhiều giao dịch theo thời gian (ví dụ: lần 1 quẹt thẻ `FAILED`, lần 2 chuyển khoản `SUCCESS`). Mỗi giao dịch thuộc đúng một đơn. Ràng buộc duy nhất có điều kiện ở tầng vật lý đảm bảo mỗi đơn chỉ có tối đa **01 giao dịch ở trạng thái `SUCCESS`**.

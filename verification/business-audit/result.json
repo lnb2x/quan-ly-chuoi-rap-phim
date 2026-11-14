@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-13",
+  "main_suite": {
+    "tests": 95,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": {
+    "com.cinema.architecture.ArchitectureComplianceTest": 5,
+    "com.cinema.integration.BookingConcurrencyIT": 1,
+    "com.cinema.integration.BusinessRulesIT": 17,
+    "com.cinema.integration.DatabaseIntegrityIT": 15,
+    "com.cinema.integration.PaymentRecoveryIT": 13,
+    "com.cinema.integration.ReportAccuracyIT": 3,
+    "com.cinema.integration.SandboxPaymentIT": 15,
+    "com.cinema.integration.ScreeningConcurrencyIT": 2,
+    "com.cinema.integration.ScreeningSearchIT": 3,
+    "com.cinema.unit.ScreeningValidationTest": 5,
+    "com.cinema.unit.TestSafetyGuardTest": 6,
+    "com.cinema.unit.VnpayGatewayTest": 10
+  },
+  "dataset_tests": 3,
+  "global_business_sql_audit": {
+    "confirmed_without_success": 0,
+    "success_on_nonconfirmed": 0,
+    "amount_mismatch": 0,
+    "valid_ticket_on_cancelled": 0,
+    "valid_ticket_without_lock": 0,
+    "wrong_seat_lock": 0,
+    "overlapping_open_screenings": 0,
+    "leftover_business_fixtures": 0,
+    "leftover_dataset": 0
+  },
+  "protected_database_sha256": "7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37",
+  "source_triggers_sha256": "8d5a833981abe231e8840f19abd794c2e282903e163f7639dbd77c0fa3844424",
+  "sandbox_gui_without_credentials": "PASS",
+  "provider_messages": "SIMULATED_SIGNED_IPN_OVER_REAL_HTTP_AND_MYSQL",
+  "real_vnpay_merchant_verified": false,
+  "demo_database_migrated": false
+}

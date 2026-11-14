@@ -36,26 +36,32 @@ public final class ScreeningRepository {
     }
 
     public List<CinemaBranch> findAllBranches() {
+        return findAllBranches(false);
+    }
+
+    public List<CinemaBranch> findAllBranches(boolean includeInactive) {
         String sql = """
                 SELECT branch_id, branch_code, branch_name, address, city, phone, active
                 FROM cinema_branch
-                WHERE active = 1
+                WHERE (? OR active = 1)
                 ORDER BY branch_id ASC
                 """;
         List<CinemaBranch> result = new ArrayList<>();
         try (Connection conn = connectionProvider.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                result.add(new CinemaBranch(
-                        rs.getInt("branch_id"),
-                        rs.getString("branch_code"),
-                        rs.getString("branch_name"),
-                        rs.getString("address"),
-                        rs.getString("city"),
-                        rs.getString("phone"),
-                        rs.getBoolean("active")
-                ));
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBoolean(1, includeInactive);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(new CinemaBranch(
+                            rs.getInt("branch_id"),
+                            rs.getString("branch_code"),
+                            rs.getString("branch_name"),
+                            rs.getString("address"),
+                            rs.getString("city"),
+                            rs.getString("phone"),
+                            rs.getBoolean("active")
+                    ));
+                }
             }
             return result;
         } catch (SQLException ex) {
@@ -192,7 +198,7 @@ public final class ScreeningRepository {
     }
 
     public void lockRoomAndCheckActive(Connection conn, int roomId) throws SQLException {
-        String sql = "SELECT room_id, active FROM screening_room WHERE room_id = ? FOR UPDATE";
+        String sql = "SELECT r.room_id, (r.active AND b.active) AS active FROM screening_room r JOIN cinema_branch b ON b.branch_id=r.branch_id WHERE r.room_id = ? FOR UPDATE";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, roomId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -200,7 +206,7 @@ public final class ScreeningRepository {
                     throw new BusinessRuleException("Lỗi nghiệp vụ [BR-04]: Phòng chiếu không tồn tại.");
                 }
                 if (!rs.getBoolean("active")) {
-                    throw new BusinessRuleException("Lỗi nghiệp vụ [BR-01]: Phòng chiếu đang tạm ngưng hoạt động.");
+                    throw new BusinessRuleException("Lỗi nghiệp vụ [BR-01]: Phòng chiếu hoặc chi nhánh đang tạm ngưng hoạt động.");
                 }
             }
         }

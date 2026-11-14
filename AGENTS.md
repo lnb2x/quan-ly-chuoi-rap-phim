@@ -113,3 +113,56 @@ Một công việc trong `TASKS.md` chỉ được chuyển sang trạng thái `
 4. Hành vi nghiệp vụ thực tế đã được thực thi và kiểm chứng trên `cinema_chain_test` (MySQL 8.4.0 LTS thật) mà không làm thay đổi dấu vân tay SHA-256 của `cinema_chain`.
 5. Bằng chứng (log kết quả test, file PDF xuất ra, ảnh chụp màn hình thật) đã được lưu và kiểm tra trực quan.
 6. Đã cập nhật trạng thái và đường dẫn bằng chứng vào `TASKS.md` và `REQUIREMENTS_TRACEABILITY.md`.
+
+
+## 7. Công cụ hỗ trợ Codex theo tác vụ
+
+Phần này bổ sung cách dùng công cụ; giữ nguyên toàn bộ quy tắc kiến trúc, bảo vệ
+`cinema_chain` và yêu cầu bằng chứng ở các mục trên. Không tự đổi trạng thái công
+việc thành VERIFIED chỉ vì đã cấu hình hoặc dựng graph thành công.
+
+- Agent Skills, Ponytail và Graphify đã cài ở cấp người dùng Windows. Không cài
+  bản trùng vào repo và không chép toàn bộ skill body vào context mặc định.
+- Ponytail mặc định `lite`: ưu tiên tái sử dụng code/JDBC helpers, nhưng tính đúng,
+  toàn vẹn dữ liệu, bảo mật, khả năng giải thích thiết kế và kiểm thử luôn quan
+  trọng hơn số dòng/token. Giữ transaction/rollback, PreparedStatement, khóa chống
+  bán trùng ghế và các ràng buộc/trigger hiện có; không thêm abstraction suy đoán.
+- Chỉ chọn skill cần thiết. Debug dùng
+  `agent-skills:debugging-and-error-recovery`; đổi logic dùng
+  `agent-skills:test-driven-development` khi phù hợp; thay interface dùng
+  `agent-skills:api-and-interface-design`. Review chọn một trong
+  `agent-skills:code-review-and-quality` hoặc `ponytail:ponytail-review`.
+  Không tự chạy toàn bộ chuỗi spec/plan/build/test/review/ship cho tác vụ nhỏ.
+- UI của dự án là Swing, không áp dụng mặc định quy trình React/Web. Giữ EDT,
+  tránh JDBC/tác vụ lâu trên UI thread, giữ thông báo và PDF tiếng Việt.
+- Với thay đổi schema, tiếp tục đồng bộ ERD, mô hình quan hệ, chứng minh 3NF,
+  SQL chức năng và SQL schema theo mục 4; graph không thay thế kiểm chứng 3NF.
+
+### Dùng Graphify cục bộ
+
+- Ưu tiên `graphify-out/graph.json` đang có khi hỏi kiến trúc, luồng đặt vé,
+  transaction, liên kết UI/service/repository hoặc Java/SQL. Lookup nhỏ chỉ cần rg.
+- Tại gốc repo, dùng PowerShell và chạy:
+  `$env:GRAPHIFY_BACKEND = 'none'`, rồi
+  `graphify query "<câu hỏi>" --budget 1500`.
+  Nếu PATH của tiến trình chưa cập nhật, thay `graphify` bằng
+  `& 'C:\Users\LNB\.local\bin\graphify.exe'`.
+- Sau khi sửa code: `graphify update .`. Khi cần dựng lại code index dùng
+  `graphify extract . --code-only`; làm mới báo cáo/HTML bằng
+  `graphify cluster-only . --no-label`. Tôn trọng `.graphifyignore`; không đưa
+  credentials, log vận hành, binary exports hoặc build output vào graph.
+- Cạnh INFERRED không chứng minh luồng chạy thực tế. Đối chiếu source và SQL gốc
+  trước khi thay đổi hành vi, khóa/giao dịch, trigger hoặc ràng buộc.
+- Đây là phân tích tĩnh cục bộ; không cần kết nối MySQL, chạy SQL, reset database,
+  khởi động GUI hay tạo lại PDF để cập nhật index. Không thêm hook project hoặc
+  semantic/cloud backend nếu người dùng chưa yêu cầu.
+
+### Kiểm chứng phù hợp phạm vi
+
+- Khi thay code/SQL, giữ nguyên các gate và bằng chứng bắt buộc ở mục 5–6.
+- Với tác vụ chỉ cấu hình công cụ/index, xác minh discovery skills, truy vấn graph,
+  bảo toàn files và quy tắc ignore. Báo rõ chưa chạy lại kiểm thử ứng dụng/DB;
+  không lấy kết quả kiểm thử cũ làm bằng chứng mới, không sửa TASKS/traceability
+  để tuyên bố chức năng đã VERIFIED.
+- Kiểm tra git status trước khi sửa; giữ các edits/PDF exports chưa commit của
+  người dùng. Không reset, stash, commit hoặc publish nếu chưa được yêu cầu.

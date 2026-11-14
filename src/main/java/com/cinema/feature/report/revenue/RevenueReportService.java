@@ -39,7 +39,7 @@ public final class RevenueReportService {
     }
 
     public List<CinemaBranch> listBranches() {
-        return screeningRepository.findAllBranches();
+        return screeningRepository.findAllBranches(true);
     }
 
     public RevenueReportData generateReport(

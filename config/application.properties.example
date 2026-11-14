@@ -9,3 +9,8 @@ db.password=<YOUR_LOCAL_DB_PASSWORD>
 test.db.url=jdbc:mysql://127.0.0.1:3306/cinema_chain_test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true&useSSL=false
 test.db.user=cinema_app
 test.db.password=<YOUR_LOCAL_DB_PASSWORD>
+# VNPay Sandbox (chỉ SandboxMain / cinema_chain_test; không đặt khóa thật vào Git)
+vnpay.tmn-code=
+vnpay.hash-secret=
+vnpay.return-url=http://127.0.0.1:8889/sandbox/return
+vnpay.port=8889

@@ -361,3 +361,25 @@ WHERE screening_date BETWEEN '2026-11-04' AND '2026-11-04'
 ORDER BY start_time ASC, screening_id ASC;
 ```
 - **Kết quả thực tế (`functional_sql_examples_test_db.log`):** Trả về 06 suất chiếu ngày `04/11/2026` tại Chi nhánh #1 (VD: Suất `#3` *Quật Mộ Trùng Ma*: sức chứa `80`, đã bán `3` vé, còn trống `77` ghế, lấp đầy `3.75%`, doanh thu `330.000 VNĐ`; trên toàn kỳ `04/11/2026 -> 10/11/2026` toàn chuỗi khớp chính xác **`292 vé`** và **`35.165.000 VNĐ`**).
+
+
+## Thanh toán VNPay Sandbox (mở rộng demo, chỉ DB test)
+
+Đặc tả: ../requirements/sandbox-payment.md. Launcher SandboxMain dùng
+AppConfig.loadTest, HMAC-SHA512, IPN có kiểm tra merchant/reference/amount,
+locking booking/payment và idempotency. Return URL không cập nhật CSDL.
+Giữ 14 bảng/12 trigger; không thêm trạng thái. Main bình thường không bật callback.
+
+Đối soát callback thành công đến sau khi đơn đã hủy/hết hạn:
+
+```sql
+SELECT b.booking_id, b.booking_status, p.payment_id, p.amount,
+       p.payment_status, p.transaction_ref
+FROM booking b JOIN payment p ON p.booking_id = b.booking_id
+WHERE p.transaction_ref LIKE 'VNPAY-LATE-%';
+```
+
+Dấu LATE nghĩa là cổng báo tiền về sau khi đơn không còn hiệu lực: không ghi
+nhận doanh thu/không chiếm lại ghế; cần đối soát thủ công. Không diễn giải FAILED
+của đơn nội bộ là ngân hàng chưa trừ tiền, hoặc là đã refund. API hoàn tiền/query
+chưa tích hợp; không dùng demo để nhận tiền thật.

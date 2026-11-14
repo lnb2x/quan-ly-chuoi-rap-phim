@@ -7,6 +7,7 @@ import com.cinema.domain.Employee;
 import com.cinema.domain.ScreeningDetailView;
 import com.cinema.domain.SeatAvailabilityView;
 import com.cinema.feature.booking.BookingService;
+import com.cinema.feature.payment.SandboxPaymentService;
 import com.cinema.shared.ui.SeatMapPanel;
 import com.cinema.shared.ui.StatusBanner;
 import com.cinema.shared.ui.Theme;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public final class TicketBookingPanel extends JPanel {
 
     private final BookingService service;
+    private final SandboxPaymentService sandboxPayments;
     private final StatusBanner statusBanner = new StatusBanner();
     private final SeatMapPanel seatMapPanel = new SeatMapPanel();
 
@@ -54,8 +56,13 @@ public final class TicketBookingPanel extends JPanel {
     private List<BookingSummaryView> recentBookings = new ArrayList<>();
 
     public TicketBookingPanel(BookingService service) {
+        this(service, null);
+    }
+
+    public TicketBookingPanel(BookingService service, SandboxPaymentService sandboxPayments) {
         super(new BorderLayout(12, 12));
         this.service = service;
+        this.sandboxPayments = sandboxPayments;
         setBackground(Theme.BG_APP);
         setBorder(BorderFactory.createEmptyBorder(16, 18, 16, 18));
 
@@ -198,11 +205,20 @@ public final class TicketBookingPanel extends JPanel {
         btnBook.addActionListener(e -> handleCreateBooking());
 
         btnPanel.add(btnClearSeats);
+        JPanel buttonsContainer = new JPanel(new BorderLayout(0, 4));
+        buttonsContainer.setOpaque(false);
+        buttonsContainer.add(btnPanel, BorderLayout.NORTH);
+        if (sandboxPayments != null) {
+            JButton btnSandbox = Theme.createSecondaryButton("Thanh toán VNPay Sandbox");
+            btnSandbox.setName("btnVnpaySandbox");
+            btnSandbox.addActionListener(e -> handleSandboxPayment(btnSandbox));
+            buttonsContainer.add(btnSandbox, BorderLayout.SOUTH);
+        }
         btnPanel.add(btnBook);
 
         card.add(subTitle, BorderLayout.NORTH);
         card.add(form, BorderLayout.CENTER);
-        card.add(btnPanel, BorderLayout.SOUTH);
+        card.add(buttonsContainer, BorderLayout.SOUTH);
         return card;
     }
 
@@ -461,6 +477,40 @@ public final class TicketBookingPanel extends JPanel {
         } catch (Exception ex) {
             statusBanner.showError("Lỗi khi thực hiện giao dịch đặt vé: " + ex.getMessage());
         }
+    }
+
+    private void handleSandboxPayment(JButton button) {
+        ScreeningDetailView selected = (ScreeningDetailView) cboScreening.getSelectedItem();
+        Employee employee = (Employee) cboEmployee.getSelectedItem();
+        Customer customer = (Customer) cboCustomer.getSelectedItem();
+        if (selected == null || employee == null || (!chkWalkInCustomer.isSelected() && customer == null)) {
+            statusBanner.showError("Vui lòng chọn suất chiếu, nhân viên và khách hàng hoặc khách vãng lai.");
+            return;
+        }
+        if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            statusBanner.showError("Máy chưa hỗ trợ mở trình duyệt để thanh toán sandbox.");
+            return;
+        }
+        Integer customerId = chkWalkInCustomer.isSelected() ? null : customer.customerId();
+        List<Integer> seatIds = seatMapPanel.getSelectedSeats().stream().map(SeatAvailabilityView::seatId).toList();
+        button.setEnabled(false);
+        new SwingWorker<SandboxPaymentService.Checkout,Void>() {
+            @Override protected SandboxPaymentService.Checkout doInBackground() {
+                return sandboxPayments.create(selected.screeningId(),customerId,employee.employeeId(),seatIds);
+            }
+            @Override protected void done() {
+                button.setEnabled(true);
+                try {
+                    var checkout=get();
+                    Desktop.getDesktop().browse(checkout.url());
+                    reloadScreeningsDropdown();
+                    statusBanner.showWarning("Đơn #"+checkout.bookingId()+" giữ ghế 15 phút. Chỉ IPN xác minh mới xác nhận vé; làm mới để xem kết quả. Đây là sandbox.");
+                } catch(Exception ex) {
+                    Throwable cause=ex.getCause()!=null?ex.getCause():ex;
+                    statusBanner.showError("Chưa mở được thanh toán sandbox: "+cause.getMessage());
+                }
+            }
+        }.execute();
     }
 
     public void handleCancelSelectedBooking() {

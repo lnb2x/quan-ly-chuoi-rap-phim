@@ -41,7 +41,7 @@ public final class TicketSalesReportService {
     }
 
     public List<CinemaBranch> listBranches() {
-        return screeningRepository.findAllBranches();
+        return screeningRepository.findAllBranches(true);
     }
 
     public List<ScreeningDetailView> listScreeningsForBranch(Integer branchId) {

@@ -46,7 +46,7 @@ public final class RevenueReportRepository {
                 LEFT JOIN vw_verified_booking_revenue vr
                     ON vr.branch_id = br.branch_id
                    AND vr.revenue_date BETWEEN ? AND ?
-                WHERE br.active = 1
+                WHERE 1 = 1
                 """);
         if (branchId != null) {
             sql.append(" AND br.branch_id = ?\n");

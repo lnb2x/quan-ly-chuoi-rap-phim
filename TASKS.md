@@ -24,3 +24,59 @@ Trạng thái hợp lệ: `TODO` | `IN_PROGRESS` | `BLOCKED` | `VERIFIED`
 | **E1** | Agent E (Docs Engineer) | F1–F3, R1–R2 | `VERIFIED` | Đặc tả SQL chức năng R5–R7 (`docs/sql-features/functional-sql-mapping.md`, `functional_sql_verification.sql`), kịch bản bảo vệ 15 phút (`DEMO_GUIDE.md`) và xuất bản lại `BaoCao_QuanLyChuoiRap.docx` & `.pdf`. | `docs/sql-features/functional-sql-mapping.md`, `verification/logs/functional_sql_examples_test_db.log`, `docs/academic-report/BaoCao_QuanLyChuoiRap.docx` & `.pdf`. | **R8 (1.0đ)** |
 | **Z** | Lead Agent | E1 | `VERIFIED` | Chạy `database/verify_all.ps1` kiểm chứng 6 bước trên `cinema_chain_test` (`40/40 PASS, 0 Skipped`), kiểm tra trực quan ảnh chụp & trang PDF báo cáo học thuật, xác nhận `cinema_chain` giữ nguyên dấu vân tay SHA-256. | `REQUIREMENTS_TRACEABILITY.md`, `docs/demo/verification-results.md`, `verification/logs/cinema_chain_baseline_fingerprint.json` (`7af5d0052ade...`). | **Gate F (10.0đ)** |
 | **Z2** | Lead Agent | Z | `VERIFIED` | Hoàn tất CSDL demo chính thức `cinema_chain` với lược đồ 14 bảng chuẩn 3NF (`prepare_demo_db.ps1`); khởi chạy `com.cinema.app.Main` cấu hình chuẩn `cinema_chain`, kiểm chứng đủ 5 màn hình (hợp lệ + bị từ chối), xuất 2 PDF đối chiếu SQL độc lập (`0.00 VNĐ` sai lệch) và đóng/mở qua 2 tiến trình JVM xác nhận giữ nguyên dữ liệu demo vừa nhập. | `verification/logs/cinema_chain_14table_provision.log`, `verification/logs/main_standalone_startup_cinema_chain.log`, `verification/logs/demo_cinema_chain_live_verify.log`, `reports/exports/BaoCaoDoanhThu_CinemaChain_Demo.pdf`, `reports/exports/BaoCaoBanVe_CinemaChain_Demo.pdf`, `verification/screenshots/demo_cinema_chain_01_*.png` .. `10_*.png`. | **Bàn giao Demo Thực tế (`cinema_chain`)** |
+
+
+## Kiểm thử dataset bổ sung — 2026-11-13
+
+Cinema Sample Database 1K: **3/3 PASS, Failures=0, Errors=0, Skipped=0**;
+1.000 vé, 450 đơn, 15 suất. Bộ hồi quy gốc: **40/40 PASS**;
+`verify_all.ps1` hoàn tất cả 6 bước trên MySQL 8.4/JDK 21.
+SHA-256 `cinema_chain` trước/sau khớp
+`7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37`.
+Bằng chứng: `verification/dataset-sample/README.md`, `manifest.json`,
+`result.json`, `TEST-CinemaDatasetCheck.xml`, `dataset-test.log` và `verify-all.log`.
+R5: chặn ghế trùng qua service và SQL; R6: phân trang/số ghế;
+R7: đối chiếu ledger CSV với báo cáo từng chi nhánh.
+GUI/PDF chỉ chạy lại với fixture gốc; chưa kiểm thử GUI trên dataset,
+chưa đo tải 100K/1M. Không đổi trạng thái VERIFIED của các mục hiện có.
+
+
+## Kiểm thử mức 2 và 4 — 2026-11-13
+
+Bổ sung `PaymentRecoveryIT`: **13/13 PASS** (8 test trạng thái thanh toán,
+5 test sự cố/rollback), không lỗi và không bỏ qua. Đã tái hiện lỗi trước sửa
+(`verification/payment-recovery/red.log`, `RED-PaymentRecoveryIT.xml`).
+Sửa `TransactionTemplate` rollback cả Error; hai trigger payment chặn SUCCESS
+sai số tiền hoặc đơn đã hủy. Không đổi cấu trúc bảng, kiểu cột hoặc tập trạng thái.
+Toàn bộ bộ test mặc định: **53/53 PASS, Failures=0, Errors=0, Skipped=0**;
+dataset 1K chạy riêng **3/3 PASS**. `verify_all.ps1` hoàn tất 6 bước,
+bao gồm GUI/PDF, hai JVM và SQL chức năng. Đã xem ảnh PDF được kết xuất.
+Dữ liệu kiểm thử đã dọn; SHA-256 `cinema_chain` trước/sau khớp
+`7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37`.
+Bằng chứng và giới hạn: `verification/payment-recovery/README.md`, `result.json`,
+`GREEN-PaymentRecoveryIT.xml`, `verify-all.log`, `DATASET-CinemaDatasetCheck.xml`.
+Liên hệ BR-13/R5: từ chối thanh toán sai và lặp; BR-10/R5: không để khóa ghế
+mồ côi sau sự cố; BR-14/R7: giữ tính nhất quán tiền/vé khi chuyển trạng thái.
+Trigger mới chỉ áp dụng trên `cinema_chain_test`; **DB demo chưa được migration**.
+Chưa thử mất điện, crash MySQL hoặc mất phản hồi đúng lúc COMMIT.
+Không thay đổi trạng thái VERIFIED của các mục hiện có.
+
+
+## Kiểm thử nghiệp vụ chuyên sâu và VNPay Sandbox — 2026-11-13
+
+Bộ mặc định **95/95 PASS, Failures=0, Errors=0, Skipped=0** (XML tươi, 12 suite);
+dataset 1K chạy riêng **3/3 PASS**. Có 17 test BusinessRulesIT, 10 test giao thức
+VnpayGatewayTest và 15 test SandboxPaymentIT (HTTP/JDBC thật, chữ ký provider giả lập).
+Đã chạy lại verify_all.ps1 đủ 6 bước, kiểm tra giao diện sandbox thiếu merchant,
+xem ảnh thực tế và SQL độc lập trên toàn DB test: 9 bộ đếm sai lệch/fixture đều 0.
+Lỗi trước sửa và kết quả sau sửa: verification/business-audit/README.md, red.log,
+state-red.log, scheduling-red.log, verify-all.log, result.json và sandbox-ui-unconfigured.png.
+Sửa kiểm tra chi nhánh hoạt động, bảo toàn doanh thu lịch sử, validation ghế,
+khóa lịch SQL đồng thời, bất biến giá vé, bảo vệ vé/đơn đã hủy, đồng bộ hủy và
+điều kiện xác nhận thanh toán. Giữ 14 bảng, 12 trigger, tập trạng thái hiện có.
+Đặc tả/giới hạn sandbox: docs/requirements/sandbox-payment.md.
+SHA-256 cinema_chain trước/sau khớp
+7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37.
+Chưa có merchant: chưa kiểm chứng giao dịch VNPay thật, public IPN hoặc refund/query.
+Trigger mới chỉ áp dụng DB test; DB demo chưa migration. Không đổi trạng thái
+VERIFIED hiện có để suy diễn gateway đã VERIFIED.

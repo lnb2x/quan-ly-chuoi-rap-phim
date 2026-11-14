@@ -7,15 +7,15 @@
 [INFO] 
 [INFO] --- exec:3.5.0:java (default-cli) @ cinema-chain-management ---
 [GUI-VERIFY] Connected DB=cinema_chain_test | MySQL=8.4.0 (MySQL Community Server - GPL) | User=cinema_app@127.0.0.1
-[APP-STARTUP] Time=2026-11-07T15:16:15.500158900 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain_test | DB=cinema_chain_test | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
-[GUI-ASSERT-PASS] M�n h�nh 1 (T?o su?t chi?u h?p l?) -> [TH�NH C�NG]  ?� t?o th�nh c�ng Su?t chi?u #195 cho phim '?�o, Ph? v� Piano' t?i Ph�ng 01 - Standard 2D (18/11/2026 09:00 - 18/11/2026 11:15).
+[APP-STARTUP] Time=2026-11-13T23:35:55.699118300 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain_test | DB=cinema_chain_test | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
+[GUI-ASSERT-PASS] M�n h�nh 1 (T?o su?t chi?u h?p l?) -> [TH�NH C�NG]  ?� t?o th�nh c�ng Su?t chi?u #1000401 cho phim '?�o, Ph? v� Piano' t?i Ph�ng 01 - Standard 2D (18/11/2026 09:00 - 18/11/2026 11:15).
 Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\01_screening_management_valid.png
-[GUI-ASSERT-PASS] M�n h�nh 1 (T? ch?i tr�ng l?ch chi?u) -> [L?I]  L?i nghi?p v? [BR-06]: Tr�ng l?ch chi?u trong Ph�ng 01 - Standard 2D v?i su?t #195 (?�o, Ph? v� Piano: 18/11/2026 09:00 - 18/11/2026 11:15).
+[GUI-ASSERT-PASS] M�n h�nh 1 (T? ch?i tr�ng l?ch chi?u) -> [L?I]  L?i nghi?p v? [BR-06]: Tr�ng l?ch chi?u trong Ph�ng 01 - Standard 2D v?i su?t #1000401 (?�o, Ph? v� Piano: 18/11/2026 09:00 - 18/11/2026 11:15).
 Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\02_screening_management_overlap_rejected.png
 [GUI-ASSERT-PASS] M�n h�nh 1 (T? ch?i ??i ph�ng cho su?t chi?u ?� c� v�) -> [L?I]  L?i nghi?p v? [BR-09]: Kh�ng th? ??i ph�ng chi?u cho su?t chi?u #1 v� su?t chi?u n�y ?� ph�t sinh v�.
 [GUI-ASSERT-PASS] M�n h�nh 2 (T? ch?i ??t v� khi ch?a ch?n gh?) -> [L?I]  Vui l�ng ch?n �t nh?t 01 gh? tr�n s? ?? ph�ng chi?u [BR-08].
 Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\03_ticket_booking_seat_selection.png
-[GUI-ASSERT-PASS] M�n h�nh 2 (??t v� h?p l?) -> [TH�NH C�NG]  ??t v� th�nh c�ng! M� ??n #184 | Su?t #3 (Qu?t M? Tr�ng Ma (Exhuma)) | Gh?: A04, A05 | Thanh to�n: CASH (SUCCESS).
+[GUI-ASSERT-PASS] M�n h�nh 2 (??t v� h?p l?) -> [TH�NH C�NG]  ??t v� th�nh c�ng! M� ??n #1000803 | Su?t #3 (Qu?t M? Tr�ng Ma (Exhuma)) | Gh?: A04, A05 | Thanh to�n: CASH (SUCCESS).
 Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\04_ticket_booking_success.png
 [GUI-ASSERT-PASS] M�n h�nh 2 (T? ch?i gh? ?� c� ng??i mua) -> [L?I]  L?i nghi?p v? [BR-10]: Gh? A06 ?� ???c b�n cho kh�ch h�ng kh�c trong su?t chi?u #3.
 Captured screenshot: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\verification\screenshots\04b_ticket_booking_occupied_rejected.png
@@ -44,6 +44,6 @@ GUI verification (all 5 screens: valid + rejected cases) completed successfully 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  8.088 s
-[INFO] Finished at: 2026-11-07T15:16:22+07:00
+[INFO] Total time:  9.092 s
+[INFO] Finished at: 2026-11-13T23:36:03+07:00
 [INFO] ------------------------------------------------------------------------

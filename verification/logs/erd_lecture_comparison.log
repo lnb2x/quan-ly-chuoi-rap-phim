@@ -1,0 +1,33 @@
+PASS: original ticket candidate keys computed as {ticket_id}, {booking_id, seat_id}.
+PASS: booking_id -> screening_id violates old ticket 3NF (non-superkey determinant, non-prime RHS).
+PASS: corrected decomposition R1=ticket without screening_id; R2=(booking_id, screening_id); union=U_old; intersection={booking_id} determines R2.
+PASS: corrected local FD union has same closures as original F for all 128 attribute subsets.
+CONFIRMED PROOF GAP: full booking schema is not a subset of U_old; use its (booking_id, screening_id) projection in the decomposition proof.
+Limit: checks depend on the declared functional dependencies; not a proof of FD completeness for all 14 tables; no database connection.
+Review recorded at 2026-11-13T09:55:14.6428680+07:00; source deck counts: 24+40+41+57+52+48+37+60=359 slides; PDF 178 pages.
+
+Algorithm : SHA256
+Hash      : 866C1C6E4BDD71FB722A8AEC51B4DBF13CCCB54829BAEFF995685F3361B9CE76
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Desktop\CSDL Slides_TV\Bài giảng_DBMS_v1.1.pdf
+
+Algorithm : SHA256
+Hash      : 695F6604D86283D6033B059A84E783F3B11AF09566F0621E119B5864E7477D4F
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Desktop\CSDL Slides_TV\slide 3 - Luoc do E-R.ppt
+
+Algorithm : SHA256
+Hash      : AB552B1AF0C6C90FF2119F5574A38E8C74269853F005B71A4463B3158AB7EA61
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Desktop\CSDL Slides_TV\slide 4 - Luoc do E-R (t).ppt
+
+Algorithm : SHA256
+Hash      : F02E594C1A2379CDA51C0E2620CE84CE8815A3761EA4257416BF27F7D2B063F9
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Desktop\CSDL Slides_TV\slide 5 - Luoc do quan he.ppt
+
+Algorithm : SHA256
+Hash      : 65E66342A9364CBE337FA2AB5FFD24CBE76E0B20EE967320CA5E31AB22F030EB
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Desktop\CSDL Slides_TV\slide 6 - phu thuoc ham.ppt
+
+Algorithm : SHA256
+Hash      : 86D669644B51F06C14974F1F01641E611C5E4A19F1C91F6AF7ECA085C1A48496
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Desktop\CSDL Slides_TV\slide 7 - chuan hoa.ppt
+
+

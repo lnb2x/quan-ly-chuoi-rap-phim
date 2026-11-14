@@ -41,7 +41,7 @@ public final class AppConfig {
         return new AppConfig(url, user, pass);
     }
 
-    private static Properties loadLocalPropertiesFile() {
+    static Properties loadLocalPropertiesFile() {
         Properties props = new Properties();
         Path localConfig = Path.of("config", "application.properties");
         if (Files.exists(localConfig)) {

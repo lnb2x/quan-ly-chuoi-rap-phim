@@ -32,7 +32,7 @@ import java.util.List;
  */
 public final class BookingRepository {
 
-    public record LockedScreeningInfo(int screeningId, int roomId, BigDecimal basePrice, String status) {
+    public record LockedScreeningInfo(int screeningId, int roomId, BigDecimal basePrice, String status, LocalDateTime startTime) {
     }
 
     public record SeatPriceInfo(int seatId, int roomId, String seatLabel, BigDecimal surcharge, boolean alreadyOccupied) {
@@ -220,7 +220,7 @@ public final class BookingRepository {
 
     public LockedScreeningInfo lockScreeningForUpdate(Connection conn, int screeningId) throws SQLException {
         String sql = """
-                SELECT screening_id, room_id, base_price, status
+                SELECT screening_id, room_id, base_price, status, start_time
                 FROM screening
                 WHERE screening_id = ?
                 FOR UPDATE
@@ -235,7 +235,8 @@ public final class BookingRepository {
                         rs.getInt("screening_id"),
                         rs.getInt("room_id"),
                         rs.getBigDecimal("base_price"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getTimestamp("start_time").toLocalDateTime()
                 );
             }
         }
@@ -372,6 +373,17 @@ public final class BookingRepository {
                 }
                 if ("CANCELLED".equals(rs.getString("booking_status"))) {
                     throw new BusinessRuleException("Đơn đặt vé #" + bookingId + " đã ở trạng thái hủy trước đó.");
+                }
+            }
+        }
+
+        try (PreparedStatement ps = conn.prepareStatement(
+                "SELECT COUNT(*) FROM payment WHERE booking_id=? AND payment_status='SUCCESS' AND transaction_ref LIKE 'VNPAY-%'")) {
+            ps.setInt(1, bookingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                if (rs.getInt(1) > 0) {
+                    throw new BusinessRuleException("Giao dịch VNPay đã thành công cần được đối soát/hoàn tiền tại cổng trước khi hủy. Demo chưa tích hợp API hoàn tiền.");
                 }
             }
         }

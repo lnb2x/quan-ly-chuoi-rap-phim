@@ -141,22 +141,32 @@ entity "payment\n(Thanh toán)" as payment {
   active_success_booking : INT <<PHYSICAL SUBSET-IDX>>
 }
 
-cinema_branch ||--|{ screening_room : "sở hữu (1:N)"
-cinema_branch ||--|{ employee : "quản lý nhân sự (1:N)"
-screening_room ||--|{ seat : "chứa ghế (1:N)"
+cinema_branch ||--o{ screening_room : "sở hữu (1:N)"
+cinema_branch ||--o{ employee : "quản lý nhân sự (1:N)"
+screening_room ||--o{ seat : "chứa ghế (1:N)"
 seat_type ||--o{ seat : "phân hạng (1:N)"
-movie ||--|{ movie_genre : "thuộc (1:N)"
+movie ||--o{ movie_genre : "thuộc (1:N)"
 genre ||--o{ movie_genre : "gồm (1:N)"
 movie ||--o{ screening : "được chiếu (1:N)"
 screening_room ||--o{ screening : "tổ chức tại (1:N)"
 screening ||--o{ booking : "có đơn đặt (1:N)"
 customer |o--o{ booking : "đặt mua (0..1:N)"
 employee ||--o{ booking : "lập đơn (1:N)"
-booking ||--|{ ticket : "bao gồm (1:N)"
+booking ||--o{ ticket : "bao gồm (1:N)"
 seat ||--o{ ticket : "gán chỗ lịch sử (1:N)"
 screening ||--o{ screening_seat_lock : "quản lý ghế hiệu lực (1:N)"
 seat ||--o{ screening_seat_lock : "khóa ghế theo suất (1:N)"
 ticket ||--o| screening_seat_lock : "giữ khóa khi VALID (1:0..1)"
-booking ||--|{ payment : "thanh toán (1:N)"
+booking ||--o{ payment : "thanh toán (1:N)"
+
+legend bottom
+  * = NOT NULL; không có * = có thể NULL.
+  PK = khóa chính; FK = khóa ngoại; UQ = duy nhất một cột.
+  Các cột UQ1 trong cùng bảng tạo MỘT khóa duy nhất ghép.
+  Bản số phản ánh ràng buộc SQL: FK không bắt buộc cha có dòng con.
+  ticket không lưu screening_id; suy ra qua booking.screening_id.
+  Vé VALID có 1 khóa ghế; vé CANCELLED có 0 (trigger bảo vệ).
+  active_success_booking là cột sinh, chỉ duy nhất khi thanh toán SUCCESS.
+endlegend
 
 @enduml

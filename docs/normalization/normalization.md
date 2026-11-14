@@ -53,22 +53,25 @@ Xét các quy tắc nghiệp vụ bất biến:
 ### 2.3. Chứng minh Kết nối Không Mất Thông tin (Lossless-Join) và Bảo toàn Phụ thuộc / Ràng buộc Liên Quan hệ
 
 1. **Chứng minh Kết nối Không Mất Thông tin (Lossless-Join Decomposition):**
-   - Xét phép chiếu bỏ cột dư thừa `screening_id` khỏi $U_{\text{old}}$ sang hai lược đồ đã tồn tại trong CSDL:
+   - Xét đúng phép phân rã trên tập thuộc tính $U_{\text{old}}$ ở mục 2.1 thành hai lược đồ con:
      - $R_{\text{ticket}}(\underline{\text{ticket\_id}}, \text{booking\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at})$
-     - $R_{\text{booking}}(\underline{\text{booking\_id}}, \text{booking\_code}, \text{screening\_id}, \text{customer\_id}, \text{employee\_id}, \text{booked\_at}, \text{booking\_status})$
+     - $R_{\text{bs}}(\underline{\text{booking\_id}}, \text{screening\_id})$
+   - Cả hai lược đồ con đều là tập con của $U_{\text{old}}$ và $R_{\text{ticket}} \cup R_{\text{bs}} = U_{\text{old}}$. Không dùng toàn bộ lược đồ `booking` làm một thành phần của phép phân rã này vì các thuộc tính như `booking_code`, `customer_id`, `employee_id` không thuộc $U_{\text{old}}$.
    - Phần giao thuộc tính giữa hai lược đồ là:
-     $$R_{\text{ticket}} \cap R_{\text{booking}} = \{\text{booking\_id}\}$$
-   - Vì $\text{booking\_id}$ là khóa chính (siêu khóa) của $R_{\text{booking}}$ nên $\text{booking\_id} \to R_{\text{booking}} \in F^+$ (và khóa ngoại `fk_ticket_booking` kèm `booking_id NOT NULL` đảm bảo mọi bộ trong `ticket` đều khớp đúng 1 bộ trong `booking`).
-   - Theo **Định lý Heath**, phép phân rã bảo toàn thông tin tuyệt đối (**Lossless-Join**): mọi thông tin của bảng `ticket` cũ được khôi phục chính xác 1–1 qua phép kết nối tự nhiên:
+     $$R_{\text{ticket}} \cap R_{\text{bs}} = \{\text{booking\_id}\}$$
+   - FD $\text{booking\_id} \to \text{screening\_id}$ cho thấy phần giao xác định toàn bộ $R_{\text{bs}}$. Theo điều kiện phân rã hai ngôi, với mọi thể hiện hợp lệ $r_{\text{old}}$ thỏa tập FD đã phát biểu:
+     $$\pi_{R_{\text{ticket}}}(r_{\text{old}}) \bowtie \pi_{R_{\text{bs}}}(r_{\text{old}}) = r_{\text{old}}$$
+   - Trong cài đặt, $R_{\text{bs}}$ được cung cấp bởi phép chiếu `booking(booking_id, screening_id)`. FK `fk_ticket_booking` cùng `booking_id NOT NULL` bảo đảm mỗi vé khớp đúng một đơn. Vì vậy có thể khôi phục các thuộc tính vé cũ bằng:
      $$\pi_{\text{ticket\_id}, \text{booking\_id}, \text{screening\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}}(R_{\text{ticket}} \bowtie R_{\text{booking}}) = r_{\text{old}}$$
-   - *(Thực nghiệm kiểm chứng trên bản sao CSDL thật trong `verification/logs/migration_clone_dryrun.log` cho thấy mã băm SHA-256 trên toàn bộ 373 dòng vé trước và sau khi tách khớp tuyệt đối `ef904b39c8e1b57b812d0b01b1ee76f3c4992c6b0be7f146cc150fb2e0ba3107`).*
+   - Log lịch sử `verification/logs/migration_clone_dryrun.log` ghi nhận đối chiếu dữ liệu sau di trú; log này không thay thế chứng minh trên và không được coi là kết quả MySQL mới của lượt chỉnh tài liệu.
 
 2. **Chứng minh Bảo toàn Phụ thuộc Hàm (Dependency Preservation) & Cưỡng chế Ràng buộc Liên Quan hệ:**
    - Phụ thuộc hàm $\text{booking\_id} \to \text{screening\_id}$ được **bảo toàn trực tiếp trong quan hệ `booking`** (nơi `booking_id` là khóa chính).
    - Các phụ thuộc hàm của vé ($\text{ticket\_id} \to \{\text{booking\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\}$ và $\{\text{booking\_id}, \text{seat\_id}\} \to \text{ticket\_id}$) được **bảo toàn trực tiếp trong quan hệ `ticket`**.
    - Các phụ thuộc hàm của khóa ghế hiệu lực ($\{\text{screening\_id}, \text{seat\_id}\} \to \text{ticket\_id}$ và $\text{ticket\_id} \to \{\text{screening\_id}, \text{seat\_id}\}$) được **bảo toàn trực tiếp trong quan hệ `screening_seat_lock`** qua `PRIMARY KEY (screening_id, seat_id)` và `UNIQUE (ticket_id)`.
-   - Hợp của các tập phụ thuộc hàm cục bộ $(F_{\text{booking}} \cup F_{\text{ticket}} \cup F_{\text{ssl}})^+$ suy diễn đầy đủ $F^+$, tức là phép thiết kế **bảo toàn phụ thuộc hàm (Dependency-Preserving)**.
-   - Đối với **các ràng buộc toàn vẹn liên quan hệ (Inter-relational Tuple Constraints)** — cụ thể là: (i) `seat.room_id = screening.room_id` (`BR-09`), và (ii) $r_{\text{ssl}} = \pi_{\text{screening\_id}, \text{seat\_id}, \text{ticket\_id}}(\sigma_{\text{ticket\_status}='VALID'}(\text{ticket} \bowtie \text{booking}))$ (`BR-10`) — trong SQL chuẩn (khi chưa có `CREATE ASSERTION`), các ràng buộc liên bảng này được cưỡng chế đồng bộ 100% tại tầng DBMS bằng `FOREIGN KEY` kết hợp bộ Trigger `trg_ticket_validate_ins/upd`, `trg_ticket_after_ins/upd/del`, `trg_booking_before_upd` và `trg_ssl_guard_ins/upd/del` trong `database/schema/02_triggers.sql`.
+   - Để chứng minh bảo toàn phụ thuộc cho **riêng phép phân rã vé**, đặt $F_{\text{old}} = \{\text{ticket\_id} \to U_{\text{old}}\setminus\{\text{ticket\_id}\},\ (\text{booking\_id},\text{seat\_id}) \to \text{ticket\_id},\ \text{booking\_id} \to \text{screening\_id}\}$. Trong $R_{\text{ticket}}$, giữ hai FD đầu sau khi bỏ `screening_id` khỏi vế phải; trong $R_{\text{bs}}$, giữ FD thứ ba. Hợp FD cục bộ suy ra `ticket_id → booking_id → screening_id`, nên suy ra mọi FD của $F_{\text{old}}$; chiều ngược lại đúng vì các FD cục bộ là phép chiếu của $F_{\text{old}}^+$. Do đó hai bao đóng bằng nhau. Kết luận này không tự mở rộng thành chứng minh phân rã một quan hệ phổ quát của toàn bộ 14 bảng.
+   - `screening_seat_lock` là quan hệ bổ sung mô hình hóa phân bổ ghế hiệu lực, không phải một phép chiếu đơn thuần của toàn bộ lịch sử vé. Các FD nội bộ của nó được phân tích riêng ở mục 4.13.
+   - Các điều kiện **liên quan hệ** cần phân biệt với FD nội bộ: (i) `seat.room_id = screening.room_id` (BR-09); (ii) $r_{\text{ssl}} = \pi_{\text{screening\_id},\text{seat\_id},\text{ticket\_id}}(\sigma_{\text{ticket\_status}='VALID'}(\text{ticket} \bowtie \text{booking}))$ (BR-10). Cài đặt dùng FK, PK/UNIQUE và các trigger thực tế `trg_ticket_validate_ins/upd`, `trg_ticket_lock_after_ins/upd`, `trg_booking_validate_upd`, `trg_ssl_validate_ins/upd/del` trong `database/schema/02_triggers.sql`. Biểu thức chiếu/chọn này phát biểu điều kiện đồng bộ, không phải chứng minh lossless-join của phép phân rã.
 
 ---
 

@@ -1,0 +1,16 @@
+ERD business audit - 2026-11-13T09:45:58.9097804+07:00
+PASS: 14 thực thể, thuộc tính/kiểu/NULL/PK/FK/UQ; 17 quan hệ và bản số Chen/Crow's Foot/Mermaid.
+PASS: 4 tự kiểm tra phát hiện bản số SQL sai, khóa ghép sai, thiếu thực thể, bản số BR-08 sai.
+PASS: current draw.io Chen 17 relationships / 34 participation links and cardinalities match the corrected source
+Business evidence: docs/requirements/business-rules.md:19 (BR-08); BookingService.java:86 (reject empty seats), :155 (insert tickets in transaction).
+Limit: remaining minimum participations reflect DDL; SQL consistency alone does not prove business completeness, 3NF, or academic rubric acceptance.
+
+Algorithm : SHA256
+Hash      : 05728B3927182322CBD1236DDE9C35D542BA60899D7778C16F2F5B462795A990
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\docs\erd\erd-chen.drawio
+
+Algorithm : SHA256
+Hash      : 234B65FE859925D6AE3744D77BD807526AA3BC8CEE01718B49CA9098BDD01564
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\docs\erd\erd-chen.puml
+
+

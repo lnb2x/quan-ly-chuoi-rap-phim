@@ -37,7 +37,7 @@ public final class TransactionTemplate {
             } catch (SQLException sqlEx) {
                 rollbackQuietly(conn);
                 throw translateSqlException(sqlEx);
-            } catch (RuntimeException rex) {
+            } catch (RuntimeException | Error rex) {
                 rollbackQuietly(conn);
                 throw rex;
             } finally {

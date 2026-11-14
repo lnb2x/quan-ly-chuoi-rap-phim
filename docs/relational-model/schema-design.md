@@ -5,6 +5,8 @@
 
 ## 1. Tổng hợp Danh mục 14 Lược đồ Quan hệ Mức Logic (Chuẩn 3NF)
 
+Ánh xạ theo slide 5 của bài giảng: thực thể thông thường thành quan hệ; quan hệ 1:N đưa khóa phía 1 sang bảng phía N; thực thể kết hợp không có định danh riêng lấy khóa ghép từ các thực thể tham gia. Bản E–R chính tại `docs/erd/erd-chen.drawio` dùng ký hiệu thực thể kết hợp cho phân loại phim và phân bổ ghế hiệu lực. `movie_genre(movie_id, genre_id)` có khóa ghép từ Phim/Thể loại; `screening_seat_lock(screening_id, seat_id, ticket_id)` lấy khóa ghép Suất/Ghế và có khóa dự tuyển khác `ticket_id`. Số 14 là số bảng của lựa chọn ánh xạ này, không phải điều kiện bắt buộc cho mọi cách vẽ E–R tương đương. Tham gia đầy đủ trên E–R còn cần quy trình/trigger bảo vệ; FK không tự bảo đảm phía cha có ít nhất một dòng con.
+
 Quy ước ký hiệu trong biểu diễn lược đồ quan hệ mức logic:
 - **Gạch chân nét liền (`PK`)**: Thuộc tính thuộc Khóa chính (Primary Key).
 - *Chữ nghiêng kèm dấu `#` (`FK`)*: Thuộc tính đóng vai trò Khóa ngoại (Foreign Key).

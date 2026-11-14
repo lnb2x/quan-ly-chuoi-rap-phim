@@ -1,0 +1,16 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.cinema:cinema-chain-management >-----------------
+[INFO] Building H? Th?ng Qu?n L� Chu?i R?p Chi?u Phim 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec:3.5.0:java (default-cli) @ cinema-chain-management ---
+[APP-STARTUP] Time=2026-11-13T23:37:16.722789900 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain_test | DB=cinema_chain_test | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
+[SANDBOX-GUI-PASS] N�t sandbox hi?n th?, thi?u merchant b? t? ch?i tr??c khi t?o ??n; ?nh=verification\business-audit\sandbox-ui-unconfigured.png
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.161 s
+[INFO] Finished at: 2026-11-13T23:37:19+07:00
+[INFO] ------------------------------------------------------------------------

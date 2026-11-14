@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-13",
+  "level2_tests": 8,
+  "level4_tests": 5,
+  "main_suite": {
+    "tests": 53,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "dataset_tests": 3,
+  "gui_pdf_persistence_functional_sql": "PASS",
+  "protected_database_sha256": "7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37",
+  "cleanup_counts": [
+    "0",
+    "0"
+  ],
+  "new_triggers_applied_to": "cinema_chain_test",
+  "demo_triggers_updated": false
+}

@@ -1,0 +1,39 @@
+ERD lecture implementation - 2026-11-13T10:11:38.1797046+07:00
+Source: slide 3, slides 17-18 and 34-35; slide 5, slides 18 and 32-33; PDF pages 163-164.
+Editable draw.io is canonical; SVG/PNG exported from it; PlantUML is the semantic mirror.
+PASS: 14 thực thể, thuộc tính/kiểu/NULL/PK/FK/UQ; 17 quan hệ và bản số Chen/Crow's Foot/Mermaid.
+PASS: 4 tự kiểm tra phát hiện bản số SQL sai, khóa ghép sai, thiếu thực thể, bản số BR-08 sai.
+PASS: draw.io/SVG dùng đúng 1/N, hai thực thể kết hợp và 17 đường kép; phát hiện 2 lỗi hình học/ký hiệu cố ý.
+PASS: phân rã vé trên đúng U_old; phần giao xác định R2 và bảo toàn bao đóng của 128 tập con theo F đã phát biểu.
+PASS: inspected final PNG visually; double lines, cardinality labels and associative glyphs visible; geometric collision pass moved nine attribute ovals away from unrelated lines/labels.
+No database connection, data mutation, application tests or VERIFIED status changes; Word/PDF report exports have not been regenerated.
+
+Algorithm : SHA256
+Hash      : 082109C182174A9AE3EE8577B18307C156B8A37532D6347B4BCA04C7669815F7
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\docs\erd\erd-chen.drawio
+
+Algorithm : SHA256
+Hash      : 094ECCD86AB4E70D224151E660331C572293D7A1AA54D4FA9DE81B0CACF09652
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\docs\erd\erd-chen.puml
+
+Algorithm : SHA256
+Hash      : D04A64DDF5D88881D1D7624B6E5FF7D90099F368327D113026B1A56D5B328BB5
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\docs\erd\erd-chen.svg
+
+Algorithm : SHA256
+Hash      : D189ACC423D9E632AA4F5ABFB4F57F5B0A120C6D2AD1A8856063E8ACB258A997
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\docs\erd\erd-chen.png
+
+Algorithm : SHA256
+Hash      : 35FEEF7EA6F53DA10F6A68C34FA662C10F9CEC036A98EEF60B627B64B19A1749
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\docs\normalization\normalization.md
+
+Algorithm : SHA256
+Hash      : 286DA05BE46567AD1ACCE355EBD231BBD2B670A634CC1971A084E5C62DF84629
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\tools\verify_erd.py
+
+Algorithm : SHA256
+Hash      : BB63518D939FF061D6CA5C58268E0E51B0D6C35DA9B1EB20A3B6BBFA18DB2C78
+Path      : C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\tools\export_chen_svg.py
+
+

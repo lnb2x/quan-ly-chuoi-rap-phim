@@ -1,0 +1,71 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.cinema:cinema-chain-management >-----------------
+[INFO] Building H? Th?ng Qu?n L� Chu?i R?p Chi?u Phim 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ cinema-chain-management ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ cinema-chain-management ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 47 source files with javac [debug release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ cinema-chain-management ---
+[INFO] skip non existing resourceDirectory C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ cinema-chain-management ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 17 source files with javac [debug release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.1:test (default-test) @ cinema-chain-management ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[INFO] Running com.cinema.architecture.ArchitectureComplianceTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.860 s -- in com.cinema.architecture.ArchitectureComplianceTest
+[INFO] Running com.cinema.unit.ScreeningValidationTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.068 s -- in com.cinema.unit.ScreeningValidationTest
+[INFO] Running com.cinema.unit.TestSafetyGuardTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.222 s -- in com.cinema.unit.TestSafetyGuardTest
+[INFO] Running com.cinema.unit.VnpayGatewayTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in com.cinema.unit.VnpayGatewayTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 26, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.5.0:jar (default-jar) @ cinema-chain-management ---
+[INFO] Building jar: C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\cinema-chain-management-1.0.0.jar
+[INFO] 
+[INFO] --- failsafe:3.5.1:integration-test (default) @ cinema-chain-management ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[INFO] Running com.cinema.integration.BusinessRulesIT
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.832 s -- in com.cinema.integration.BusinessRulesIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- failsafe:3.5.1:verify (default) @ cinema-chain-management ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.594 s
+[INFO] Finished at: 2026-11-13T23:29:43+07:00
+[INFO] ------------------------------------------------------------------------
