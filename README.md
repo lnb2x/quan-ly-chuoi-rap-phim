@@ -73,10 +73,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File database/start_mysql84.ps1
 
 ```text
 QuanLyChuoiRapPhim/
-├── AGENTS.md                        # Quy ước kỹ thuật & bảo vệ an toàn dữ liệu
 ├── ARCHITECTURE.md                  # Tài liệu kiến trúc phân tầng, phân trang & đồng thời
-├── TASKS.md                         # Sổ cái theo dõi trạng thái & bằng chứng thực thi
-├── REQUIREMENTS_TRACEABILITY.md     # Ma trận truy vết yêu cầu R1 - R8
 ├── DEMO_GUIDE.md                    # Kịch bản thuyết trình & trình diễn 15 phút cho buổi bảo vệ
 ├── README.md                        # Hướng dẫn cài đặt, kiểm chứng & vận hành
 ├── pom.xml / mvnw.cmd               # Cấu hình Maven Java 21 LTS (profile mysql-it)

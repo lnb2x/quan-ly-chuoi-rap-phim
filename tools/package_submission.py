@@ -24,7 +24,7 @@ def submission_files(root: Path) -> dict[str, Path]:
             if path.name.startswith("visual-before-"):
                 continue
             selected[relative.as_posix()] = path
-    for name in (".gitattributes", "README_NOP_BAI.md", "README.md", "DEMO_GUIDE.md", "ARCHITECTURE.md", "REQUIREMENTS_TRACEABILITY.md", "TASKS.md", "pom.xml", "mvnw.cmd", "run_demo.cmd", "config/application.properties.example", "verification/last-run.json",
+    for name in (".gitattributes", "README_NOP_BAI.md", "README.md", "DEMO_GUIDE.md", "ARCHITECTURE.md", "pom.xml", "mvnw.cmd", "run_demo.cmd", "config/application.properties.example", "verification/last-run.json",
                  "verification/logs/mvn_clean_verify.log", "verification/logs/gui_verification_test_db.log",
                  "verification/logs/persistence_restart_verify.log", "verification/logs/functional_sql_examples_test_db.log"):
         path = root / name
@@ -49,9 +49,9 @@ def submission_files(root: Path) -> dict[str, Path]:
 
 def write_package(root: Path, output: Path) -> tuple[Path, int]:
     selected = submission_files(root)
-    forbidden = {"application.properties", ".env", "backup.sql"}
+    forbidden = {"application.properties", ".env", "backup.sql", "agents.md", "tasks.md", "requirements_traceability.md", ".graphifyignore"}
     if any(Path(name).name.lower() in forbidden or Path(name).suffix.lower() == ".cnf" for name in selected):
-        raise ValueError("Bản nộp có tệp cấu hình bí mật hoặc backup dữ liệu.")
+        raise ValueError("Bản nộp có tệp nội bộ, cấu hình bí mật hoặc backup dữ liệu.")
     run = json.loads((root / "verification/last-run.json").read_text(encoding="utf-8-sig"))
     if any(run.get(key) is not True for key in ("gui_verified", "two_jvm_persistence_verified", "functional_sql_verified", "demo_fingerprint_preserved")):
         raise ValueError("Chưa có bằng chứng hoàn tất các gate.")

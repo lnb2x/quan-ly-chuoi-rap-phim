@@ -9,10 +9,11 @@ import package_submission
 
 
 class SubmissionPackageTest(unittest.TestCase):
-    def test_refuses_secret_or_raw_backup_even_if_selection_regresses(self):
+    def test_refuses_internal_files_secrets_or_backup_even_if_selection_regresses(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
-            for name in ("config/application.properties", "private/.env", "private/backup.sql", "private/mysql.cnf", "private/BACKUP.SQL", "private/.ENV"):
+            for name in ("config/application.properties", "private/.env", "private/backup.sql", "private/mysql.cnf", "private/BACKUP.SQL", "private/.ENV",
+                         "AGENTS.md", "TASKS.md", "REQUIREMENTS_TRACEABILITY.md", ".graphifyignore"):
                 with self.subTest(name=name), patch.object(package_submission, "submission_files", return_value={name: root / name}):
                     with self.assertRaisesRegex(ValueError, "bí mật"):
                         package_submission.write_package(root, root / "output")

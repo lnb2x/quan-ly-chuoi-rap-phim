@@ -40,3 +40,10 @@ __pycache__/
 # Local MySQL credential files and unfinished archives
 *.cnf
 *.zip.part
+
+# Local assistant instructions and work logs
+/AGENTS.md
+/TASKS.md
+/REQUIREMENTS_TRACEABILITY.md
+/.graphifyignore
+/graphify-out/

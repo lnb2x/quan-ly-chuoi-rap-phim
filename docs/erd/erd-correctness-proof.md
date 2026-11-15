@@ -178,7 +178,7 @@ Log mới và SHA-256 của các tệp nguồn đối chiếu: [erd_correctness_
 
 Đã xem trực tiếp ảnh Chen PNG để đối chiếu cách thể hiện tổng thể. Bộ kiểm tra không chứng minh mọi chi tiết hình ảnh, không kiểm tra đầy đủ mọi trigger/đường cập nhật, không tự tìm hết FD nghiệp vụ, không đối chiếu schema đang chạy và không thay thế kiểm thử MySQL/JUnit.
 
-Không chạy lại Maven/MySQL/GUI, không thay SQL/Java hay dữ liệu; không đổi `TASKS.md` hoặc `REQUIREMENTS_TRACEABILITY.md` sang VERIFIED.
+Lần kiểm tra này không chạy lại Maven/MySQL/GUI và không thay SQL/Java hay dữ liệu; kết quả phân tích tĩnh không thay thế bằng chứng chạy ứng dụng.
 
 ## 9. Đoạn trình bày ngắn khi bảo vệ
 
