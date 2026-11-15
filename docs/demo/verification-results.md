@@ -1,14 +1,20 @@
-# Kết quả kiểm chứng bản nộp ngày15/11/2026
+# Kết quả kiểm chứng bản nộp
 
-- Java21.0.13/MySQL8.4.0;Maven test-compile và clean verify thành công.
-- Java104tests/15suite;Failures0,Errors0,Skipped0,XML tươi. Công cụ Python 9 tests riêng.
-- Năm màn hình chạy dữ liệu hợp lệ và bị từ chối;đãxuất2PDF mới. Seed báo cáo125đơn/292vé/35.165.000VNĐ;SQL độc lập khớp.
-- Hai JVM ghiđọc lại cùngsuất/đơn/vé/payment và giá;khôngreset khi khởi động.
-- SQL chức năngR5–R7 đã chạy trêncinema_chain_test.
-- Trong fullverify,demoSHA trước/sau=7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37.
-- Sau người dùng xác nhận,nângcấp12trigger demo;14bảng/data/DDL/viewgiữ nguyên. SHA mới=e827a6a114e7bf08c130792b34f8209398e09289131f14496d196d4c5568e5d1.17invariant0;doanhthudemo35.375.000VNĐ.
-- Main thật đã mở trêncinema_chain sau nângcấp;ảnh/log main-demo-startup trong bằngchứng.
+Lần thực thi ngày **15/11/2026**, trên **Java 21.0.13** và **MySQL Community Server 8.4.0**:
 
-Nguồn: verification/last-run.json,verification/test-results/summary.json,verification/submission-2026-11-15/verify-all.log,migration-rehearsal/,demo-trigger-upgrade/. Trạng thái kiểm tra trực quan tài liệu/gói nộp xem manifest bàn giao cuối.
+| Phép kiểm tra | Kết quả ghi nhận |
+|---|---|
+| Maven biên dịch và kiểm thử | 104 tests, 15 suites; Failures=0, Errors=0, Skipped=0 |
+| Hai form nhập | Nhập hợp lệ thành công; dữ liệu sai, chồng lịch và ghế đã giữ bị từ chối |
+| Tìm kiếm | Kết quả, tổng số dòng và phân trang khớp SQL |
+| Doanh thu và bán vé | 125 đơn, 292 vé, 35.165.000 VNĐ trên bộ seed báo cáo; khớp SQL độc lập |
+| Hai JVM | Đọc lại đúng suất, đơn, vé, payment, giá và tổng báo cáo sau khi đóng/mở |
+| Giao dịch đồng thời | Tranh chấp cùng ghế và lịch phòng được kiểm tra bằng các lớp concurrency IT |
+| PDF | Đã kiểm tra tiếng Việt, nhiều trang, tên dài và xử lý lỗi ghi; xem từng trang hai báo cáo mẫu |
+| Database demo | Kiểm tra fingerprint trong bộ verify; dữ liệu demo được bảo toàn |
 
-Không suy diễn bộ tự động thành giao dịch merchantVNPay thật hoặc kiểm chứng toàn bộ hệ thống online. Crashserver/mất điện,tải lớn và refundthật chưa kiểm.
+Tóm tắt từng suite và hash nguồn của lần chạy nằm trong [summary.json](../../verification/test-results/summary.json). Ảnh minh họa ở `verification/screenshots/`; hai PDF nghiệp vụ ở `reports/exports/`.
+
+Chạy lại `database/verify_all.ps1` sẽ tạo log, XML và manifest mới trên máy chạy. Kết quả ở bảng trên mô tả lần thực thi đã ghi nhận, không tự áp dụng cho môi trường khác.
+
+Chưa chứng nhận giao dịch VNPay merchant, hoàn tiền thật, tải lớn, phục hồi sau mất điện hoặc vận hành hệ thống đặt vé online.

@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\tools\verify_erd.py", line 204, in <module>
-    print('PASS: 14 th\u1ef1c th\u1ec3, thu\u1ed9c t�nh/ki\u1ec3u/NULL/PK/FK/UQ; 17 quan h\u1ec7 v� b\u1ea3n s\u1ed1 Chen/Crow\'s Foot/Mermaid.')
-    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\LNB\AppData\Local\Programs\Python\Python314\Lib\encodings\cp1252.py", line 19, in encode
-    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
-           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-UnicodeEncodeError: 'charmap' codec can't encode character '\u1ef1' in position 11: character maps to <undefined>

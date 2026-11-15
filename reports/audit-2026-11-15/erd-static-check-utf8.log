@@ -1,4 +1,0 @@
-PASS: 14 thực thể, thuộc tính/kiểu/NULL/PK/FK/UQ; 17 quan hệ và bản số Chen/Crow's Foot/Mermaid.
-PASS: 4 tự kiểm tra phát hiện bản số SQL sai, khóa ghép sai, thiếu thực thể, bản số BR-08 sai.
-PASS: draw.io/SVG dùng đúng 1/N, hai thực thể kết hợp và 17 đường kép; phát hiện 2 lỗi hình học/ký hiệu cố ý.
-PASS: phân rã vé trên đúng U_old; phần giao xác định R2 và bảo toàn bao đóng của 128 tập con theo F đã phát biểu.

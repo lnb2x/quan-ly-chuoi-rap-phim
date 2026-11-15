@@ -167,7 +167,7 @@ function Initialize-DatabaseNonDestructive([string]$dbName, [string]$rootPwd) {
     $before = Get-DatabaseSummary $dbName $rootPwd
 
     if ($dbName -ceq "cinema_chain" -and $before.Tables -gt 0) {
-        throw "CHẶN AN TOÀN: CSDL chính 'cinema_chain' đã tồn tại dữ liệu ($($before.Detail)). Tuyệt đối không tự động ghi đè schema/trigger/view của 'cinema_chain' qua setup.ps1! Vui lòng sử dụng gói migration có kiểm soát tại database/migrations/ sau khi đã sao lưu và xác nhận."
+        throw "CHẶN AN TOÀN: CSDL chính 'cinema_chain' đã tồn tại dữ liệu ($($before.Detail)). Tuyệt đối không tự động ghi đè schema/trigger/view của 'cinema_chain' qua setup.ps1! Mọi thay đổi schema cần kế hoạch migration có kiểm soát, sao lưu và xác nhận riêng."
     }
 
     Write-Output "  -> [$dbName] Khởi tạo 14 bảng chuẩn 3NF (CREATE TABLE IF NOT EXISTS)..."

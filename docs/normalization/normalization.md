@@ -63,7 +63,6 @@ Xét các quy tắc nghiệp vụ bất biến:
      $$\pi_{R_{\text{ticket}}}(r_{\text{old}}) \bowtie \pi_{R_{\text{bs}}}(r_{\text{old}}) = r_{\text{old}}$$
    - Trong cài đặt, $R_{\text{bs}}$ được cung cấp bởi phép chiếu `booking(booking_id, screening_id)`. FK `fk_ticket_booking` cùng `booking_id NOT NULL` bảo đảm mỗi vé khớp đúng một đơn. Vì vậy có thể khôi phục các thuộc tính vé cũ bằng:
      $$\pi_{\text{ticket\_id}, \text{booking\_id}, \text{screening\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}}(R_{\text{ticket}} \bowtie R_{\text{booking}}) = r_{\text{old}}$$
-   - Log lịch sử `verification/logs/migration_clone_dryrun.log` ghi nhận đối chiếu dữ liệu sau di trú; log này không thay thế chứng minh trên và không được coi là kết quả MySQL mới của lượt chỉnh tài liệu.
 
 2. **Chứng minh Bảo toàn Phụ thuộc Hàm (Dependency Preservation) & Cưỡng chế Ràng buộc Liên Quan hệ:**
    - Phụ thuộc hàm $\text{booking\_id} \to \text{screening\_id}$ được **bảo toàn trực tiếp trong quan hệ `booking`** (nơi `booking_id` là khóa chính).

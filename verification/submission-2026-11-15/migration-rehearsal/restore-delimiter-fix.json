@@ -1,7 +1,0 @@
-{
-  "initial_restore_attempt": "MySQL client syntax error 1064; old delimiter exceeded client length boundary",
-  "old_delimiter_length": 22,
-  "fixed_delimiter": "__CINEMA_END__",
-  "fixed_delimiter_length": 14,
-  "scope": "clone only; source and test databases unchanged"
-}

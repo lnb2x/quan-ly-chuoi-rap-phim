@@ -1,17 +1,23 @@
-# Kế hoạch kiểm chứng bản nộp ngày15/11/2026
+# Kế hoạch kiểm thử
 
-Môi trường: JDK21,MySQL Community Server8.4.0,cinema_chain_test,cinema_app. Demo cinema_chain chỉ được fingerprint trước/sau; mọi fixture ghi của tests/GUI/2-JVM chạy ở testDB.
+Môi trường: JDK 21, MySQL Community Server 8.4, tài khoản ứng dụng `cinema_app`. Các kiểm thử có ghi dữ liệu phải dùng `cinema_chain_test`.
 
-1. Kiểm đúng instance và baseline demo.
-2. Xóa XML cũ; Maven clean verify. Danh sách suite bắt buộc lấy từ mọi *Test/*IT trong source, không hardcode8suite cũ. Từ chối XML cũ,trùng,thiếu suite,fail/error/skip hoặc0test.
-3. Thực thi năm màn hình: nhập đúng/sai,lịch chồng,ghế chưa chọn/đã giữ,ngày tìm kiếm/ngày báo cáo sai;xuất hai PDF.
-4. Đóng/mở hai JVM;so IDs,ghế,trạng thái,giá và tổng báo cáo.
-5. Chạy SQL chức năng R5–R7 trên test với rollback ví dụ ghi.
-6. Đối chiếu lại SHA demo;chỉ ghi last-run.json nếu mọi gate hoàn thành.
-7. Kiểm tĩnh ERD và công cụ Python;render Word/PDF,xem từng trang;đối chiếu SQL/tổng PDF.
+1. Kiểm tra đúng instance MySQL và chụp fingerprint của database demo.
+2. Chạy Maven với profile `mysql-it`; kiểm tra XML mới, đủ mọi lớp `*Test`/`*IT`, không failure/error/skip.
+3. Thử hai form nhập với dữ liệu hợp lệ và các trường hợp bị từ chối: thiếu ghế, ghế đã giữ, thời lượng sai, giá sai, lịch chồng.
+4. Thử bộ lọc tìm kiếm, số dòng và phân trang.
+5. Đóng/mở ứng dụng qua hai JVM, đối chiếu dữ liệu và giá.
+6. Đối chiếu hai báo cáo với SQL độc lập; kiểm tra PDF tiếng Việt và phân trang.
+7. Đối chiếu lại fingerprint demo; chỉ ghi manifest thành công khi mọi bước hoàn tất.
 
-Lệnh: `powershell -NoProfile -ExecutionPolicy Bypass -File database/verify_all.ps1`. Kết quả hiện hành tại `verification/last-run.json` và `verification/submission-2026-11-15/`.
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File database/verify_all.ps1
+python -X utf8 -B tools/verify_erd.py
+python -X utf8 -B -m unittest discover -s tools/tests -v
+```
 
-Phạm vi bổ sung: booking2JVM/múi giờ;UIworker không chặnEDT;revenue snapshot khi writer commit giữa haiquery;PDF nhiều trang/tên dài/lỗi ghi;backup/restore/refreshtrigger trênclone và gatefail-closed.
+Log và XML được sinh cục bộ trong `verification/`; kết quả lần chạy đã ghi nhận nằm ở `docs/demo/verification-results.md`.
 
-Chưa chứng nhận merchantVNPay/refund thật,crashserver/mất điện hoặc tải100K/1M. Các quy tắc tuổi/quyền online chưa được nghiệm thu trong đồ án desktop.
+Các kiểm thử bổ sung gồm định danh đơn qua hai JVM, múi giờ, snapshot doanh thu khi có writer đồng thời, tác vụ Swing không chặn EDT và lỗi khi ghi PDF. Kiểm thử dataset bổ sung dùng `verification/dataset-sample/fixture.tsv` và `expected.properties`.
+
+Chưa chứng nhận thanh toán/hoàn tiền thật, tải lớn hoặc phục hồi sau mất điện.

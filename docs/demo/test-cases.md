@@ -1,6 +1,6 @@
 # Các tình huống kiểm chứng bản nộp
 
-Kết quả thực thi mới ngày 15/11/2026 ở `verification/last-run.json` và các XML trong `verification/test-results/`. Java có **104 kiểm thử thuộc 15 suite**, không lỗi/không bỏ qua. Bảng dưới nhóm các tình huống có bằng chứng; không đồng nhất một dòng bảng với một test JUnit.
+Kết quả thực thi ngày 15/11/2026 được tổng hợp ở `verification/test-results/summary.json`. Java có **104 kiểm thử thuộc 15 suite**, không lỗi/không bỏ qua. Bảng dưới nhóm các tình huống đã kiểm tra; không đồng nhất một dòng bảng với một test JUnit. Log/XML được sinh cục bộ khi chạy lại.
 
 | Nhóm | Thao tác hoặc đầu vào | Kết quả mong đợi | Bằng chứng |
 |---|---|---|---|
@@ -22,6 +22,6 @@ Kết quả thực thi mới ngày 15/11/2026 ở `verification/last-run.json` v
 | PDF | Tiếng Việt, tên dài, nhiều trang, đích ghi lỗi | Không tràn lề/mất nội dung; lỗi không phá đích cũ | PdfReportWriterTest |
 | Tác vụ nền UI | Worker chờ sự kiện EDT trước hoàn tất; ném lỗi nghiệp vụ/Error | EDT xử lý được sự kiện, giữ kiểu lỗi gốc | UiTaskTest |
 | Bền vững dữ liệu | Đóng JVM thứ nhất rồi mở JVM mới | IDs, vé, giá, payment và tổng báo cáo khớp | persistence_restart_verify.log |
-| Công cụ | XML cũ/thiếu/lặp/skip, backup lỗi, DDL sai giai đoạn, gói có secrets | Fail closed; không báo thành công giả | tools/tests/, python-tests.log |
+| Kết quả kiểm thử | XML cũ/thiếu/lặp/skip hoặc bộ test rỗng | Từ chối công nhận kết quả | tools/tests/test_verify_test_results.py |
 
 Kịch bản GUI nhập đúng/sai có ảnh thật tại `verification/screenshots/`. SQL demo ghi đều rollback trên DB test. Không coi IPN mô phỏng là giao dịch VNPay merchant hoặc refund thật; không tuyên bố đã kiểm tra crash server, mất điện hoặc tải lớn.
