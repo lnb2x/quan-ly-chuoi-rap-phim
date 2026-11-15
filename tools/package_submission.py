@@ -24,7 +24,9 @@ def submission_files(root: Path) -> dict[str, Path]:
             if path.name.startswith("visual-before-"):
                 continue
             selected[relative.as_posix()] = path
-    for name in (".gitattributes", "README_NOP_BAI.md", "README.md", "DEMO_GUIDE.md", "ARCHITECTURE.md", "REQUIREMENTS_TRACEABILITY.md", "TASKS.md", "pom.xml", "mvnw.cmd", "run_demo.cmd", "config/application.properties.example", "verification/last-run.json"):
+    for name in (".gitattributes", "README_NOP_BAI.md", "README.md", "DEMO_GUIDE.md", "ARCHITECTURE.md", "REQUIREMENTS_TRACEABILITY.md", "TASKS.md", "pom.xml", "mvnw.cmd", "run_demo.cmd", "config/application.properties.example", "verification/last-run.json",
+                 "verification/logs/mvn_clean_verify.log", "verification/logs/gui_verification_test_db.log",
+                 "verification/logs/persistence_restart_verify.log", "verification/logs/functional_sql_examples_test_db.log"):
         path = root / name
         if not path.is_file():
             raise FileNotFoundError(f"Thiếu tệp bản nộp: {name}")

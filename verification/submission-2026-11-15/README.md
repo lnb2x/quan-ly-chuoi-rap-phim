@@ -4,11 +4,11 @@
 
 | Nội dung | Kết quả | Bằng chứng |
 |---|---|---|
-| Java 21, MySQL Community 8.4.0 | 104 tests, 15 suites; lỗi/thất bại/bỏ qua đều bằng 0 | `verify-all.log`, `mvn_clean_verify.log`, `../test-results/`, `../last-run.json` |
+| Java 21, MySQL Community 8.4.0 | 104 tests, 15 suites; lỗi/thất bại/bỏ qua đều bằng 0 | `verify-all.log`, `../logs/mvn_clean_verify.log`, `../test-results/`, `../last-run.json` |
 | Công cụ bảo vệ DB, kiểm tra XML và đóng gói | 9 kiểm thử Python thành công | `python-tests.log` |
 | ERD và chuẩn hóa | 14 bảng, 17 quan hệ FK, đối chiếu thuộc tính/khóa/cardinality và lossless join | `erd-verification.log` |
-| Hai form nhập, tìm kiếm, hai báo cáo | Chạy 5 màn hình, nhập đúng/sai; ảnh thực tế; đối chiếu SQL | `gui_verification_test_db.log`, `functional_sql_examples_test_db.log`, `../screenshots/` |
-| Bền vững dữ liệu | Đối chiếu kết quả qua hai JVM | `persistence_restart_verify.log` |
+| Hai form nhập, tìm kiếm, hai báo cáo | Chạy 5 màn hình, nhập đúng/sai; ảnh thực tế; đối chiếu SQL | `../logs/gui_verification_test_db.log`, `../logs/functional_sql_examples_test_db.log`, `../screenshots/` |
+| Bền vững dữ liệu | Đối chiếu kết quả qua hai JVM | `../logs/persistence_restart_verify.log` |
 | Xuất báo cáo nghiệp vụ | PDF doanh thu 2 trang, bán vé 12 trang; tổng seed 35.165.000 VNĐ; đã xem từng trang | `../../reports/exports/*_Mau.pdf` |
 | Khởi động ứng dụng chính | Main chạy thực tế trên demo, đóng cửa sổ sau khi chụp ảnh | `main-demo-startup.log`, `main-demo-startup.png` |
 | Bảo toàn demo cuối phiên | SHA-256 khớp baseline sau cập nhật trigger đã được cho phép | `final-demo-fingerprint.log` |
@@ -29,6 +29,8 @@ Hash tổng đổi do định nghĩa trigger. Chi tiết trong `demo-trigger-upg
 Báo cáo có đúng 7 chương theo rubric và các phụ lục SQL; trang bìa có giảng viên, lớp, nhóm và 5 sinh viên. PDF chính 70 trang; DOCX kết xuất bằng Word 77 trang. Đã xem riêng từng trang của cả hai bản. Công cụ render DOCX dựa trên LibreOffice không có runtime phù hợp trên máy này; đã thay bằng Word COM ẩn và Poppler để kiểm tra bản DOCX thật.
 
 Sau chỉnh sửa cuối, đối chiếu pixel cho thấy chỉ Word trang 49 và PDF trang 4, 5, 6, 43 đổi; đã xem lại cả 5 trang, các trang khác giữ nguyên. Xem `visual-last-fix-diff.json`. ERD có thêm PDF A1/A3 để đọc rõ thuộc tính; nguồn sửa được giữ kèm.
+
+Ảnh kết xuất trung gian được dọn sau khi kiểm tra; báo cáo cuối, ảnh ứng dụng thật và bản ghi hash vẫn được giữ. Bốn log Maven/GUI/hai JVM/SQL dùng bản gốc trong `verification/logs/`, không lưu thêm bản sao ở thư mục này.
 
 Gói ZIP dùng danh sách cho phép, chứa JAR ứng dụng và 7 thư viện runtime. Đã kiểm CRC, SHA-256 từng tệp trong manifest, lớp Main, 2 font Unicode, metadata trang bìa và nội dung PDF. Không chứa cấu hình mật khẩu, `.env`, file credentials MySQL, backup dữ liệu hay thư mục QA kết xuất trung gian. Kết quả kiểm gói cuối nằm cạnh ZIP tại `reports/submission/package-validation.json`; SHA-256 toàn ZIP có tệp `.zip.sha256` đi kèm.
 

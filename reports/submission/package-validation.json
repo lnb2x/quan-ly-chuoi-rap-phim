@@ -1,8 +1,8 @@
 {
   "zip": "BTL_CSDL_Nhom08_QuanLyChuoiRapPhim.zip",
   "files": 237,
-  "bytes": 19746144,
-  "sha256": "1fc7c4a1bcf352c91a66cacc7a13cd79b2665279923e641f022997f8ae25e621",
+  "bytes": 19746456,
+  "sha256": "e9fbac488599ab045a99e78abc986db17cf68af46378dfe506ecd058957d0995",
   "crc_and_every_manifest_hash_verified": true,
   "runtime_jars": 8,
   "no_credentials_or_raw_backup": true,
@@ -18,5 +18,7 @@
   ],
   "cover_metadata_verified": true,
   "tested_sources_match": true,
-  "launcher_crlf_and_config_guard_verified": true
+  "launcher_crlf_and_config_guard_verified": true,
+  "canonical_evidence_logs_verified": true,
+  "final_documents_unchanged": true
 }

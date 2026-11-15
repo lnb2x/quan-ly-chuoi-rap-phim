@@ -55,6 +55,17 @@ python -X utf8 -B -m unittest discover -s tools/tests -v
 
 `verify_all.ps1` bắt buộc đủ mọi lớp `*Test`/`*IT` hiện hành, XML mới, không bỏ qua test, GUI, hai JVM, SQL chức năng và đối chiếu SHA-256 demo. Không chạy các test thay dữ liệu trên `cinema_chain`.
 
+## Tạo gói ZIP nộp
+
+ZIP là sản phẩm sinh tự động, giữ cục bộ trong `reports/submission/` và không lưu trùng vào Git. Báo cáo Word/PDF, mã nguồn, SQL và bằng chứng kiểm chứng vẫn được theo dõi trong repository. Sau khi hoàn tất `verify_all.ps1` trên máy đã cấu hình, chạy:
+
+```powershell
+.\mvnw.cmd dependency:copy-dependencies "-DincludeScope=runtime" "-DoutputDirectory=target/submission-runtime/lib"
+python -X utf8 -B tools/package_submission.py
+```
+
+Script kiểm tra mã nguồn khớp kết quả kiểm thử rồi tạo ZIP, manifest SHA-256 từng tệp và tệp `.zip.sha256`. Không đưa mật khẩu hoặc backup dữ liệu vào gói nộp.
+
 ## Phạm vi và lưu ý
 
 Bản nộp triển khai quản lý/bán vé tại quầy bằng Swing. `employee.role` mô tả vai trò nghiệp vụ, không phải hệ thống đăng nhập/phân quyền online đã triển khai. VNPay là phần sandbox bổ sung ở DB test; callback tự động dùng chữ ký mô phỏng, chưa chứng nhận giao dịch merchant hay hoàn tiền thật. Không dùng demo để nhận tiền thật.

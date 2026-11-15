@@ -30,11 +30,12 @@ Thumbs.db
 # Python cache and intermediate document QA renders
 __pycache__/
 *.py[cod]
-/verification/submission-2026-11-15/app-pdf-render/
-/verification/submission-2026-11-15/docx-final/
-/verification/submission-2026-11-15/docx-render/
-/verification/submission-2026-11-15/pdf-final/
-/verification/submission-2026-11-15/pdf-render/
+/verification/**/app-pdf-render/
+/verification/**/docx-final/
+/verification/**/docx-render/
+/verification/**/pdf-final/
+/verification/**/pdf-render/
+/reports/submission/*.zip
 
 # Local MySQL credential files and unfinished archives
 *.cnf
