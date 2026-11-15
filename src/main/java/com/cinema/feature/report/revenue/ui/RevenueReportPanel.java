@@ -5,6 +5,7 @@ import com.cinema.domain.RevenueReportData;
 import com.cinema.feature.report.revenue.RevenueReportService;
 import com.cinema.shared.ui.StatusBanner;
 import com.cinema.shared.ui.Theme;
+import com.cinema.shared.ui.UiTask;
 import com.cinema.shared.validation.BusinessRuleException;
 
 import javax.swing.*;
@@ -157,7 +158,13 @@ public final class RevenueReportPanel extends JPanel {
 
         JButton btnExportPdf = Theme.createSuccessButton("Xuất Báo cáo ra PDF");
         btnExportPdf.setName("btnExportRevenuePdf");
-        btnExportPdf.addActionListener(e -> exportDefaultPdf());
+        btnExportPdf.addActionListener(e -> {
+            try {
+                exportDefaultPdf();
+            } catch (RuntimeException ex) {
+                statusBanner.showError(ex.getMessage());
+            }
+        });
 
         actions.add(btnPreview);
         actions.add(btnExportPdf);
@@ -169,7 +176,7 @@ public final class RevenueReportPanel extends JPanel {
     }
 
     private void loadBranchFilter() {
-        branches = service.listBranches();
+        branches = UiTask.call(this, "Đang tải danh sách chi nhánh…", service::listBranches);
         cboBranch.removeAllItems();
         cboBranch.addItem("Tất cả chi nhánh");
         for (CinemaBranch b : branches) {
@@ -190,7 +197,10 @@ public final class RevenueReportPanel extends JPanel {
                 branchLabel = b.branchCode() + " - " + b.branchName();
             }
 
-            currentReportData = service.generateReport(fromDate, toDate, branchId, branchLabel);
+            Integer selectedBranchId = branchId;
+            String selectedBranchLabel = branchLabel;
+            currentReportData = UiTask.call(this, "Đang tổng hợp báo cáo doanh thu…",
+                    () -> service.generateReport(fromDate, toDate, selectedBranchId, selectedBranchLabel));
 
             lblKpiBookings.setText(currentReportData.totalPaidBookings() + " đơn");
             lblKpiTickets.setText(currentReportData.totalValidTickets() + " vé");
@@ -250,8 +260,12 @@ public final class RevenueReportPanel extends JPanel {
         if (currentReportData == null) {
             refreshPreview();
         }
+        if (currentReportData == null) {
+            throw new BusinessRuleException("Chưa có báo cáo hợp lệ để xuất. Vui lòng kiểm tra kỳ báo cáo và thử lại.");
+        }
         Path absPath = targetPath.toAbsolutePath();
-        service.exportToPdf(currentReportData, absPath);
+        RevenueReportData report = currentReportData;
+        UiTask.run(this, "Đang xuất báo cáo doanh thu ra PDF…", () -> service.exportToPdf(report, absPath));
         statusBanner.showSuccess("Đã xuất thành công Báo cáo Doanh thu ra tệp PDF: " + absPath);
         return absPath;
     }

@@ -28,11 +28,43 @@ public final class RevenueReportRepository {
         this.connectionProvider = connectionProvider;
     }
 
+    public record ReportRows(List<RevenueReportData.BranchRevenueRow> branches,
+                             List<RevenueReportData.DailyRevenueRow> daily) { }
+
+    public ReportRows findReportSnapshot(LocalDate fromDate, LocalDate toDate, Integer branchId) {
+        try (Connection conn = connectionProvider.getConnection()) {
+            conn.setReadOnly(true);
+            conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+            conn.setAutoCommit(false);
+            try {
+                // Hai bảng của cùng báo cáo phải nhìn thấy cùng một ảnh chụp InnoDB.
+                ReportRows rows = new ReportRows(findBranchSummaries(conn, fromDate, toDate, branchId),
+                        findDailyDetails(conn, fromDate, toDate, branchId));
+                conn.commit();
+                return rows;
+            } catch (SQLException | RuntimeException | Error ex) {
+                try { conn.rollback(); } catch (SQLException rollbackFailure) { ex.addSuppressed(rollbackFailure); }
+                throw ex;
+            }
+        } catch (SQLException ex) {
+            throw TransactionTemplate.translateSqlException(ex);
+        }
+    }
+
     public List<RevenueReportData.BranchRevenueRow> findBranchSummaries(
             LocalDate fromDate,
             LocalDate toDate,
             Integer branchId
     ) {
+        try (Connection conn = connectionProvider.getConnection()) {
+            return findBranchSummaries(conn, fromDate, toDate, branchId);
+        } catch (SQLException ex) {
+            throw TransactionTemplate.translateSqlException(ex);
+        }
+    }
+
+    private List<RevenueReportData.BranchRevenueRow> findBranchSummaries(
+            Connection conn, LocalDate fromDate, LocalDate toDate, Integer branchId) throws SQLException {
         StringBuilder sql = new StringBuilder("""
                 SELECT
                     br.branch_id,
@@ -57,8 +89,7 @@ public final class RevenueReportRepository {
                 """);
 
         List<RevenueReportData.BranchRevenueRow> rows = new ArrayList<>();
-        try (Connection conn = connectionProvider.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             ps.setDate(1, Date.valueOf(fromDate));
             ps.setDate(2, Date.valueOf(toDate));
             if (branchId != null) {
@@ -88,6 +119,15 @@ public final class RevenueReportRepository {
             LocalDate toDate,
             Integer branchId
     ) {
+        try (Connection conn = connectionProvider.getConnection()) {
+            return findDailyDetails(conn, fromDate, toDate, branchId);
+        } catch (SQLException ex) {
+            throw TransactionTemplate.translateSqlException(ex);
+        }
+    }
+
+    private List<RevenueReportData.DailyRevenueRow> findDailyDetails(
+            Connection conn, LocalDate fromDate, LocalDate toDate, Integer branchId) throws SQLException {
         StringBuilder sql = new StringBuilder("""
                 SELECT
                     revenue_date,
@@ -105,8 +145,7 @@ public final class RevenueReportRepository {
         sql.append(" ORDER BY revenue_date ASC, branch_code ASC");
 
         List<RevenueReportData.DailyRevenueRow> rows = new ArrayList<>();
-        try (Connection conn = connectionProvider.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             ps.setDate(1, Date.valueOf(fromDate));
             ps.setDate(2, Date.valueOf(toDate));
             if (branchId != null) {

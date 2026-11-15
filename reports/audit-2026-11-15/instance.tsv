@@ -1,0 +1,9 @@
+8.4.0	MySQL Community Server - GPL	C:\\Users\\LNB\\.mysql\\data-8.4\\	3306	ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION	REPEATABLE-READ	utf8mb4	utf8mb4_unicode_ci	root@localhost
+bind_address	127.0.0.1
+innodb_flush_log_at_trx_commit	1
+log_bin	ON
+require_secure_transport	OFF
+restrict_fk_on_non_standard_key	ON
+sync_binlog	1
+system_time_zone	SE Asia Standard Time
+time_zone	+07:00

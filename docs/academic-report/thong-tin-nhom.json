@@ -1,0 +1,15 @@
+{
+  "school": "HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG",
+  "course": "Cơ sở dữ liệu",
+  "class_code": "INT1313-20261-01",
+  "group": "8",
+  "lecturer": "Nguyễn Quỳnh Chi",
+  "topic": "Hệ thống quản lý chuỗi rạp chiếu phim",
+  "members": [
+    {"student_id": "B24DCCN152", "name": "Hoàng Tiến Dũng"},
+    {"student_id": "B24DCCN504", "name": "Phạm Thế Sơn"},
+    {"student_id": "B24DCCN537", "name": "Phạm Tiến Thành"},
+    {"student_id": "B24DCCN053", "name": "Lê Nguyên Bá"},
+    {"student_id": "B24DCCN570", "name": "Dương Bảo Trung"}
+  ]
+}

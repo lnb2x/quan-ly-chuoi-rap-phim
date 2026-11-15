@@ -11,13 +11,15 @@ import com.cinema.shared.validation.BusinessRuleException;
 import com.cinema.shared.validation.ValidationResult;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 
 /**
  * Tầng dịch vụ nghiệp vụ cho Đặt vé & Chọn ghế (Screen 2 - R5).
@@ -26,15 +28,20 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class BookingService {
 
-    private static final DateTimeFormatter CODE_FMT = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
-    private static final AtomicInteger SEQ = new AtomicInteger(100);
+    private static final ZoneId BUSINESS_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
 
     private final BookingRepository repository;
     private final TransactionTemplate transactionTemplate;
+    private final Clock clock;
 
     public BookingService(BookingRepository repository, TransactionTemplate transactionTemplate) {
+        this(repository, transactionTemplate, Clock.system(BUSINESS_ZONE));
+    }
+
+    public BookingService(BookingRepository repository, TransactionTemplate transactionTemplate, Clock clock) {
         this.repository = repository;
         this.transactionTemplate = transactionTemplate;
+        this.clock = clock.withZone(BUSINESS_ZONE);
     }
 
     public List<CinemaBranch> listBranches() {
@@ -135,7 +142,7 @@ public final class BookingService {
                 throw new BusinessRuleException(
                         "Lỗi nghiệp vụ [BR-08]: Suất chiếu #" + screeningId + " đã bị hủy hoặc ngừng nhận đặt vé.");
             }
-            if (sandbox && !scr.startTime().isAfter(LocalDateTime.now(java.time.ZoneId.of("Asia/Ho_Chi_Minh")))) {
+            if (sandbox && !scr.startTime().isAfter(LocalDateTime.now(clock))) {
                 throw new BusinessRuleException("Không thể thanh toán sandbox cho suất chiếu đã bắt đầu.");
             }
 
@@ -158,8 +165,10 @@ public final class BookingService {
                 totalAmount = totalAmount.add(scr.basePrice().add(seatInfo.surcharge()));
             }
 
-            LocalDateTime now = LocalDateTime.now();
-            String bookingCode = "BK-" + now.format(CODE_FMT) + "-" + SEQ.incrementAndGet();
+            LocalDateTime now = LocalDateTime.now(clock);
+            UUID id = UUID.randomUUID();
+            // Preserve every UUID bit within VARCHAR(30), using only lowercase letters and digits.
+            String bookingCode = "BK-" + new BigInteger(id.toString().replace("-", ""), 16).toString(36);
             String bookingStatus = "SUCCESS".equals(paymentStatus) ? "CONFIRMED" : "PENDING";
 
             int bookingId = repository.insertBooking(
@@ -194,6 +203,7 @@ public final class BookingService {
      */
     public void transitionPendingPayment(int bookingId, String targetPaymentStatus) {
         transactionTemplate.execute(conn -> {
+            repository.requireManualPayment(conn, bookingId);
             repository.transitionPendingPayment(conn, bookingId, targetPaymentStatus);
             return null;
         });

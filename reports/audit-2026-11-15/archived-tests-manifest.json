@@ -1,0 +1,122 @@
+[
+  {
+    "file": "verification/test-results/TEST-com.cinema.architecture.ArchitectureComplianceTest.xml",
+    "suite": "com.cinema.architecture.ArchitectureComplianceTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:28.224149+07:00",
+    "sha256": "b4af7ae28f6be2ee98ecd60ec8e600fb23df990c177fcd9d09990dcb48b7cb58"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.integration.BookingConcurrencyIT.xml",
+    "suite": "com.cinema.integration.BookingConcurrencyIT",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:35.000015+07:00",
+    "sha256": "9af59c0ec6c0534affcacbe6d1b51cccaec0656a1a009e3cfd0658bbb92b1fb0"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.integration.BusinessRulesIT.xml",
+    "suite": "com.cinema.integration.BusinessRulesIT",
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:36.407554+07:00",
+    "sha256": "f1e05049f97e39f1da34013f7ee93bc0b5372c7b34c3fa833aaf0e6ae245feaf"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.integration.DatabaseIntegrityIT.xml",
+    "suite": "com.cinema.integration.DatabaseIntegrityIT",
+    "tests": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:44.322283+07:00",
+    "sha256": "a36827e27a3ffd697c411893a8388fad2b1653576093ab38f4b0b1348132edab"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.integration.PaymentRecoveryIT.xml",
+    "suite": "com.cinema.integration.PaymentRecoveryIT",
+    "tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:45.754640+07:00",
+    "sha256": "a1a98f189691d178ed6f8fab633acb8f4a985ef11117b9aee9a72ec2fa7f1f43"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.integration.ReportAccuracyIT.xml",
+    "suite": "com.cinema.integration.ReportAccuracyIT",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:47.835574+07:00",
+    "sha256": "d72077528409eade44bd1dc4d1a380090b51393237f37700c82123b1e7367ca3"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.integration.SandboxPaymentIT.xml",
+    "suite": "com.cinema.integration.SandboxPaymentIT",
+    "tests": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:49.730383+07:00",
+    "sha256": "ce9f8279aa62892c69e8ce681e082487812f7168d8591fd2f155836a0c947f84"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.integration.ScreeningConcurrencyIT.xml",
+    "suite": "com.cinema.integration.ScreeningConcurrencyIT",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:49.939218+07:00",
+    "sha256": "915d4365be63419f019b2c802996b725372485001d35a5dc1ace434c8d827a1f"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.integration.ScreeningSearchIT.xml",
+    "suite": "com.cinema.integration.ScreeningSearchIT",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:50.245215+07:00",
+    "sha256": "a9b66e3d6d7d0209d1a56f97fa7d768c8394828e26f34f1348a4231a5ed93985"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.unit.ScreeningValidationTest.xml",
+    "suite": "com.cinema.unit.ScreeningValidationTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:28.263047+07:00",
+    "sha256": "ac628b7e010d80bc6c858bdb416fe12d485ab6d9b7405389e7b3c1f7e8a6a6cc"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.unit.TestSafetyGuardTest.xml",
+    "suite": "com.cinema.unit.TestSafetyGuardTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:32.368018+07:00",
+    "sha256": "712616746d5396c8638e33bbf1f2bea659cbee335eb884659bd7556f8bab6338"
+  },
+  {
+    "file": "verification/test-results/TEST-com.cinema.unit.VnpayGatewayTest.xml",
+    "suite": "com.cinema.unit.VnpayGatewayTest",
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "last_modified": "2026-11-13T23:35:32.437664+07:00",
+    "sha256": "c4f100f67750039dac4c8544126e19f210482211e94e92a81f729c4cf8f66ac2"
+  }
+]

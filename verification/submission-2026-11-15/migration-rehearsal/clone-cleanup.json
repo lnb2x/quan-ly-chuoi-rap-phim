@@ -1,0 +1,10 @@
+{
+  "clone": "cinema_chain_migration_clone",
+  "created_by_this_rehearsal_verified": true,
+  "last_rehearsal_fingerprint_verified": "7c5055f7e3edb5012925305eb5816f7592b5a6b8cc5cbe162500c709db762134",
+  "other_clone_sessions": 0,
+  "clone_removed": true,
+  "cleanup_at_utc": "2026-11-15T10:18:20.433985+00:00",
+  "demo_unchanged_by_clone_cleanup": true,
+  "demo_sha256": "e827a6a114e7bf08c130792b34f8209398e09289131f14496d196d4c5568e5d1"
+}

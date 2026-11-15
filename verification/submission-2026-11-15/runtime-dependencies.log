@@ -1,0 +1,21 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.cinema:cinema-chain-management >-----------------
+[INFO] Building H? Th?ng Qu?n L� Chu?i R?p Chi?u Phim 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.7.0:copy-dependencies (default-cli) @ cinema-chain-management ---
+[INFO] Copying artifact 'com.formdev:flatlaf:jar:3.5.2:compile' (C:\Users\LNB\.m2\repository\com\formdev\flatlaf\3.5.2\flatlaf-3.5.2.jar) to C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\submission-runtime\lib\flatlaf-3.5.2.jar
+[INFO] Copying artifact 'com.mysql:mysql-connector-j:jar:9.1.0:compile' (C:\Users\LNB\.m2\repository\com\mysql\mysql-connector-j\9.1.0\mysql-connector-j-9.1.0.jar) to C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\submission-runtime\lib\mysql-connector-j-9.1.0.jar
+[INFO] Copying artifact 'com.google.protobuf:protobuf-java:jar:4.26.1:compile' (C:\Users\LNB\.m2\repository\com\google\protobuf\protobuf-java\4.26.1\protobuf-java-4.26.1.jar) to C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\submission-runtime\lib\protobuf-java-4.26.1.jar
+[INFO] Copying artifact 'org.apache.pdfbox:pdfbox:jar:3.0.3:compile' (C:\Users\LNB\.m2\repository\org\apache\pdfbox\pdfbox\3.0.3\pdfbox-3.0.3.jar) to C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\submission-runtime\lib\pdfbox-3.0.3.jar
+[INFO] Copying artifact 'org.apache.pdfbox:pdfbox-io:jar:3.0.3:compile' (C:\Users\LNB\.m2\repository\org\apache\pdfbox\pdfbox-io\3.0.3\pdfbox-io-3.0.3.jar) to C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\submission-runtime\lib\pdfbox-io-3.0.3.jar
+[INFO] Copying artifact 'org.apache.pdfbox:fontbox:jar:3.0.3:compile' (C:\Users\LNB\.m2\repository\org\apache\pdfbox\fontbox\3.0.3\fontbox-3.0.3.jar) to C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\submission-runtime\lib\fontbox-3.0.3.jar
+[INFO] Copying artifact 'commons-logging:commons-logging:jar:1.3.3:compile' (C:\Users\LNB\.m2\repository\commons-logging\commons-logging\1.3.3\commons-logging-1.3.3.jar) to C:\Users\LNB\OneDrive - ptit.edu.vn\Documents\Code\Broject\QuanLyChuoiRapPhim\target\submission-runtime\lib\commons-logging-1.3.3.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.697 s
+[INFO] Finished at: 2026-11-15T17:18:21+07:00
+[INFO] ------------------------------------------------------------------------

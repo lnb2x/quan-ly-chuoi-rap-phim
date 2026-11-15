@@ -1,0 +1,23 @@
+{
+  "overlapping_open_screenings": "0",
+  "wrong_room_tickets": "0",
+  "duplicate_valid_screening_seat_groups": "0",
+  "valid_tickets_missing_or_wrong_lock": "0",
+  "locks_without_valid_matching_ticket": "0",
+  "valid_ticket_on_cancelled_booking": "0",
+  "valid_ticket_on_cancelled_screening": "0",
+  "success_amount_mismatch": "0",
+  "success_on_cancelled_booking": "0",
+  "confirmed_without_exactly_one_success": "0",
+  "pending_with_success": "0",
+  "confirmed_without_valid_tickets": "0",
+  "valid_with_cancelled_at": "0",
+  "cancelled_without_cancelled_at": "0",
+  "success_without_paid_at": "0",
+  "screening_too_short": "0",
+  "multiple_success_groups": "0",
+  "revenue_from_view": "35165000.00",
+  "revenue_independent_ticket_exists": "35165000.00",
+  "success_amount_sum": "35165000.00",
+  "occupancy_revenue_sum": "35165000.00"
+}

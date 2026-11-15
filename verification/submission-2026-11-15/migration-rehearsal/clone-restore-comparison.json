@@ -1,0 +1,90 @@
+{
+  "tables": {
+    "booking": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "cinema_branch": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "customer": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "employee": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "genre": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "movie": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "movie_genre": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": true,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "payment": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "screening": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "screening_room": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "screening_seat_lock": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": true,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "seat": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "seat_type": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    },
+    "ticket": {
+      "row_count_match": true,
+      "data_sha256_match": true,
+      "raw_ddl_sha256_match": false,
+      "ddl_match_ignoring_redundant_explicit_utf8mb4_character_set": true
+    }
+  },
+  "clone_views_referencing_demo": 0,
+  "note": "mysqldump restoration emits explicit CHARACTER SET utf8mb4 in SHOW CREATE columns. Raw DDL hashes differ from source for those tables; before/after clone refresh must match exactly."
+}

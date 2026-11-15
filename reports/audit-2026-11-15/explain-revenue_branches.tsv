@@ -1,0 +1,11 @@
+1	PRIMARY	br	NULL	ALL	NULL	NULL	NULL	NULL	4	100.00	Using temporary; Using filesort
+1	PRIMARY	<derived2>	NULL	ref	<auto_key0>	<auto_key0>	4	cinema_chain.br.branch_id	2	100.00	Using where
+2	DERIVED	bk	NULL	ALL	PRIMARY,idx_booking_screening,idx_booking_employee	NULL	NULL	NULL	160	10.00	Using where; Using temporary
+2	DERIVED	tk	NULL	ref	uq_ticket_booking_seat,idx_ticket_booking_status	uq_ticket_booking_seat	4	cinema_chain.bk.booking_id	2	10.00	Using where
+2	DERIVED	em	NULL	eq_ref	PRIMARY	PRIMARY	4	cinema_chain.bk.employee_id	1	100.00	NULL
+2	DERIVED	cu	NULL	eq_ref	PRIMARY	PRIMARY	4	cinema_chain.bk.customer_id	1	100.00	NULL
+2	DERIVED	sc	NULL	eq_ref	PRIMARY,idx_screening_room_time,idx_screening_movie_time	PRIMARY	4	cinema_chain.bk.screening_id	1	100.00	NULL
+2	DERIVED	rm	NULL	eq_ref	PRIMARY,uq_room_branch_name	PRIMARY	4	cinema_chain.sc.room_id	1	100.00	NULL
+2	DERIVED	br	NULL	eq_ref	PRIMARY	PRIMARY	4	cinema_chain.rm.branch_id	1	100.00	NULL
+2	DERIVED	mv	NULL	eq_ref	PRIMARY	PRIMARY	4	cinema_chain.sc.movie_id	1	100.00	NULL
+2	DERIVED	pm	NULL	ref	idx_payment_status_paid_at,idx_payment_booking	idx_payment_booking	86	cinema_chain.bk.booking_id,const	1	100.00	NULL

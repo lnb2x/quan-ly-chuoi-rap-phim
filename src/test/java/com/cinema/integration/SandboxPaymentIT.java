@@ -53,6 +53,26 @@ class SandboxPaymentIT {
         var conflicting=message("00","00");conflicting.put("vnp_TransactionNo","987654321");
         assertTrue(ipn(conflicting).contains("\"99\""));
     }
+    @Test void manualServiceCannotConfirmOrFailGatewayPendingPayment() throws Exception {
+        for (String target : List.of("SUCCESS", "FAILED")) {
+            assertThrows(BusinessRuleException.class,
+                    () -> BusinessRulesIT.booking.transitionPendingPayment(bookingId, target));
+            pending();
+        }
+        assertTrue(ipn(message("00", "00")).contains("\"00\""));
+        assertEquals(1, BusinessRulesIT.scalar("SELECT COUNT(*) FROM payment WHERE booking_id=? AND payment_status='SUCCESS'", bookingId));
+    }
+    @Test void checkoutAndExpiryShareVietnamTimeFromInjectedClock() throws Exception {
+        var instant = java.time.Instant.parse("2026-11-15T23:58:00Z");
+        var fixed = new SandboxPaymentService(new SandboxPaymentRepository(BusinessRulesIT.cp),
+                BusinessRulesIT.bookings, BusinessRulesIT.tx, config, Clock.fixed(instant, java.time.ZoneOffset.UTC));
+        var checkout = fixed.create(fixture.screening, null, fixture.employee, List.of(fixture.vipSeat));
+        var data = gateway.verify(checkout.url().getRawQuery());
+        assertEquals("20261116065800", data.get("vnp_CreateDate"));
+        assertEquals("20261116071300", data.get("vnp_ExpireDate"));
+        fixed.expirePending();
+        assertEquals(1, BusinessRulesIT.scalar("SELECT COUNT(*) FROM booking WHERE booking_id=? AND booking_status='PENDING'", checkout.bookingId()));
+    }
     @Test void returnUrlNeverConfirmsEvenWithValidSuccessSignature()throws Exception{
         get("/sandbox/return",signed(message("00","00")));pending();
     }

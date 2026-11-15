@@ -1,0 +1,23 @@
+{
+  "clone-after-restore.json": "e75e60325dcf3482df72ae6018586d3cfc4bf0f6d27602b2f897a5f5839aee7d",
+  "clone-before.json": "e75e60325dcf3482df72ae6018586d3cfc4bf0f6d27602b2f897a5f5839aee7d",
+  "clone-cleanup.json": "0a12b62548ae70b684cc24aa8c25c19b3ea7dd3b85b82561bef53eb0b4252b8f",
+  "clone-created.json": "4721843aeed71b0c7656ab033619c2410beb56ff03b8b0036f01e6ec1a94f485",
+  "clone-restore-comparison.json": "c814c07587188c8e904b788f924328f3f782527d1255a1c7eeadb6aec8ba5e94",
+  "demo-after.json": "23a87f23c6f9883da7f86eca3b58f9689a0056d003ec6f0cf8120e492838afcb",
+  "demo-before.json": "23a87f23c6f9883da7f86eca3b58f9689a0056d003ec6f0cf8120e492838afcb",
+  "first-refresh-after.json": "ac78fd9869532cad99c682c86218b6c213f549549df039d7af851614d26f6f0d",
+  "first-refresh-before.json": "e75e60325dcf3482df72ae6018586d3cfc4bf0f6d27602b2f897a5f5839aee7d",
+  "first-refresh-result.json": "83ff93ab184298aacf345f33911c1a2b2e96199ffb122f7e38e9ffd5498dea50",
+  "original-triggers.json": "b981f234b4ae9804c594a69fbc156225ca507051dc0f5bede2ce253cc956d3b3",
+  "README.md": "265fa791bff3d1fbe0ea743459a01e6c357c26327b87423c7e404d14cf232cc7",
+  "refresh-repeat.log": "33bdc07b44fdd5e4b00c1933f1be7d972398a491d35e65fc541768be2d841360",
+  "refresh.log": "6d240093d53cad94efd1922511cb2a3b49416357252b4423dc9468723edbeeae",
+  "rehearsal-result.json": "c7f247ae7683ce31d504441748a9d973780c63a032d2489cf4981c98003eb527",
+  "repeat-refresh-after.json": "ac78fd9869532cad99c682c86218b6c213f549549df039d7af851614d26f6f0d",
+  "repeat-refresh-before.json": "e75e60325dcf3482df72ae6018586d3cfc4bf0f6d27602b2f897a5f5839aee7d",
+  "repeat-refresh-result.json": "e6de29e7f3113ee230576164a480c3ecc0085d5d7f6c9bf7471e7b61f55ff06f",
+  "restore-delimiter-fix.json": "981062105a4bf125ad684af1c76b4fa879bc26fe456136be314f8f2504413134",
+  "restore-result.json": "57b92ed15c355d60f25dde47dd393752090ecdf15ab0eda4fbeefe39a7efed01",
+  "restore_triggers.sql": "11de3ee2a62f2f4fb9b7f5a391ec4dceb5ed050d1d57393fbccb943e44605197"
+}

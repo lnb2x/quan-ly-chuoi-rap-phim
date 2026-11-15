@@ -1,0 +1,23 @@
+{
+  "overlapping_open_screenings": "SELECT COUNT(*) FROM screening a JOIN screening b ON a.screening_id<b.screening_id AND a.room_id=b.room_id AND a.status='OPEN' AND b.status='OPEN' AND a.start_time<b.end_time AND a.end_time>b.start_time",
+  "wrong_room_tickets": "SELECT COUNT(*) FROM ticket t JOIN booking b ON b.booking_id=t.booking_id JOIN screening s ON s.screening_id=b.screening_id JOIN seat st ON st.seat_id=t.seat_id WHERE st.room_id<>s.room_id",
+  "duplicate_valid_screening_seat_groups": "SELECT COUNT(*) FROM (SELECT b.screening_id,t.seat_id FROM ticket t JOIN booking b ON b.booking_id=t.booking_id WHERE t.ticket_status='VALID' GROUP BY b.screening_id,t.seat_id HAVING COUNT(*)>1) x",
+  "valid_tickets_missing_or_wrong_lock": "SELECT COUNT(*) FROM ticket t JOIN booking b ON b.booking_id=t.booking_id LEFT JOIN screening_seat_lock l ON l.ticket_id=t.ticket_id AND l.seat_id=t.seat_id AND l.screening_id=b.screening_id WHERE t.ticket_status='VALID' AND l.ticket_id IS NULL",
+  "locks_without_valid_matching_ticket": "SELECT COUNT(*) FROM screening_seat_lock l LEFT JOIN ticket t ON t.ticket_id=l.ticket_id LEFT JOIN booking b ON b.booking_id=t.booking_id WHERE t.ticket_id IS NULL OR t.ticket_status<>'VALID' OR l.seat_id<>t.seat_id OR l.screening_id<>b.screening_id",
+  "valid_ticket_on_cancelled_booking": "SELECT COUNT(*) FROM ticket t JOIN booking b ON b.booking_id=t.booking_id WHERE t.ticket_status='VALID' AND b.booking_status='CANCELLED'",
+  "valid_ticket_on_cancelled_screening": "SELECT COUNT(*) FROM ticket t JOIN booking b ON b.booking_id=t.booking_id JOIN screening s ON s.screening_id=b.screening_id WHERE t.ticket_status='VALID' AND s.status='CANCELLED'",
+  "success_amount_mismatch": "SELECT COUNT(*) FROM payment p WHERE p.payment_status='SUCCESS' AND p.amount<>(SELECT COALESCE(SUM(t.unit_price),0) FROM ticket t WHERE t.booking_id=p.booking_id AND t.ticket_status='VALID')",
+  "success_on_cancelled_booking": "SELECT COUNT(*) FROM payment p JOIN booking b ON b.booking_id=p.booking_id WHERE p.payment_status='SUCCESS' AND b.booking_status='CANCELLED'",
+  "confirmed_without_exactly_one_success": "SELECT COUNT(*) FROM booking b WHERE b.booking_status='CONFIRMED' AND (SELECT COUNT(*) FROM payment p WHERE p.booking_id=b.booking_id AND p.payment_status='SUCCESS')<>1",
+  "pending_with_success": "SELECT COUNT(*) FROM booking b WHERE b.booking_status='PENDING' AND EXISTS(SELECT 1 FROM payment p WHERE p.booking_id=b.booking_id AND p.payment_status='SUCCESS')",
+  "confirmed_without_valid_tickets": "SELECT COUNT(*) FROM booking b WHERE b.booking_status='CONFIRMED' AND NOT EXISTS(SELECT 1 FROM ticket t WHERE t.booking_id=b.booking_id AND t.ticket_status='VALID')",
+  "valid_with_cancelled_at": "SELECT COUNT(*) FROM ticket WHERE ticket_status='VALID' AND cancelled_at IS NOT NULL",
+  "cancelled_without_cancelled_at": "SELECT COUNT(*) FROM ticket WHERE ticket_status='CANCELLED' AND cancelled_at IS NULL",
+  "success_without_paid_at": "SELECT COUNT(*) FROM payment WHERE payment_status='SUCCESS' AND paid_at IS NULL",
+  "screening_too_short": "SELECT COUNT(*) FROM screening s JOIN movie m ON m.movie_id=s.movie_id WHERE TIMESTAMPDIFF(MINUTE,s.start_time,s.end_time)<m.duration_minutes",
+  "multiple_success_groups": "SELECT COUNT(*) FROM (SELECT booking_id FROM payment WHERE payment_status='SUCCESS' GROUP BY booking_id HAVING COUNT(*)>1) x",
+  "revenue_from_view": "SELECT COALESCE(SUM(recognized_revenue),0) FROM vw_verified_booking_revenue",
+  "revenue_independent_ticket_exists": "SELECT COALESCE(SUM(t.unit_price),0) FROM ticket t JOIN booking b ON b.booking_id=t.booking_id WHERE t.ticket_status='VALID' AND b.booking_status='CONFIRMED' AND EXISTS(SELECT 1 FROM payment p WHERE p.booking_id=b.booking_id AND p.payment_status='SUCCESS')",
+  "success_amount_sum": "SELECT COALESCE(SUM(amount),0) FROM payment WHERE payment_status='SUCCESS'",
+  "occupancy_revenue_sum": "SELECT COALESCE(SUM(sales_revenue),0) FROM vw_screening_occupancy"
+}

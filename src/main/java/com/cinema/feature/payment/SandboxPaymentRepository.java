@@ -25,7 +25,7 @@ public final class SandboxPaymentRepository {
             p.setInt(1,bookingId);
             try(var r=p.executeQuery()) {
                 if(!r.next())return null;
-                String status=r.getString(1); var created=r.getTimestamp(2).toLocalDateTime();
+                String status=r.getString(1); var created=r.getObject(2,LocalDateTime.class);
                 try(var q=c.prepareStatement("SELECT payment_id,amount,payment_status,transaction_ref FROM payment WHERE booking_id=? AND (?=0 OR payment_id=?) ORDER BY payment_id DESC FOR UPDATE")) {
                     q.setInt(1,bookingId);q.setInt(2,paymentId);q.setInt(3,paymentId);
                     try(var t=q.executeQuery()) {
@@ -39,7 +39,7 @@ public final class SandboxPaymentRepository {
 
     public List<Integer> expired(LocalDateTime cutoff) throws SQLException {
         try(var c=cp.getConnection();var p=c.prepareStatement("SELECT DISTINCT b.booking_id FROM booking b JOIN payment p ON p.booking_id=b.booking_id WHERE b.booking_status='PENDING' AND p.payment_status='PENDING' AND p.transaction_ref LIKE 'VNPAY-%' AND b.booked_at<=?")) {
-            p.setTimestamp(1,Timestamp.valueOf(cutoff));var result=new ArrayList<Integer>();
+            p.setObject(1,cutoff);var result=new ArrayList<Integer>();
             try(var r=p.executeQuery()){while(r.next())result.add(r.getInt(1));}return result;
         }
     }

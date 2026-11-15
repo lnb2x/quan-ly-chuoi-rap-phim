@@ -1,6 +1,7 @@
 ﻿param(
     [ValidateSet("Up", "Rollback")]
-    [string]$Direction = "Up"
+    [string]$Direction = "Up",
+    [switch]$MaintenanceConfirmed
 )
 
 $ErrorActionPreference = "Stop"
@@ -12,9 +13,16 @@ $dbDir    = Split-Path -Parent $PSScriptRoot
 $mysqlBin = Join-Path $env:USERPROFILE ".mysql\mysql-8.4\bin"
 $mysqlExe = Join-Path $mysqlBin "mysql.exe"
 $targetDb = "cinema_chain"
-$stamp    = Get-Date -Format "yyyyMMdd_HHmmss"
+$stamp    = (Get-Date -Format "yyyyMMdd_HHmmss") + "_" + [Guid]::NewGuid().ToString("N").Substring(0, 8)
 $backupSql = Join-Path $rootDir "target\demo-backup\cinema_chain_before_migration_$stamp.sql"
 $fingerprintJson = Join-Path $rootDir "target\demo-backup\cinema_chain_before_migration_$stamp.json"
+
+if (-not $MaintenanceConfirmed) {
+    throw "Cần -MaintenanceConfirmed sau khi đóng ứng dụng, callback server và mọi client ghi. Giữ các tiến trình này đóng tới khi đối soát xong; script không tự kill tiến trình."
+}
+$beforePhase = if ($Direction -eq "Up") { "pre" } else { "post" }
+python "$PSScriptRoot\check_migration.py" --db $targetDb --phase $beforePhase --maintenance
+if ($LASTEXITCODE -ne 0) { throw "Sai instance/lược đồ hoặc toàn vẹn không đạt; chưa thực hiện DDL. Với CSDL đã có 14 bảng, dùng refresh_triggers.py để cập nhật riêng trigger." }
 
 Write-Output "======================================================================"
 Write-Output " GÓI MIGRATION CÓ KIỂM SOÁT CHO CSDL CHÍNH 'cinema_chain' ($Direction)"
@@ -36,6 +44,10 @@ function New-RestrictedMySqlDefaultsFile([string]$user, [string]$pass) {
     [System.IO.File]::WriteAllText($tmpPath, $cfgContent, [System.Text.UTF8Encoding]::new($false))
     if ($env:USERNAME) {
         & icacls $tmpPath /inheritance:r /grant:r "$($env:USERNAME):(R,W)" | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            Remove-Item -LiteralPath $tmpPath -Force
+            throw "Không thể giới hạn quyền truy cập tệp xác thực MySQL."
+        }
     }
     return $tmpPath
 }
@@ -52,6 +64,8 @@ try {
         Write-Output "[2/4] Chạy kiểm tra điều kiện tiên quyết (V2_3nf_ticket_precheck.sql)..."
         [System.IO.File]::ReadAllText("$PSScriptRoot\V2_3nf_ticket_precheck.sql", [System.Text.Encoding]::UTF8) | & $mysqlExe "--defaults-extra-file=$cfgFile" -t $targetDb
         if ($LASTEXITCODE -ne 0) { throw "Precheck thất bại." }
+        python "$PSScriptRoot\check_migration.py" --db $targetDb --phase pre --maintenance
+        if ($LASTEXITCODE -ne 0) { throw "Chỉ số precheck không đạt; dừng trước DDL." }
 
         Write-Output "[3/4] Thực thi Forward Migration 14 bảng chuẩn 3NF trên 'cinema_chain'..."
         [System.IO.File]::ReadAllText("$PSScriptRoot\V2_3nf_ticket_up.sql", [System.Text.Encoding]::UTF8) | & $mysqlExe "--defaults-extra-file=$cfgFile" $targetDb
@@ -64,12 +78,19 @@ try {
         Write-Output "[4/4] Đối soát toàn vẹn dữ liệu sau nâng cấp..."
         [System.IO.File]::ReadAllText("$dbDir\verification\verify_constraints.sql", [System.Text.Encoding]::UTF8) | & $mysqlExe "--defaults-extra-file=$cfgFile" -t $targetDb
         if ($LASTEXITCODE -ne 0) { throw "Đối soát sau nâng cấp thất bại." }
+        python "$PSScriptRoot\check_migration.py" --db $targetDb --phase post --maintenance
+        if ($LASTEXITCODE -ne 0) { throw "Chỉ số sau nâng cấp không đạt." }
     } else {
         Write-Output "[2/4] Thực thi Rollback về lược đồ 13 bảng trên 'cinema_chain'..."
         [System.IO.File]::ReadAllText("$PSScriptRoot\V2_3nf_ticket_rollback.sql", [System.Text.Encoding]::UTF8) | & $mysqlExe "--defaults-extra-file=$cfgFile" $targetDb
         if ($LASTEXITCODE -ne 0) { throw "V2_3nf_ticket_rollback.sql thất bại." }
+        python "$PSScriptRoot\check_migration.py" --db $targetDb --phase pre --maintenance
+        if ($LASTEXITCODE -ne 0) { throw "Lược đồ/toàn vẹn sau rollback không đạt." }
     }
     Write-Output "[MIGRATION COMPLETED] Đã hoàn tất '$Direction' an toàn trên 'cinema_chain'. Bản sao lưu dự phòng: $backupSql"
+} catch {
+    Write-Warning "Migration chưa hoàn tất. GIỮ ỨNG DỤNG ĐÓNG; DDL MySQL không rollback nguyên khối. Đối soát trạng thái và dùng bản sao lưu đã kiểm tra tại '$backupSql' để phục hồi có kiểm soát."
+    throw
 } finally {
     Remove-Item -LiteralPath $cfgFile -Force -ErrorAction SilentlyContinue
 }

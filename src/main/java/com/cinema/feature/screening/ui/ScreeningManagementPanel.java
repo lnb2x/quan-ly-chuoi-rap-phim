@@ -8,6 +8,7 @@ import com.cinema.domain.ScreeningRoom;
 import com.cinema.feature.screening.ScreeningService;
 import com.cinema.shared.ui.StatusBanner;
 import com.cinema.shared.ui.Theme;
+import com.cinema.shared.ui.UiTask;
 import com.cinema.shared.validation.BusinessRuleException;
 
 import javax.swing.*;
@@ -248,7 +249,7 @@ public final class ScreeningManagementPanel extends JPanel {
 
     public void loadReferenceData() {
         try {
-            branches = service.listBranches();
+            branches = UiTask.call(this, "Đang tải danh sách chi nhánh...", service::listBranches);
             cboBranch.removeAllItems();
             cboFilterBranch.removeAllItems();
             cboFilterBranch.addItem("Tất cả chi nhánh");
@@ -258,7 +259,7 @@ public final class ScreeningManagementPanel extends JPanel {
             }
 
             cboMovie.removeAllItems();
-            for (Movie m : service.listMovies()) {
+            for (Movie m : UiTask.call(this, "Đang tải danh sách phim...", service::listMovies)) {
                 cboMovie.addItem(m);
             }
 
@@ -273,8 +274,13 @@ public final class ScreeningManagementPanel extends JPanel {
         CinemaBranch selectedBranch = (CinemaBranch) cboBranch.getSelectedItem();
         cboRoom.removeAllItems();
         if (selectedBranch != null) {
-            for (ScreeningRoom r : service.listRoomsByBranch(selectedBranch.branchId())) {
-                cboRoom.addItem(r);
+            try {
+                for (ScreeningRoom r : UiTask.call(this, "Đang tải danh sách phòng chiếu...",
+                        () -> service.listRoomsByBranch(selectedBranch.branchId()))) {
+                    cboRoom.addItem(r);
+                }
+            } catch (RuntimeException ex) {
+                statusBanner.showError("Không thể tải danh sách phòng chiếu: " + ex.getMessage());
             }
         }
     }
@@ -306,8 +312,11 @@ public final class ScreeningManagementPanel extends JPanel {
                 dateFilter = LocalDate.parse(dateStr);
             }
 
-            PageResult<ScreeningDetailView> page = service.listScreeningsPage(
-                    branchId, null, null, dateFilter, currentPage, PAGE_SIZE);
+            Integer selectedBranchId = branchId;
+            LocalDate selectedDate = dateFilter;
+            int requestedPage = currentPage;
+            PageResult<ScreeningDetailView> page = UiTask.call(this, "Đang tải lịch chiếu...",
+                    () -> service.listScreeningsPage(selectedBranchId, null, null, selectedDate, requestedPage, PAGE_SIZE));
             currentRows = page.items();
             currentPage = page.pageNumber();
             totalPages = page.totalPages();
@@ -441,7 +450,11 @@ public final class ScreeningManagementPanel extends JPanel {
                     ? LocalDateTime.of(date, endClock)
                     : LocalDateTime.of(date.plusDays(1), endClock);
 
-            int newId = service.createScreening(movie.movieId(), room.roomId(), startDt, endDt, basePrice);
+            if (movie == null || room == null) {
+                throw new BusinessRuleException("Vui lòng chọn đầy đủ phim và phòng chiếu.");
+            }
+            int newId = UiTask.call(this, "Đang kiểm tra lịch và tạo suất chiếu...",
+                    () -> service.createScreening(movie.movieId(), room.roomId(), startDt, endDt, basePrice));
             refreshTable();
             statusBanner.showSuccess(String.format(
                     "Đã tạo thành công Suất chiếu #%d cho phim '%s' tại %s (%s - %s).",
@@ -473,7 +486,12 @@ public final class ScreeningManagementPanel extends JPanel {
                     ? LocalDateTime.of(date, endClock)
                     : LocalDateTime.of(date.plusDays(1), endClock);
 
-            service.updateScreening(selectedScreeningId, movie.movieId(), room.roomId(), startDt, endDt, basePrice, status);
+            if (movie == null || room == null) {
+                throw new BusinessRuleException("Vui lòng chọn đầy đủ phim và phòng chiếu.");
+            }
+            int screeningId = selectedScreeningId;
+            UiTask.run(this, "Đang kiểm tra lịch và cập nhật suất chiếu...",
+                    () -> service.updateScreening(screeningId, movie.movieId(), room.roomId(), startDt, endDt, basePrice, status));
             refreshTable();
             statusBanner.showSuccess("Đã cập nhật thành công Suất chiếu #" + selectedScreeningId + ".");
         } catch (BusinessRuleException bre) {

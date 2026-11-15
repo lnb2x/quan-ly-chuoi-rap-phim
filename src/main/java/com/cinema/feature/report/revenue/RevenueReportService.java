@@ -55,10 +55,9 @@ public final class RevenueReportService {
             throw new BusinessRuleException("Ngày kết thúc kỳ báo cáo không được nhỏ hơn ngày bắt đầu.");
         }
 
-        List<RevenueReportData.BranchRevenueRow> branchRows =
-                reportRepository.findBranchSummaries(fromDate, toDate, branchId);
-        List<RevenueReportData.DailyRevenueRow> dailyRows =
-                reportRepository.findDailyDetails(fromDate, toDate, branchId);
+        RevenueReportRepository.ReportRows snapshot = reportRepository.findReportSnapshot(fromDate, toDate, branchId);
+        List<RevenueReportData.BranchRevenueRow> branchRows = snapshot.branches();
+        List<RevenueReportData.DailyRevenueRow> dailyRows = snapshot.daily();
 
         int totalBookings = branchRows.stream().mapToInt(RevenueReportData.BranchRevenueRow::paidBookings).sum();
         int totalTickets = branchRows.stream().mapToInt(RevenueReportData.BranchRevenueRow::validTickets).sum();

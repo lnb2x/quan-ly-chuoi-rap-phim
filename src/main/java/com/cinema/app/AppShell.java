@@ -21,6 +21,7 @@ import com.cinema.feature.payment.SandboxPaymentService;
 import com.cinema.shared.db.ConnectionProvider;
 import com.cinema.shared.db.TransactionTemplate;
 import com.cinema.shared.ui.Theme;
+import com.cinema.shared.ui.UiTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +63,7 @@ public final class AppShell extends JFrame {
         setLocationRelativeTo(null);
 
         ConnectionProvider connectionProvider = new ConnectionProvider(appConfig);
-        connectionProvider.logSafeStartupDiagnostics();
+        UiTask.call(this, "Đang kiểm tra kết nối cơ sở dữ liệu...", connectionProvider::logSafeStartupDiagnostics);
         TransactionTemplate transactionTemplate = new TransactionTemplate(connectionProvider);
         PdfReportWriter pdfReportWriter = new PdfReportWriter();
 

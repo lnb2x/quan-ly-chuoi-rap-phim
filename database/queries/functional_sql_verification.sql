@@ -203,7 +203,6 @@ FROM cinema_branch br
 LEFT JOIN vw_verified_booking_revenue vr
     ON vr.branch_id = br.branch_id
    AND vr.revenue_date BETWEEN '2026-11-01' AND '2026-11-15'
-WHERE br.active = 1
 GROUP BY br.branch_id, br.branch_code, br.branch_name, br.city
 ORDER BY paid_revenue DESC, br.branch_id ASC;
 

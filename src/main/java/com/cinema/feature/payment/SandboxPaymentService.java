@@ -24,7 +24,7 @@ public final class SandboxPaymentService {
                                  TransactionTemplate tx,VnpayConfig config,Clock clock) {
         repository.assertTestDatabase();this.repository=repository;this.bookings=bookings;this.tx=tx;
         this.config=config;this.gateway=new VnpayGateway(config);this.clock=clock;
-        this.bookingService=new BookingService(bookings,tx);
+        this.bookingService=new BookingService(bookings,tx,clock);
     }
 
     public Checkout create(int screeningId,Integer customerId,int employeeId,List<Integer> seats) {

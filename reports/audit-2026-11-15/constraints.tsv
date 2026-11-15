@@ -1,0 +1,132 @@
+cinema_chain	booking	CHECK	chk_booking_status		
+cinema_chain	booking	FOREIGN KEY	fk_booking_customer	customer_id	customer
+cinema_chain	booking	FOREIGN KEY	fk_booking_employee	employee_id	employee
+cinema_chain	booking	FOREIGN KEY	fk_booking_screening	screening_id	screening
+cinema_chain	booking	PRIMARY KEY	PRIMARY	booking_id	
+cinema_chain	booking	UNIQUE	uq_booking_code	booking_code	
+cinema_chain	cinema_branch	CHECK	chk_branch_active		
+cinema_chain	cinema_branch	PRIMARY KEY	PRIMARY	branch_id	
+cinema_chain	cinema_branch	UNIQUE	uq_branch_code	branch_code	
+cinema_chain	cinema_branch	UNIQUE	uq_branch_name	branch_name	
+cinema_chain	cinema_branch	UNIQUE	uq_branch_phone	phone	
+cinema_chain	customer	PRIMARY KEY	PRIMARY	customer_id	
+cinema_chain	customer	UNIQUE	uq_customer_email	email	
+cinema_chain	customer	UNIQUE	uq_customer_phone	phone	
+cinema_chain	employee	CHECK	chk_employee_role		
+cinema_chain	employee	FOREIGN KEY	fk_employee_branch	branch_id	cinema_branch
+cinema_chain	employee	PRIMARY KEY	PRIMARY	employee_id	
+cinema_chain	employee	UNIQUE	uq_employee_code	employee_code	
+cinema_chain	employee	UNIQUE	uq_employee_phone	phone	
+cinema_chain	genre	PRIMARY KEY	PRIMARY	genre_id	
+cinema_chain	genre	UNIQUE	uq_genre_name	genre_name	
+cinema_chain	movie	CHECK	chk_movie_dur		
+cinema_chain	movie	CHECK	chk_movie_rating		
+cinema_chain	movie	PRIMARY KEY	PRIMARY	movie_id	
+cinema_chain	movie	UNIQUE	uq_movie_code	movie_code	
+cinema_chain	movie_genre	FOREIGN KEY	fk_mg_genre	genre_id	genre
+cinema_chain	movie_genre	FOREIGN KEY	fk_mg_movie	movie_id	movie
+cinema_chain	movie_genre	PRIMARY KEY	PRIMARY	movie_id,genre_id	
+cinema_chain	payment	CHECK	chk_payment_amount		
+cinema_chain	payment	CHECK	chk_payment_method		
+cinema_chain	payment	CHECK	chk_payment_status		
+cinema_chain	payment	FOREIGN KEY	fk_payment_booking	booking_id	booking
+cinema_chain	payment	PRIMARY KEY	PRIMARY	payment_id	
+cinema_chain	payment	UNIQUE	uq_payment_one_success	active_success_booking	
+cinema_chain	screening	CHECK	chk_screening_price		
+cinema_chain	screening	CHECK	chk_screening_stat		
+cinema_chain	screening	CHECK	chk_screening_time		
+cinema_chain	screening	FOREIGN KEY	fk_screening_movie	movie_id	movie
+cinema_chain	screening	FOREIGN KEY	fk_screening_room	room_id	screening_room
+cinema_chain	screening	PRIMARY KEY	PRIMARY	screening_id	
+cinema_chain	screening_room	CHECK	chk_room_active		
+cinema_chain	screening_room	CHECK	chk_room_type		
+cinema_chain	screening_room	FOREIGN KEY	fk_room_branch	branch_id	cinema_branch
+cinema_chain	screening_room	PRIMARY KEY	PRIMARY	room_id	
+cinema_chain	screening_room	UNIQUE	uq_room_branch_name	branch_id,room_name	
+cinema_chain	screening_seat_lock	FOREIGN KEY	fk_ssl_screening	screening_id	screening
+cinema_chain	screening_seat_lock	FOREIGN KEY	fk_ssl_seat	seat_id	seat
+cinema_chain	screening_seat_lock	FOREIGN KEY	fk_ssl_ticket	ticket_id	ticket
+cinema_chain	screening_seat_lock	PRIMARY KEY	PRIMARY	screening_id,seat_id	
+cinema_chain	screening_seat_lock	UNIQUE	uq_ssl_ticket	ticket_id	
+cinema_chain	seat	CHECK	chk_seat_number		
+cinema_chain	seat	CHECK	chk_seat_row		
+cinema_chain	seat	FOREIGN KEY	fk_seat_room	room_id	screening_room
+cinema_chain	seat	FOREIGN KEY	fk_seat_type	seat_type_code	seat_type
+cinema_chain	seat	PRIMARY KEY	PRIMARY	seat_id	
+cinema_chain	seat	UNIQUE	uq_seat_position	room_id,seat_row,seat_number	
+cinema_chain	seat_type	CHECK	chk_seat_surcharge		
+cinema_chain	seat_type	CHECK	chk_seat_type_code		
+cinema_chain	seat_type	PRIMARY KEY	PRIMARY	seat_type_code	
+cinema_chain	seat_type	UNIQUE	uq_seat_type_name	type_name	
+cinema_chain	ticket	CHECK	chk_ticket_price		
+cinema_chain	ticket	CHECK	chk_ticket_status		
+cinema_chain	ticket	FOREIGN KEY	fk_ticket_booking	booking_id	booking
+cinema_chain	ticket	FOREIGN KEY	fk_ticket_seat	seat_id	seat
+cinema_chain	ticket	PRIMARY KEY	PRIMARY	ticket_id	
+cinema_chain	ticket	UNIQUE	uq_ticket_booking_seat	booking_id,seat_id	
+cinema_chain_test	booking	CHECK	chk_booking_status		
+cinema_chain_test	booking	FOREIGN KEY	fk_booking_customer	customer_id	customer
+cinema_chain_test	booking	FOREIGN KEY	fk_booking_employee	employee_id	employee
+cinema_chain_test	booking	FOREIGN KEY	fk_booking_screening	screening_id	screening
+cinema_chain_test	booking	PRIMARY KEY	PRIMARY	booking_id	
+cinema_chain_test	booking	UNIQUE	uq_booking_code	booking_code	
+cinema_chain_test	cinema_branch	CHECK	chk_branch_active		
+cinema_chain_test	cinema_branch	PRIMARY KEY	PRIMARY	branch_id	
+cinema_chain_test	cinema_branch	UNIQUE	uq_branch_code	branch_code	
+cinema_chain_test	cinema_branch	UNIQUE	uq_branch_name	branch_name	
+cinema_chain_test	cinema_branch	UNIQUE	uq_branch_phone	phone	
+cinema_chain_test	customer	PRIMARY KEY	PRIMARY	customer_id	
+cinema_chain_test	customer	UNIQUE	uq_customer_email	email	
+cinema_chain_test	customer	UNIQUE	uq_customer_phone	phone	
+cinema_chain_test	employee	CHECK	chk_employee_role		
+cinema_chain_test	employee	FOREIGN KEY	fk_employee_branch	branch_id	cinema_branch
+cinema_chain_test	employee	PRIMARY KEY	PRIMARY	employee_id	
+cinema_chain_test	employee	UNIQUE	uq_employee_code	employee_code	
+cinema_chain_test	employee	UNIQUE	uq_employee_phone	phone	
+cinema_chain_test	genre	PRIMARY KEY	PRIMARY	genre_id	
+cinema_chain_test	genre	UNIQUE	uq_genre_name	genre_name	
+cinema_chain_test	movie	CHECK	chk_movie_dur		
+cinema_chain_test	movie	CHECK	chk_movie_rating		
+cinema_chain_test	movie	PRIMARY KEY	PRIMARY	movie_id	
+cinema_chain_test	movie	UNIQUE	uq_movie_code	movie_code	
+cinema_chain_test	movie_genre	FOREIGN KEY	fk_mg_genre	genre_id	genre
+cinema_chain_test	movie_genre	FOREIGN KEY	fk_mg_movie	movie_id	movie
+cinema_chain_test	movie_genre	PRIMARY KEY	PRIMARY	movie_id,genre_id	
+cinema_chain_test	payment	CHECK	chk_payment_amount		
+cinema_chain_test	payment	CHECK	chk_payment_method		
+cinema_chain_test	payment	CHECK	chk_payment_status		
+cinema_chain_test	payment	FOREIGN KEY	fk_payment_booking	booking_id	booking
+cinema_chain_test	payment	PRIMARY KEY	PRIMARY	payment_id	
+cinema_chain_test	payment	UNIQUE	uq_payment_one_success	active_success_booking	
+cinema_chain_test	screening	CHECK	chk_screening_price		
+cinema_chain_test	screening	CHECK	chk_screening_stat		
+cinema_chain_test	screening	CHECK	chk_screening_time		
+cinema_chain_test	screening	FOREIGN KEY	fk_screening_movie	movie_id	movie
+cinema_chain_test	screening	FOREIGN KEY	fk_screening_room	room_id	screening_room
+cinema_chain_test	screening	PRIMARY KEY	PRIMARY	screening_id	
+cinema_chain_test	screening_room	CHECK	chk_room_active		
+cinema_chain_test	screening_room	CHECK	chk_room_type		
+cinema_chain_test	screening_room	FOREIGN KEY	fk_room_branch	branch_id	cinema_branch
+cinema_chain_test	screening_room	PRIMARY KEY	PRIMARY	room_id	
+cinema_chain_test	screening_room	UNIQUE	uq_room_branch_name	branch_id,room_name	
+cinema_chain_test	screening_seat_lock	FOREIGN KEY	fk_ssl_screening	screening_id	screening
+cinema_chain_test	screening_seat_lock	FOREIGN KEY	fk_ssl_seat	seat_id	seat
+cinema_chain_test	screening_seat_lock	FOREIGN KEY	fk_ssl_ticket	ticket_id	ticket
+cinema_chain_test	screening_seat_lock	PRIMARY KEY	PRIMARY	screening_id,seat_id	
+cinema_chain_test	screening_seat_lock	UNIQUE	uq_ssl_ticket	ticket_id	
+cinema_chain_test	seat	CHECK	chk_seat_number		
+cinema_chain_test	seat	CHECK	chk_seat_row		
+cinema_chain_test	seat	FOREIGN KEY	fk_seat_room	room_id	screening_room
+cinema_chain_test	seat	FOREIGN KEY	fk_seat_type	seat_type_code	seat_type
+cinema_chain_test	seat	PRIMARY KEY	PRIMARY	seat_id	
+cinema_chain_test	seat	UNIQUE	uq_seat_position	room_id,seat_row,seat_number	
+cinema_chain_test	seat_type	CHECK	chk_seat_surcharge		
+cinema_chain_test	seat_type	CHECK	chk_seat_type_code		
+cinema_chain_test	seat_type	PRIMARY KEY	PRIMARY	seat_type_code	
+cinema_chain_test	seat_type	UNIQUE	uq_seat_type_name	type_name	
+cinema_chain_test	ticket	CHECK	chk_ticket_price		
+cinema_chain_test	ticket	CHECK	chk_ticket_status		
+cinema_chain_test	ticket	FOREIGN KEY	fk_ticket_booking	booking_id	booking
+cinema_chain_test	ticket	FOREIGN KEY	fk_ticket_seat	seat_id	seat
+cinema_chain_test	ticket	PRIMARY KEY	PRIMARY	ticket_id	
+cinema_chain_test	ticket	UNIQUE	uq_ticket_booking_seat	booking_id,seat_id	

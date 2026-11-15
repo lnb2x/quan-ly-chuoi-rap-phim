@@ -12,6 +12,7 @@ function Invoke-TestDbSqlStdin {
         [Parameter(Mandatory = $true)][string]$SqlScriptPath,
         [Parameter(Mandatory = $true)][string]$LogOutputPath
     )
+    if ($DatabaseName -cne "cinema_chain_test") { throw "SQL chức năng chỉ được chạy trên cinema_chain_test." }
     $mysqlExe = Join-Path $env:USERPROFILE ".mysql\mysql-8.4\bin\mysql.exe"
     $appPropsPath = Join-Path $rootDir "config\application.properties"
     $appPwd = if ($env:CINEMA_TEST_DB_PASSWORD) { $env:CINEMA_TEST_DB_PASSWORD } elseif ($env:CINEMA_DB_PASSWORD) { $env:CINEMA_DB_PASSWORD } else { "" }
@@ -20,7 +21,7 @@ function Invoke-TestDbSqlStdin {
         foreach ($line in Get-Content $appPropsPath -Encoding UTF8) {
             if ($line -match '^\s*test\.db\.password\s*=\s*(.+)$') { $appPwd = $Matches[1].Trim() }
             elseif ((-not $appPwd) -and ($line -match '^\s*db\.password\s*=\s*(.+)$')) { $appPwd = $Matches[1].Trim() }
-            if ($line -match '^\s*test\.db\.username\s*=\s*(.+)$') { $appUser = $Matches[1].Trim() }
+            if ($line -match '^\s*test\.db\.user\s*=\s*(.+)$') { $appUser = $Matches[1].Trim() }
         }
     }
     $tmpDefaults = Join-Path ([System.IO.Path]::GetTempPath()) ("mysql_verify_" + [guid]::NewGuid().ToString("N") + ".cnf")
@@ -47,6 +48,9 @@ function Invoke-TestDbSqlStdin {
 }
 
 try {
+    $funcSqlPath = Join-Path $PSScriptRoot "queries\functional_sql_verification.sql"
+    if (-not (Test-Path -LiteralPath $funcSqlPath)) { throw "Thiếu SQL chức năng bắt buộc: $funcSqlPath" }
+    Remove-Item -LiteralPath "verification\last-run.json" -Force -ErrorAction SilentlyContinue
     New-Item -ItemType Directory -Force -Path "verification\logs" | Out-Null
     New-Item -ItemType Directory -Force -Path "verification\test-results" | Out-Null
 
@@ -95,44 +99,13 @@ try {
         throw "Không tìm thấy bất kỳ tệp báo cáo TEST-*.xml mới nào trong target/surefire-reports hoặc target/failsafe-reports!"
     }
 
-    $requiredSuites = @(
-        "com.cinema.unit.ScreeningValidationTest",
-        "com.cinema.unit.TestSafetyGuardTest",
-        "com.cinema.architecture.ArchitectureComplianceTest",
-        "com.cinema.integration.DatabaseIntegrityIT",
-        "com.cinema.integration.ScreeningConcurrencyIT",
-        "com.cinema.integration.BookingConcurrencyIT",
-        "com.cinema.integration.ScreeningSearchIT",
-        "com.cinema.integration.ReportAccuracyIT"
-    )
-    $observedSuites = @{}
-    $totalRun = 0; $totalFail = 0; $totalErr = 0; $totalSkip = 0
-
     foreach ($xmlFile in $freshXmlFiles) {
         if ($xmlFile.LastWriteTime -lt $runStart) {
-            throw "Phát hiện tệp báo cáo XML cũ không thuộc lần chạy hiện tại: $($xmlFile.FullName) ($($xmlFile.LastWriteTime) < $runStart)"
-        }
-        [xml]$doc = Get-Content $xmlFile.FullName -Encoding UTF8
-        $ts = $doc.testsuite
-        $suiteName = [string]$ts.name
-        $observedSuites[$suiteName] = [int]$ts.tests
-        $totalRun  += [int]$ts.tests
-        $totalFail += [int]$ts.failures
-        $totalErr  += [int]$ts.errors
-        $totalSkip += [int]$ts.skipped
-        Copy-Item $xmlFile.FullName "verification\test-results\" -Force
-    }
-
-    foreach ($req in $requiredSuites) {
-        if (-not $observedSuites.ContainsKey($req) -or $observedSuites[$req] -le 0) {
-            throw "Thiếu lớp kiểm thử bắt buộc hoặc số test = 0 trong lần chạy hiện tại: $req"
+            throw "Phát hiện XML cũ không thuộc lần chạy hiện tại: $($xmlFile.FullName)"
         }
     }
-
-    Write-Output "[JUNIT FRESH XML AUDIT] RunTimestamp=$($runStart.ToString('yyyy-MM-dd HH:mm:ss')) | Suites=$($observedSuites.Count) | TotalTests=$totalRun | Failures=$totalFail | Errors=$totalErr | Skipped=$totalSkip"
-    if ($totalRun -le 0 -or $totalFail -ne 0 -or $totalErr -ne 0 -or $totalSkip -ne 0) {
-        throw "Kiểm toán JUnit XML không đạt (Failures/Errors/Skipped phải bằng 0)!"
-    }
+    python -X utf8 -B tools\verify_test_results.py --reports-dir target\surefire-reports --reports-dir target\failsafe-reports --started-at $runStart.ToUniversalTime().ToString("o") --copy-to verification\test-results --summary verification\test-results\summary.json
+    if ($LASTEXITCODE -ne 0) { throw "Kiểm toán XML tươi thất bại: phải có đủ mọi suite *Test/*IT trong source, không lỗi và Skipped=0." }
 
     Write-Output ""
     Write-Output "======================================================================"
@@ -176,12 +149,11 @@ try {
     Write-Output "======================================================================"
     Write-Output " [5/6] THỰC THI BỘ TRUY VẤN SQL CHỨC NĂNG R5-R7 TRÊN 'cinema_chain_test'"
     Write-Output "======================================================================"
-    $funcSqlPath = Join-Path $PSScriptRoot "queries\functional_sql_verification.sql"
     if (Test-Path $funcSqlPath) {
         Invoke-TestDbSqlStdin -DatabaseName "cinema_chain_test" -SqlScriptPath $funcSqlPath -LogOutputPath "verification\logs\functional_sql_examples_test_db.log"
         Write-Output "[FUNCTIONAL SQL VERIFIED] Log saved to verification/logs/functional_sql_examples_test_db.log"
     } else {
-        Write-Output "[INFO] Chưa có functional_sql_verification.sql — bỏ qua bước 5."
+        throw "SQL chức năng bắt buộc đã bị mất trong khi kiểm chứng."
     }
 
     Write-Output ""
@@ -192,6 +164,13 @@ try {
     if ($LASTEXITCODE -ne 0) {
         throw "LỖI BẢO TOÀN DỮ LIỆU DEMO: Dấu vân tay SHA-256 của cinema_chain bị sai lệch sau khi chạy kiểm chứng!"
     }
+    $summary = Get-Content -LiteralPath "verification\test-results\summary.json" -Raw -Encoding UTF8 | ConvertFrom-Json
+    $summary | Add-Member -NotePropertyName gui_verified -NotePropertyValue $true
+    $summary | Add-Member -NotePropertyName two_jvm_persistence_verified -NotePropertyValue $true
+    $summary | Add-Member -NotePropertyName functional_sql_verified -NotePropertyValue $true
+    $summary | Add-Member -NotePropertyName demo_fingerprint_preserved -NotePropertyValue $true
+    $summary | Add-Member -NotePropertyName demo_fingerprint -NotePropertyValue ((Get-Content -LiteralPath $baselineFp -Raw -Encoding UTF8 | ConvertFrom-Json).overall_sha256)
+    $summary | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath "verification\last-run.json" -Encoding UTF8
     Write-Output "[ALL VERIFICATION GATES PASSED] Đã xác minh trên MySQL 8.4.0 LTS thật; CSDL demo cinema_chain bảo toàn nguyên vẹn (SHA-256 khớp 100% phạm vi kiểm tra)."
 } finally {
     Pop-Location

@@ -1,3 +1,28 @@
+# Ma trận đối chiếu bản nộp BTL Cơ sở dữ liệu
+
+## Bản nộp hiện hành ngày 15/11/2026
+
+Nhóm 8, INT1313-20261-01, giảng viên Nguyễn Quỳnh Chi. Các trọng số dưới đây lấy từ đề bài, không phải điểm tự chấm.
+
+| Tiêu chí | Điểm | Sản phẩm và chương báo cáo | Bằng chứng hiện hành |
+|---|---:|---|---|
+| R1 Yêu cầu dữ liệu | 1,0 | Chương 1; docs/requirements/ | 14 nhóm quan hệ và BR-01..16 |
+| R2 ERD | 2,5 | Chương 2; Chen/Crow's Foot puml/drawio/svg và PDF khổ lớn | tools/verify_erd.py; kiểm tra trực quan sơ đồ |
+| R3 Quan hệ | 2,0 | Chương 3; schema-design.md và database/schema/ | MySQL8.4:14 bảng,17 FK,16 UNIQUE,19 CHECK,44 index |
+| R4 3NF | 1,0 | Chương 4; normalization.md | FD/khóa; phép tách ticket lossless và bảo toàn FD đã phát biểu |
+| R5 Hai form | 1,0 | Chương 5; quản lý suất chiếu, đặt vé | GUI đúng/sai; concurrency,2-JVM,UiTask và validation tests |
+| R6 Tìm kiếm | 0,5 | Chương 6; tra cứu suất chiếu | GUI,ScreeningSearchIT; tổng kết quả và50 dòng/trang |
+| R7 Hai báo cáo | 1,0 | Chương 7; doanh thu và bán vé | Preview/PDF tiếng Việt; SQL độc lập,RR snapshot,layout/failure tests |
+| R8 Báo cáo và SQL | 1,0 | DOCX/PDF đủ7 chương; phụ lục SQL chức năng và DDL/FK/trigger/view | README_NOP_BAI.md; manifest/log/ảnh của bản nộp |
+
+Bằng chứng thực thi mới: `verification/last-run.json`, `verification/test-results/summary.json`, `verification/submission-2026-11-15/verify-all.log`. Kết quả Java **104/104**, **15 suites**, Failures=0,Errors=0,Skipped=0. Công cụ Python 9 tests riêng. Khởi chạy thật Main trên demo: `main-demo-startup.log/.png` cùng thư mục bằng chứng.
+
+Nâng cấp demo đã được người vận hành xác nhận: `verification/submission-2026-11-15/demo-trigger-upgrade/`. Chỉ12trigger đổi;14bảng/data/view giữ nguyên; hash mới `e827a6a114e7bf08c130792b34f8209398e09289131f14496d196d4c5568e5d1`. Bộ kiểm thử trước nâng cấp vẫn bảo toàn hash7af...; hai giai đoạn có bằng chứng riêng, không diễn giải hashDDL tổng là bất biến sau một migration đã được phép.
+
+Phạm vi online: VNPay chỉ sandbox mô phỏng, chưa chứng nhận merchant/refund thật. Mốc40/53/95 tests phía dưới là lịch sử, không thay cho manifest104 hiện hành. Bản nộp Word/PDF dùng7 chương mới, các số chương trong lịch sử không còn là mục lục bản hiện hành.
+
+## Lịch sử các mốc trước bản nộp hiện hành
+
 # REQUIREMENTS_TRACEABILITY.md — Ma trận Truy vết Yêu cầu & Thang điểm (Rubric Traceability Matrix)
 
 Tài liệu này ánh xạ trực tiếp 8 tiêu chí chấm điểm chính thức (**R1 – R8**, tổng cộng **10,0 điểm**, ưu tiên chất lượng học thuật **R1 – R4 = 6,5 điểm**) tới các sản phẩm thiết kế 14 bảng chuẩn 3NF, mã nguồn Java 21, kịch bản SQL trên **MySQL Community Server 8.4.0 LTS**, kết quả **diễn tập trực tiếp `com.cinema.app.Main` trên CSDL demo `cinema_chain`** (`2026-11-07 15:14`) và **40 bài kiểm thử tự động trên CSDL kiểm thử `cinema_chain_test` (`0 Skipped`, chạy lúc `2026-11-07 15:15:43`)**.

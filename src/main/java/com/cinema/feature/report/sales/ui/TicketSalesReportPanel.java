@@ -6,6 +6,7 @@ import com.cinema.domain.TicketSalesReportData;
 import com.cinema.feature.report.sales.TicketSalesReportService;
 import com.cinema.shared.ui.StatusBanner;
 import com.cinema.shared.ui.Theme;
+import com.cinema.shared.ui.UiTask;
 import com.cinema.shared.validation.BusinessRuleException;
 
 import javax.swing.*;
@@ -131,7 +132,13 @@ public final class TicketSalesReportPanel extends JPanel {
 
         JButton btnExportPdf = Theme.createSuccessButton("Xuất Báo cáo ra PDF");
         btnExportPdf.setName("btnExportTicketSalesPdf");
-        btnExportPdf.addActionListener(e -> exportDefaultPdf());
+        btnExportPdf.addActionListener(e -> {
+            try {
+                exportDefaultPdf();
+            } catch (RuntimeException ex) {
+                statusBanner.showError(ex.getMessage());
+            }
+        });
 
         actions.add(btnPreview);
         actions.add(btnExportPdf);
@@ -143,7 +150,7 @@ public final class TicketSalesReportPanel extends JPanel {
     }
 
     private void loadFilterOptions() {
-        branches = service.listBranches();
+        branches = UiTask.call(this, "Đang tải danh sách chi nhánh…", service::listBranches);
         cboBranch.removeAllItems();
         cboBranch.addItem("Tất cả chi nhánh");
         for (CinemaBranch b : branches) {
@@ -158,7 +165,8 @@ public final class TicketSalesReportPanel extends JPanel {
         if (idx > 0 && idx - 1 < branches.size()) {
             branchId = branches.get(idx - 1).branchId();
         }
-        screenings = service.listScreeningsForBranch(branchId);
+        Integer selectedBranchId = branchId;
+        screenings = UiTask.call(this, "Đang tải danh sách suất chiếu…", () -> service.listScreeningsForBranch(selectedBranchId));
         cboScreening.removeAllItems();
         cboScreening.addItem("Tất cả các suất chiếu");
         for (ScreeningDetailView s : screenings) {
@@ -189,8 +197,12 @@ public final class TicketSalesReportPanel extends JPanel {
                 screeningLabel = "#" + s.screeningId() + " - " + s.movieTitle();
             }
 
-            currentReportData = service.generateReport(
-                    fromDate, toDate, branchId, branchLabel, screeningId, screeningLabel);
+            Integer selectedBranchId = branchId;
+            String selectedBranchLabel = branchLabel;
+            Integer selectedScreeningId = screeningId;
+            String selectedScreeningLabel = screeningLabel;
+            currentReportData = UiTask.call(this, "Đang tổng hợp báo cáo bán vé…", () -> service.generateReport(
+                    fromDate, toDate, selectedBranchId, selectedBranchLabel, selectedScreeningId, selectedScreeningLabel));
 
             lblKpiScreenings.setText(currentReportData.totalScreenings() + " suất");
             lblKpiSoldVsCap.setText(currentReportData.totalTicketsSold() + " / " + currentReportData.totalCapacity() + " ghế");
@@ -254,8 +266,12 @@ public final class TicketSalesReportPanel extends JPanel {
         if (currentReportData == null) {
             refreshPreview();
         }
+        if (currentReportData == null) {
+            throw new BusinessRuleException("Chưa có báo cáo hợp lệ để xuất. Vui lòng kiểm tra kỳ báo cáo và thử lại.");
+        }
         Path absPath = targetPath.toAbsolutePath();
-        service.exportToPdf(currentReportData, absPath);
+        TicketSalesReportData report = currentReportData;
+        UiTask.run(this, "Đang xuất báo cáo bán vé ra PDF…", () -> service.exportToPdf(report, absPath));
         statusBanner.showSuccess("Đã xuất thành công Báo cáo Tình hình Bán vé ra tệp PDF: " + absPath);
         return absPath;
     }

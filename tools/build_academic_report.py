@@ -7,11 +7,13 @@ Kết xuất đồng thời:
   2. docs/academic-report/BaoCao_QuanLyChuoiRap.pdf  (PDF chuẩn tiếng Việt nhúng font Unicode)
 Tích hợp trực tiếp nội dung thiết kế R1-R4 (14 bảng chuẩn 3NF nghiêm ngặt), sơ đồ ERD Chen & Crow's Foot,
 ảnh chụp màn hình thực tế từ ứng dụng kết nối MySQL Community Server 8.4.0 LTS (R5-R7),
-đặc tả câu lệnh SQL chức năng tương ứng R5-R7, kết quả 40/40 bài kiểm thử tự động (0 Skipped)
+đặc tả SQL chức năng R5-R7 và kết quả kiểm chứng lấy từ manifest thực thi mới nhất
 và Phụ lục SQL cài đặt + thực thi đầy đủ.
 """
 
 import html
+import hashlib
+import json
 import re
 from pathlib import Path
 
@@ -19,7 +21,7 @@ from docx import Document
 from docx.enum.table import WD_ALIGN_VERTICAL, WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import parse_xml
-from docx.oxml.ns import nsdecls
+from docx.oxml.ns import nsdecls, qn
 from docx.shared import Cm, Inches, Pt, RGBColor
 from PIL import Image as PilImage
 
@@ -122,7 +124,7 @@ def add_formatted_runs(paragraph, text: str, base_size: float = 11.0) -> None:
             run = paragraph.add_run(tok[1:-1])
             run.font.name = "Consolas"
             run.font.size = Pt(max(base_size - 1.0, 9.0))
-            run.font.color.rgb = RGBColor(15, 118, 110)
+            run.font.color.rgb = RGBColor(0, 0, 0)
         else:
             run = paragraph.add_run(tok.replace("*", ""))
             run.font.name = "Times New Roman"
@@ -145,9 +147,9 @@ def configure_docx_styles(doc: Document) -> None:
     normal.paragraph_format.space_after = Pt(4)
 
     for level, (size, color) in {
-        1: (15, RGBColor(15, 23, 42)),
-        2: (13, RGBColor(3, 105, 161)),
-        3: (11.5, RGBColor(15, 118, 110)),
+        1: (15, RGBColor(0, 0, 0)),
+        2: (13, RGBColor(0, 0, 0)),
+        3: (11.5, RGBColor(0, 0, 0)),
     }.items():
         st = doc.styles[f"Heading {level}"]
         st.font.name = "Times New Roman"
@@ -159,78 +161,27 @@ def configure_docx_styles(doc: Document) -> None:
 
 
 def add_docx_cover_page(doc: Document) -> None:
-    p_uni = doc.add_paragraph()
-    p_uni.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r1 = p_uni.add_run("[TRƯỜNG ĐẠI HỌC / HỌC VIỆN ĐÀO TẠO — PLACEHOLDER]\n")
-    r1.bold = True
-    r1.font.size = Pt(13)
-    r2 = p_uni.add_run("[KHOA CÔNG NGHỆ THÔNG TIN — BỘ MÔN HỆ THỐNG THÔNG TIN]")
-    r2.bold = True
-    r2.font.size = Pt(12)
-
-    p_line = doc.add_paragraph()
-    p_line.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r_line = p_line.add_run("───────────────────────────")
-    r_line.bold = True
-
-    for _ in range(3):
-        doc.add_paragraph()
-
-    p_sub = doc.add_paragraph()
-    p_sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    rs = p_sub.add_run("BÁO CÁO BÀI TẬP LỚN HỌC PHẦN CƠ SỞ DỮ LIỆU")
-    rs.bold = True
-    rs.font.size = Pt(15)
-    rs.font.color.rgb = RGBColor(3, 105, 161)
-
-    p_title = doc.add_paragraph()
-    p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    rt = p_title.add_run(
-        "ĐỀ TÀI:\nHỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM\n(CINEVIET CINEMA CHAIN MANAGEMENT SYSTEM)"
-    )
-    rt.bold = True
-    rt.font.size = Pt(19)
-    rt.font.color.rgb = RGBColor(15, 23, 42)
-
-    p_tech = doc.add_paragraph()
-    p_tech.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    rtech = p_tech.add_run(
-        "Công nghệ: Java 21 LTS • Java Swing (FlatLaf) • MySQL Community Server 8.4 LTS (14 bảng 3NF) • JDBC • PDFBox 3"
-    )
-    rtech.italic = True
-    rtech.font.size = Pt(11)
-    rtech.font.color.rgb = RGBColor(71, 85, 105)
-
-    for _ in range(3):
-        doc.add_paragraph()
-
-    meta_table = doc.add_table(rows=5, cols=2)
-    meta_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-    set_table_borders(meta_table)
-    meta_rows = [
-        ("Giảng viên hướng dẫn:", "[Họ và tên Giảng viên hướng dẫn — Placeholder]"),
-        ("Lớp học phần / Nhóm:", "[Mã lớp học phần] — [Nhóm XX — Placeholder]"),
-        ("Sinh viên thực hiện 1:", "[Họ và tên Sinh viên 1] — MSSV: [Mã SV 01]"),
-        ("Sinh viên thực hiện 2:", "[Họ và tên Sinh viên 2] — MSSV: [Mã SV 02]"),
-        ("Sinh viên thực hiện 3:", "[Họ và tên Sinh viên 3] — MSSV: [Mã SV 03]"),
-    ]
-    for idx, (k, v) in enumerate(meta_rows):
-        c0, c1 = meta_table.rows[idx].cells
-        set_cell_background(c0, "F1F5F9")
-        rk = c0.paragraphs[0].add_run(k)
-        rk.bold = True
-        rk.font.size = Pt(11)
-        rv = c1.paragraphs[0].add_run(v)
-        rv.font.size = Pt(11)
-
-    for _ in range(3):
-        doc.add_paragraph()
-
-    p_date = doc.add_paragraph()
-    p_date.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    rd = p_date.add_run("Hà Nội, Năm học 2026")
-    rd.italic = True
-    rd.font.size = Pt(12)
+    doc.core_properties.title = GROUP["topic"]
+    doc.core_properties.author = "Nhóm " + GROUP["group"]
+    for text, style, size in (
+        (GROUP["school"], "Normal", 14),
+        ("BÁO CÁO BÀI TẬP LỚN", "Normal", 16),
+        ("HỌC PHẦN CƠ SỞ DỮ LIỆU", "Normal", 15),
+        (GROUP["topic"].upper(), "Title", 19),
+    ):
+        paragraph = doc.add_paragraph(style=style)
+        paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        paragraph.paragraph_format.space_after = Pt(20)
+        run = paragraph.add_run(text)
+        run.bold = True
+        run.font.name = "Times New Roman"
+        run.font.size = Pt(size)
+        run.font.color.rgb = RGBColor(0, 0, 0)
+    metadata = ["| Thông tin | Nội dung |", "|---|---|"]
+    metadata += [f"| {label} | {value} |" for label, value in cover_rows()]
+    render_docx_table(doc, metadata)
+    paragraph = doc.add_paragraph("Hà Nội, tháng 11 năm 2026")
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
     doc.add_page_break()
 
 
@@ -255,11 +206,21 @@ def render_docx_table(doc: Document, table_lines: list[str]) -> None:
     tbl = doc.add_table(rows=len(parsed_rows), cols=num_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     set_table_borders(tbl)
+    widths = table_widths(parsed_rows, 16.2)
+    tbl.autofit = False
+    for index, width in enumerate(widths):
+        tbl.columns[index].width = Cm(width)
+    header = parse_xml(f'<w:tblHeader {nsdecls("w")}/>')
+    tbl.rows[0]._tr.get_or_add_trPr().append(header)
+
+    for row in tbl.rows:
+        row._tr.get_or_add_trPr().append(parse_xml(f'<w:cantSplit {nsdecls("w")}/>'))
 
     for r_idx, row_vals in enumerate(parsed_rows):
         for c_idx in range(num_cols):
             val = row_vals[c_idx] if c_idx < len(row_vals) else ""
             cell = tbl.rows[r_idx].cells[c_idx]
+            cell.width = Cm(widths[c_idx])
             cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
             p = cell.paragraphs[0]
             p.paragraph_format.space_after = Pt(2)
@@ -276,19 +237,15 @@ def render_docx_table(doc: Document, table_lines: list[str]) -> None:
 
 
 def append_docx_code_block(doc: Document, code_text: str, font_size: float = 8.0) -> None:
-    tbl = doc.add_table(rows=1, cols=1)
-    tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
-    set_table_borders(tbl)
-    cell = tbl.rows[0].cells[0]
-    set_cell_background(cell, "F8FAFC")
-    p = cell.paragraphs[0]
-    p.paragraph_format.line_spacing = 1.05
-    p.paragraph_format.space_after = Pt(2)
-    run = p.add_run(code_text.rstrip())
-    run.font.name = "Consolas"
-    run.font.size = Pt(font_size)
-    run.font.color.rgb = RGBColor(30, 41, 59)
-    doc.add_paragraph()
+    import textwrap
+    for line in code_text.rstrip().splitlines():
+        for wrapped in textwrap.wrap(line, width=99, replace_whitespace=False, drop_whitespace=False) or [""]:
+            paragraph = doc.add_paragraph()
+            paragraph.paragraph_format.space_after = Pt(0)
+            paragraph.paragraph_format.line_spacing = 1.05
+            run = paragraph.add_run(wrapped)
+            run.font.name = "Consolas"
+            run.font.size = Pt(font_size)
 
 
 def append_docx_markdown(doc: Document, md_path: Path, skip_top_h1: bool = True) -> None:
@@ -352,6 +309,7 @@ def append_docx_markdown(doc: Document, md_path: Path, skip_top_h1: bool = True)
         if re.match(r"^\d+\.\s+", stripped):
             p = doc.add_paragraph()
             p.paragraph_format.left_indent = Cm(0.5)
+            p.paragraph_format.keep_with_next = bool(re.match(r"^\d+\.\s+\*\*", stripped))
             add_formatted_runs(p, stripped, base_size=11.0)
             i += 1
             continue
@@ -367,10 +325,12 @@ def add_docx_figure(doc: Document, image_path: Path, caption: str, width_inches:
         return
     p_img = doc.add_paragraph()
     p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img.paragraph_format.keep_with_next = True
     p_img.add_run().add_picture(str(image_path), width=Inches(width_inches))
 
     p_cap = doc.add_paragraph()
     p_cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap.paragraph_format.keep_with_next = False
     rc = p_cap.add_run(caption)
     rc.italic = True
     rc.bold = True
@@ -448,7 +408,7 @@ def make_pdf_styles():
             fontName="VNSerif-Bold",
             fontSize=14,
             leading=18,
-            textColor=colors.HexColor("#0F172A"),
+            textColor=colors.black,
             spaceBefore=10,
             spaceAfter=6,
         ),
@@ -458,7 +418,7 @@ def make_pdf_styles():
             fontName="VNSerif-Bold",
             fontSize=12,
             leading=16,
-            textColor=colors.HexColor("#0369A1"),
+            textColor=colors.black,
             spaceBefore=8,
             spaceAfter=4,
         ),
@@ -468,7 +428,7 @@ def make_pdf_styles():
             fontName="VNSerif-Bold",
             fontSize=10.8,
             leading=14.5,
-            textColor=colors.HexColor("#0F766E"),
+            textColor=colors.black,
             spaceBefore=6,
             spaceAfter=3,
         ),
@@ -528,7 +488,7 @@ def make_pdf_styles():
             fontSize=17.5,
             leading=23,
             alignment=TA_CENTER,
-            textColor=colors.HexColor("#0F172A"),
+            textColor=colors.black,
             spaceAfter=10,
         ),
     }
@@ -548,8 +508,7 @@ def render_pdf_table(story: list, table_lines: list[str], st: dict, avail_width:
             row_cells.append(Paragraph(md_to_rl_xml(val), style))
         data.append(row_cells)
 
-    col_w = avail_width / num_cols
-    tbl = Table(data, colWidths=[col_w] * num_cols, repeatRows=1)
+    tbl = Table(data, colWidths=table_widths(parsed, avail_width), repeatRows=1)
     tbl.setStyle(
         TableStyle(
             [
@@ -590,6 +549,7 @@ def append_pdf_figure(story: list, image_path: Path, caption: str, st: dict, max
     scale = min(max_w / iw, max_h / ih)
     img = RLImage(str(image_path), width=iw * scale, height=ih * scale)
     img.hAlign = "CENTER"
+    img.keepWithNext = True
     story.append(img)
     story.append(Paragraph(html.escape(caption), st["caption"]))
 
@@ -652,7 +612,9 @@ def append_pdf_markdown(story: list, md_path: Path, st: dict, avail_width: float
             i += 1
             continue
         if re.match(r"^\d+\.\s+", stripped):
-            story.append(Paragraph(md_to_rl_xml(stripped), st["bullet"]))
+            paragraph = Paragraph(md_to_rl_xml(stripped), st["bullet"])
+            paragraph.keepWithNext = bool(re.match(r"^\d+\.\s+\*\*", stripped))
+            story.append(paragraph)
             i += 1
             continue
         story.append(Paragraph(md_to_rl_xml(stripped), st["body"]))
@@ -663,344 +625,226 @@ def append_pdf_markdown(story: list, md_path: Path, st: dict, avail_width: float
 # NỘI DUNG DÙNG CHUNG CHO CẢ DOCX VÀ PDF
 # =============================================================================
 
+GROUP = json.loads((ROOT / "docs/academic-report/thong-tin-nhom.json").read_text(encoding="utf-8"))
+
+
+def cover_rows():
+    return [
+        ("Giảng viên", GROUP["lecturer"]),
+        ("Lớp học phần", GROUP["class_code"]),
+        ("Nhóm thực hiện", GROUP["group"]),
+        *[(f"Thành viên {number}", f"{member['name']} - {member['student_id']}")
+          for number, member in enumerate(GROUP["members"], 1)],
+    ]
+
+
+def table_widths(rows, width):
+    count = max(len(row) for row in rows)
+    header = " ".join(rows[0]).lower()
+    if count == 6 and "null" in header:
+        weights = [1.4, 1.35, .65, .7, 2, 2.1]
+    elif count == 3 and "kiểm thử" in header:
+        weights = [3, .8, 1]
+    elif count == 3:
+        weights = [1.3, 1.3, 2.4]
+    elif count == 2:
+        weights = [1.2, 3.2]
+    elif count == 5 and "điểm" in header:
+        weights = [.5, 2.6, .5, 1.1, 1.6]
+    else:
+        weights = [min(32, max(10, max(len(row[index]) if index < len(row) else 0 for row in rows))) for index in range(count)]
+    return [width * weight / sum(weights) for weight in weights]
+
+
+def verified_run():
+    path = ROOT / "verification/last-run.json"
+    run = json.loads(path.read_text(encoding="utf-8-sig"))
+    required = ("gui_verified", "two_jvm_persistence_verified", "functional_sql_verified", "demo_fingerprint_preserved")
+    if any(run.get(key) is not True for key in required) or run["tests"] <= 0 or any(run[key] for key in ("failures", "errors", "skipped")):
+        raise ValueError("Chưa có bộ bằng chứng đầy đủ; chạy database/verify_all.ps1 trước khi tạo bản nộp.")
+    for name, expected in run["tested_source_hashes"].items():
+        if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != expected:
+            raise ValueError(f"Source đã đổi sau kiểm chứng: {name}; cần chạy lại các gate.")
+    return run
+
+
 INTRO_TEXT = (
-    "Báo cáo này trình bày trọn vẹn quá trình phân tích, thiết kế cơ sở dữ liệu **14 bảng đạt chuẩn 3NF nghiêm ngặt**, "
-    "cài đặt ràng buộc toàn vẹn & giao dịch đồng thời trên **MySQL Community Server 8.4.0 LTS**, "
-    "phát triển ứng dụng Desktop **Java 21 LTS + Java Swing (FlatLaf)** kết nối qua **MySQL Connector/J** "
-    "và kiểm chứng thực nghiệm cho **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim CineViet**. "
-    "Toàn bộ sơ đồ ERD, lược đồ quan hệ, chứng minh 3NF & kết nối không mất thông tin, câu lệnh SQL cài đặt, "
-    "câu lệnh SQL chức năng R5–R7, biểu mẫu giao diện và báo cáo PDF đều được đối chiếu theo thang điểm chính thức (10,0 điểm):"
+    "Báo cáo trình bày yêu cầu dữ liệu, mô hình thực thể liên kết, mô hình quan hệ, kiểm tra chuẩn hóa 3NF "
+    "và cài đặt Hệ thống quản lý chuỗi rạp chiếu phim. Cơ sở dữ liệu gồm 14 bảng trên MySQL 8.4, "
+    "ứng dụng Java 21 sử dụng Swing để lập lịch, đặt vé, tìm kiếm và xuất báo cáo PDF tiếng Việt. "
+    "Bảy chương chuyên môn tương ứng với bảy mục nội dung của đề bài; phụ lục cung cấp SQL cài đặt và SQL chức năng. "
+    "Phần thực nghiệm ghi rõ môi trường, thời điểm chạy và phạm vi kiểm chứng. Điểm số trong bảng dưới là trọng số chấm của học phần."
 )
-
 RUBRIC_TABLE = [
-    "| Mã YC | Nội dung Yêu cầu Đánh giá Chính thức | Điểm | Chương / Mục trong Báo cáo | Trạng thái Kiểm chứng |",
+    "| Mục | Nội dung | Điểm | Vị trí | Bằng chứng |",
     "|---|---|---|---|---|",
-    "| **R1** | Mô tả yêu cầu nghiệp vụ và dữ liệu cần lưu | 1,0 | Chương 1 | ĐẠT (Đã kiểm chứng trên MySQL 8.4) |",
-    "| **R2** | Vẽ và mô tả mô hình thực thể – liên kết (ERD Chen & Crow's Foot) | 2,5 | Chương 2 (Hình 2.1 & 2.2) | ĐẠT (Đồng bộ 14 bảng chuẩn 3NF) |",
-    "| **R3** | Mô hình quan hệ và mô tả bảng tương thích với ERD (14 bảng, 17 FK) | 2,0 | Chương 3 & Phụ lục A1, A2, B | ĐẠT (Đã kiểm chứng trên MySQL 8.4) |",
-    "| **R4** | Kiểm tra các bảng và đưa về chuẩn 3NF thực sự (xử lý `ticket`) | 1,0 | Chương 4 | ĐẠT (Lossless-Join & 3NF/BCNF) |",
-    "| **R5** | Hai form nhập liệu, demo kiểm tra dữ liệu đúng / sai | 1,0 | Chương 5 (Mục 5.2, 5.3 & 5.7) | ĐẠT (40/40 test + GUI EDT + 2 JVM) |",
-    "| **R6** | Một màn hình tìm kiếm và hiển thị kết quả (phân trang 50 dòng/trang) | 0,5 | Chương 5 (Mục 5.4 & 5.7) | ĐẠT (Không cắt ngầm `LIMIT 1000`) |",
-    "| **R7** | Hai báo cáo xem trên màn hình và xuất PDF; nêu rõ người lập & người nhận | 1,0 | Chương 5 (Mục 5.5, 5.6 & 5.7) | ĐẠT (Sai lệch SQL độc lập = 0,00 VNĐ) |",
-    "| **R8** | Báo cáo bao phủ đủ R1–R7, kèm SQL cài đặt và SQL chức năng R5–R7 | 1,0 | Chương 5.7 & Phụ lục A1–D2 | ĐẠT (Đầy đủ DOCX, PDF & log SQL) |",
+    "| 1 | Yêu cầu dữ liệu và nghiệp vụ | 1,0 | Chương 1 | Yêu cầu và quy tắc nghiệp vụ |",
+    "| 2 | Vẽ và mô tả ERD | 2,5 | Chương 2 | Chen và Crow's Foot chỉnh sửa được |",
+    "| 3 | Mô hình quan hệ và mô tả bảng | 2,0 | Chương 3 | 14 bảng, 17 FK và từ điển dữ liệu |",
+    "| 4 | Kiểm tra và chuẩn hóa 3NF | 1,0 | Chương 4 | Khóa, FD, phép tách lossless |",
+    "| 5 | Hai form nhập liệu có kiểm tra đúng sai | 1,0 | Chương 5 | Ảnh và log GUI thực nghiệm |",
+    "| 6 | Một màn hình tìm kiếm | 0,5 | Chương 6 | Bộ lọc, kết quả và phân trang |",
+    "| 7 | Hai báo cáo xem và xuất file | 1,0 | Chương 7 | Preview, PDF và SQL đối soát |",
+    "| 8 | Báo cáo đủ bảy mục và SQL tương ứng | 1,0 | Toàn báo cáo và phụ lục | DOCX, PDF, source và SQL đi kèm |",
 ]
 
-CH5_ARCH = (
-    "Ứng dụng Desktop được xây dựng trên nền tảng **Java 21 LTS**, **Java Swing + FlatLaf 3.5**, "
-    "**JDBC (`MySQL Connector/J 9.1.0` + `PreparedStatement`)** kết nối trực tiếp tới **MySQL Community Server 8.4.0 LTS** "
-    "(`InnoDB`, `utf8mb4_unicode_ci`, `ONLY_FULL_GROUP_BY`, `STRICT_TRANS_TABLES`) và **Apache PDFBox 3**, "
-    "tuân thủ nghiêm ngặt kiến trúc phân tầng (`ui` → `service` → `repository` → `shared.db`). "
-    "Bộ kiểm thử kiến trúc tự động `ArchitectureComplianceTest` (ArchUnit) đảm bảo không một lớp giao diện nào được phép "
-    "truy cập trực tiếp `java.sql.*`. Mọi danh sách dữ liệu lớn đã loại bỏ hoàn toàn giới hạn ngầm `LIMIT 1000` và thay bằng "
-    "thanh phân trang tường minh **50 dòng/trang** (`PageResult`, `SearchPageResult`) hoặc bộ lọc nhanh hiển thị rõ tổng số dòng.\n"
-    "Đối với hai bài toán tranh chấp đồng thời cốt lõi trên lược đồ 14 bảng chuẩn 3NF:\n"
-    "• **Chống chồng lấn lịch chiếu đồng thời (`BR-06`):** `ScreeningService` khóa bi quan dòng phòng chiếu "
-    "`SELECT room_id, active FROM screening_room WHERE room_id = ? FOR UPDATE` trước khi kiểm tra giao thoa khung giờ, "
-    "kết hợp với Trigger `trg_screening_validate_ins`/`upd` tại tầng MySQL Server.\n"
-    "• **Chống bán trùng ghế đồng thời (`BR-10`):** `BookingService` khóa dòng suất chiếu "
-    "`SELECT ... FROM screening WHERE screening_id = ? FOR UPDATE`, kiểm tra trạng thái ghế trên `screening_seat_lock`, "
-    "lưu nguyên tử `booking` + `ticket` (không chứa `screening_id`) + `payment`, và được bảo vệ lớp cuối bởi khóa chính B-Tree "
-    "`PRIMARY KEY (screening_id, seat_id)` của bảng `screening_seat_lock`."
-)
-
-CH6_VERIFICATION = (
-    "Hệ thống đã được thực thi và kiểm chứng độc lập trên hai cơ sở dữ liệu tách biệt thuộc cùng máy chủ chính thức "
-    "**MySQL Community Server 8.4.0 LTS** (`SELECT VERSION() = 8.4.0`, `datadir = C:/Users/LNB/.mysql/data-8.4`, "
-    "chế độ nghiêm ngặt `ONLY_FULL_GROUP_BY, STRICT_TRANS_TABLES`) và **JDK 21 LTS (Eclipse Temurin)**:\n"
-    "• **Trên CSDL Demo chính thức `cinema_chain` (14 bảng chuẩn 3NF):** Khởi tạo sạch qua `database/prepare_demo_db.ps1` "
-    "(`14` bảng, `17` khóa ngoại, `12` Trigger, `04` View; doanh thu mẫu gốc `35.165.000,00 VNĐ`), khởi chạy trực tiếp "
-    "`com.cinema.app.Main` theo cấu hình `config/application.properties` (`Mode=NORMAL_READ_ONLY_INIT | DestructiveReset=DISABLED`), "
-    "kiểm chứng đầy đủ kịch bản hợp lệ & bị từ chối trên cả 5 màn hình, xuất 2 tệp PDF đối chiếu SQL độc lập (`35.375.000,00 VNĐ`, "
-    "sai lệch `0,00 VNĐ`) và đóng/mở ứng dụng qua 2 tiến trình JVM xác nhận dữ liệu demo vừa nhập được giữ nguyên 100%.\n"
-    "• **Trên CSDL Kiểm thử tự động cô lập `cinema_chain_test` (14 bảng chuẩn 3NF):** Chạy tươi tại thời điểm `2026-11-07 15:15:43` "
-    "(sau khi xóa sạch toàn bộ `TEST-*.xml` cũ) đạt **40/40 bài kiểm thử PASS (`0 Skipped`)**; đồng thời dấu vân tay nội dung "
-    "SHA-256 của CSDL demo `cinema_chain` trước và sau kiểm thử đều khớp tuyệt đối "
-    "`7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37`.\n"
-    "Báo cáo phân biệt minh bạch 3 cấp độ kiểm chứng: (a) Kiểm thử tích hợp tầng `Service`/`Repository` trên MySQL 8.4 thật; "
-    "(b) Kiểm chứng giao diện Swing tự động trên Event Dispatch Thread qua 2 tiến trình JVM độc lập; và "
-    "(c) Thao tác bấm chuột/bàn phím vật lý của người trình bày theo checklist tại `DEMO_GUIDE.md`."
-)
-
-TEST_SUMMARY_TABLE = [
-    "| Bộ Kiểm thử (Test Class) | Cổng Kiểm chứng | Số Test | Kết quả | Nội dung Kiểm chứng Cốt lõi trên MySQL 8.4.0 LTS |",
-    "|---|---|---|---|---|",
-    "| `ArchitectureComplianceTest` | Gate B (Kiến trúc) | 05 | **PASS (5/5)** | Cấm SQL trong UI, tách biệt phân tầng, cấm SQL phá hủy (`DROP`/`TRUNCATE`/`DELETE`) & gọi tiến trình trong `src/main/java` |",
-    "| `TestSafetyGuardTest` | Gate B (An toàn & CLI) | 06 | **PASS (6/6)** | Chặn `cinema_chain`/MariaDB/`root`; `setup.ps1` chặn `-CleanReset`; `verify_all.ps1` chỉ đọc; `mysql_spy` chứng minh không lộ mật khẩu CLI/env |",
-    "| `ScreeningValidationTest` | Gate A (Đơn vị) | 05 | **PASS (5/5)** | Kiểm tra hợp lệ thời lượng suất chiếu, giá cơ sở dương, danh sách ghế, thông báo tiếng Việt |",
-    "| `DatabaseIntegrityIT` | Gate C (3NF & MySQL 8.4) | 15 | **PASS (15/15)** | Kiểm chứng `ticket` chuẩn 3NF & `screening_seat_lock`, SHA-256 phát hiện sửa 1 dòng, 12 Trigger chống trùng lịch/sai phòng/đổi phòng đã có vé/thanh toán đúp, giá lịch sử, UTF-8 |",
-    "| `ScreeningConcurrencyIT` | Gate C (Đồng thời) | 02 | **PASS (2/2)** | 12 luồng `CREATE` đồng thời và 8 luồng `UPDATE` đồng thời suất chiếu trùng giờ → đúng 01 thắng + chặn đổi phòng |",
-    "| `BookingConcurrencyIT` | Gate C (Đồng thời) | 01 | **PASS (1/1)** | 20 luồng đặt đồng thời cùng 1 ghế → đúng 01 thắng, 0 bản ghi mồ côi; hủy đơn giải phóng `screening_seat_lock` để bán lại ghế |",
-    "| `ScreeningSearchIT` | Gate D (Tra cứu & Trang) | 03 | **PASS (3/3)** | Tra cứu đa điều kiện kèm số ghế trống, hiển thị đủ suất `OPEN` và duyệt phân trang `50 dòng/trang` không trùng/sót dòng |",
-    "| `ReportAccuracyIT` | Gate E (Báo cáo & PDF) | 03 | **PASS (3/3)** | Đối chiếu 2 báo cáo & PDF tiếng Việt với SQL độc lập (`35.165.000 VNĐ`, sai lệch `0.00 VNĐ`) và Known-Answer Fixture |",
-    "| **TỔNG CỘNG** | **Gates A – E** | **40** | **PASS (40/40)** | **0 lỗi biên dịch, 0 Failed, 0 Errors, 0 Skipped (`2026-11-07 15:15:43`), bảo toàn SHA-256 `cinema_chain`** |",
+CHAPTERS = [
+    ("CHƯƠNG 1 YÊU CẦU DỮ LIỆU VÀ NGHIỆP VỤ", ["docs/requirements/requirements.md", "docs/requirements/business-rules.md"]),
+    ("CHƯƠNG 2 MÔ HÌNH THỰC THỂ LIÊN KẾT", ["docs/erd/erd-explanation.md"]),
+    ("CHƯƠNG 3 MÔ HÌNH QUAN HỆ VÀ TỪ ĐIỂN DỮ LIỆU", ["docs/relational-model/schema-design.md"]),
+    ("CHƯƠNG 4 KIỂM TRA VÀ CHUẨN HÓA 3NF", ["docs/normalization/normalization.md"]),
 ]
-
 SCREENSHOT_ITEMS = [
-    (
-        "5.2. Màn hình Nhập liệu 1: Quản lý Lịch chiếu & Suất chiếu — Phân trang 50 dòng/trang (Đáp ứng R5)",
-        "Màn hình cho phép Quản lý Chi nhánh tạo mới, cập nhật hoặc hủy suất chiếu với thanh phân trang tường minh 50 dòng/trang; "
-        "tự động gợi ý giờ kết thúc dựa trên thời lượng bộ phim cộng 20 phút dọn phòng; kiểm tra hợp lệ giá cơ sở dương, thời lượng tối thiểu (`BR-05`), "
-        "chặn đổi phòng khi đã phát sinh vé (`BR-09`) và từ chối tức thì mọi suất chiếu trùng lịch trong cùng một phòng chiếu (`BR-06`).",
-        [
-            ("01_screening_management_valid.png", "Hình 5.1. Màn hình Quản lý Suất chiếu — Tạo mới thành công suất chiếu hợp lệ và thanh phân trang 50 dòng/trang."),
-            ("02_screening_management_overlap_rejected.png", "Hình 5.2. Màn hình Quản lý Suất chiếu — Phát hiện và từ chối suất chiếu chồng lấn thời gian trong cùng phòng [BR-06]."),
-        ],
-    ),
-    (
-        "5.3. Màn hình Nhập liệu 2: Đặt vé & Chọn ghế theo Sơ đồ Phòng chiếu Chuẩn 3NF (Đáp ứng R5)",
-        "Màn hình cung cấp bộ lọc nhanh Chi nhánh + Ngày chiếu (hiển thị đầy đủ tổng số suất mở bán), phục vụ Thu ngân bán vé cho cả "
-        "**Khách hàng thành viên** lẫn **Khách vãng lai tại quầy**, hiển thị trực quan sơ đồ 80 ghế dựa trên bảng `screening_seat_lock`, "
-        "tính tự động đơn giá lịch sử (`base_price + surcharge`), xử lý thanh toán nguyên tử và cho phép **Hủy đơn hoàn tiền để giải phóng khóa ghế mở bán lại (`BR-11`)**.",
-        [
-            ("03_ticket_booking_seat_selection.png", "Hình 5.3. Màn hình Đặt vé & Chọn ghế — Bộ lọc nhanh suất chiếu và chọn nhiều ghế trống trên sơ đồ 80 ghế."),
-            ("04_ticket_booking_success.png", "Hình 5.4. Màn hình Đặt vé & Chọn ghế — Xác nhận giao dịch đặt vé chuẩn 3NF và thanh toán thành công."),
-            ("04b_ticket_booking_occupied_rejected.png", "Hình 5.5. Màn hình Đặt vé & Chọn ghế — Chặn giao dịch khi ghế vừa bị quầy thu ngân khác đặt trước [BR-10]."),
-        ],
-    ),
-    (
-        "5.4. Màn hình Tìm kiếm Vận hành: Tra cứu Suất chiếu, KPI & Phân trang (Đáp ứng R6)",
-        "Màn hình sử dụng truy vấn tham số hóa (`PreparedStatement`) trên View `vw_screening_search`, cho phép lọc linh hoạt "
-        "theo từ khóa tên/mã phim, bộ phim, chi nhánh rạp, ngày chiếu, khung giờ bắt đầu và cờ còn ghế trống; hiển thị tổng hợp KPI trên toàn tập kết quả khớp kèm phân trang 50 dòng/trang.",
-        [
-            ("05_screening_search.png", "Hình 5.6. Màn hình Tra cứu Suất chiếu — Hiển thị danh sách suất chiếu khớp điều kiện kèm sức chứa, vé đã giữ, ghế trống và thanh phân trang."),
-        ],
-    ),
-    (
-        "5.5. Báo cáo Thực tiễn 1: Báo cáo Doanh thu Chuỗi rạp — Preview & Xuất PDF (Đáp ứng R7)",
-        "• **Người lập báo cáo:** Kế toán Chuỗi rạp (`Trần Thị Thu Hà`).\n"
-        "• **Người nhận báo cáo:** Giám đốc Kinh doanh Chuỗi rạp.\n"
-        "• **Quy tắc ghi nhận doanh thu (`BR-14`, `BR-15`):** Chỉ tính tổng `ticket.unit_price` của các vé `VALID` thuộc đơn `CONFIRMED` "
-        "có giao dịch thanh toán `SUCCESS` (loại trừ hoàn toàn các đơn `PENDING`, `FAILED` và `CANCELLED`/`REFUNDED`, đồng thời không bị nhân đôi bởi 15 đơn có lịch sử thanh toán lỗi `FAILED` trước khi `SUCCESS`). "
-        "Tổng doanh thu thực thu trên tập dữ liệu mẫu đạt chính xác **35.165.000 VNĐ** (khớp 100% truy vấn SQL đối soát độc lập).",
-        [
-            ("06_revenue_report_preview.png", "Hình 5.7. Màn hình Xem trước (Preview) Báo cáo Doanh thu Chuỗi rạp (nêu rõ Kế toán lập gửi Giám đốc Kinh doanh)."),
-            ("08_exported_revenue_pdf_page1.png", "Hình 5.8. Bản kết xuất PDF tiếng Việt Báo cáo Doanh thu Chuỗi rạp (reports/exports/BaoCaoDoanhThu_Mau.pdf)."),
-        ],
-    ),
-    (
-        "5.6. Báo cáo Thực tiễn 2: Báo cáo Tình hình Bán vé & Tỷ lệ Lấp đầy — Preview & Xuất PDF (Đáp ứng R7)",
-        "• **Người lập báo cáo:** Quản lý Chi nhánh (`Nguyễn Minh Hoàng`).\n"
-        "• **Người nhận báo cáo:** Ban Điều hành và Quản lý Kinh doanh.\n"
-        "• **Nội dung quản trị:** Thống kê chi tiết từng suất chiếu từ MySQL 8.4 về sức chứa phòng, số vé đã thanh toán, số ghế còn trống thực tế, "
-        "tỷ lệ lấp đầy phòng chiếu (`%`) và doanh thu bán vé thực thu; hỗ trợ xem trước trực quan và kết xuất PDF tiếng Việt.",
-        [
-            ("07_ticket_sales_report_preview.png", "Hình 5.9. Màn hình Xem trước (Preview) Báo cáo Tình hình Bán vé và Tỷ lệ Lấp đầy (Quản lý Chi nhánh gửi Ban Điều hành)."),
-            ("09_exported_sales_pdf_page1.png", "Hình 5.10. Bản kết xuất PDF tiếng Việt Báo cáo Tình hình Bán vé (reports/exports/BaoCaoBanVe_Mau.pdf)."),
-        ],
-    ),
+    ("5.1 Quản lý suất chiếu", "Quản lý chi nhánh lập và cập nhật lịch chiếu. Form kiểm tra phim, phòng, giá dương, thời lượng và khoảng giao lịch. Suất đã có vé không được đổi phòng; dữ liệu được phân trang 50 dòng. Các câu SQL tương ứng được mô tả tại Phụ lục SQL chức năng, mục 1.", [
+        ("01_screening_management_valid.png", "Hình 5.1 Tạo suất chiếu hợp lệ"),
+        ("02_screening_management_overlap_rejected.png", "Hình 5.2 Từ chối lịch chiếu chồng lấn"),
+    ]),
+    ("5.2 Đặt vé và chọn ghế", "Thu ngân chọn suất, khách hàng hoặc khách vãng lai và các ghế trống. Giá bán được chốt theo từng vé. Booking, ticket và payment ghi trong cùng transaction; khóa ghế ngăn bán trùng, hủy đơn giải phóng ghế để bán lại. Các câu SQL tương ứng tại Phụ lục SQL chức năng, mục 2.", [
+        ("03_ticket_booking_seat_selection.png", "Hình 5.3 Sơ đồ ghế và thao tác chọn chỗ"),
+        ("04_ticket_booking_success.png", "Hình 5.4 Đơn đặt vé được ghi thành công"),
+        ("04b_ticket_booking_occupied_rejected.png", "Hình 5.5 Từ chối ghế đã được quầy khác đặt"),
+    ]),
+    ("6.1 Tra cứu suất chiếu", "Nhân viên tìm theo tên hoặc mã phim, chi nhánh, ngày và khung giờ. Kết quả hiển thị thông tin phim, phòng, giá, ghế đang giữ và ghế trống, có tổng số dòng và phân trang 50 dòng. PreparedStatement truyền tham số tìm kiếm. SQL tại Phụ lục SQL chức năng, mục 3.", [
+        ("05_screening_search.png", "Hình 6.1 Kết quả tra cứu và phân trang"),
+    ]),
+    ("7.1 Báo cáo doanh thu chuỗi rạp", "Người lập là Kế toán chuỗi rạp; người nhận là Giám đốc Kinh doanh. Báo cáo theo ngày thanh toán và chi nhánh, phục vụ đối soát tiền thu. Chỉ cộng vé VALID thuộc đơn CONFIRMED có payment SUCCESS; vẫn giữ doanh thu lịch sử của chi nhánh ngừng hoạt động. Cùng một bản báo cáo dùng snapshot đọc nhất quán. SQL tại Phụ lục SQL chức năng, mục 4.", [
+        ("06_revenue_report_preview.png", "Hình 7.1 Xem trước báo cáo doanh thu"),
+        ("08_exported_revenue_pdf_page1.png", "Hình 7.2 File PDF báo cáo doanh thu"),
+    ]),
+    ("7.2 Báo cáo bán vé và tỷ lệ lấp đầy", "Người lập là Quản lý chi nhánh; người nhận là Ban Điều hành và Quản lý Kinh doanh. Báo cáo theo ngày chiếu và suất, gồm sức chứa, vé đã thanh toán, ghế trống, tỷ lệ lấp đầy và doanh thu. Ghế của đơn PENDING vẫn giữ chỗ nhưng chưa được tính là vé bán có doanh thu. SQL tại Phụ lục SQL chức năng, mục 5.", [
+        ("07_ticket_sales_report_preview.png", "Hình 7.3 Xem trước báo cáo bán vé"),
+        ("09_exported_sales_pdf_page1.png", "Hình 7.4 File PDF báo cáo bán vé"),
+    ]),
 ]
-
 SQL_APPENDICES = [
-    ("PHỤ LỤC A1. MÃ LỆNH DDL KHỞI TẠO 14 BẢNG QUAN HỆ CHUẨN 3NF TRÊN MYSQL 8.4 (01_schema.sql)", "database/schema/01_schema.sql"),
-    ("PHỤ LỤC A2. MÃ LỆNH THIẾT LẬP 17 RÀNG BUỘC KHÓA NGOẠI (01b_foreign_keys.sql)", "database/schema/01b_foreign_keys.sql"),
-    ("PHỤ LỤC B. MÃ LỆNH 12 TRIGGER ĐỒNG BỘ KHÓA GHẾ & BẢO VỆ TOÀN VẸN NGHIỆP VỤ (02_triggers.sql)", "database/schema/02_triggers.sql"),
-    ("PHỤ LỤC C. MÃ LỆNH 4 VIEW TRA CỨU & ĐỐI SOÁT DOANH THU CHUẨN 3NF (03_views.sql)", "database/schema/03_views.sql"),
-    ("PHỤ LỤC D1. BỘ CÂU LỆNH SQL VÍ DỤ CHẠY TRỰC TIẾP TƯƠNG ỨNG 5 MÀN HÌNH R5 – R7 (functional_sql_verification.sql)", "database/queries/functional_sql_verification.sql"),
-    ("PHỤ LỤC D2. CÁC TRUY VẤN NGHIỆP VỤ, GIAO DỊCH & BÁO CÁO MỞ RỘNG (business_queries.sql)", "database/queries/business_queries.sql"),
+    ("PHỤ LỤC A SQL TẠO 14 BẢNG", "database/schema/01_schema.sql"),
+    ("PHỤ LỤC B SQL TẠO 17 KHÓA NGOẠI", "database/schema/01b_foreign_keys.sql"),
+    ("PHỤ LỤC C SQL TẠO 12 TRIGGER", "database/schema/02_triggers.sql"),
+    ("PHỤ LỤC D SQL TẠO 4 VIEW", "database/schema/03_views.sql"),
+    ("PHỤ LỤC E SQL CHẠY DEMO HAI FORM TÌM KIẾM VÀ HAI BÁO CÁO", "database/queries/functional_sql_verification.sql"),
 ]
 
 
-def generate_docx() -> None:
+def test_summary(run):
+    rows = ["| Bộ kiểm thử | Số test | Kết quả |", "|---|---|---|"]
+    for name, result in sorted(run["suites"].items()):
+        rows.append(f"| {name.rsplit('.', 1)[-1]} | {result['tests']} | Không lỗi, không bỏ qua |")
+    rows.append(f"| Tổng cộng | {run['tests']} | Failures 0, Errors 0, Skipped 0 |")
+    return rows
+
+
+def verification_text(run):
+    return (
+        f"Lần kiểm chứng bắt đầu lúc {run['run_started_at_utc']} (UTC), dùng JDK 21 và MySQL Community Server 8.4.0 LTS. "
+        f"Bộ mặc định có {run['tests']} kiểm thử thuộc {run['suite_count']} suite; không có lỗi hay test bỏ qua. "
+        "XML cũ được xóa trước khi chạy. Đã thực thi năm màn hình với dữ liệu hợp lệ và bị từ chối, xuất hai PDF, "
+        "kiểm tra dữ liệu tồn tại qua hai tiến trình JVM và chạy SQL chức năng trên cinema_chain_test. "
+        "Fingerprint của cinema_chain được đọc trước và sau kiểm chứng, kết quả bằng nhau. "
+        "Manifest, log và ảnh đi kèm cho phép đối chiếu từng kết quả. Kiểm tra ERD là kiểm tra tĩnh đối chiếu source; "
+        "chứng minh 3NF ở Chương 4 dựa trên phụ thuộc hàm và khóa nghiệp vụ, không suy ra chỉ từ số bảng.\n"
+        "Phạm vi bản nộp là ứng dụng quản lý tại quầy bằng Swing. Mở rộng VNPay chỉ chạy sandbox ở database test, "
+        "IPN provider trong bộ tự động được ký mô phỏng; chưa có chứng từ thanh toán merchant hoặc hoàn tiền thật. "
+        "Chưa kiểm thử mất điện, crash MySQL và tải 100K/1M. Quyền truy cập Internet không thuộc phạm vi triển khai này."
+    )
+
+
+def generate_docx(run) -> None:
     OUT_DOCX.parent.mkdir(parents=True, exist_ok=True)
     doc = Document()
     configure_docx_styles(doc)
     add_docx_cover_page(doc)
-
-    doc.add_heading("LỜI MỞ ĐẦU & MA TRẬN ĐÁP ỨNG YÊU CẦU HỌC PHẦN (R1 – R8)", level=1)
-    p_intro = doc.add_paragraph()
-    add_formatted_runs(p_intro, INTRO_TEXT)
+    doc.add_heading("LỜI MỞ ĐẦU VÀ ĐỐI CHIẾU TIÊU CHÍ", level=1)
+    add_formatted_runs(doc.add_paragraph(), INTRO_TEXT)
     render_docx_table(doc, RUBRIC_TABLE)
-
-    doc.add_page_break()
-    doc.add_heading("CHƯƠNG 1. PHÂN TÍCH YÊU CẦU NGHIỆP VỤ VÀ DỮ LIỆU CẦN LƯU TRỮ (TIÊU CHÍ R1)", level=1)
-    append_docx_markdown(doc, ROOT / "docs" / "requirements" / "requirements.md")
-    doc.add_heading("Quy tắc Nghiệp vụ & Cơ chế Đảm bảo Toàn vẹn (BR-01 .. BR-16)", level=2)
-    append_docx_markdown(doc, ROOT / "docs" / "requirements" / "business-rules.md")
-
-    doc.add_page_break()
-    doc.add_heading("CHƯƠNG 2. THIẾT KẾ SƠ ĐỒ THỰC THỂ – LIÊN KẾT ERD (TIÊU CHÍ R2)", level=1)
-    add_docx_figure(doc, ROOT / "docs" / "erd" / "erd-chen.png", "Hình 2.1. Sơ đồ Thực thể – Liên kết mức Khái niệm theo ký hiệu Chen (Conceptual ERD — 14 bảng chuẩn 3NF).")
-    add_docx_figure(doc, ROOT / "docs" / "erd" / "erd-logical.png", "Hình 2.2. Sơ đồ Thực thể – Liên kết mức Logic theo ký hiệu Crow's Foot (Logical ERD — 14 bảng chuẩn 3NF).")
-    append_docx_markdown(doc, ROOT / "docs" / "erd" / "erd-explanation.md")
-
-    doc.add_page_break()
-    doc.add_heading("CHƯƠNG 3. LƯỢC ĐỒ CƠ SỞ DỮ LIỆU QUAN HỆ 14 BẢNG & TỪ ĐIỂN DỮ LIỆU (TIÊU CHÍ R3)", level=1)
-    append_docx_markdown(doc, ROOT / "docs" / "relational-model" / "schema-design.md")
-
-    doc.add_page_break()
-    doc.add_heading("CHƯƠNG 4. PHỤ THUỘC HÀM, PHÉP PHÂN RÃ VÀ CHỨNG MINH CHUẨN HÓA 3NF (TIÊU CHÍ R4)", level=1)
-    append_docx_markdown(doc, ROOT / "docs" / "normalization" / "normalization.md")
-
-    doc.add_page_break()
-    doc.add_heading("CHƯƠNG 5. KIẾN TRÚC ỨNG DỤNG, CÁC MÀN HÌNH NGHIỆP VỤ & SQL CHỨC NĂNG (R5, R6, R7, R8)", level=1)
-    doc.add_heading("5.1. Kiến trúc Phân tầng, Phân trang Tường minh & Giao dịch Đồng thời trên MySQL 8.4 LTS", level=2)
-    p_arch = doc.add_paragraph()
-    add_formatted_runs(p_arch, CH5_ARCH)
-
-    for sec_title, sec_desc, figs in SCREENSHOT_ITEMS:
-        doc.add_heading(sec_title, level=2)
-        p_sec = doc.add_paragraph()
-        add_formatted_runs(p_sec, sec_desc)
-        for img_name, cap in figs:
-            add_docx_figure(doc, ROOT / "verification" / "screenshots" / img_name, cap)
-
-    doc.add_page_break()
-    doc.add_heading("5.7. Đặc tả Chi tiết Các Câu lệnh SQL Tương ứng Chức năng R5, R6, R7 (Đáp ứng R8)", level=2)
-    append_docx_markdown(doc, ROOT / "docs" / "sql-features" / "functional-sql-mapping.md")
-
-    doc.add_page_break()
-    doc.add_heading("CHƯƠNG 6. TỔNG HỢP KẾT QUẢ KIỂM THỬ & BẢO TOÀN DỮ LIỆU TRÊN MYSQL 8.4.0 LTS", level=1)
-    p_ver = doc.add_paragraph()
-    add_formatted_runs(p_ver, CH6_VERIFICATION)
-    render_docx_table(doc, TEST_SUMMARY_TABLE)
-
-    for app_title, sql_rel in SQL_APPENDICES:
+    doc.add_heading("MỤC LỤC NỘI DUNG", level=1)
+    for title in [*[chapter[0] for chapter in CHAPTERS], "CHƯƠNG 5 HAI MÀN HÌNH NHẬP LIỆU", "CHƯƠNG 6 TÌM KIẾM VÀ HIỂN THỊ KẾT QUẢ", "CHƯƠNG 7 BÁO CÁO VÀ XUẤT FILE", "KẾT QUẢ KIỂM CHỨNG", "PHỤ LỤC SQL CHỨC NĂNG VÀ CÀI ĐẶT"]:
+        doc.add_paragraph(title)
+    for number, (title, files) in enumerate(CHAPTERS, 1):
         doc.add_page_break()
-        doc.add_heading(app_title, level=1)
-        append_docx_code_block(doc, (ROOT / sql_rel).read_text(encoding="utf-8"), font_size=8.0)
-
-    doc.save(str(OUT_DOCX))
-    print(f"Generated academic DOCX: {OUT_DOCX} ({OUT_DOCX.stat().st_size} bytes)")
+        doc.add_heading(title, level=1)
+        if number == 2:
+            for stem, caption in (("erd-chen", "Hình 2.1 ERD Chen tổng thể có bản phóng lớn ERD_Chen_A1.pdf đi kèm"), ("erd-logical", "Hình 2.2 Sơ đồ dữ liệu theo Crow's Foot")):
+                add_docx_figure(doc, ROOT / f"docs/erd/{stem}.png", caption)
+        for name in files:
+            append_docx_markdown(doc, ROOT / name)
+    for title, sections in (("CHƯƠNG 5 HAI MÀN HÌNH NHẬP LIỆU", SCREENSHOT_ITEMS[:2]), ("CHƯƠNG 6 TÌM KIẾM VÀ HIỂN THỊ KẾT QUẢ", SCREENSHOT_ITEMS[2:3]), ("CHƯƠNG 7 BÁO CÁO VÀ XUẤT FILE", SCREENSHOT_ITEMS[3:])):
+        doc.add_page_break()
+        doc.add_heading(title, level=1)
+        for heading, description, figures in sections:
+            doc.add_heading(heading, level=2)
+            add_formatted_runs(doc.add_paragraph(), description)
+            for image, caption in figures:
+                add_docx_figure(doc, ROOT / "verification/screenshots" / image, caption)
+    doc.add_page_break()
+    doc.add_heading("KẾT QUẢ KIỂM CHỨNG VÀ PHẠM VI", level=1)
+    add_formatted_runs(doc.add_paragraph(), verification_text(run))
+    render_docx_table(doc, test_summary(run))
+    doc.add_page_break()
+    doc.add_heading("PHỤ LỤC SQL CHỨC NĂNG", level=1)
+    append_docx_markdown(doc, ROOT / "docs/sql-features/functional-sql-mapping.md")
+    for title, name in SQL_APPENDICES:
+        doc.add_page_break()
+        doc.add_heading(title, level=1)
+        append_docx_code_block(doc, (ROOT / name).read_text(encoding="utf-8"))
+    doc.save(OUT_DOCX)
+    print(f"Generated DOCX: {OUT_DOCX}")
 
 
 def add_pdf_page_number(canvas, doc) -> None:
     if doc.page > 1:
         canvas.saveState()
         canvas.setFont("VNSerif", 9)
-        canvas.setFillColor(colors.HexColor("#64748B"))
-        canvas.drawRightString(A4[0] - 2.0 * cm, 1.3 * cm, f"Trang {doc.page}")
-        canvas.drawString(2.5 * cm, 1.3 * cm, "Báo cáo Học phần CSDL — Hệ thống Quản lý Chuỗi Rạp Chiếu Phim (14 bảng 3NF • MySQL 8.4 LTS)")
+        canvas.setFillColor(colors.black)
+        canvas.drawRightString(A4[0] - 2 * cm, 1.3 * cm, f"Trang {doc.page}")
+        canvas.drawString(2.5 * cm, 1.3 * cm, "Nhóm 8 | INT1313-20261-01 | Quản lý chuỗi rạp chiếu phim")
         canvas.restoreState()
 
 
-def generate_pdf() -> None:
+def generate_pdf(run) -> None:
     register_pdf_fonts()
-    st = make_pdf_styles()
-    left_m, right_m = 2.5 * cm, 2.0 * cm
-    avail_w = A4[0] - left_m - right_m
-
-    doc = SimpleDocTemplate(
-        str(OUT_PDF),
-        pagesize=A4,
-        leftMargin=left_m,
-        rightMargin=right_m,
-        topMargin=2.2 * cm,
-        bottomMargin=2.2 * cm,
-        title="Báo cáo Học thuật Hệ thống Quản lý Chuỗi Rạp Chiếu Phim (14 bảng chuẩn 3NF - MySQL 8.4 LTS)",
-        author="Nhóm Sinh viên Thực hiện (CineViet DBMS Project)",
-    )
-
+    styles = make_pdf_styles()
+    width = A4[0] - 4.5 * cm
+    doc = SimpleDocTemplate(str(OUT_PDF), pagesize=A4, leftMargin=2.5 * cm, rightMargin=2 * cm,
+                            topMargin=2.2 * cm, bottomMargin=2.2 * cm, title=GROUP["topic"], author="Nhóm " + GROUP["group"])
     story = []
-    # Cover Page
-    story.append(Paragraph("[TRƯỜNG ĐẠI HỌC / HỌC VIỆN ĐÀO TẠO — PLACEHOLDER]", st["cover_center"]))
-    story.append(Paragraph("[KHOA CÔNG NGHỆ THÔNG TIN — BỘ MÔN HỆ THỐNG THÔNG TIN]", st["cover_center"]))
-    story.append(Spacer(1, 2.0 * cm))
-    story.append(Paragraph("BÁO CÁO BÀI TẬP LỚN HỌC PHẦN CƠ SỞ DỮ LIỆU", st["cover_center"]))
-    story.append(Spacer(1, 0.5 * cm))
-    story.append(
-        Paragraph(
-            "ĐỀ TÀI:<br/>HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM<br/>(CINEVIET CINEMA CHAIN MANAGEMENT SYSTEM)",
-            st["cover_title"],
-        )
-    )
-    story.append(
-        Paragraph(
-            "Công nghệ: Java 21 LTS • Java Swing (FlatLaf) • MySQL Community Server 8.4 LTS (14 bảng 3NF) • JDBC • PDFBox 3",
-            st["caption"],
-        )
-    )
-    story.append(Spacer(1, 1.8 * cm))
-    cover_meta = [
-        "| Thông tin Học phần | Nội dung Đăng ký (Placeholder) |",
-        "|---|---|",
-        "| **Giảng viên hướng dẫn** | [Họ và tên Giảng viên hướng dẫn — Placeholder] |",
-        "| **Lớp học phần / Nhóm** | [Mã lớp học phần] — [Nhóm XX — Placeholder] |",
-        "| **Sinh viên thực hiện 1** | [Họ và tên Sinh viên 1] — MSSV: [Mã SV 01] |",
-        "| **Sinh viên thực hiện 2** | [Họ và tên Sinh viên 2] — MSSV: [Mã SV 02] |",
-        "| **Sinh viên thực hiện 3** | [Họ và tên Sinh viên 3] — MSSV: [Mã SV 03] |",
-        "| **Hệ quản trị CSDL thực thi** | **MySQL Community Server 8.4.0 LTS** (`InnoDB`, `utf8mb4_unicode_ci`, 14 bảng 3NF) |",
-    ]
-    render_pdf_table(story, cover_meta, st, avail_w)
-    story.append(Spacer(1, 2.5 * cm))
-    story.append(Paragraph("Hà Nội, Năm học 2026", st["caption"]))
-    story.append(PageBreak())
-
-    # Intro & Rubric
-    story.append(Paragraph("LỜI MỞ ĐẦU &amp; MA TRẬN ĐÁP ỨNG YÊU CẦU HỌC PHẦN (R1 – R8)", st["h1"]))
-    story.append(Paragraph(md_to_rl_xml(INTRO_TEXT), st["body"]))
-    render_pdf_table(story, RUBRIC_TABLE, st, avail_w)
-
-    # Chapter 1
-    story.append(PageBreak())
-    story.append(Paragraph("CHƯƠNG 1. PHÂN TÍCH YÊU CẦU NGHIỆP VỤ VÀ DỮ LIỆU CẦN LƯU TRỮ (TIÊU CHÍ R1)", st["h1"]))
-    append_pdf_markdown(story, ROOT / "docs" / "requirements" / "requirements.md", st, avail_w)
-    story.append(Paragraph("Quy tắc Nghiệp vụ &amp; Cơ chế Đảm bảo Toàn vẹn (BR-01 .. BR-16)", st["h2"]))
-    append_pdf_markdown(story, ROOT / "docs" / "requirements" / "business-rules.md", st, avail_w)
-
-    # Chapter 2
-    story.append(PageBreak())
-    story.append(Paragraph("CHƯƠNG 2. THIẾT KẾ SƠ ĐỒ THỰC THỂ – LIÊN KẾT ERD (TIÊU CHÍ R2)", st["h1"]))
-    append_pdf_figure(
-        story,
-        ROOT / "docs" / "erd" / "erd-chen.png",
-        "Hình 2.1. Sơ đồ Thực thể – Liên kết mức Khái niệm theo ký hiệu Chen (Conceptual ERD — 14 bảng chuẩn 3NF).",
-        st,
-        max_w=16.2 * cm,
-        max_h=20.2 * cm,
-    )
-    story.append(PageBreak())
-    append_pdf_figure(
-        story,
-        ROOT / "docs" / "erd" / "erd-logical.png",
-        "Hình 2.2. Sơ đồ Thực thể – Liên kết mức Logic theo ký hiệu Crow's Foot (Logical ERD — 14 bảng chuẩn 3NF).",
-        st,
-        max_w=16.2 * cm,
-        max_h=21.0 * cm,
-    )
-    append_pdf_markdown(story, ROOT / "docs" / "erd" / "erd-explanation.md", st, avail_w)
-
-    # Chapter 3
-    story.append(PageBreak())
-    story.append(Paragraph("CHƯƠNG 3. LƯỢC ĐỒ CƠ SỞ DỮ LIỆU QUAN HỆ 14 BẢNG &amp; TỪ ĐIỂN DỮ LIỆU (TIÊU CHÍ R3)", st["h1"]))
-    append_pdf_markdown(story, ROOT / "docs" / "relational-model" / "schema-design.md", st, avail_w)
-
-    # Chapter 4
-    story.append(PageBreak())
-    story.append(Paragraph("CHƯƠNG 4. PHỤ THUỘC HÀM, PHÉP PHÂN RÃ VÀ CHỨNG MINH CHUẨN HÓA 3NF (TIÊU CHÍ R4)", st["h1"]))
-    append_pdf_markdown(story, ROOT / "docs" / "normalization" / "normalization.md", st, avail_w)
-
-    # Chapter 5
-    story.append(PageBreak())
-    story.append(Paragraph("CHƯƠNG 5. KIẾN TRÚC ỨNG DỤNG, CÁC MÀN HÌNH NGHIỆP VỤ &amp; SQL CHỨC NĂNG (R5, R6, R7, R8)", st["h1"]))
-    story.append(Paragraph("5.1. Kiến trúc Phân tầng, Phân trang Tường minh &amp; Giao dịch Đồng thời trên MySQL 8.4 LTS", st["h2"]))
-    story.append(Paragraph(md_to_rl_xml(CH5_ARCH), st["body"]))
-
-    for sec_title, sec_desc, figs in SCREENSHOT_ITEMS:
-        story.append(Paragraph(md_to_rl_xml(sec_title), st["h2"]))
-        story.append(Paragraph(md_to_rl_xml(sec_desc), st["body"]))
-        for img_name, cap in figs:
-            append_pdf_figure(story, ROOT / "verification" / "screenshots" / img_name, cap, st)
-
-    story.append(PageBreak())
-    story.append(Paragraph("5.7. Đặc tả Chi tiết Các Câu lệnh SQL Tương ứng Chức năng R5, R6, R7 (Đáp ứng R8)", st["h2"]))
-    append_pdf_markdown(story, ROOT / "docs" / "sql-features" / "functional-sql-mapping.md", st, avail_w)
-
-    # Chapter 6
-    story.append(PageBreak())
-    story.append(Paragraph("CHƯƠNG 6. TỔNG HỢP KẾT QUẢ KIỂM THỬ &amp; BẢO TOÀN DỮ LIỆU TRÊN MYSQL 8.4.0 LTS", st["h1"]))
-    story.append(Paragraph(md_to_rl_xml(CH6_VERIFICATION), st["body"]))
-    render_pdf_table(story, TEST_SUMMARY_TABLE, st, avail_w)
-
-    # SQL Appendices
-    for app_title, sql_rel in SQL_APPENDICES:
-        story.append(PageBreak())
-        story.append(Paragraph(html.escape(app_title), st["h1"]))
-        append_pdf_code(story, (ROOT / sql_rel).read_text(encoding="utf-8"), st)
-
+    for text, style in ((GROUP["school"], "cover_center"), ("BÁO CÁO BÀI TẬP LỚN", "cover_center"), ("HỌC PHẦN CƠ SỞ DỮ LIỆU", "cover_center"), (GROUP["topic"].upper(), "cover_title")):
+        story.append(Paragraph(html.escape(text), styles[style]))
+        story.append(Spacer(1, .5 * cm))
+    metadata = ["| Thông tin | Nội dung |", "|---|---|"] + [f"| {key} | {value} |" for key, value in cover_rows()]
+    render_pdf_table(story, metadata, styles, width)
+    story += [Spacer(1, cm), Paragraph("Hà Nội, tháng 11 năm 2026", styles["caption"]), PageBreak()]
+    story.append(Paragraph("LỜI MỞ ĐẦU VÀ ĐỐI CHIẾU TIÊU CHÍ", styles["h1"]))
+    story.append(Paragraph(md_to_rl_xml(INTRO_TEXT), styles["body"]))
+    render_pdf_table(story, RUBRIC_TABLE, styles, width)
+    story.append(Paragraph("MỤC LỤC NỘI DUNG", styles["h1"]))
+    for title in [*[chapter[0] for chapter in CHAPTERS], "CHƯƠNG 5 HAI MÀN HÌNH NHẬP LIỆU", "CHƯƠNG 6 TÌM KIẾM VÀ HIỂN THỊ KẾT QUẢ", "CHƯƠNG 7 BÁO CÁO VÀ XUẤT FILE", "KẾT QUẢ KIỂM CHỨNG", "PHỤ LỤC SQL CHỨC NĂNG VÀ CÀI ĐẶT"]:
+        story.append(Paragraph(html.escape(title), styles["body"]))
+    for number, (title, files) in enumerate(CHAPTERS, 1):
+        story += [PageBreak(), Paragraph(html.escape(title), styles["h1"])]
+        if number == 2:
+            for stem, caption in (("erd-chen", "Hình 2.1 ERD Chen tổng thể có bản phóng lớn ERD_Chen_A1.pdf đi kèm"), ("erd-logical", "Hình 2.2 Sơ đồ dữ liệu theo Crow's Foot")):
+                append_pdf_figure(story, ROOT / f"docs/erd/{stem}.png", caption, styles, max_w=width, max_h=20 * cm)
+                story.append(PageBreak())
+        for name in files:
+            append_pdf_markdown(story, ROOT / name, styles, width)
+    for title, sections in (("CHƯƠNG 5 HAI MÀN HÌNH NHẬP LIỆU", SCREENSHOT_ITEMS[:2]), ("CHƯƠNG 6 TÌM KIẾM VÀ HIỂN THỊ KẾT QUẢ", SCREENSHOT_ITEMS[2:3]), ("CHƯƠNG 7 BÁO CÁO VÀ XUẤT FILE", SCREENSHOT_ITEMS[3:])):
+        story += [PageBreak(), Paragraph(title, styles["h1"])]
+        for heading, description, figures in sections:
+            story += [Paragraph(heading, styles["h2"]), Paragraph(md_to_rl_xml(description), styles["body"])]
+            for image, caption in figures:
+                append_pdf_figure(story, ROOT / "verification/screenshots" / image, caption, styles)
+    story += [PageBreak(), Paragraph("KẾT QUẢ KIỂM CHỨNG VÀ PHẠM VI", styles["h1"]), Paragraph(md_to_rl_xml(verification_text(run)), styles["body"])]
+    render_pdf_table(story, test_summary(run), styles, width)
+    story += [PageBreak(), Paragraph("PHỤ LỤC SQL CHỨC NĂNG", styles["h1"])]
+    append_pdf_markdown(story, ROOT / "docs/sql-features/functional-sql-mapping.md", styles, width)
+    for title, name in SQL_APPENDICES:
+        story += [PageBreak(), Paragraph(title, styles["h1"])]
+        append_pdf_code(story, (ROOT / name).read_text(encoding="utf-8"), styles)
     doc.build(story, onFirstPage=add_pdf_page_number, onLaterPages=add_pdf_page_number)
-    print(f"Generated academic PDF: {OUT_PDF} ({OUT_PDF.stat().st_size} bytes)")
+    print(f"Generated PDF: {OUT_PDF}")
 
 
 if __name__ == "__main__":
-    generate_docx()
-    generate_pdf()
+    run = verified_run()
+    generate_docx(run)
+    generate_pdf(run)

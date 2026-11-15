@@ -1,0 +1,2 @@
+Chưa cấu hình MySQL. Sao chép config\application.properties.example thành config\application.properties và điền mật khẩu cục bộ.
+[LAUNCHER-VERIFIED] Missing configuration exits 2 before connecting to DB; Vietnamese help verified.

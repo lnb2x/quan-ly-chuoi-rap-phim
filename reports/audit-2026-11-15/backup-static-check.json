@@ -1,0 +1,8 @@
+{
+  "call_at": "tools/db_fingerprint.py:215",
+  "called_name": "resolve_mysql_bin",
+  "module_has_called_name": false,
+  "available_helper": "resolve_mysql_exe",
+  "migration_calls_dump_backup_at": "database/migrations/apply_migration_cinema_chain.ps1:48",
+  "executed_backup_or_migration": false
+}

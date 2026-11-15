@@ -236,7 +236,7 @@ public final class BookingRepository {
                         rs.getInt("room_id"),
                         rs.getBigDecimal("base_price"),
                         rs.getString("status"),
-                        rs.getTimestamp("start_time").toLocalDateTime()
+                        rs.getObject("start_time", LocalDateTime.class)
                 );
             }
         }
@@ -297,7 +297,7 @@ public final class BookingRepository {
                 ps.setNull(3, Types.INTEGER);
             }
             ps.setInt(4, employeeId);
-            ps.setTimestamp(5, Timestamp.valueOf(bookedAt));
+            ps.setObject(5, bookedAt);
             ps.setString(6, bookingStatus);
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
@@ -348,7 +348,7 @@ public final class BookingRepository {
             ps.setString(3, paymentMethod);
             ps.setString(4, paymentStatus);
             if (paidAt != null) {
-                ps.setTimestamp(5, Timestamp.valueOf(paidAt));
+                ps.setObject(5, paidAt);
             } else {
                 ps.setNull(5, Types.TIMESTAMP);
             }
@@ -410,6 +410,26 @@ public final class BookingRepository {
                 "UPDATE payment SET payment_status = 'FAILED' WHERE booking_id = ? AND payment_status = 'PENDING'")) {
             ps.setInt(1, bookingId);
             ps.executeUpdate();
+        }
+    }
+
+    public void requireManualPayment(Connection conn, int bookingId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT booking_id FROM booking WHERE booking_id = ? FOR UPDATE")) {
+            ps.setInt(1, bookingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new BusinessRuleException("Không tìm thấy đơn đặt vé #" + bookingId + ".");
+                }
+            }
+        }
+        try (PreparedStatement ps = conn.prepareStatement(
+                "SELECT payment_id FROM payment WHERE booking_id = ? AND transaction_ref LIKE 'VNPAY-%' FOR UPDATE")) {
+            ps.setInt(1, bookingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    throw new BusinessRuleException("Đơn VNPay chỉ được xác nhận bởi IPN đã kiểm tra chữ ký và số tiền.");
+                }
+            }
         }
     }
 

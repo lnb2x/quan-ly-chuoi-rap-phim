@@ -8,6 +8,7 @@ import com.cinema.domain.SearchPageResult;
 import com.cinema.feature.search.ScreeningSearchService;
 import com.cinema.shared.ui.StatusBanner;
 import com.cinema.shared.ui.Theme;
+import com.cinema.shared.ui.UiTask;
 import com.cinema.shared.validation.BusinessRuleException;
 
 import javax.swing.*;
@@ -193,14 +194,14 @@ public final class ScreeningSearchPanel extends JPanel {
     }
 
     public void loadFilterOptions() {
-        branches = service.listBranches();
+        branches = UiTask.call(this, "Đang tải danh sách chi nhánh...", service::listBranches);
         cboBranch.removeAllItems();
         cboBranch.addItem("Tất cả chi nhánh");
         for (CinemaBranch b : branches) {
             cboBranch.addItem(b.branchCode() + " - " + b.branchName());
         }
 
-        movies = service.listMovies();
+        movies = UiTask.call(this, "Đang tải danh sách phim...", service::listMovies);
         cboMovie.removeAllItems();
         cboMovie.addItem("Tất cả các bộ phim");
         for (Movie m : movies) {
@@ -280,9 +281,16 @@ public final class ScreeningSearchPanel extends JPanel {
                 }
             }
 
-            SearchPageResult searchResult = service.searchPage(
-                    keyword, movieId, branchId, date, fromTime, toTime,
-                    chkOnlyAvailable.isSelected(), currentPage, PAGE_SIZE);
+            Integer selectedMovieId = movieId;
+            Integer selectedBranchId = branchId;
+            LocalDate selectedDate = date;
+            LocalTime selectedFromTime = fromTime;
+            LocalTime selectedToTime = toTime;
+            boolean onlyAvailable = chkOnlyAvailable.isSelected();
+            int requestedPage = currentPage;
+            SearchPageResult searchResult = UiTask.call(this, "Đang tra cứu suất chiếu và ghế trống...",
+                    () -> service.searchPage(keyword, selectedMovieId, selectedBranchId, selectedDate,
+                            selectedFromTime, selectedToTime, onlyAvailable, requestedPage, PAGE_SIZE));
 
             PageResult<ScreeningDetailView> page = searchResult.page();
             currentPage = page.pageNumber();

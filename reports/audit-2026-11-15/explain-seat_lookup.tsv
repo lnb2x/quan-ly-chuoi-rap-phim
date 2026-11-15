@@ -1,0 +1,1 @@
+1	SIMPLE	screening_seat_lock	NULL	const	PRIMARY,idx_ssl_seat	PRIMARY	8	const,const	1	100.00	Using index

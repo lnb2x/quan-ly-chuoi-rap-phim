@@ -1,0 +1,4 @@
+1	SIMPLE	sc	NULL	const	PRIMARY,idx_screening_room_time	PRIMARY	4	const	1	100.00	Using temporary; Using filesort
+1	SIMPLE	st	NULL	ref	uq_seat_position,idx_seat_type	uq_seat_position	4	const	80	100.00	NULL
+1	SIMPLE	tp	NULL	ALL	PRIMARY	NULL	NULL	NULL	3	33.33	Using where; Using join buffer (hash join)
+1	SIMPLE	sl	NULL	eq_ref	PRIMARY,idx_ssl_seat	PRIMARY	8	const,cinema_chain.st.seat_id	1	100.00	NULL

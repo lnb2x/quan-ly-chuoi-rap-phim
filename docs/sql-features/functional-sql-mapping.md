@@ -88,7 +88,7 @@ WHERE room_id = 1 AND screening_status = 'OPEN'
 -- Thêm suất hợp lệ vào khung trống ngày 2026-11-19:
 INSERT INTO screening (movie_id, room_id, start_time, end_time, base_price, status)
 VALUES (1, 1, '2026-11-19 09:00:00', '2026-11-19 11:15:00', 95000.00, 'OPEN');
-COMMIT; -- (hoặc ROLLBACK khi chạy kiểm chứng không phá hủy)
+ROLLBACK; -- Chỉ kiểm chứng, không lưu dữ liệu ví dụ
 ```
 - **Kết quả mong đợi:** Truy vấn kiểm tra xung đột ngày `2026-11-04` trả về đúng `screening_id = 1` (*Dune: Hành Tinh Cát - Phần Hai*, `13:00:00 -> 16:05:00`) nên bị từ chối với mã `[BR-06]`; lệnh `INSERT` ngày `2026-11-19` thành công vì không giao nhau và thời lượng `135 phút >= 105 phút`.
 
@@ -262,6 +262,8 @@ LIMIT 50 OFFSET 0;
 | `CANCELLED` | `CANCELLED` | `REFUNDED` | **Không** (đã xóa khóa, mở bán lại ghế) | **KHÔNG (`0 VNĐ`)** | Đơn đã thu tiền nhưng khách hủy hợp lệ và đã hoàn tiền (`REFUNDED`): loại trừ hoàn toàn khỏi doanh thu thực thu. |
 | `CANCELLED` | `CANCELLED` | `FAILED` | **Không** | **KHÔNG (`0 VNĐ`)** | Giao dịch thanh toán thất bại và đơn đã hủy. |
 
+Hai truy vấn tổng chi nhánh và chi tiết ngày được thực hiện trên cùng một connection read-only ở mức REPEATABLE READ để dùng chung snapshot; không loại doanh thu lịch sử của chi nhánh đã ngừng hoạt động.
+
 ### 4.2. Câu lệnh SQL tham số hóa (`?`) trong Java (`RevenueReportRepository.java`)
 ```sql
 -- (a) Bảng I: Tổng hợp doanh thu thực thu theo từng Chi nhánh (findBranchSummaries)
@@ -274,7 +276,7 @@ FROM cinema_branch br
 LEFT JOIN vw_verified_booking_revenue vr
     ON vr.branch_id = br.branch_id
    AND vr.revenue_date BETWEEN ? AND ?
-WHERE br.active = 1
+WHERE 1 = 1
 GROUP BY br.branch_id, br.branch_code, br.branch_name, br.city
 ORDER BY paid_revenue DESC, br.branch_id ASC;
 

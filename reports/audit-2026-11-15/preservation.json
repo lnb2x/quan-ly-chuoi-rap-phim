@@ -1,0 +1,18 @@
+{
+  "database": "cinema_chain",
+  "before_sha256": "7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37",
+  "after_sha256": "7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37",
+  "matched": true,
+  "fingerprint_scope": "all base-table rows in PK order; SHOW CREATE TABLE incl AUTO_INCREMENT; trigger action statements and view definitions as implemented by tools/db_fingerprint.py",
+  "atomic_snapshot": false,
+  "database_write_statements_executed_by_audit": 0,
+  "test_suite_rerun": false,
+  "mysql_started_by_audit": true,
+  "checked_at_utc": "2026-11-15T05:23:20.653032+00:00",
+  "shutdown": "completed_by_database/stop_mysql84.ps1",
+  "port_3306_listening_after_shutdown": false,
+  "mysqld_process_count_after_shutdown": 0,
+  "source_manifest_rechecked_files": 114,
+  "source_manifest_changed_files": [],
+  "final_checked_at_utc": "2026-11-15T05:25:20.348582+00:00"
+}

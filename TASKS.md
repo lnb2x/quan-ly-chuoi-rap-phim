@@ -1,3 +1,18 @@
+# Tiến độ bản nộp nhóm 8
+
+## Hoàn thiện bản nộp 15/11/2026
+
+| Mục | Trạng thái | Kết quả và bằng chứng |
+|---|---|---|
+| Sửa nghiệp vụ/EDT/snapshot/PDF và công cụ kiểm chứng | VERIFIED | JDK21/MySQL8.4;104/104 tests/15suite/0skip,GUI đúng/sai,2JVM,SQL; verification/submission-2026-11-15/verify-all.log |
+| Backup,refresh và restore trên clone | VERIFIED | migration-rehearsal/rehearsal-result.json; dữ liệu/DDL/view giữ nguyên,restore fingerprint và refresh lần2 khớp |
+| Cập nhật12trigger demo đã được xác nhận | VERIFIED | demo-trigger-upgrade/;17invariant0,12bodymatch,14table data/DDL/view giữ nguyên; Main startup thực tế |
+| Báo cáo 7 chương, ERD, SQL, Word/PDF và gói ZIP nộp | VERIFIED | Đã điền 5 SV/GV/lớp; xem PDF 70 trang, Word 77 trang; kiểm manifest SHA-256/CRC/runtime; verification/submission-2026-11-15/README.md và reports/submission/package-validation.json |
+
+Các trạng thái/đường dẫn phía dưới là nhật ký lịch sử, không phải baseline kiểm chứng hiện hành.
+
+## Nhật ký lịch sử
+
 # TASKS.md — Sổ cái Thực thi & Kiểm chứng Dự án (Execution Ledger)
 
 Trạng thái hợp lệ: `TODO` | `IN_PROGRESS` | `BLOCKED` | `VERIFIED`

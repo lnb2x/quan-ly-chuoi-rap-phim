@@ -1,0 +1,12 @@
+{
+  "cinema_chain": [
+    "trg_booking_validate_upd",
+    "trg_payment_validate_ins",
+    "trg_payment_validate_upd",
+    "trg_screening_validate_ins",
+    "trg_screening_validate_upd",
+    "trg_ticket_validate_ins",
+    "trg_ticket_validate_upd"
+  ],
+  "cinema_chain_test": []
+}

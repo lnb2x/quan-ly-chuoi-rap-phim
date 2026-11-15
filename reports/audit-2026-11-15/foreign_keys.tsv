@@ -1,0 +1,34 @@
+cinema_chain	booking	fk_booking_customer	customer	CASCADE	SET NULL
+cinema_chain	booking	fk_booking_employee	employee	CASCADE	RESTRICT
+cinema_chain	booking	fk_booking_screening	screening	CASCADE	RESTRICT
+cinema_chain	employee	fk_employee_branch	cinema_branch	CASCADE	RESTRICT
+cinema_chain	movie_genre	fk_mg_genre	genre	CASCADE	RESTRICT
+cinema_chain	movie_genre	fk_mg_movie	movie	CASCADE	CASCADE
+cinema_chain	payment	fk_payment_booking	booking	RESTRICT	RESTRICT
+cinema_chain	screening	fk_screening_movie	movie	CASCADE	RESTRICT
+cinema_chain	screening	fk_screening_room	screening_room	CASCADE	RESTRICT
+cinema_chain	screening_room	fk_room_branch	cinema_branch	CASCADE	RESTRICT
+cinema_chain	screening_seat_lock	fk_ssl_screening	screening	CASCADE	RESTRICT
+cinema_chain	screening_seat_lock	fk_ssl_seat	seat	CASCADE	RESTRICT
+cinema_chain	screening_seat_lock	fk_ssl_ticket	ticket	CASCADE	CASCADE
+cinema_chain	seat	fk_seat_room	screening_room	CASCADE	RESTRICT
+cinema_chain	seat	fk_seat_type	seat_type	CASCADE	RESTRICT
+cinema_chain	ticket	fk_ticket_booking	booking	CASCADE	RESTRICT
+cinema_chain	ticket	fk_ticket_seat	seat	CASCADE	RESTRICT
+cinema_chain_test	booking	fk_booking_customer	customer	CASCADE	SET NULL
+cinema_chain_test	booking	fk_booking_employee	employee	CASCADE	RESTRICT
+cinema_chain_test	booking	fk_booking_screening	screening	CASCADE	RESTRICT
+cinema_chain_test	employee	fk_employee_branch	cinema_branch	CASCADE	RESTRICT
+cinema_chain_test	movie_genre	fk_mg_genre	genre	CASCADE	RESTRICT
+cinema_chain_test	movie_genre	fk_mg_movie	movie	CASCADE	CASCADE
+cinema_chain_test	payment	fk_payment_booking	booking	RESTRICT	RESTRICT
+cinema_chain_test	screening	fk_screening_movie	movie	CASCADE	RESTRICT
+cinema_chain_test	screening	fk_screening_room	screening_room	CASCADE	RESTRICT
+cinema_chain_test	screening_room	fk_room_branch	cinema_branch	CASCADE	RESTRICT
+cinema_chain_test	screening_seat_lock	fk_ssl_screening	screening	CASCADE	RESTRICT
+cinema_chain_test	screening_seat_lock	fk_ssl_seat	seat	CASCADE	RESTRICT
+cinema_chain_test	screening_seat_lock	fk_ssl_ticket	ticket	CASCADE	CASCADE
+cinema_chain_test	seat	fk_seat_room	screening_room	CASCADE	RESTRICT
+cinema_chain_test	seat	fk_seat_type	seat_type	CASCADE	RESTRICT
+cinema_chain_test	ticket	fk_ticket_booking	booking	CASCADE	RESTRICT
+cinema_chain_test	ticket	fk_ticket_seat	seat	CASCADE	RESTRICT

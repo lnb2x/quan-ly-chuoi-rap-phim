@@ -1,0 +1,9 @@
+Updating code graph in . (no LLM needed)...
+[graphify watch] 11 file(s) not classified (no supported extension or shebang), skipped: .gitattributes, .gitignore, .graphifyignore, erd-chen.drawio, erd-chen.puml, erd-logical.drawio (+5 more)
+[graphify watch] Incremental: re-extracting 3 of 123 scanned files that changed since the last build.
+  AST cache: 0/2 files served from cache (0%); 2 to extract
+[graphify watch] community set changed since labeling (0 saved labels, 81 communities now; renamed 13 community(ies) by their hub). Run `graphify label` to refresh names with the LLM.
+[graphify watch] Rebuilt: 1142 nodes, 3635 edges, 81 communities
+[graphify watch] graph.json, graph.html and GRAPH_REPORT.md updated in graphify-out
+Code graph updated. For doc/paper/image changes run /graphify --update in your AI assistant.
+Tip: set GEMINI_API_KEY or GOOGLE_API_KEY to use Gemini for semantic extraction.

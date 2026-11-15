@@ -13,6 +13,7 @@ import com.cinema.feature.screening.ScreeningService;
 import com.cinema.reporting.PdfReportWriter;
 import com.cinema.shared.db.ConnectionProvider;
 import com.cinema.shared.db.TransactionTemplate;
+import com.cinema.shared.config.AppConfig;
 import com.cinema.shared.ui.Theme;
 import com.cinema.support.TestDatabaseGuard;
 import org.apache.pdfbox.Loader;
@@ -32,6 +33,17 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.DriverPropertyInfo;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,6 +86,90 @@ class ReportAccuracyIT {
                 screeningRepository,
                 pdfWriter
         );
+    }
+
+    @Test
+    @DisplayName("Báo cáo dùng một snapshot dù một giao dịch bán vé commit giữa truy vấn tổng và chi tiết")
+    void concurrentCommitBetweenReportQueriesMustNotMixSnapshots() throws Exception {
+        BusinessRulesIT.init();
+        BusinessRulesIT fixture = new BusinessRulesIT();
+        fixture.setup();
+        AtomicBoolean inserted = new AtomicBoolean();
+        Driver interleavedWriter = new ReportSnapshotDriver(() -> {
+            try {
+                CompletableFuture.runAsync(() -> fixture.buy("SUCCESS", List.of(fixture.standardSeat)))
+                        .get(10, TimeUnit.SECONDS);
+                inserted.set(true);
+            } catch (Exception ex) {
+                throw new AssertionError("Giao dịch đồng thời phải commit giữa hai SELECT", ex);
+            }
+        });
+        DriverManager.registerDriver(interleavedWriter);
+        try {
+            AppConfig current = connectionProvider.config();
+            ConnectionProvider reader = new ConnectionProvider(new AppConfig(
+                    "jdbc:report-snapshot:" + current.jdbcUrl(), current.username(), current.password()));
+            RevenueReportService service = new RevenueReportService(new RevenueReportRepository(reader),
+                    new ScreeningRepository(connectionProvider), new PdfReportWriter());
+            LocalDate today = LocalDate.now();
+            RevenueReportData report = service.generateReport(today.minusDays(1), today.plusDays(1), fixture.branch, "Kiểm thử snapshot");
+            assertTrue(inserted.get(), "Phép thử phải thực sự commit một đơn mới giữa hai lần đọc");
+            assertEquals(0, report.totalPaidRevenue().signum(), "Ảnh chụp ban đầu chưa có đơn bán");
+            assertEquals(0, report.dailyDetails().stream().map(RevenueReportData.DailyRevenueRow::paidRevenue)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add).signum(), "Chi tiết ngày phải dùng cùng ảnh chụp ban đầu");
+            assertEquals(0, new BigDecimal("100000").compareTo(fixture.revenue().totalPaidRevenue()),
+                    "Một báo cáo mở sau commit phải thấy đơn đã bán");
+        } finally {
+            DriverManager.deregisterDriver(interleavedWriter);
+            fixture.cleanup();
+        }
+    }
+
+    /** Chèn writer vào đúng ranh giới hai SELECT; mọi truy vấn vẫn chạy trên MySQL test thật. */
+    private static final class ReportSnapshotDriver implements Driver {
+        private final Runnable writer;
+        private final AtomicBoolean started = new AtomicBoolean();
+
+        private ReportSnapshotDriver(Runnable writer) { this.writer = writer; }
+
+        @Override public Connection connect(String url, Properties properties) throws SQLException {
+            if (!acceptsURL(url)) return null;
+            Connection actual = DriverManager.getConnection(url.substring("jdbc:report-snapshot:".length()), properties);
+            return proxy(Connection.class, actual, (method, arguments, result) -> {
+                if (method.equals("prepareStatement") && arguments[0].toString().contains("FROM cinema_branch br")) {
+                    return proxy(PreparedStatement.class, result, (statementMethod, statementArguments, statementResult) -> {
+                        if (statementMethod.equals("executeQuery")) {
+                            return proxy(ResultSet.class, statementResult, (resultMethod, resultArguments, resultValue) -> {
+                                if (resultMethod.equals("close") && started.compareAndSet(false, true)) writer.run();
+                                return resultValue;
+                            });
+                        }
+                        return statementResult;
+                    });
+                }
+                return result;
+            });
+        }
+
+        @FunctionalInterface private interface AfterCall { Object apply(String method, Object[] arguments, Object result); }
+
+        private static <T> T proxy(Class<T> type, Object actual, AfterCall after) {
+            return type.cast(Proxy.newProxyInstance(type.getClassLoader(), new Class<?>[]{type}, (proxy, method, arguments) -> {
+                try {
+                    Object result = method.invoke(actual, arguments);
+                    return after.apply(method.getName(), arguments, result);
+                } catch (InvocationTargetException ex) {
+                    throw ex.getCause();
+                }
+            }));
+        }
+
+        @Override public boolean acceptsURL(String url) { return url != null && url.startsWith("jdbc:report-snapshot:jdbc:mysql://"); }
+        @Override public DriverPropertyInfo[] getPropertyInfo(String url, Properties info) { return new DriverPropertyInfo[0]; }
+        @Override public int getMajorVersion() { return 1; }
+        @Override public int getMinorVersion() { return 0; }
+        @Override public boolean jdbcCompliant() { return false; }
+        @Override public Logger getParentLogger() { return Logger.getGlobal(); }
     }
 
     @Test

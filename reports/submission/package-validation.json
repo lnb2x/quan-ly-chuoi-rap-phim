@@ -1,0 +1,22 @@
+{
+  "zip": "BTL_CSDL_Nhom08_QuanLyChuoiRapPhim.zip",
+  "files": 237,
+  "bytes": 19746144,
+  "sha256": "1fc7c4a1bcf352c91a66cacc7a13cd79b2665279923e641f022997f8ae25e621",
+  "crc_and_every_manifest_hash_verified": true,
+  "runtime_jars": 8,
+  "no_credentials_or_raw_backup": true,
+  "academic_pdf_pages": 70,
+  "word_chapters": [
+    "CHƯƠNG 1 YÊU CẦU DỮ LIỆU VÀ NGHIỆP VỤ",
+    "CHƯƠNG 2 MÔ HÌNH THỰC THỂ LIÊN KẾT",
+    "CHƯƠNG 3 MÔ HÌNH QUAN HỆ VÀ TỪ ĐIỂN DỮ LIỆU",
+    "CHƯƠNG 4 KIỂM TRA VÀ CHUẨN HÓA 3NF",
+    "CHƯƠNG 5 HAI MÀN HÌNH NHẬP LIỆU",
+    "CHƯƠNG 6 TÌM KIẾM VÀ HIỂN THỊ KẾT QUẢ",
+    "CHƯƠNG 7 BÁO CÁO VÀ XUẤT FILE"
+  ],
+  "cover_metadata_verified": true,
+  "tested_sources_match": true,
+  "launcher_crlf_and_config_guard_verified": true
+}

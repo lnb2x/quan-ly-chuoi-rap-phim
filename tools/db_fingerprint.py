@@ -20,12 +20,19 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterator
+
+
+def validate_database_name(name: str) -> str:
+    if not re.fullmatch(r"[A-Za-z0-9_]{1,64}", name):
+        raise ValueError("Tên CSDL chỉ được chứa chữ ASCII, số và dấu gạch dưới (tối đa 64 ký tự).")
+    return name
 
 
 def resolve_mysql_exe() -> Path:
@@ -52,8 +59,22 @@ def load_local_app_credentials(root: Path) -> tuple[str, str]:
     return user, pwd
 
 
+def restrict_file_access(path: Path) -> None:
+    username = os.environ.get("USERNAME", "")
+    if os.name == "nt":
+        if not username:
+            raise RuntimeError("Không xác định được tài khoản Windows để bảo vệ tệp cục bộ.")
+        subprocess.run(
+            ["icacls", str(path), "/inheritance:r", "/grant:r", f"{username}:(R,W)"],
+            capture_output=True, text=True, check=True,
+        )
+    path.chmod(0o600)
+
+
 @contextmanager
 def mysql_defaults_file(user: str, pwd: str) -> Iterator[Path]:
+    if any(char in user + pwd for char in "\r\n\x00"):
+        raise ValueError("Thông tin xác thực không được chứa ký tự xuống dòng hoặc NUL.")
     escaped_pwd = pwd.replace("\\", "\\\\").replace('"', '\\"')
     content = (
         "[client]\n"
@@ -73,15 +94,8 @@ def mysql_defaults_file(user: str, pwd: str) -> Iterator[Path]:
     os.close(fd)
     cfg_path = Path(raw_path)
     try:
+        restrict_file_access(cfg_path)
         cfg_path.write_text(content, encoding="utf-8")
-        username = os.environ.get("USERNAME", "")
-        if os.name == "nt" and username:
-            subprocess.run(
-                ["icacls", str(cfg_path), "/inheritance:r", "/grant:r", f"{username}:(R,W)"],
-                capture_output=True,
-                text=True,
-                check=False,
-            )
         yield cfg_path
     finally:
         try:
@@ -112,6 +126,7 @@ def run_mysql_readonly(mysql_exe: Path, cfg_path: Path, sql: str, db: str = "") 
 
 
 def compute_fingerprint(root: Path, db_name: str, use_root: bool = False) -> dict:
+    validate_database_name(db_name)
     mysql_exe = resolve_mysql_exe()
     if use_root:
         user = "root"
@@ -189,6 +204,38 @@ def compute_fingerprint(root: Path, db_name: str, use_root: bool = False) -> dic
         return manifest
 
 
+def dump_database(root: Path, db_name: str, dump_path: Path, use_root: bool = False) -> None:
+    """Create a new backup only; remove a partial dump when mysqldump fails."""
+    validate_database_name(db_name)
+    dump_path = dump_path.absolute()
+    if dump_path.suffix.lower() != ".sql" or dump_path.is_symlink():
+        raise ValueError("Bản sao lưu phải là tệp .sql mới, không phải symbolic link.")
+    mysqldump_exe = resolve_mysql_exe().with_name("mysqldump.exe")
+    if not mysqldump_exe.is_file():
+        raise RuntimeError(f"Không tìm thấy mysqldump.exe tại {mysqldump_exe}")
+    user, pwd = ("root", os.environ.get("MYSQL_ROOT_PASSWORD", "")) if use_root else load_local_app_credentials(root)
+    dump_path.parent.mkdir(parents=True, exist_ok=True)
+    with mysql_defaults_file(user, pwd) as cfg_path:
+        with dump_path.open("xb") as output:
+            try:
+                restrict_file_access(dump_path)
+                result = subprocess.run(
+                    [str(mysqldump_exe), f"--defaults-extra-file={cfg_path}", "--single-transaction",
+                     "--triggers", "--routines", "--no-tablespaces", "--set-gtid-purged=OFF", db_name],
+                    stdout=output, stderr=subprocess.PIPE,
+                )
+                if result.returncode != 0:
+                    raise RuntimeError(f"mysqldump thất bại ({result.returncode}): {result.stderr.decode('utf-8', errors='replace').strip()}")
+                if output.tell() == 0:
+                    raise RuntimeError("mysqldump trả về bản sao lưu rỗng.")
+                output.flush()
+                os.fsync(output.fileno())
+            except BaseException:
+                output.close()
+                dump_path.unlink(missing_ok=True)
+                raise
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -202,35 +249,19 @@ def main() -> int:
     parser.add_argument("--dump-backup", default="", help="Optional SQL backup output path on capture")
     args = parser.parse_args()
 
+    validate_database_name(args.db)
+    if args.dump_backup and args.mode != "capture":
+        parser.error("--dump-backup chỉ dùng với --mode capture")
+
     root = Path(__file__).resolve().parent.parent
     out_file = Path(args.file)
+    if args.dump_backup:
+        dump_database(root, args.db, Path(args.dump_backup), use_root=args.use_root)
     current = compute_fingerprint(root, args.db, use_root=args.use_root)
 
     if args.mode == "capture":
         out_file.parent.mkdir(parents=True, exist_ok=True)
         out_file.write_text(json.dumps(current, indent=2, ensure_ascii=False), encoding="utf-8")
-        if args.dump_backup:
-            dump_path = Path(args.dump_backup)
-            dump_path.parent.mkdir(parents=True, exist_ok=True)
-            mysqldump_exe = resolve_mysql_bin() / "mysqldump.exe"
-            root_pwd = os.environ.get("MYSQL_ROOT_PASSWORD", "")
-            with mysql_defaults_file("root", root_pwd) as cfg_path:
-                res = subprocess.run(
-                    [
-                        str(mysqldump_exe),
-                        f"--defaults-extra-file={cfg_path}",
-                        "--single-transaction",
-                        "--triggers",
-                        "--routines",
-                        "--no-tablespaces",
-                        args.db,
-                    ],
-                    capture_output=True,
-                    text=True,
-                    encoding="utf-8",
-                    check=True,
-                )
-                dump_path.write_text(res.stdout, encoding="utf-8")
         print(
             f"[DB-FINGERPRINT-CAPTURE] DB={args.db} | Tables={current['table_count']} | "
             f"OverallSHA256={current['overall_sha256']}"

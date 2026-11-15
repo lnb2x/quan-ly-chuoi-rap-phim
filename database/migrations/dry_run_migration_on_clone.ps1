@@ -1,4 +1,6 @@
-﻿$ErrorActionPreference = "Stop"
+﻿param([switch]$MaintenanceConfirmed)
+
+$ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $rootDir  = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
@@ -8,6 +10,14 @@ $mysqlExe = Join-Path $mysqlBin "mysql.exe"
 $dumpExe  = Join-Path $mysqlBin "mysqldump.exe"
 $cloneDb  = "cinema_chain_migration_clone"
 $logFile  = Join-Path $rootDir "verification\logs\migration_clone_dryrun.log"
+$cloneCreated = $false
+$baselineFile = Join-Path $rootDir ("target\migration_demo_before_" + [Guid]::NewGuid().ToString("N") + ".json")
+
+if (-not $MaintenanceConfirmed) { throw "Cần -MaintenanceConfirmed: đóng ứng dụng và mọi client ghi trong suốt diễn tập." }
+python "$PSScriptRoot\check_migration.py" --db cinema_chain --phase pre --maintenance
+if ($LASTEXITCODE -ne 0) { throw "Diễn tập V2 chỉ áp dụng cho nguồn 13 bảng hợp lệ; chưa tạo/xóa clone. Nguồn 14 bảng dùng refresh_triggers.py." }
+python "$rootDir\tools\db_fingerprint.py" --db cinema_chain --file $baselineFile --mode capture --use-root
+if ($LASTEXITCODE -ne 0) { throw "Không thể chụp dấu vân tay nguồn trước diễn tập." }
 
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $logFile) | Out-Null
 
@@ -18,6 +28,7 @@ function New-RestrictedMySqlDefaultsFile([string]$user, [string]$pass) {
     [System.IO.File]::WriteAllText($tmpPath, $cfgContent, [System.Text.UTF8Encoding]::new($false))
     if ($env:USERNAME) {
         & icacls $tmpPath /inheritance:r /grant:r "$($env:USERNAME):(R,W)" | Out-Null
+        if ($LASTEXITCODE -ne 0) { Remove-Item -LiteralPath $tmpPath -Force; throw "Không thể bảo vệ tệp xác thực MySQL." }
     }
     return $tmpPath
 }
@@ -29,8 +40,9 @@ $cfgFile  = New-RestrictedMySqlDefaultsFile "root" $rootPass
 
 try {
     Write-Output "[1/7] Sao chép nguyên trạng 'cinema_chain' sang bản sao '$cloneDb' (KHÔNG chạm dữ liệu gốc)..."
-    ("DROP DATABASE IF EXISTS $cloneDb; CREATE DATABASE $cloneDb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;") | & $mysqlExe "--defaults-extra-file=$cfgFile"
+    ("CREATE DATABASE $cloneDb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;") | & $mysqlExe "--defaults-extra-file=$cfgFile"
     if ($LASTEXITCODE -ne 0) { throw "Không thể tạo database clone '$cloneDb'." }
+    $cloneCreated = $true
 
     $dumpContent = & $dumpExe "--defaults-extra-file=$cfgFile" --single-transaction --triggers --routines --no-tablespaces cinema_chain
     if ($LASTEXITCODE -ne 0) { throw "mysqldump từ 'cinema_chain' thất bại." }
@@ -39,15 +51,19 @@ try {
 
     $cloneBeforeJson = Join-Path $rootDir "target\migration_clone_before.json"
     python "$rootDir\tools\db_fingerprint.py" --db $cloneDb --file $cloneBeforeJson --mode capture --use-root | Tee-Object -FilePath $logFile -Append
+    if ($LASTEXITCODE -ne 0) { throw "Không thể chụp dấu vân tay clone." }
 
     $preJoinSha = (("SELECT tk.ticket_id, tk.booking_id, bk.screening_id, tk.seat_id, tk.unit_price, tk.ticket_status, COALESCE(DATE_FORMAT(tk.cancelled_at, '%Y-%m-%d %H:%i:%s'), 'NULL') FROM ticket tk JOIN booking bk ON bk.booking_id = tk.booking_id ORDER BY tk.ticket_id ASC;" | & $mysqlExe "--defaults-extra-file=$cfgFile" -N -B $cloneDb) -join "`n")
     $preJoinHash = [System.BitConverter]::ToString([System.Security.Cryptography.SHA256]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes($preJoinSha))).Replace("-", "").ToLower()
+    if ($LASTEXITCODE -ne 0) { throw "Truy vấn lossless-join trước migration thất bại." }
     "[PRE-MIGRATION LOSSLESS JOIN SHA256] $preJoinHash" | Tee-Object -FilePath $logFile -Append
 
     Write-Output "[2/7] Chạy kiểm tra điều kiện tiên quyết (V2_3nf_ticket_precheck.sql)..."
     "--- STEP 2: PRECHECK OUTPUT ---" | Out-File -FilePath $logFile -Append -Encoding utf8
     [System.IO.File]::ReadAllText("$PSScriptRoot\V2_3nf_ticket_precheck.sql", [System.Text.Encoding]::UTF8) | & $mysqlExe "--defaults-extra-file=$cfgFile" -t $cloneDb | Out-File -FilePath $logFile -Append -Encoding utf8
     if ($LASTEXITCODE -ne 0) { throw "Precheck thất bại." }
+    python "$PSScriptRoot\check_migration.py" --db $cloneDb --phase pre
+    if ($LASTEXITCODE -ne 0) { throw "Chỉ số precheck clone không đạt; chưa thực hiện DDL." }
 
     Write-Output "[3/7] Chạy Forward Migration tại chỗ sang 14 bảng chuẩn 3NF (V2_3nf_ticket_up.sql + 02_triggers.sql + 03_views.sql)..."
     [System.IO.File]::ReadAllText("$PSScriptRoot\V2_3nf_ticket_up.sql", [System.Text.Encoding]::UTF8) | & $mysqlExe "--defaults-extra-file=$cfgFile" $cloneDb
@@ -62,9 +78,12 @@ try {
     $postVerify = [System.IO.File]::ReadAllText("$dbDir\verification\verify_constraints.sql", [System.Text.Encoding]::UTF8) | & $mysqlExe "--defaults-extra-file=$cfgFile" -t $cloneDb
     if ($LASTEXITCODE -ne 0) { throw "verify_constraints.sql sau migration thất bại." }
     $postVerify | Out-File -FilePath $logFile -Append -Encoding utf8
+    python "$PSScriptRoot\check_migration.py" --db $cloneDb --phase post
+    if ($LASTEXITCODE -ne 0) { throw "Chỉ số postcheck clone không đạt." }
 
     $postJoinSha = (("SELECT tk.ticket_id, tk.booking_id, bk.screening_id, tk.seat_id, tk.unit_price, tk.ticket_status, COALESCE(DATE_FORMAT(tk.cancelled_at, '%Y-%m-%d %H:%i:%s'), 'NULL') FROM ticket tk JOIN booking bk ON bk.booking_id = tk.booking_id ORDER BY tk.ticket_id ASC;" | & $mysqlExe "--defaults-extra-file=$cfgFile" -N -B $cloneDb) -join "`n")
     $postJoinHash = [System.BitConverter]::ToString([System.Security.Cryptography.SHA256]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes($postJoinSha))).Replace("-", "").ToLower()
+    if ($LASTEXITCODE -ne 0) { throw "Truy vấn lossless-join sau migration thất bại." }
     "[POST-MIGRATION LOSSLESS JOIN SHA256] $postJoinHash" | Tee-Object -FilePath $logFile -Append
     if ($preJoinHash -ne $postJoinHash) {
         throw "LỖI BẢO TOÀN DỮ LIỆU: Kết quả kết nối tự nhiên ticket ⋈ booking thay đổi sau migration!"
@@ -73,10 +92,13 @@ try {
     Write-Output "[5/7] Chạy diễn tập Khôi phục tại chỗ (V2_3nf_ticket_rollback.sql) về lại 13 bảng..."
     [System.IO.File]::ReadAllText("$PSScriptRoot\V2_3nf_ticket_rollback.sql", [System.Text.Encoding]::UTF8) | & $mysqlExe "--defaults-extra-file=$cfgFile" $cloneDb
     if ($LASTEXITCODE -ne 0) { throw "V2_3nf_ticket_rollback.sql thất bại." }
+    python "$PSScriptRoot\check_migration.py" --db $cloneDb --phase pre
+    if ($LASTEXITCODE -ne 0) { throw "Lược đồ/toàn vẹn sau rollback clone không đạt." }
 
     Write-Output "[6/7] Đối chứng toàn bộ dữ liệu 13 bảng sau Rollback với trạng thái gốc ban đầu..."
     $cloneAfterRollbackJson = Join-Path $rootDir "target\migration_clone_after_rollback.json"
     python "$rootDir\tools\db_fingerprint.py" --db $cloneDb --file $cloneAfterRollbackJson --mode capture --use-root | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "Không thể chụp dấu vân tay clone sau rollback." }
     $beforeObj = Get-Content $cloneBeforeJson -Raw -Encoding UTF8 | ConvertFrom-Json
     $afterObj  = Get-Content $cloneAfterRollbackJson -Raw -Encoding UTF8 | ConvertFrom-Json
     foreach ($prop in $beforeObj.tables.PSObject.Properties) {
@@ -91,11 +113,13 @@ try {
 
     Write-Output "[7/7] Dọn dẹp bản sao '$cloneDb' và đối chứng CSDL chính 'cinema_chain' bất biến..."
     ("DROP DATABASE IF EXISTS $cloneDb;") | & $mysqlExe "--defaults-extra-file=$cfgFile"
-    python "$rootDir\tools\db_fingerprint.py" --db cinema_chain --file "$rootDir\verification\logs\cinema_chain_baseline_fingerprint.json" --mode verify --use-root | Tee-Object -FilePath $logFile -Append
+    if ($LASTEXITCODE -ne 0) { throw "Không thể dọn clone do phiên này tạo." }
+    $cloneCreated = $false
+    python "$rootDir\tools\db_fingerprint.py" --db cinema_chain --file $baselineFile --mode verify --use-root | Tee-Object -FilePath $logFile -Append
     if ($LASTEXITCODE -ne 0) { throw "CSDL chính 'cinema_chain' bị ảnh hưởng!" }
 
     Write-Output "[DRY-RUN MIGRATION SUCCESS] Diễn tập Forward Migration + Đối soát Lossless-Join + Rollback trên bản sao hoàn tất 100%. Nhật ký: $logFile"
 } finally {
-    ("DROP DATABASE IF EXISTS $cloneDb;") | & $mysqlExe "--defaults-extra-file=$cfgFile" 2>$null
+    if ($cloneCreated) { ("DROP DATABASE IF EXISTS $cloneDb;") | & $mysqlExe "--defaults-extra-file=$cfgFile" 2>$null }
     Remove-Item -LiteralPath $cfgFile -Force -ErrorAction SilentlyContinue
 }

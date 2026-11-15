@@ -3,11 +3,13 @@
 
 ---
 
+Bản nộp hiện hành **nhóm8/INT1313-20261-01**: xem `README_NOP_BAI.md`. Kiểm chứng ngày15/11/2026: **104/104 tests,15 suites,0 skipped**; DOCX/PDF đủ7chương và phụ lụcSQL. Lịch sử40/53/95 tests không thay manifest mới.
+
 ## 1. Giới thiệu Dự án
 
 **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim CineViet** là ứng dụng Desktop hoàn chỉnh phục vụ quản lý vận hành chuỗi rạp chiếu phim đa chi nhánh, được thiết kế và kiểm chứng theo phương pháp **Verification-First Engineering**.
 
-Dự án đáp ứng đầy đủ 8 tiêu chí chấm điểm học thuật (**R1 – R8**, tổng **10,0 điểm**, đặc biệt ưu tiên chiều sâu thiết kế & chứng minh học thuật của **R1 – R4 = 6,5 điểm**):
+Dự án được tổ chức theo 8 tiêu chí chấm điểm học thuật (**R1 – R8**, tổng **10,0 điểm**, đặc biệt ưu tiên chiều sâu thiết kế & chứng minh học thuật của **R1 – R4 = 6,5 điểm**):
 - **R1 (1,0đ):** Phân tích yêu cầu nghiệp vụ & dữ liệu cần lưu trữ (`docs/requirements/requirements.md`, `docs/requirements/business-rules.md`).
 - **R2 (2,5đ):** Sơ đồ Thực thể – Liên kết (ERD) hoàn chỉnh theo cả chuẩn **Chen** và **Crow's Foot** (`docs/erd/erd-chen.puml/.png/.svg`, `docs/erd/erd-logical.puml/.png/.svg`, `docs/erd/erd-explanation.md`).
 - **R3 (2,0đ):** Lược đồ CSDL quan hệ **14 bảng đạt chuẩn 3NF thực sự** và từ điển dữ liệu 17 khóa ngoại (`docs/relational-model/schema-design.md`, `database/schema/01_schema.sql`, `01b_foreign_keys.sql`, `02_triggers.sql`, `03_views.sql`).
@@ -44,18 +46,18 @@ Sao chép `config/application.properties.example` thành `config/application.pro
     powershell -NoProfile -ExecutionPolicy Bypass -File database/prepare_demo_db.ps1
     ```
     *(Yêu cầu nhập mã xác nhận `'PREPARE_DEMO_DB'` hoặc cờ `-ConfirmYes`; chỉ thao tác trên `cinema_chain`, giữ nguyên mọi CSDL khác).*
-- **`cinema_chain_test` (CSDL Kiểm thử Tự động — Cô lập hoàn toàn):** Tất cả 40 bài test tự động, `GuiVerificationRunner` và `AppPersistenceVerificationRunner` đều bị khóa vào `cinema_chain_test` bởi `TestDatabaseGuard` (không bao giờ chạm vào `cinema_chain`).
+- **`cinema_chain_test` (CSDL Kiểm thử Tự động — Cô lập hoàn toàn):** Tất cả 104 bài test tự động, `GuiVerificationRunner` và `AppPersistenceVerificationRunner` đều bị khóa vào `cinema_chain_test` bởi `TestDatabaseGuard` (không bao giờ chạm vào `cinema_chain`).
   ```powershell
   # Dựng lại sạch duy nhất môi trường kiểm thử 'cinema_chain_test' (14 bảng chuẩn 3NF):
   powershell -NoProfile -ExecutionPolicy Bypass -File database/setup.ps1 -ResetTestDb -TargetDatabase cinema_chain_test -ConfirmYes
   ```
 
-### 2.3. Biên dịch và Kiểm chứng Toàn diện (`40/40 PASS, Skipped = 0`)
+### 2.3. Biên dịch và Kiểm chứng Toàn diện (`104/104 PASS, Skipped = 0`)
 ```powershell
 # Chạy riêng bộ kiểm thử JUnit 5 + Failsafe với profile mysql-it:
 .\mvnw.cmd clean verify -Pmysql-it
 
-# Chạy trọn gói 6 bước kiểm chứng chỉ đọc đối với cinema_chain (SHA-256 trước/sau + 40 JUnit tests + GUI EDT + 2 JVM + SQL R5-R7):
+# Chạy trọn gói 6 bước kiểm chứng chỉ đọc đối với cinema_chain (SHA-256 trước/sau + 104 JUnit tests + GUI EDT + 2 JVM + SQL R5-R7):
 powershell -NoProfile -ExecutionPolicy Bypass -File database/verify_all.ps1
 ```
 
@@ -107,5 +109,5 @@ QuanLyChuoiRapPhim/
 └── verification/
     ├── logs/                        # Log kiểm chứng, SHA-256 baseline, migration clone dry-run, SQL R5-R7
     ├── screenshots/                 # Ảnh chụp màn hình thực tế từ ứng dụng & trang PDF kết xuất
-    └── test-results/                # Báo cáo JUnit XML tươi (40 tests, 0 failures, 0 skipped)
+    └── test-results/                # Báo cáo JUnit XML tươi (104 tests, 0 failures, 0 skipped)
 ```

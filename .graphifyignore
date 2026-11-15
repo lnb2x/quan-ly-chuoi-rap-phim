@@ -22,3 +22,6 @@ graphify-out/
 *.cnf
 *.jar
 *.class
+*.pdf
+*.docx
+*.png

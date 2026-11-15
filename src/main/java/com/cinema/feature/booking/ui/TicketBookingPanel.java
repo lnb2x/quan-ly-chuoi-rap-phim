@@ -11,6 +11,7 @@ import com.cinema.feature.payment.SandboxPaymentService;
 import com.cinema.shared.ui.SeatMapPanel;
 import com.cinema.shared.ui.StatusBanner;
 import com.cinema.shared.ui.Theme;
+import com.cinema.shared.ui.UiTask;
 import com.cinema.shared.validation.BusinessRuleException;
 
 import javax.swing.*;
@@ -54,6 +55,7 @@ public final class TicketBookingPanel extends JPanel {
     private final JTable bookingTable;
     private List<CinemaBranch> branches = new ArrayList<>();
     private List<BookingSummaryView> recentBookings = new ArrayList<>();
+    private boolean updatingScreenings;
 
     public TicketBookingPanel(BookingService service) {
         this(service, null);
@@ -132,7 +134,9 @@ public final class TicketBookingPanel extends JPanel {
         gbc.gridx = 0;
         gbc.weightx = 1.0;
 
-        cboScreening.addActionListener(e -> refreshSeatMapAndBookings());
+        cboScreening.addActionListener(e -> {
+            if (!updatingScreenings) refreshSeatMapAndBookings();
+        });
         chkWalkInCustomer.setOpaque(false);
         chkWalkInCustomer.setFont(Theme.FONT_BOLD);
         chkWalkInCustomer.addActionListener(e -> cboCustomer.setEnabled(!chkWalkInCustomer.isSelected()));
@@ -261,7 +265,7 @@ public final class TicketBookingPanel extends JPanel {
 
     public void loadInitialData() {
         try {
-            branches = service.listBranches();
+            branches = UiTask.call(this, "Đang tải danh sách chi nhánh...", service::listBranches);
             cboQuickBranch.removeAllItems();
             cboQuickBranch.addItem("Tất cả CN");
             for (CinemaBranch b : branches) {
@@ -269,12 +273,12 @@ public final class TicketBookingPanel extends JPanel {
             }
 
             cboCustomer.removeAllItems();
-            for (Customer c : service.listCustomers()) {
+            for (Customer c : UiTask.call(this, "Đang tải danh sách khách hàng...", service::listCustomers)) {
                 cboCustomer.addItem(c);
             }
 
             cboEmployee.removeAllItems();
-            for (Employee emp : service.listEmployees()) {
+            for (Employee emp : UiTask.call(this, "Đang tải danh sách nhân viên...", service::listEmployees)) {
                 cboEmployee.addItem(emp);
             }
 
@@ -301,23 +305,35 @@ public final class TicketBookingPanel extends JPanel {
             }
         }
 
-        ScreeningDetailView prev = (ScreeningDetailView) cboScreening.getSelectedItem();
-        Integer prevId = prev != null ? prev.screeningId() : null;
-        cboScreening.removeAllItems();
-        List<ScreeningDetailView> screenings = service.listOpenScreenings(filterBranchId, null, filterDate);
-        lblOpenScreeningCount.setText("Hiển thị đầy đủ: " + screenings.size() + " suất mở bán");
-        int toSelect = 0;
-        for (int i = 0; i < screenings.size(); i++) {
-            ScreeningDetailView s = screenings.get(i);
-            cboScreening.addItem(s);
-            if (prevId != null && s.screeningId() == prevId) {
-                toSelect = i;
+        Integer branchId = filterBranchId;
+        LocalDate date = filterDate;
+        try {
+            List<ScreeningDetailView> screenings = UiTask.call(this, "Đang tải các suất chiếu mở bán...",
+                    () -> service.listOpenScreenings(branchId, null, date));
+            ScreeningDetailView prev = (ScreeningDetailView) cboScreening.getSelectedItem();
+            Integer prevId = prev != null ? prev.screeningId() : null;
+            updatingScreenings = true;
+            try {
+                cboScreening.removeAllItems();
+                lblOpenScreeningCount.setText("Hiển thị đầy đủ: " + screenings.size() + " suất mở bán");
+                int toSelect = 0;
+                for (int i = 0; i < screenings.size(); i++) {
+                    ScreeningDetailView s = screenings.get(i);
+                    cboScreening.addItem(s);
+                    if (prevId != null && s.screeningId() == prevId) {
+                        toSelect = i;
+                    }
+                }
+                if (!screenings.isEmpty()) {
+                    cboScreening.setSelectedIndex(toSelect);
+                }
+            } finally {
+                updatingScreenings = false;
             }
+            refreshSeatMapAndBookings();
+        } catch (RuntimeException ex) {
+            statusBanner.showError("Không thể tải danh sách suất chiếu: " + ex.getMessage());
         }
-        if (!screenings.isEmpty()) {
-            cboScreening.setSelectedIndex(toSelect);
-        }
-        refreshSeatMapAndBookings();
     }
 
     public void refreshSeatMapAndBookings() {
@@ -328,28 +344,35 @@ public final class TicketBookingPanel extends JPanel {
             lblHistoryTitle.setText("Danh sách Đơn đặt vé của Suất chiếu đang chọn (0 đơn):");
             return;
         }
-        List<SeatAvailabilityView> seats = service.getSeatMap(selected.screeningId());
-        seatMapPanel.setSeats(seats);
+        try {
+            List<SeatAvailabilityView> seats = UiTask.call(this, "Đang tải sơ đồ ghế...",
+                    () -> service.getSeatMap(selected.screeningId()));
+            List<BookingSummaryView> bookings = UiTask.call(this, "Đang tải danh sách đơn đặt vé...",
+                    () -> service.listBookingsForScreening(selected.screeningId()));
+            seatMapPanel.setSeats(seats);
 
-        recentBookings = service.listBookingsForScreening(selected.screeningId());
-        lblHistoryTitle.setText(String.format(
-                "Danh sách Đơn đặt vé của Suất #%d (Hiển thị đầy đủ %d đơn — Hỗ trợ Hủy đơn & Mở bán lại ghế):",
-                selected.screeningId(), recentBookings.size()));
-        bookingTableModel.setRowCount(0);
-        for (BookingSummaryView b : recentBookings) {
-            bookingTableModel.addRow(new Object[]{
-                    b.bookingCode() + " (#" + b.bookingId() + ")",
-                    "#" + b.screeningId() + " (" + Theme.formatDateTime(b.startTime()) + ")",
-                    b.movieTitle(),
-                    b.roomName() + " - " + b.branchName(),
-                    b.customerName(),
-                    b.seatLabels(),
-                    b.ticketCount(),
-                    Theme.formatCurrency(b.totalAmount()),
-                    b.paymentMethod(),
-                    b.paymentStatus(),
-                    b.bookingStatus()
-            });
+            recentBookings = bookings;
+            lblHistoryTitle.setText(String.format(
+                    "Danh sách Đơn đặt vé của Suất #%d (Hiển thị đầy đủ %d đơn — Hỗ trợ Hủy đơn & Mở bán lại ghế):",
+                    selected.screeningId(), recentBookings.size()));
+            bookingTableModel.setRowCount(0);
+            for (BookingSummaryView b : recentBookings) {
+                bookingTableModel.addRow(new Object[]{
+                        b.bookingCode() + " (#" + b.bookingId() + ")",
+                        "#" + b.screeningId() + " (" + Theme.formatDateTime(b.startTime()) + ")",
+                        b.movieTitle(),
+                        b.roomName() + " - " + b.branchName(),
+                        b.customerName(),
+                        b.seatLabels(),
+                        b.ticketCount(),
+                        Theme.formatCurrency(b.totalAmount()),
+                        b.paymentMethod(),
+                        b.paymentStatus(),
+                        b.bookingStatus()
+                });
+            }
+        } catch (RuntimeException ex) {
+            statusBanner.showError("Không thể tải sơ đồ ghế và đơn đặt vé: " + ex.getMessage());
         }
     }
 
@@ -375,7 +398,8 @@ public final class TicketBookingPanel extends JPanel {
             return;
         }
         seatMapPanel.clearSelection();
-        List<SeatAvailabilityView> seats = service.getSeatMap(selected.screeningId());
+        List<SeatAvailabilityView> seats = UiTask.call(this, "Đang kiểm tra ghế trống...",
+                () -> service.getSeatMap(selected.screeningId()));
         int chosen = 0;
         for (SeatAvailabilityView s : seats) {
             if (!s.occupied()) {
@@ -394,7 +418,8 @@ public final class TicketBookingPanel extends JPanel {
             return false;
         }
         seatMapPanel.clearSelection();
-        List<SeatAvailabilityView> seats = service.getSeatMap(selected.screeningId());
+        List<SeatAvailabilityView> seats = UiTask.call(this, "Đang kiểm tra ghế trống...",
+                () -> service.getSeatMap(selected.screeningId()));
         List<Integer> chosenIds = new ArrayList<>();
         for (String code : typeCodes) {
             boolean matched = false;
@@ -458,14 +483,15 @@ public final class TicketBookingPanel extends JPanel {
             String method = (String) cboPaymentMethod.getSelectedItem();
             String paymentStatus = (String) cboPaymentStatus.getSelectedItem();
 
-            int bookingId = service.createBooking(
+            Integer selectedCustomerId = customerId;
+            int bookingId = UiTask.call(this, "Đang đặt vé và ghi nhận thanh toán...", () -> service.createBooking(
                     screening.screeningId(),
-                    customerId,
+                    selectedCustomerId,
                     employee.employeeId(),
                     seatIds,
                     method,
                     paymentStatus
-            );
+            ));
 
             String seatLabels = selectedSeats.stream().map(SeatAvailabilityView::seatLabel).collect(Collectors.joining(", "));
             reloadScreeningsDropdown();
@@ -521,7 +547,7 @@ public final class TicketBookingPanel extends JPanel {
         }
         BookingSummaryView item = recentBookings.get(row);
         try {
-            service.cancelBooking(item.bookingId());
+            UiTask.run(this, "Đang hủy đơn và giải phóng ghế...", () -> service.cancelBooking(item.bookingId()));
             reloadScreeningsDropdown();
             statusBanner.showSuccess(String.format(
                     "Đã hủy thành công đơn %s (#%d). Các ghế [%s] đã được giải phóng để bán lại.",

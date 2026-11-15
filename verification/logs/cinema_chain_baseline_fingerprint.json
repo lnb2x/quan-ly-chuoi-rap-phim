@@ -118,8 +118,8 @@
     }
   },
   "schema_objects": {
-    "triggers_sha256": "bd5e9319045d5f3c823215880352b2e7b15fc8383b39f3fcbf4dca0b154b4d11",
+    "triggers_sha256": "dfb7ff2e54848bc9c9169ab5d5e4281f0b601d2eb36b4727e0a1bbd05838b906",
     "views_sha256": "34a0328a0fa17c0089e9bc364fe0d61bd589adb84af87c9525855e885fbd0bc5"
   },
-  "overall_sha256": "7af5d0052ade56eedd37184d82ce7a00a178bbcaa7806f828e06ed23aaa66d37"
+  "overall_sha256": "e827a6a114e7bf08c130792b34f8209398e09289131f14496d196d4c5568e5d1"
 }

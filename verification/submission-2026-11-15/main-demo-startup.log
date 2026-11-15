@@ -1,0 +1,19 @@
+|  Welcome to JShell -- Version 21.0.13
+|  For an introduction type: /help intro
+
+jshell>  
+jshell>  
+jshell>  
+jshell>  
+jshell>  
+jshell>  
+jshell>  
+jshell>  ready ==> boolean[1] { false }
+
+jshell>  [APP-STARTUP] Time=2026-11-15T17:24:06.018488500 | Mode=NORMAL_READ_ONLY_INIT | JDBC=jdbc:mysql://127.0.0.1:3306/cinema_chain | DB=cinema_chain | User=cinema_app | MySQL=8.4.0 | Port=3306 | Java=21.0.13 | DestructiveReset=DISABLED
+
+jshell>  
+jshell>  [MAIN-DEMO-STARTUP-VERIFIED] frame0 1420x880
+
+jshell>  
+jshell>  |  Goodbye
