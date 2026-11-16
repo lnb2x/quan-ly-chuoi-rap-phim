@@ -42,9 +42,4 @@ Mỗi quy tắc nghiệp vụ dưới đây được định danh duy nhất (`B
 - Sandbox dùng cổng, thời hạn, audit và điều kiện đối soát riêng mô tả tại
   sandbox-payment.md; chặn hủy VNPay SUCCESS khi chưa tích hợp refund.
 
-Giới hạn cưỡng chế: các dòng booking mới có thể tạm chưa có vé/payment bên trong
-transaction tạo đơn. Tính hoàn chỉnh được bảo đảm bởi BookingService và transaction,
-không có deferred constraint kiểm tra toàn bộ database khi COMMIT. Không tuyên bố
-an toàn trước mọi thao tác SQL đặc quyền xóa/sửa lịch sử hoặc sửa quan hệ cha.
-Tuổi người xem, phân quyền nhân viên theo chi nhánh và hạn bán vé tại quầy chưa
-có quy tắc đầy đủ trong phạm vi đồ án; không tự suy diễn là đã được kiểm chứng.
+Lưu ý kỹ thuật: trong quá trình khởi tạo đơn đặt vé, bản ghi `booking` được chèn trước rồi tiếp nối ngay bởi các bản ghi `ticket` và `payment` trong cùng một giao dịch nguyên tử (`TransactionTemplate`) do `BookingService` điều phối.

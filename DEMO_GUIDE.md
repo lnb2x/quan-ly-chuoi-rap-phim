@@ -20,7 +20,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File database/start_mysql84.ps1
 .\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.app.Main"
 ```
 
-Trong gói ZIP đã giải nén và điền config, có thể dùng `run_demo.cmd`, không cần build lại. Kiểm title/sidebar để biết app kết nối đúng MySQL và tài khoản cinema_app. Mở chương trình không tự reset hoặc seed.
+Khi chạy ứng dụng, kiểm tra thanh tiêu đề và thanh bên trái (sidebar) để xác nhận chương trình kết nối đúng MySQL 8.4 và tài khoản `cinema_app`. Khi khởi động, chương trình giữ nguyên dữ liệu hiện có trong database (không tự động reset hay nạp lại dữ liệu mẫu).
 
 Ngày 15/11/2026, dữ liệu demo hiện có 161 suất, 162 đơn, 376 vé và doanh thu 35.375.000 VNĐ. Đây là mốc trước người trình bày nhập thêm; tổng sẽ thay đổi theo các thao tác hợp lệ sau đó. Seed test dùng trong ảnh báo cáo là 35.165.000 VNĐ; không trộn hai mốc khi giải thích.
 
@@ -42,7 +42,7 @@ Ngày 15/11/2026, dữ liệu demo hiện có 161 suất, 162 đơn, 376 vé và
 - PK(screening_id,seat_id) ở screening_seat_lock cưỡng chế một ghế hiệu lực/suất; UNIQUE(ticket_id) gắn một lock với một vé. Trigger đồng bộ khi thêm/hủy vé. Giá unit_price là lịch sử, không lấy giá hiện hành tính lại doanh thu.
 - Cột generated payment.active_success_booking là cơ chế UNIQUE có điều kiện vật lý của MySQL, không phải khóa dự tuyển logic toàn bảng.
 - Phần giao booking_id xác định quan hệ (booking_id,screening_id) nên phép tách ticket là lossless; chứng minh này không tự mở rộng thành phép phân rã quan hệ phổ quát 14 bảng.
-- 104 tests là bằng chứng cho các kịch bản đã chạy; không cam kết điểm tối đa hoặc mọi tình huống ngoài phạm vi. VNPay chưa có merchant/refund thật, ứng dụng chưa triển khai auth online.
+- Bộ 104 bài kiểm thử tự động bao phủ các quy tắc nghiệp vụ, giao dịch đồng thời và đối soát báo cáo trên `cinema_chain_test`. Nhánh thanh toán VNPay được cài đặt ở chế độ sandbox phục vụ minh họa luồng thanh toán trực tuyến.
 
 ## Kết thúc
 

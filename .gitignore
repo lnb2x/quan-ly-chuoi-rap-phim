@@ -41,32 +41,13 @@ __pycache__/
 *.cnf
 *.zip.part
 
-# Local assistant instructions and work logs
-/AGENTS.md
-/TASKS.md
-/REQUIREMENTS_TRACEABILITY.md
-/.graphifyignore
-/graphify-out/
-
-# Local audits, generated evidence and authoring utilities
+# Local build and packaging scripts
 /.env.example
-/README_NOP_BAI.md
-/run_demo.cmd
 /database/migrations/
 /reports/audit-*/
 /reports/submission/
 /reports/exports/*_CinemaChain_Demo.pdf
 /docs/academic-report/thong-tin-nhom.json
-/docs/erd/erd-correctness-proof.md
-/docs/erd/lecture-comparison.md
-/tools/build_academic_report.py
-/tools/export_chen_svg.py
-/tools/generate_seed_sql.py
-/tools/package_submission.py
-/tools/plantuml.jar
-/tools/prepare_dataset_sample.py
-/tools/tests/test_database_migration_safety.py
-/tools/tests/test_package_submission.py
 
 # Keep only test inputs, final screenshots and the test summary
 /verification/*

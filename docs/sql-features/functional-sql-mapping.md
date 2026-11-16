@@ -5,7 +5,7 @@
 
 ## Nguyên tắc Đối chiếu SQL Mã nguồn Java và SQL Kiểm chứng Thực tế
 
-Toàn bộ các câu lệnh SQL dưới đây được trích xuất trực tiếp từ 5 lớp `*Repository.java` của ứng dụng (kết nối qua `PreparedStatement` chống SQL Injection tuyệt đối) và được kiểm chứng thực thi tự động trên **`cinema_chain_test` (MySQL Community Server 8.4.0 LTS)** thông qua tệp `database/queries/functional_sql_verification.sql` (kết quả lưu tại `verification/logs/functional_sql_examples_test_db.log`).
+Toàn bộ các câu lệnh SQL dưới đây được trích xuất trực tiếp từ 5 lớp `*Repository.java` của ứng dụng (kết nối qua `PreparedStatement` chống SQL Injection tuyệt đối) và được kiểm chứng thực thi tự động trên **`cinema_chain_test` (MySQL Community Server 8.4.0 LTS)** thông qua tệp `database/queries/functional_sql_verification.sql`.
 
 Mỗi chức năng đều phân biệt rõ hai dạng biểu diễn:
 1. **Câu lệnh SQL tham số hóa (`?`) trong mã nguồn Java (`PreparedStatement`):** Mã thực thi thật trong ứng dụng.
@@ -240,7 +240,7 @@ WHERE branch_id = 1
 ORDER BY start_time ASC, screening_id ASC
 LIMIT 50 OFFSET 0;
 ```
-- **Kết quả thực tế trên bộ seed chuẩn (`functional_sql_examples_test_db.log`):** Trả về đúng **06 suất chiếu** tại *CineViet Vincom Bà Triệu* ngày `04/11/2026` (`total_count = 6`, tổng vé đang giữ `sum_sold = 14`, tổng ghế còn trống `sum_available = 466`, khớp `6 * 80 - 14 = 466`).
+- **Kết quả thực tế trên bộ dữ liệu mẫu (`10_seed.sql`):** Trả về đúng **06 suất chiếu** tại *CineViet Vincom Bà Triệu* ngày `04/11/2026` (`total_count = 6`, tổng vé đang giữ `sum_sold = 14`, tổng ghế còn trống `sum_available = 466`, khớp `6 * 80 - 14 = 466`).
 
 ---
 
@@ -362,7 +362,7 @@ WHERE screening_date BETWEEN '2026-11-04' AND '2026-11-04'
   AND branch_id = 1
 ORDER BY start_time ASC, screening_id ASC;
 ```
-- **Kết quả thực tế (`functional_sql_examples_test_db.log`):** Trả về 06 suất chiếu ngày `04/11/2026` tại Chi nhánh #1 (VD: Suất `#3` *Quật Mộ Trùng Ma*: sức chứa `80`, đã bán `3` vé, còn trống `77` ghế, lấp đầy `3.75%`, doanh thu `330.000 VNĐ`; trên toàn kỳ `04/11/2026 -> 10/11/2026` toàn chuỗi khớp chính xác **`292 vé`** và **`35.165.000 VNĐ`**).
+- **Kết quả thực tế trên bộ dữ liệu mẫu (`10_seed.sql`):** Trả về 06 suất chiếu ngày `04/11/2026` tại Chi nhánh #1 (VD: Suất `#3` *Quật Mộ Trùng Ma*: sức chứa `80`, đã bán `3` vé, còn trống `77` ghế, lấp đầy `3.75%`, doanh thu `330.000 VNĐ`; trên toàn kỳ `04/11/2026 -> 10/11/2026` toàn chuỗi khớp chính xác **`292 vé`** và **`35.165.000 VNĐ`**).
 
 
 ## Thanh toán VNPay Sandbox (mở rộng demo, chỉ DB test)
