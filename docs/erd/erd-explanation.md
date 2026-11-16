@@ -15,7 +15,7 @@ Hệ thống cung cấp đồng thời:
 1. **Sơ đồ E–R theo bài giảng:** Bản vẽ chính có thể chỉnh sửa tại `docs/erd/erd-chen.drawio`, ảnh kết xuất tại `docs/erd/erd-chen.png` và `docs/erd/erd-chen.svg`. Dùng nhãn `1/N`, đường kép cho tham gia đầy đủ và hình chữ nhật kèm hình thoi cho thực thể kết hợp. `erd-chen.puml` là bản đối chiếu ngữ nghĩa của các liên kết; hai thực thể kết hợp được khai báo trong chú thích của tệp này.
 2. **Sơ đồ ERD mức logic (Crow's Foot Notation):** Mã nguồn tại `docs/erd/erd-logical.puml`, ảnh kết xuất tại `docs/erd/erd-logical.png` và `docs/erd/erd-logical.svg`.
 3. **Sơ đồ Mermaid ER trực quan:** Hiển thị trực tiếp dưới đây.
-4. **Bản vẽ draw.io có thể chỉnh sửa:** [Chen](erd-chen.drawio) và [Crow's Foot](erd-logical.drawio). Mỗi thực thể, thuộc tính và đường liên kết là đối tượng riêng; mở tệp `.drawio` trong diagrams.net để chỉnh sửa. Nội dung được đối chiếu với các bản PlantUML và 17 FK SQL; bản vẽ draw.io cần được đồng bộ khi thay đổi lược đồ.
+4. **Bản vẽ draw.io có thể chỉnh sửa:** [Chen](erd-chen.drawio), [Crow's Foot](erd-logical.drawio) và [Lược đồ quan hệ](luoc-do-quan-he.drawio) (kèm bản xuất [PDF](luoc-do-quan-he.pdf), [SVG](luoc-do-quan-he.svg), [PNG](luoc-do-quan-he.png)). Mỗi thực thể, thuộc tính và đường liên kết là đối tượng riêng; mở tệp `.drawio` trong diagrams.net để chỉnh sửa. Nội dung được đối chiếu với các bản PlantUML và 17 FK SQL; bản vẽ draw.io cần được đồng bộ khi thay đổi lược đồ.
 
 ```mermaid
 erDiagram
@@ -155,7 +155,7 @@ erDiagram
 - `ticket` không có FK trực tiếp đến `screening`: suất chiếu được suy ra qua `ticket.booking_id → booking.screening_id`. `screening_seat_lock` có ba FK đến suất chiếu, ghế và vé; `UNIQUE(ticket_id)` cho quan hệ Vé–Khóa ghế là `1:0..1`. Trigger bảo đảm vé `VALID` có đúng một khóa, vé `CANCELLED` không có khóa và ghế/suất trong khóa khớp với vé.
 - Cột sinh vật lý `payment.active_success_booking` chỉ phục vụ UNIQUE có điều kiện cho thanh toán `SUCCESS`; được thể hiện riêng trong bản logic và không phải thuộc tính nghiệp vụ của bản Chen/Mermaid.
 
-Kiểm chứng tĩnh (không kết nối CSDL): `python tools/verify_erd.py`. Các tệp `.drawio` và `.puml` là nguồn chỉnh sửa sơ đồ; `.svg`, `.png` và `.pdf` là bản xem hoặc in. Bản E–R Chen chính dùng ký hiệu tham gia đầy đủ bằng đường kép; khi chỉnh sửa cần giữ đúng ký hiệu thực thể kết hợp và các lực lượng liên kết đã mô tả.
+Kiểm chứng tĩnh (không kết nối CSDL): `python tools/verify_erd.py`. Xuất SVG của bản E–R chính bằng `python tools/export_chen_svg.py`; PNG được raster hóa từ SVG đó bằng Sharp trong runtime tài liệu của Codex. Cả SVG và PNG đều xuất phát từ draw.io. Bản Crow's Foot vẫn kết xuất bằng JDK 21 và `tools/plantuml.jar`. Không dùng kết xuất Chen trực tiếp từ PlantUML thay cho ảnh nộp: PlantUML dùng nét đậm cho tham gia đầy đủ và không tự vẽ ký hiệu thực thể kết hợp giống slide.
 
 ## 2. Thuyết minh Chi tiết 14 Tập Thực thể & Thực thể Kết hợp (Entities)
 

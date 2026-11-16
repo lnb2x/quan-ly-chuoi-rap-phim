@@ -65,25 +65,42 @@ def verify_drawio(chen: str, diagram: str, svg: str) -> None:
     image = ET.fromstring(svg)
     ns = {'s': 'http://www.w3.org/2000/svg'}
     metadata = image.find('s:metadata', ns)
-    # read_text chuẩn hóa CRLF; dùng đúng bytes nguồn khi kiểm tra fingerprint.
     expected_hash = hashlib.sha256((ROOT / 'docs/erd/erd-chen.drawio').read_bytes()).hexdigest()
     require(metadata is not None and expected_hash in metadata.text, 'SVG chưa được xuất lại từ draw.io hiện tại')
-    for ident in ('movie_genre', 'screening_seat_lock'):
-        glyph = by_id.get(ident + '_association')
-        require(glyph is not None and glyph.get('parent') == ident and 'rhombus;' in glyph.get('style', ''),
-                f'Thiếu ký hiệu thực thể kết hợp: {ident}')
-        require(image.find(f'.//s:g[@id="{ident}_association"]/s:polygon', ns) is not None,
-                f'SVG thiếu hình thoi của thực thể kết hợp: {ident}')
-    links = re.findall(r'^(\w+) ([-=])([1N])\2 (\w+)$', chen, re.M)
-    for i, (left, stroke, maximum, right) in enumerate(links):
-        ident = 'rel_' + str(i)
-        edge = by_id[ident]
-        require((edge.get('source'), edge.get('target')) == (left, right), f'Sai đầu nối draw.io: {ident}')
-        require(by_id[ident + '_card'].get('value') == maximum, f'Sai bản số draw.io: {ident}')
-        require(('shape=link;' in edge.get('style', '')) == (stroke == '='), f'Sai tham gia đầy đủ/một phần: {ident}')
-        group = image.find(f'.//s:g[@id="{ident}"]', ns)
-        require(group is not None and len(group.findall('s:line', ns)) == (2 if stroke == '=' else 1),
-                f'SVG thiếu nét đơn/kép: {ident}')
+
+    rhombuses = [c for c in cells if c.get('vertex') == '1' and 'rhombus' in c.get('style', '')]
+    ellipses = [c for c in cells if c.get('vertex') == '1' and 'ellipse' in c.get('style', '')]
+    rect_entities = [c for c in cells if c.get('vertex') == '1' and c.get('parent') == '1'
+                     and 'rhombus' not in c.get('style', '') and 'ellipse' not in c.get('style', '')]
+    require(len(rect_entities) == 14 and len(rhombuses) == 17 and len(ellipses) == 76,
+            'Sơ đồ Chen draw.io phải có đủ 14 thực thể, 17 hình thoi mối kết hợp và 76 thuộc tính elip')
+
+    rel_edges = [c for c in cells if c.get('edge') == '1' and c.get('id', '').startswith('rel_edge_')]
+    require(len(rel_edges) == 34, 'Sơ đồ Chen draw.io phải có đủ 34 nhánh liên kết thực thể - mối kết hợp')
+    double_edges = [c for c in rel_edges if 'shape=link;' in c.get('style', '')]
+    require(len(double_edges) == 17, 'Sơ đồ Chen draw.io phải có đủ 17 đường nét đôi tham gia toàn phần')
+    for edge in rel_edges:
+        eid = edge.get('id')
+        card_cell = by_id.get(eid + '_card')
+        require(card_cell is not None and card_cell.get('value') in ('1', 'N'), f'Thiếu nhãn bản số 1/N: {eid}')
+        is_double = 'shape=link;' in edge.get('style', '')
+        group = image.find(f'.//s:g[@id="{eid}"]', ns)
+        require(group is not None and len(group.findall('s:line', ns)) == (2 if is_double else 1),
+                f'SVG thiếu nét đơn/kép: {eid}')
+
+    logical_drawio = (ROOT / 'docs/erd/erd-logical.drawio').read_bytes()
+    logical_svg = (ROOT / 'docs/erd/erd-logical.svg').read_text(encoding='utf-8')
+    l_model = ET.fromstring(logical_drawio).find('./diagram/mxGraphModel')
+    l_cells = l_model.findall('./root/mxCell')
+    l_edges = [c for c in l_cells if c.get('edge') == '1']
+    l_titles = [c for c in l_cells if c.get('vertex') == '1' and c.get('id', '').startswith('title_')]
+    l_cols = [c for c in l_cells if c.get('vertex') == '1' and not c.get('id', '').startswith('title_')]
+    require(len(l_titles) == 14 and len(l_cols) == 76 and len(l_edges) == 17,
+            'Lược đồ quan hệ draw.io phải có đủ 14 bảng, 76 ô thuộc tính và 17 mũi tên FK')
+    l_img = ET.fromstring(logical_svg)
+    l_meta = l_img.find('s:metadata', ns)
+    require(l_meta is not None and hashlib.sha256(logical_drawio).hexdigest() in l_meta.text,
+            'SVG lược đồ quan hệ chưa đồng bộ SHA-256 với draw.io')
 
 
 def verify(schema: str, foreign_keys: str, logical: str, chen: str, mermaid: str) -> None:
@@ -206,9 +223,9 @@ if __name__ == '__main__':
     for broken_kind in ('zero_size', 'single_total'):
         tree = ET.fromstring(diagram)
         if broken_kind == 'zero_size':
-            tree.find('.//mxCell[@id="R_BRANCH_ROOM"]/mxGeometry').set('width', '0')
+            tree.find('.//mxCell[@id="R1"]/mxGeometry').set('width', '0')
         else:
-            edge = tree.find('.//mxCell[@id="rel_1"]')
+            edge = tree.find('.//mxCell[@id="rel_edge_2"]')
             edge.set('style', edge.get('style').replace('shape=link;', ''))
         try:
             verify_drawio(contents[3], ET.tostring(tree, encoding='unicode'), svg)

@@ -1,2 +1,723 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" width="4383" height="3071" viewBox="0 0 4383 3071"><title>Sơ đồ E–R theo bài giảng: lực lượng 1/N và tham gia đầy đủ/một phần</title><metadata>Source: erd-chen.drawio; SHA-256: 082109c182174a9ae3ee8577b18307c156b8a37532d6347b4bca04c7669815f7</metadata><rect width="4383" height="3071" fill="white" /><g id="attr_cinema_branch/branch_id"><line x1="1329.3" y1="217.87006125461235" x2="906.2832566742517" y2="111.81927570869996" stroke="#526579" stroke-width="1.5" /></g><g id="attr_cinema_branch/branch_code"><line x1="1329.3" y1="208.0688146242688" x2="1081.5583528722964" y2="115.7107328719318" stroke="#526579" stroke-width="1.5" /></g><g id="attr_cinema_branch/branch_name"><line x1="1367.9871524807127" y1="204.67622" x2="1260.6508008372132" y2="118.67895220978505" stroke="#526579" stroke-width="1.5" /></g><g id="attr_cinema_branch/address"><line x1="1409.691833779358" y1="204.67622" x2="1409.9986922414557" y2="118.59636323165508" stroke="#526579" stroke-width="1.5" /></g><g id="attr_cinema_branch/city"><line x1="1438.252085007229" y1="204.67622" x2="1515.1140672773772" y2="115.38038442663726" stroke="#526579" stroke-width="1.5" /></g><g id="attr_cinema_branch/phone"><line x1="1464.3747040692706" y1="204.67622" x2="1612.2712429915293" y2="114.75784898847886" stroke="#526579" stroke-width="1.5" /></g><g id="attr_cinema_branch/active"><line x1="1489.84612" y1="206.30226393157523" x2="1729.4358958551925" y2="111.71060278325125" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening_room/room_id"><line x1="1175.268278373927" y1="771.6762200000001" x2="1350.1853256170411" y2="680.102634022372" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening_room/room_name"><line x1="1034.5599269020254" y1="771.6762200000001" x2="824.5356693169199" y2="680.8752674353949" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening_room/room_type"><line x1="1077.1737894465282" y1="771.6762200000001" x2="985.1843167593195" y2="682.7140388652009" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening_room/active"><line x1="1111.6753576527515" y1="771.6762200000001" x2="1111.8060661163536" y2="683.4963749580229" stroke="#526579" stroke-width="1.5" /></g><g id="attr_seat_type/seat_type_code"><line x1="458.0957829087584" y1="771.6762200000001" x2="568.7283327607857" y2="684.5144726040991" stroke="#526579" stroke-width="1.5" /></g><g id="attr_seat_type/type_name"><line x1="372.9545835828219" y1="771.6762200000001" x2="258.1556516880403" y2="682.4151382145075" stroke="#526579" stroke-width="1.5" /></g><g id="attr_seat_type/surcharge"><line x1="413.5388495754892" y1="771.6762200000001" x2="407.5398043009732" y2="683.4923274693161" stroke="#526579" stroke-width="1.5" /></g><g id="attr_seat/seat_id"><line x1="623.2625" y1="1391.5864244201416" x2="814.7838895039785" y2="1298.6388767529036" stroke="#526579" stroke-width="1.5" /></g><g id="attr_seat/seat_row"><line x1="568.7865711294542" y1="1389.07622" x2="613.6951157262318" y2="1222.9210788675116" stroke="#526579" stroke-width="1.5" /></g><g id="attr_seat/seat_number"><line x1="496.3" y1="1393.825498018245" x2="290.04736096255806" y2="1301.0035271025315" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie/movie_id"><line x1="3304.24332" y1="785.7212883815314" x2="3744.965586806591" y2="676.0788463248616" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie/movie_code"><line x1="3149.2999999999997" y1="786.8530992976581" x2="2682.516610159956" y2="677.5466011219557" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie/title"><line x1="3149.2999999999997" y1="781.2395735676065" x2="2793.4255094592545" y2="672.1182318001149" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie/duration_minutes"><line x1="3155.361172675746" y1="771.6762200000001" x2="2967.542059339981" y2="684.0444070540914" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie/release_date"><line x1="3205.0384707387766" y1="771.6762200000001" x2="3147.4228582385936" y2="683.347745780386" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie/age_rating"><line x1="3248.6171024557757" y1="771.6762200000001" x2="3306.6473059087652" y2="683.1692943865601" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie/country"><line x1="3285.0088906051888" y1="771.6762200000001" x2="3445.062356711122" y2="680.1072399995305" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie/description"><line x1="3304.24332" y1="777.8597492847402" x2="3585.3557871216944" y2="679.3986134233135" stroke="#526579" stroke-width="1.5" /></g><g id="attr_genre/genre_id"><line x1="4048.6294811508246" y1="771.6762200000001" x2="4100.240701002917" y2="683.1276932316243" stroke="#526579" stroke-width="1.5" /></g><g id="attr_genre/genre_name"><line x1="4089.5056882531485" y1="771.6762200000001" x2="4251.995620835481" y2="681.8876084364123" stroke="#526579" stroke-width="1.5" /></g><g id="attr_genre/description"><line x1="4010.139847432999" y1="771.6762200000001" x2="3959.5325209584853" y2="683.2558003529635" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie_genre/movie_id"><line x1="3837.4728563165654" y1="1352.3946099999998" x2="3862.1818227537074" y2="1302.7386068332585" stroke="#526579" stroke-width="1.5" /></g><g id="attr_movie_genre/genre_id"><line x1="3914.631349671175" y1="1352.3946099999998" x2="3997.3745319385794" y2="1300.675821806761" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening/screening_id"><line x1="1395.1" y1="1395.6401351929292" x2="1164.2105657640561" y2="1300.4163417601053" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening/start_time"><line x1="1422.22049322031" y1="1389.07622" x2="1323.497556654594" y2="1301.9454215895148" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening/end_time"><line x1="1493.6393876437514" y1="1389.07622" x2="1581.5827478826877" y2="1302.0453634671208" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening/base_price"><line x1="1524.84332" y1="1393.1087492928016" x2="1730.6154878039104" y2="1300.2143321663777" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening/status"><line x1="1395.1" y1="1404.207153081012" x2="1001.6654630968429" y2="1293.903613902762" stroke="#526579" stroke-width="1.5" /></g><g id="attr_customer/customer_id"><line x1="2574.6" y1="1391.9961686969207" x2="2363.8218682668075" y2="1300.471899997194" stroke="#526579" stroke-width="1.5" /></g><g id="attr_customer/full_name"><line x1="2609.8707800524776" y1="1389.07622" x2="2519.1679253541665" y2="1302.0752374044605" stroke="#526579" stroke-width="1.5" /></g><g id="attr_customer/phone"><line x1="2644.6376494260653" y1="1389.07622" x2="2644.717195554297" y2="1302.9963782453806" stroke="#526579" stroke-width="1.5" /></g><g id="attr_customer/email"><line x1="2673.4156695747165" y1="1389.07622" x2="2749.3324071963934" y2="1301.275873198214" stroke="#526579" stroke-width="1.5" /></g><g id="attr_customer/birth_date"><line x1="2707.2172938395465" y1="1389.07622" x2="2873.610865833773" y2="1300.5292225553828" stroke="#526579" stroke-width="1.5" /></g><g id="attr_customer/created_at"><line x1="2714.61372" y1="1399.7494546657658" x2="3028.203936169268" y2="1298.312264703966" stroke="#526579" stroke-width="1.5" /></g><g id="attr_employee/employee_id"><line x1="2020.6074846853862" y1="771.6762200000001" x2="1865.5657398827798" y2="603.043968639843" stroke="#526579" stroke-width="1.5" /></g><g id="attr_employee/employee_code"><line x1="2051.227416124006" y1="771.6762200000001" x2="2051.1931099895237" y2="685.37027991006" stroke="#526579" stroke-width="1.5" /></g><g id="attr_employee/full_name"><line x1="2095.630871396767" y1="771.6762200000001" x2="2215.025789824367" y2="682.0608221224694" stroke="#526579" stroke-width="1.5" /></g><g id="attr_employee/phone"><line x1="2110.98132" y1="779.6813427569942" x2="2352.22821850207" y2="677.4603895012183" stroke="#526579" stroke-width="1.5" /></g><g id="attr_employee/role"><line x1="2110.98132" y1="786.054745059248" x2="2468.722114282778" y2="672.6384833789589" stroke="#526579" stroke-width="1.5" /></g><g id="attr_employee/hired_date"><line x1="1991.5" y1="788.8819834223473" x2="1579.1450498810316" y2="677.6659150241478" stroke="#526579" stroke-width="1.5" /></g><g id="attr_booking/booking_id"><line x1="1877.81566" y1="2078.059849391032" x2="2044.1362300384253" y2="2043.9561816925618" stroke="#526579" stroke-width="1.5" /></g><g id="attr_booking/booking_code"><line x1="1745.8" y1="2059.093759913464" x2="1566.3368285988288" y2="1970.7299153549668" stroke="#526579" stroke-width="1.5" /></g><g id="attr_booking/booked_at"><line x1="1797.4658960879399" y1="2058.2762199999997" x2="1725.612360475198" y2="1891.3500483202458" stroke="#526579" stroke-width="1.5" /></g><g id="attr_booking/booking_status"><line x1="1838.4265302189824" y1="2058.2762199999997" x2="1970.5799342348046" y2="1892.8609811414644" stroke="#526579" stroke-width="1.5" /></g><g id="attr_ticket/ticket_id"><line x1="546.9926785309767" y1="2623.87622" x2="625.0966928079052" y2="2534.8078715519705" stroke="#526579" stroke-width="1.5" /></g><g id="attr_ticket/unit_price"><line x1="579.8582667238383" y1="2623.87622" x2="897.9388549126852" y2="2453.1689021227153" stroke="#526579" stroke-width="1.5" /></g><g id="attr_ticket/ticket_status"><line x1="448.70000000000005" y1="2628.506431344895" x2="218.90095902651734" y2="2533.067552654996" stroke="#526579" stroke-width="1.5" /></g><g id="attr_ticket/cancelled_at"><line x1="483.57461990407205" y1="2623.87622" x2="310.3550997257514" y2="2455.1277382162934" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening_seat_lock/screening_id"><line x1="932.5807202341379" y1="2021.5946099999996" x2="932.5633804337798" y2="1891.4963799901186" stroke="#526579" stroke-width="1.5" /></g><g id="attr_screening_seat_lock/seat_id"><line x1="1015.5074407682691" y1="2021.5946099999996" x2="1077.0666777446445" y2="1969.6254567449348" stroke="#526579" stroke-width="1.5" /></g><g id="attr_payment/payment_id"><line x1="2233.0" y1="2628.9927910319834" x2="1998.8392766957745" y2="2532.7280923724265" stroke="#526579" stroke-width="1.5" /></g><g id="attr_payment/amount"><line x1="2274.339204561893" y1="2623.87622" x2="2135.985643185333" y2="2454.7792497263654" stroke="#526579" stroke-width="1.5" /></g><g id="attr_payment/payment_method"><line x1="2301.5289927667604" y1="2623.87622" x2="2301.3473349502055" y2="2538.6377773455742" stroke="#526579" stroke-width="1.5" /></g><g id="attr_payment/payment_status"><line x1="2353.2767337544924" y1="2623.87622" x2="2489.064287563519" y2="2536.327678398107" stroke="#526579" stroke-width="1.5" /></g><g id="attr_payment/paid_at"><line x1="2370.2" y1="2632.6171502050547" x2="2657.937908960884" y2="2529.5287115903634" stroke="#526579" stroke-width="1.5" /></g><g id="attr_payment/transaction_ref"><line x1="2370.2" y1="2640.1714071788024" x2="2807.252733492799" y2="2531.716052575205" stroke="#526579" stroke-width="1.5" /></g><g id="rel_0"><line x1="1396.8020854548945" y1="271.313" x2="1314.6759823638502" y2="485.57304118192513" stroke="#526579" stroke-width="1.5" /></g><g id="rel_1"><line x1="1290.8688329226445" y1="537.382944462404" x2="1135.6573681010248" y2="773.0512905784426" stroke="#526579" stroke-width="1.5" /><line x1="1286.6931026132008" y1="534.6328033055189" x2="1131.481637791581" y2="770.3011494215575" stroke="#526579" stroke-width="1.5" /></g><g id="rel_2"><line x1="1436.7915229682935" y1="271.313" x2="1605.4385757204686" y2="477.75552698960576" stroke="#526579" stroke-width="1.5" /></g><g id="rel_3"><line x1="1675.4555708544574" y1="538.5145982110456" x2="2005.146180926235" y2="769.6291064510398" stroke="#526579" stroke-width="1.5" /><line x1="1672.5855003900522" y1="542.6088253089662" x2="2002.2761104618298" y2="773.7233335489603" stroke="#526579" stroke-width="1.5" /></g><g id="rel_4"><line x1="1081.292248376068" y1="838.3130000000001" x2="889.4853401406083" y2="1048.9926341218247" stroke="#526579" stroke-width="1.5" /></g><g id="rel_5"><line x1="846.6029187375137" y1="1100.6185894866023" x2="591.0111232318264" y2="1390.7288635574218" stroke="#526579" stroke-width="1.5" /><line x1="842.8512421671725" y1="1097.3133023717585" x2="587.2594466614852" y2="1387.423576442578" stroke="#526579" stroke-width="1.5" /></g><g id="rel_6"><line x1="416.8460031291583" y1="838.3130000000001" x2="423.046605299128" y2="1036.857467350436" stroke="#526579" stroke-width="1.5" /></g><g id="rel_7"><line x1="438.8561877418675" y1="1104.8198559720179" x2="549.1426765183847" y2="1388.1694259675194" stroke="#526579" stroke-width="1.5" /><line x1="434.1966922401386" y1="1106.633444036979" x2="544.483181016656" y2="1389.9830140324805" stroke="#526579" stroke-width="1.5" /></g><g id="rel_8"><line x1="3246.2615919130303" y1="838.3130000000001" x2="3365.451296455525" y2="1042.069948851963" stroke="#526579" stroke-width="1.5" /></g><g id="rel_9"><line x1="3416.4562633089654" y1="1097.584831467771" x2="3720.1714525612674" y2="1350.4734117064033" stroke="#526579" stroke-width="1.5" /><line x1="3413.256890172439" y1="1101.427228054964" x2="3716.972079424741" y2="1354.3158082935963" stroke="#526579" stroke-width="1.5" /></g><g id="rel_10"><line x1="4001.4676196989553" y1="838.3130000000001" x2="3828.5628598118683" y2="1045.9733846179365" stroke="#526579" stroke-width="1.5" /></g><g id="rel_11"><line x1="3807.2009467126627" y1="1114.3276250672825" x2="3805.6087365602502" y2="1352.411328642694" stroke="#526579" stroke-width="1.5" /><line x1="3802.2010585191183" y1="1114.2941877818944" x2="3800.608848366706" y2="1352.3778913573058" stroke="#526579" stroke-width="1.5" /></g><g id="rel_12"><line x1="3164.419270417861" y1="838.3130000000001" x2="2764.955421007139" y2="1051.7690105035697" stroke="#526579" stroke-width="1.5" /></g><g id="rel_13"><line x1="2667.177841861938" y1="1092.2280091181008" x2="1525.5076553697502" y2="1406.9232046003651" stroke="#526579" stroke-width="1.5" /><line x1="2665.849171122438" y1="1087.4077773740871" x2="1524.1789846302497" y2="1402.1029728563515" stroke="#526579" stroke-width="1.5" /></g><g id="rel_14"><line x1="1142.9999194928564" y1="838.3130000000001" x2="1340.3570362908013" y2="1047.9015756508509" stroke="#526579" stroke-width="1.5" /></g><g id="rel_15"><line x1="1376.6580064886293" y1="1107.3071941508204" x2="1453.299754232098" y2="1388.4186261915918" stroke="#526579" stroke-width="1.5" /><line x1="1371.834078469621" y1="1108.6223817676366" x2="1448.4758262130897" y2="1389.733813808408" stroke="#526579" stroke-width="1.5" /></g><g id="rel_16"><line x1="2628.3081767338044" y1="1455.7129999999997" x2="2520.728295766159" y2="1675.6318960047984" stroke="#526579" stroke-width="1.5" /></g><g id="rel_17"><line x1="2476.125642146774" y1="1720.0474525938575" x2="1871.3803486099541" y2="2058.2762199999997" stroke="#526579" stroke-width="1.5" /></g><g id="rel_18"><line x1="2051.191723571811" y1="838.3130000000001" x2="2050.7199790185787" y2="1159.5004995092895" stroke="#526579" stroke-width="1.5" /></g><g id="rel_19"><line x1="2045.327901299815" y1="1222.409745810825" x2="1823.0763522272441" y2="2058.9181722179856" stroke="#526579" stroke-width="1.5" /><line x1="2040.495553071542" y1="1221.1258413748533" x2="1818.244003998971" y2="2057.634267782014" stroke="#526579" stroke-width="1.5" /></g><g id="rel_20"><line x1="1460.026259695761" y1="1455.7129999999997" x2="1460.3633403552194" y2="1661.4098398223903" stroke="#526579" stroke-width="1.5" /></g><g id="rel_21"><line x1="1487.8320440651776" y1="1729.0584223155174" x2="1783.57925247017" y2="2056.600808645733" stroke="#526579" stroke-width="1.5" /><line x1="1484.1209812556874" y1="1732.40924502405" x2="1779.86818966068" y2="2059.9516313542663" stroke="#526579" stroke-width="1.5" /></g><g id="rel_22"><line x1="1746.8679677278906" y1="2125.0415243087887" x2="1275.492771788082" y2="2347.7506401640803" stroke="#526579" stroke-width="1.5" /><line x1="1744.7320322721093" y1="2120.5207080408195" x2="1273.3568363323009" y2="2343.229823896111" stroke="#526579" stroke-width="1.5" /></g><g id="rel_23"><line x1="1190.4246297691684" y1="2385.1285941275746" x2="587.7969595124949" y2="2631.2925874020466" stroke="#526579" stroke-width="1.5" /><line x1="1188.5338707441788" y1="2380.499876129098" x2="585.9062004875051" y2="2626.66386940357" stroke="#526579" stroke-width="1.5" /></g><g id="rel_24"><line x1="524.9085782609512" y1="1455.7129999999997" x2="148.45105567165075" y2="1815.3917378358253" stroke="#526579" stroke-width="1.5" /></g><g id="rel_25"><line x1="137.07798772573727" y1="1882.6781636635062" x2="503.5192205994137" y2="2622.766920545478" stroke="#526579" stroke-width="1.5" /><line x1="132.597159802151" y1="1884.8967625725497" x2="499.0383926758274" y2="2624.985519454522" stroke="#526579" stroke-width="1.5" /></g><g id="rel_26"><line x1="1433.5341416270476" y1="1455.7129999999997" x2="1263.3674355065214" y2="1670.168857753261" stroke="#526579" stroke-width="1.5" /></g><g id="rel_27"><line x1="1213.5830094795233" y1="1737.3178572865284" x2="989.4497579888404" y2="2023.1372942494866" stroke="#526579" stroke-width="1.5" /><line x1="1209.6484826686424" y1="1734.2324887875545" x2="985.5152311779597" y2="2020.0519257505127" stroke="#526579" stroke-width="1.5" /></g><g id="rel_28"><line x1="584.9388450718052" y1="1455.7129999999997" x2="749.1604820567918" y2="1673.205988971604" stroke="#526579" stroke-width="1.5" /></g><g id="rel_29"><line x1="787.6703595395771" y1="1735.3687282756446" x2="905.8904316692459" y2="2020.6375014801454" stroke="#526579" stroke-width="1.5" /><line x1="783.0512932784276" y1="1737.2829453153531" x2="901.2713654080964" y2="2022.551718519854" stroke="#526579" stroke-width="1.5" /></g><g id="rel_30"><line x1="523.2918741743838" y1="1757.1348621941142" x2="517.9799842707059" y2="2623.87622" stroke="#526579" stroke-width="1.5" /></g><g id="rel_31"><line x1="562.9875823003387" y1="1736.6704488834896" x2="860.7023926769249" y2="2019.782972939081" stroke="#526579" stroke-width="1.5" /><line x1="559.5420221661917" y1="1740.293723005327" x2="857.2568325427779" y2="2023.4062470609183" stroke="#526579" stroke-width="1.5" /></g><g id="rel_32"><line x1="1811.801602250777" y1="2124.9129999999996" x2="1811.7656456082752" y2="2317.280642797596" stroke="#526579" stroke-width="1.5" /></g><g id="rel_33"><line x1="1856.1699107099882" y1="2388.2210835796895" x2="2247.101610541301" y2="2621.7299482726075" stroke="#526579" stroke-width="1.5" /><line x1="1853.6059156458775" y1="2392.5136270344747" x2="2244.5376154771902" y2="2626.0224917273927" stroke="#526579" stroke-width="1.5" /></g><g id="title"><text x="2140.0" y="33.0" text-anchor="middle" font-family="Arial" font-size="24.0" font-weight="bold" text-decoration="none" fill="#17324D">SƠ ĐỒ E–R THEO BÀI GIẢNG — QUẢN LÝ CHUỖI RẠP PHIM</text></g><g id="cinema_branch"><rect x="1329.3" y="204.67622" width="160.54611999999997" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="1409.57306" y="232.32794333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">CHI NHÁNH RẠP</text><text x="1409.57306" y="254.32794333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(cinema_branch)</text></g><g id="cinema_branch/branch_id"><ellipse cx="862.0753399999999" cy="100.73629999999999" rx="56.375339999999994" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="862.0753399999999" y="106.06963333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">branch_id</text></g><g id="cinema_branch/branch_code"><ellipse cx="1041.4952799999999" cy="100.77521999999999" rx="72.69528" ry="17.898999999999997" fill="#FFFFFF" stroke="#95A4B4" /><text x="1041.4952799999999" y="106.10855333333332" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">branch_code</text></g><g id="cinema_branch/branch_name"><ellipse cx="1238.8065199999999" cy="101.17743999999999" rx="74.70652" ry="18.30136" fill="#FFFFFF" stroke="#95A4B4" /><text x="1238.8065199999999" y="106.51077333333332" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">branch_name</text></g><g id="cinema_branch/address"><ellipse cx="1410.06236" cy="100.73629999999999" rx="46.46235999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1410.06236" y="106.06963333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">address</text></g><g id="cinema_branch/city"><ellipse cx="1527.71906" cy="100.73629999999999" rx="22.01906" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1527.71906" y="106.06963333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">city</text></g><g id="cinema_branch/phone"><ellipse cx="1635.3337" cy="100.73629999999999" rx="37.2337" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1635.3337" y="106.06963333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">phone</text></g><g id="cinema_branch/active"><ellipse cx="1757.23254" cy="100.73629999999999" rx="35.23254" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1757.23254" y="106.06963333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">active</text></g><g id="screening_room"><rect x="1031.8" y="771.6762200000001" width="159.65194" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="1111.62597" y="799.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">PHÒNG CHIẾU</text><text x="1111.62597" y="821.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(screening_room)</text></g><g id="screening_room/room_id"><ellipse cx="1377.8178399999997" cy="665.6363" rx="47.117839999999994" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1377.8178399999997" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">room_id</text></g><g id="screening_room/room_name"><ellipse cx="789.28766" cy="665.6363" rx="67.58765999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="789.28766" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">room_name</text></g><g id="screening_room/room_type"><ellipse cx="967.5254399999999" cy="665.6363" rx="60.32543999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="967.5254399999999" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">room_type</text></g><g id="screening_room/active"><ellipse cx="1111.8325399999999" cy="665.6363" rx="35.23254" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1111.8325399999999" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">active</text></g><g id="seat_type"><rect x="357.0" y="771.6762200000001" width="117.61092" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="415.80546" y="799.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">HẠNG GHẾ</text><text x="415.80546" y="821.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(seat_type)</text></g><g id="seat_type/seat_type_code"><ellipse cx="592.38844" cy="665.87388" rx="80.68844" ry="19.49766" fill="#FFFFFF" stroke="#95A4B4" /><text x="592.38844" y="671.2072133333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">seat_type_code</text></g><g id="seat_type/type_name"><ellipse cx="236.57634" cy="665.6363" rx="62.97633999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="236.57634" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">type_name</text></g><g id="seat_type/surcharge"><ellipse cx="406.32507999999996" cy="665.6363" rx="57.025079999999996" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="406.32507999999996" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">surcharge</text></g><g id="seat"><rect x="496.29999999999995" y="1389.07622" width="126.96249999999999" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="559.78125" y="1416.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">GHẾ VẬT LÝ</text><text x="559.78125" y="1438.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(seat)</text></g><g id="seat/seat_id"><ellipse cx="842.60638" cy="1285.1363" rx="42.50637999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="842.60638" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">seat_id</text></g><g id="seat/seat_row"><ellipse cx="618.502" cy="1205.1363" rx="52.401999999999994" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="618.502" y="1210.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">seat_row</text></g><g id="seat/seat_number"><ellipse cx="255.02176" cy="1285.2405999999999" rx="73.02176" ry="17.96438" fill="#FFFFFF" stroke="#95A4B4" /><text x="255.02176" y="1290.5739333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">seat_number</text></g><g id="movie"><rect x="3149.2999999999997" y="771.6762200000001" width="154.94332" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="3226.77166" y="799.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">PHIM ĐIỆN ẢNH</text><text x="3226.77166" y="821.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(movie)</text></g><g id="movie/movie_id"><ellipse cx="3786.94078" cy="665.6363" rx="51.74078" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="3786.94078" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">movie_id</text></g><g id="movie/movie_code"><ellipse cx="2631.6547599999994" cy="665.6363" rx="68.25475999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2631.6547599999994" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">movie_code</text></g><g id="movie/title"><ellipse cx="2772.28616" cy="665.6363" rx="22.686159999999997" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2772.28616" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">title</text></g><g id="movie/duration_minutes"><ellipse cx="2928.82926" cy="665.9819599999998" rx="84.72926" ry="20.30588" fill="#FFFFFF" stroke="#95A4B4" /><text x="2928.82926" y="671.3152933333332" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">duration_minutes</text></g><g id="movie/release_date"><ellipse cx="3135.8952799999997" cy="665.67522" rx="72.69528" ry="17.898999999999997" fill="#FFFFFF" stroke="#95A4B4" /><text x="3135.8952799999997" y="671.0085533333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">release_date</text></g><g id="movie/age_rating"><ellipse cx="3318.1429399999997" cy="665.6363" rx="60.34294" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="3318.1429399999997" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">age_rating</text></g><g id="movie/country"><ellipse cx="3470.35612" cy="665.6363" rx="43.15612" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="3470.35612" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">country</text></g><g id="movie/description"><ellipse cx="3624.64802" cy="665.6363" rx="61.648019999999995" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="3624.64802" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">description</text></g><g id="genre"><rect x="3953.6" y="771.6762200000001" width="151.21918" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="4029.20959" y="799.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">THỂ LOẠI PHIM</text><text x="4029.20959" y="821.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(genre)</text></g><g id="genre/genre_id"><ellipse cx="4110.4357" cy="665.6363" rx="50.4357" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="4110.4357" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">genre_id</text></g><g id="genre/genre_name"><ellipse cx="4281.40552" cy="665.6363" rx="70.90552" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="4281.40552" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">genre_name</text></g><g id="genre/description"><ellipse cx="3949.44802" cy="665.6363" rx="61.648019999999995" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="3949.44802" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">description</text></g><g id="movie_genre"><rect x="3622.6406599999996" y="1352.3946099999998" width="360.0" height="140.0" fill="#EAF6F0" stroke="#639C80" rx="0" /><text x="3802.6406599999996" y="1427.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D" /></g><g id="movie_genre/movie_id"><ellipse cx="3870.94078" cy="1285.1363" rx="51.74078" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="3870.94078" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">movie_id</text></g><g id="movie_genre/genre_id"><ellipse cx="4022.2356999999997" cy="1285.1363" rx="50.4357" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="4022.2356999999997" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">genre_id</text></g><g id="screening"><rect x="1395.1" y="1389.07622" width="129.74331999999998" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="1459.97166" y="1416.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">SUẤT CHIẾU</text><text x="1459.97166" y="1438.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(screening)</text></g><g id="screening/screening_id"><ellipse cx="1127.1609999999998" cy="1285.1363" rx="71.56099999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1127.1609999999998" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">screening_id</text></g><g id="screening/start_time"><ellipse cx="1304.4521" cy="1285.1363" rx="56.35209999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1304.4521" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">start_time</text></g><g id="screening/end_time"><ellipse cx="1598.6690999999998" cy="1285.1363" rx="53.0691" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1598.6690999999998" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">end_time</text></g><g id="screening/base_price"><ellipse cx="1764.0151199999998" cy="1285.1363" rx="62.31512" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1764.0151199999998" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">base_price</text></g><g id="screening/status"><ellipse cx="970.3938999999999" cy="1285.1363" rx="35.893899999999995" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="970.3938999999999" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">status</text></g><g id="customer"><rect x="2574.6" y="1389.07622" width="140.01371999999998" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="2644.60686" y="1416.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">KHÁCH HÀNG</text><text x="2644.60686" y="1438.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(customer)</text></g><g id="customer/customer_id"><ellipse cx="2328.50436" cy="1285.1363" rx="68.90436" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2328.50436" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">customer_id</text></g><g id="customer/full_name"><ellipse cx="2501.5082399999997" cy="1285.1363" rx="55.70824" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2501.5082399999997" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">full_name</text></g><g id="customer/phone"><ellipse cx="2644.7336999999998" cy="1285.1363" rx="37.2337" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2644.7336999999998" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">phone</text></g><g id="customer/email"><ellipse cx="2763.28752" cy="1285.1363" rx="32.58752" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2763.28752" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">email</text></g><g id="customer/birth_date"><ellipse cx="2902.53656" cy="1285.1363" rx="57.036559999999994" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2902.53656" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">birth_date</text></g><g id="customer/created_at"><ellipse cx="3068.9370599999997" cy="1285.1363" rx="60.33706" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="3068.9370599999997" y="1290.4696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">created_at</text></g><g id="employee"><rect x="1991.4999999999998" y="771.6762200000001" width="119.48132" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="2051.24066" y="799.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">NHÂN VIÊN</text><text x="2051.24066" y="821.3279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(employee)</text></g><g id="employee/employee_id"><ellipse cx="1849.561" cy="585.6363" rx="71.56099999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1849.561" y="590.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">employee_id</text></g><g id="employee/employee_code"><ellipse cx="2051.18536" cy="665.87318" rx="80.68535999999999" ry="19.4971" fill="#FFFFFF" stroke="#95A4B4" /><text x="2051.18536" y="671.2065133333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">employee_code</text></g><g id="employee/full_name"><ellipse cx="2236.9082399999998" cy="665.6363" rx="55.70824" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2236.9082399999998" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">full_name</text></g><g id="employee/phone"><ellipse cx="2380.1336999999994" cy="665.6363" rx="37.2337" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2380.1336999999994" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">phone</text></g><g id="employee/role"><ellipse cx="2490.8086" cy="665.6363" rx="24.0086" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2490.8086" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">role</text></g><g id="employee/hired_date"><ellipse cx="1534.5429399999998" cy="665.6363" rx="60.34294" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1534.5429399999998" y="670.9696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">hired_date</text></g><g id="booking"><rect x="1745.8" y="2058.2762199999997" width="132.01566" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="1811.80783" y="2085.927943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">ĐƠN ĐẶT VÉ</text><text x="1811.80783" y="2107.927943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(booking)</text></g><g id="booking/booking_id"><ellipse cx="2094.46538" cy="2033.6363" rx="61.66538" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2094.46538" y="2038.9696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">booking_id</text></g><g id="booking/booking_code"><ellipse cx="1532.7967199999998" cy="1954.2154799999996" rx="75.39671999999999" ry="18.4394" fill="#FFFFFF" stroke="#95A4B4" /><text x="1532.7967199999998" y="1959.5488133333329" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">booking_code</text></g><g id="booking/booked_at"><ellipse cx="1717.98746" cy="1873.6363" rx="59.687459999999994" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1717.98746" y="1878.9696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">booked_at</text></g><g id="booking/booking_status"><ellipse cx="1985.5341199999998" cy="1874.1429599999997" rx="78.53411999999999" ry="19.066879999999998" fill="#FFFFFF" stroke="#95A4B4" /><text x="1985.5341199999998" y="1879.476293333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">booking_status</text></g><g id="ticket"><rect x="448.7" y="2623.87622" width="138.15158" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="517.77579" y="2651.5279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">VÉ XEM PHIM</text><text x="517.77579" y="2673.5279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(ticket)</text></g><g id="ticket/ticket_id"><ellipse cx="639.9790599999999" cy="2517.8363" rx="47.779059999999994" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="639.9790599999999" y="2523.1696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">ticket_id</text></g><g id="ticket/unit_price"><ellipse cx="926.50824" cy="2437.8363" rx="55.70824" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="926.50824" y="2443.1696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">unit_price</text></g><g id="ticket/ticket_status"><ellipse cx="182.22694" cy="2517.8363" rx="70.22694" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="182.22694" y="2523.1696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">ticket_status</text></g><g id="ticket/cancelled_at"><ellipse cx="292.60551999999996" cy="2437.8363" rx="70.90552" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="292.60551999999996" y="2443.1696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">cancelled_at</text></g><g id="screening_seat_lock"><rect x="752.5900499999999" y="2021.5946099999996" width="360.0" height="140.0" fill="#EAF6F0" stroke="#639C80" rx="0" /><text x="932.5900499999999" y="2096.927943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D" /></g><g id="screening_seat_lock/screening_id"><ellipse cx="932.561" cy="1873.6363" rx="71.56099999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="932.561" y="1878.9696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">screening_id</text></g><g id="screening_seat_lock/seat_id"><ellipse cx="1096.00638" cy="1953.6363" rx="42.50637999999999" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1096.00638" y="1958.9696333333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">seat_id</text></g><g id="payment"><rect x="2233.0" y="2623.87622" width="137.2" height="66.63678" fill="#EDF4FC" stroke="#6B8AAE" rx="0" /><text x="2301.6" y="2651.5279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">THANH TOÁN</text><text x="2301.6" y="2673.5279433333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(payment)</text></g><g id="payment/payment_id"><ellipse cx="1962.6154799999997" cy="2517.8363" rx="65.61548" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="1962.6154799999997" y="2523.1696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="underline" fill="#17324D">payment_id</text></g><g id="payment/amount"><ellipse cx="2122.12308" cy="2437.8363" rx="43.82308" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2122.12308" y="2443.1696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">amount</text></g><g id="payment/payment_method"><ellipse cx="2301.3039" cy="2518.257" rx="85.1039" ry="20.380779999999998" fill="#FFFFFF" stroke="#95A4B4" /><text x="2301.3039" y="2523.5903333333335" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">payment_method</text></g><g id="payment/payment_status"><ellipse cx="2517.3789199999997" cy="2518.07192" rx="80.67891999999999" ry="19.495839999999998" fill="#FFFFFF" stroke="#95A4B4" /><text x="2517.3789199999997" y="2523.4052533333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">payment_status</text></g><g id="payment/paid_at"><ellipse cx="2690.5734799999996" cy="2517.8363" rx="43.17348" ry="17.860079999999996" fill="#FFFFFF" stroke="#95A4B4" /><text x="2690.5734799999996" y="2523.1696333333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">paid_at</text></g><g id="payment/transaction_ref"><ellipse cx="2861.7195599999995" cy="2518.20002" rx="77.81956" ry="18.923939999999998" fill="#FFFFFF" stroke="#95A4B4" /><text x="2861.7195599999995" y="2523.5333533333337" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">transaction_ref</text></g><g id="R_BRANCH_ROOM"><polygon points="1304.4823399999998,480.47621999999996 1367.86468,512.16739 1304.4823399999998,543.8585599999999 1241.1,512.16739" fill="#FFF9E6" stroke="#B29B56" /><text x="1304.4823399999998" y="517.5007233333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Sở hữu</text></g><g id="R_BRANCH_EMP"><polygon points="1633.59721,463.67621999999994 1730.6944199999998,512.22479 1633.59721,560.7733599999999 1536.5,512.22479" fill="#FFF9E6" stroke="#B29B56" /><text x="1633.59721" y="517.5581233333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Quản lý nhân sự</text></g><g id="R_ROOM_SEAT"><polygon points="866.85249,1037.67622 939.20498,1073.8524300000001 866.85249,1110.02864 794.5,1073.8524300000001" fill="#FFF9E6" stroke="#B29B56" /><text x="866.85249" y="1079.1857633333334" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Chứa ghế</text></g><g id="R_TYPE_SEAT"><polygon points="424.2090999999999,1036.27622 499.81819999999993,1074.08077 424.2090999999999,1111.8853199999999 348.59999999999997,1074.08077" fill="#FFF9E6" stroke="#B29B56" /><text x="424.2090999999999" y="1079.4141033333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Phân hạng</text></g><g id="R_MOVIE_MG"><polygon points="3384.0387699999997,1032.77622 3466.1775399999997,1073.84557 3384.0387699999997,1114.91492 3301.8999999999996,1073.84557" fill="#FFF9E6" stroke="#B29B56" /><text x="3384.0387699999997" y="1079.1789033333332" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Có phân loại</text></g><g id="R_GENRE_MG"><polygon points="3804.9685099999997,1034.17622 3885.23702,1074.31044 3804.9685099999997,1114.4446599999999 3724.7,1074.31044" fill="#FFF9E6" stroke="#B29B56" /><text x="3804.9685099999997" y="1079.6437733333332" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Gán thể loại</text></g><g id="R_MOVIE_SCR"><polygon points="2722.76984,1030.67622 2810.03968,1074.31114 2722.76984,1117.94606 2635.5,1074.31114" fill="#FFF9E6" stroke="#B29B56" /><text x="2722.76984" y="1079.6444733333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Xếp lịch chiếu</text></g><g id="R_ROOM_SCR"><polygon points="1365.00777,1035.57622 1442.0155399999999,1074.08007 1365.00777,1112.5839199999998 1288.0,1074.08007" fill="#FFF9E6" stroke="#B29B56" /><text x="1365.00777" y="1079.4134033333332" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Tổ chức tại</text></g><g id="R_CUST_BOOK"><polygon points="2507.6169299999997,1669.07622 2574.3338599999997,1702.43465 2507.6169299999997,1735.79308 2440.8999999999996,1702.43465" fill="#FFF9E6" stroke="#B29B56" /><text x="2507.6169299999997" y="1707.7679833333332" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Đặt mua</text></g><g id="R_EMP_BOOK"><polygon points="2050.6714199999997,1159.47622 2116.84284,1192.5619299999998 2050.6714199999997,1225.64764 1984.4999999999998,1192.5619299999998" fill="#FFF9E6" stroke="#B29B56" /><text x="2050.6714199999997" y="1197.895263333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Lập đơn</text></g><g id="R_SCR_BOOK"><polygon points="1460.43058,1661.3762199999999 1542.56116,1702.4415099999999 1460.43058,1743.5067999999999 1378.3,1702.4415099999999" fill="#FFF9E6" stroke="#B29B56" /><text x="1460.43058" y="1707.7748433333331" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Đặt cho suất</text></g><g id="R_BOOK_TICKET"><polygon points="1233.39678,2324.97622 1313.19356,2364.87461 1233.39678,2404.7729999999997 1153.6,2364.87461" fill="#FFF9E6" stroke="#B29B56" /><text x="1233.39678" y="2370.2079433333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Bao gồm vé</text></g><g id="R_SEAT_TICKET"><polygon points="116.22002,1799.27622 210.04004,1846.18623 116.22002,1893.09624 22.4,1846.18623" fill="#FFF9E6" stroke="#B29B56" /><text x="116.22002" y="1851.5195633333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Gán chỗ lịch sử</text></g><g id="R_LOCK_SCR"><polygon points="1237.3821599999999,1657.17622 1328.86432,1702.9173 1237.3821599999999,1748.65838 1145.8999999999999,1702.9173" fill="#FFF9E6" stroke="#B29B56" /><text x="1237.3821599999999" y="1708.2506333333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Khóa theo suất</text></g><g id="R_LOCK_SEAT"><polygon points="771.4200199999999,1662.07622 852.6400399999999,1702.68623 771.4200199999999,1743.29624 690.1999999999999,1702.68623" fill="#FFF9E6" stroke="#B29B56" /><text x="771.4200199999999" y="1708.0195633333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Giữ chỗ ghế</text></g><g id="R_LOCK_TICKET"><polygon points="523.62555,1648.07622 632.8511,1702.68896 523.62555,1757.3017 414.4,1702.68896" fill="#FFF9E6" stroke="#B29B56" /><text x="523.62555" y="1708.0222933333332" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Giữ khóa khi VALID</text></g><g id="R_BOOK_PAY"><polygon points="1811.7567999999999,2317.2762199999997 1906.4135999999999,2364.6045499999996 1811.7567999999999,2411.9328799999994 1717.1,2364.6045499999996" fill="#FFF9E6" stroke="#B29B56" /><text x="1811.7567999999999" y="2369.937883333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Thanh toán đơn</text></g><g id="rel_0_card"><rect x="1372.4300174139617" y="282.8085072068369" width="20" height="23" fill="white" /><text x="1382.4300174139617" y="299.8085072068369" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_1_card"><rect x="1150.7315092900865" y="704.4342594296933" width="20" height="23" fill="white" /><text x="1160.7315092900865" y="721.4342594296933" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_2_card"><rect x="1456.304757199924" y="281.440442223181" width="20" height="23" fill="white" /><text x="1466.304757199924" y="298.440442223181" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_3_card"><rect x="1936.0152889314713" y="705.2311810580011" width="20" height="23" fill="white" /><text x="1946.0152889314713" y="722.2311810580011" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_4_card"><rect x="1037.7260394348625" y="849.1819359713194" width="20" height="23" fill="white" /><text x="1047.7260394348625" y="866.1819359713194" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_5_card"><rect x="623.8638491601511" y="1312.3069220376065" width="20" height="23" fill="white" /><text x="633.8638491601511" y="1329.3069220376065" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_6_card"><rect x="407.931108508903" y="847.0582817863263" width="20" height="23" fill="white" /><text x="417.931108508903" y="864.0582817863263" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_7_card"><rect x="517.5127932316299" y="1313.4900452507873" width="20" height="23" fill="white" /><text x="527.5127932316299" y="1330.4900452507873" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_8_card"><rect x="3257.119790207967" y="847.9704660490936" width="20" height="23" fill="white" /><text x="3267.119790207967" y="864.9704660490936" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_9_card"><rect x="3655.4216078738514" y="1282.1391084582392" width="20" height="23" fill="white" /><text x="3665.4216078738514" y="1299.1391084582392" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_10_card"><rect x="3961.2092867187152" y="848.6535673081389" width="20" height="23" fill="white" /><text x="3971.2092867187152" y="865.6535673081389" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_11_card"><rect x="3793.38742924015" y="1284.7299618743027" width="20" height="23" fill="white" /><text x="3803.38742924015" y="1301.7299618743027" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_12_card"><rect x="3084.5130967709847" y="849.6678018381248" width="20" height="23" fill="white" /><text x="3094.5130967709847" y="866.6678018381248" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_13_card"><rect x="1714.6356026361327" y="1323.441429518962" width="20" height="23" fill="white" /><text x="1724.6356026361327" y="1340.441429518962" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_14_card"><rect x="1167.5374149324969" y="848.991000738899" width="20" height="23" fill="white" /><text x="1177.5374149324969" y="865.991000738899" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_15_card"><rect x="1427.4754843674868" y="1313.8817193928649" width="20" height="23" fill="white" /><text x="1437.4754843674868" y="1330.8817193928649" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_16_card"><rect x="2599.4816975644667" y="1468.1988068008395" width="20" height="23" fill="white" /><text x="2609.4816975644667" y="1485.1988068008395" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_17_card"><rect x="1967.2107749788977" y="1973.086185703925" width="20" height="23" fill="white" /><text x="1977.2107749788977" y="1990.086185703925" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_18_card"><rect x="2041.1091682749952" y="868.5208124141258" width="20" height="23" fill="white" /><text x="2051.109168274995" y="885.5208124141258" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_19_card"><rect x="1849.5541992008075" y="1885.8872453787467" width="20" height="23" fill="white" /><text x="1859.5541992008075" y="1902.8872453787467" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_20_card"><rect x="1450.0852488111661" y="1465.709946968918" width="20" height="23" fill="white" /><text x="1460.0852488111661" y="1482.709946968918" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_21_card"><rect x="1719.9679595945513" y="1974.956302392212" width="20" height="23" fill="white" /><text x="1729.9679595945513" y="1991.956302392212" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_22_card"><rect x="1653.3093407105334" y="2135.75521144948" width="20" height="23" fill="white" /><text x="1663.3093407105334" y="2152.75521144948" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_23_card"><rect x="682.311422294918" y="2559.899529579776" width="20" height="23" fill="white" /><text x="692.311422294918" y="2576.899529579776" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_24_card"><rect x="449.02851180782363" y="1492.6567791212692" width="20" height="23" fill="white" /><text x="459.02851180782363" y="1509.6567791212692" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_25_card"><rect x="427.15159088472717" y="2468.360687545655" width="20" height="23" fill="white" /><text x="437.15159088472717" y="2485.360687545655" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_26_card"><rect x="1393.7549680559555" y="1467.2427751068205" width="20" height="23" fill="white" /><text x="1403.7549680559555" y="1484.2427751068205" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_27_card"><rect x="1016.7058135942696" y="1945.5762085314818" width="20" height="23" fill="white" /><text x="1026.7058135942696" y="1962.5762085314818" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_28_card"><rect x="603.6776315441779" y="1467.7742730700304" width="20" height="23" fill="white" /><text x="613.6776315441779" y="1484.7742730700304" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_29_card"><rect x="872.892385915979" y="1945.672574689212" width="20" height="23" fill="white" /><text x="882.892385915979" y="1962.672574689212" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="rel_30_card"><rect x="508.9095650038496" y="2446.19648238397" width="20" height="23" fill="white" /><text x="518.9095650038496" y="2463.19648238397" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_31_card"><rect x="796.8795207939488" y="1946.049918290271" width="20" height="23" fill="white" /><text x="806.8795207939488" y="1963.049918290271" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_32_card"><rect x="1801.795309838339" y="2132.577337489579" width="20" height="23" fill="white" /><text x="1811.795309838339" y="2149.577337489579" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">1</text></g><g id="rel_33_card"><rect x="2167.406565538766" y="2557.0121686787393" width="20" height="23" fill="white" /><text x="2177.406565538766" y="2574.0121686787393" text-anchor="middle" font-family="Arial" font-size="16" fill="#17324D">N</text></g><g id="legend"><rect x="2100.0" y="2790.513" width="1900.0" height="250.0" fill="#FFF9E6" stroke="#B29B56" rx="8" /><text x="2116.0" y="2820.513" text-anchor="start" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">QUY ƯỚC THEO BÀI GIẢNG</text><text x="2116.0" y="2844.513" text-anchor="start" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Chữ nhật: thực thể; hình thoi: liên kết; elip: thuộc tính; gạch chân: khóa chính.</text><text x="2116.0" y="2868.513" text-anchor="start" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Chữ nhật kèm hình thoi: thực thể kết hợp. Hai cột khóa gạch chân tạo MỘT khóa ghép.</text><text x="2116.0" y="2892.513" text-anchor="start" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">1 / N: lực lượng liên kết; đường kép: tham gia đầy đủ; đường đơn: tham gia một phần.</text><text x="2116.0" y="2916.513" text-anchor="start" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">BR-08: mỗi đơn mua có ít nhất một vé; vé thuộc đúng một đơn. Khách vãng lai không bắt buộc có hồ sơ thành viên.</text><text x="2116.0" y="2940.513" text-anchor="start" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Phân bổ ghế: chỉ vé VALID có đúng 1 phân bổ; vé CANCELLED không có. Suất và ghế phải khớp với vé (BR-09/10).</text><text x="2116.0" y="2964.513" text-anchor="start" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Chưa yêu cầu tối thiểu 1 phòng/nhân viên/ghế cho chi nhánh/phòng mới tạo: giữ tham gia một phần và ghi rõ giả định nghiệp vụ.</text><text x="2116.0" y="2988.513" text-anchor="start" font-family="Arial" font-size="16.0" font-weight="normal" text-decoration="none" fill="#17324D">Phim–Thể loại được thể hiện bằng thực thể kết hợp; ánh xạ sang bảng movie_genre theo slide 5, trang 32–33.</text></g><g id="movie_genre_association"><polygon points="3802.6406599999996,1352.3946099999998 3982.6406599999996,1422.3946099999998 3802.6406599999996,1492.3946099999998 3622.6406599999996,1422.3946099999998" fill="none" stroke="#639C80" /><text x="3802.6406599999996" y="1416.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">PHIM – THỂ LOẠI</text><text x="3802.6406599999996" y="1438.727943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(movie_genre)</text></g><g id="screening_seat_lock_association"><polygon points="932.5900499999999,2021.5946099999996 1112.5900499999998,2091.5946099999996 932.5900499999999,2161.5946099999996 752.5900499999999,2091.5946099999996" fill="none" stroke="#639C80" /><text x="932.5900499999999" y="2085.927943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">PHÂN BỔ GHẾ HIỆU LỰC</text><text x="932.5900499999999" y="2107.927943333333" text-anchor="middle" font-family="Arial" font-size="16.0" font-weight="bold" text-decoration="none" fill="#17324D">(screening_seat_lock)</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="4600" height="3550" viewBox="0 0 4600 3550">
+  <title>Sơ đồ E-R (Chen) — Hệ thống Quản lý Chuỗi Rạp Chiếu Phim</title>
+  <metadata>Source: erd-chen.drawio; SHA-256: 0e58ab799ca09a796ecf16a67ad21ce326c2c17cc2bc1862157bd987549c8db2</metadata>
+  <rect width="4600" height="3550" fill="#FFFFFF" />
+  <g id="relationship_edges">
+    <g id="rel_edge_1">
+      <line x1="1450.0" y1="740.0" x2="1450.0" y2="480.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="1455.0" y="527.4" width="26" height="26" fill="#FFFFFF" />
+      <text x="1468.0" y="548.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_2">
+      <line x1="1454.0" y1="860.0" x2="1454.0" y2="1120.0" stroke="#36393d" stroke-width="2.6" />
+      <line x1="1446.0" y1="860.0" x2="1446.0" y2="1120.0" stroke="#36393d" stroke-width="2.6" />
+      <rect x="1419.0" y="1042.6" width="26" height="26" fill="#FFFFFF" />
+      <text x="1432.0" y="1063.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_3">
+      <line x1="2435.0" y1="420.0" x2="1600.0" y2="420.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="1787.4" y="387.0" width="26" height="26" fill="#FFFFFF" />
+      <text x="1800.4" y="408.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_4">
+      <line x1="2665.0" y1="416.0" x2="3510.0" y2="416.0" stroke="#36393d" stroke-width="2.6" />
+      <line x1="2665.0" y1="424.0" x2="3510.0" y2="424.0" stroke="#36393d" stroke-width="2.6" />
+      <rect x="3294.2" y="423.0" width="26" height="26" fill="#FFFFFF" />
+      <text x="3307.2" y="444.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_5">
+      <line x1="1182.6" y1="1518.7" x2="1402.6" y2="1240.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="1351.0" y="1303.0" width="26" height="26" fill="#FFFFFF" />
+      <text x="1364.0" y="1324.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_6">
+      <line x1="1121.1" y1="1604.1" x2="897.4" y2="1894.9" stroke="#36393d" stroke-width="2.6" />
+      <line x1="1114.8" y1="1599.2" x2="891.1" y2="1890.1" stroke="#36393d" stroke-width="2.6" />
+      <rect x="920.7" y="1796.7" width="26" height="26" fill="#FFFFFF" />
+      <text x="933.7" y="1817.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_7">
+      <line x1="510.0" y1="1505.7" x2="460.6" y2="1237.5" stroke="#36393d" stroke-width="2.8" />
+      <rect x="477.2" y="1283.6" width="26" height="26" fill="#FFFFFF" />
+      <text x="490.2" y="1304.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_8">
+      <line x1="557.3" y1="1597.9" x2="804.4" y2="1889.9" stroke="#36393d" stroke-width="2.6" />
+      <line x1="551.2" y1="1603.0" x2="798.3" y2="1895.1" stroke="#36393d" stroke-width="2.6" />
+      <rect x="715.3" y="1819.0" width="26" height="26" fill="#FFFFFF" />
+      <text x="728.3" y="1840.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_9">
+      <line x1="2590.0" y1="1180.0" x2="2435.0" y2="1180.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="2459.2" y="1147.0" width="26" height="26" fill="#FFFFFF" />
+      <text x="2472.2" y="1168.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_10">
+      <line x1="2810.0" y1="1176.0" x2="2945.0" y2="1176.0" stroke="#36393d" stroke-width="2.6" />
+      <line x1="2810.0" y1="1184.0" x2="2945.0" y2="1184.0" stroke="#36393d" stroke-width="2.6" />
+      <rect x="2899.6" y="1183.0" width="26" height="26" fill="#FFFFFF" />
+      <text x="2912.6" y="1204.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_11">
+      <line x1="3100.0" y1="1572.5" x2="3100.0" y2="1792.5" stroke="#36393d" stroke-width="2.8" />
+      <rect x="3069.0" y="1724.7" width="26" height="26" fill="#FFFFFF" />
+      <text x="3082.0" y="1745.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_12">
+      <line x1="3096.0" y1="1457.5" x2="3096.0" y2="1240.0" stroke="#36393d" stroke-width="2.6" />
+      <line x1="3104.0" y1="1457.5" x2="3104.0" y2="1240.0" stroke="#36393d" stroke-width="2.6" />
+      <rect x="3105.0" y="1277.2" width="26" height="26" fill="#FFFFFF" />
+      <text x="3118.0" y="1298.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_13">
+      <line x1="2278.8" y1="1502.2" x2="2296.1" y2="1240.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="2296.9" y="1289.1" width="26" height="26" fill="#FFFFFF" />
+      <text x="2309.9" y="1310.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_14">
+      <line x1="2275.3" y1="1618.1" x2="2257.8" y2="1890.3" stroke="#36393d" stroke-width="2.6" />
+      <line x1="2267.3" y1="1617.6" x2="2249.9" y2="1889.7" stroke="#36393d" stroke-width="2.6" />
+      <rect x="2227.1" y="1808.5" width="26" height="26" fill="#FFFFFF" />
+      <text x="2240.1" y="1829.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_15">
+      <line x1="1781.8" y1="1520.8" x2="1508.4" y2="1240.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="1573.9" y="1279.8" width="26" height="26" fill="#FFFFFF" />
+      <text x="1586.9" y="1300.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_16">
+      <line x1="1864.0" y1="1594.5" x2="2186.5" y2="1887.0" stroke="#36393d" stroke-width="2.6" />
+      <line x1="1858.6" y1="1600.4" x2="2181.2" y2="1893.0" stroke="#36393d" stroke-width="2.6" />
+      <rect x="2081.3" y="1818.1" width="26" height="26" fill="#FFFFFF" />
+      <text x="2094.3" y="1839.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_17">
+      <line x1="2607.8" y1="2263.0" x2="2318.6" y2="2010.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="2386.8" y="2042.2" width="26" height="26" fill="#FFFFFF" />
+      <text x="2399.8" y="2063.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_18">
+      <line x1="2697.8" y1="2332.1" x2="3025.3" y2="2586.8" stroke="#36393d" stroke-width="2.6" />
+      <line x1="2692.9" y1="2338.4" x2="3020.4" y2="2593.2" stroke="#36393d" stroke-width="2.6" />
+      <rect x="2920.2" y="2528.1" width="26" height="26" fill="#FFFFFF" />
+      <text x="2933.2" y="2549.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_19">
+      <line x1="3758.2" y1="2311.8" x2="4060.0" y2="2010.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="3987.3" y="2080.2" width="26" height="26" fill="#FFFFFF" />
+      <text x="4000.3" y="2101.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_20">
+      <line x1="3663.1" y1="2377.5" x2="3224.0" y2="2590.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="3308.6" y="2507.8" width="26" height="26" fill="#FFFFFF" />
+      <text x="3321.6" y="2528.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_21">
+      <line x1="3526.4" y1="1503.7" x2="3643.2" y2="480.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="3620.0" y="712.7" width="26" height="26" fill="#FFFFFF" />
+      <text x="3633.0" y="733.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_22">
+      <line x1="3504.8" y1="1610.6" x2="3126.9" y2="2591.4" stroke="#36393d" stroke-width="2.6" />
+      <line x1="3497.3" y1="1607.7" x2="3119.4" y2="2588.6" stroke="#36393d" stroke-width="2.6" />
+      <rect x="3184.0" y="2333.1" width="26" height="26" fill="#FFFFFF" />
+      <text x="3197.0" y="2354.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_23">
+      <line x1="2117.3" y1="2992.0" x2="2953.7" y2="2697.3" stroke="#36393d" stroke-width="2.6" />
+      <line x1="2120.0" y1="2999.6" x2="2956.3" y2="2704.9" stroke="#36393d" stroke-width="2.6" />
+      <rect x="2747.3" y="2773.8" width="26" height="26" fill="#FFFFFF" />
+      <text x="2760.3" y="2794.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_24">
+      <line x1="1963.5" y1="3038.5" x2="995.7" y2="3199.8" stroke="#36393d" stroke-width="2.6" />
+      <line x1="1962.2" y1="3030.6" x2="994.3" y2="3191.9" stroke="#36393d" stroke-width="2.6" />
+      <rect x="1211.3" y="3124.4" width="26" height="26" fill="#FFFFFF" />
+      <text x="1224.3" y="3145.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_25">
+      <line x1="638.3" y1="2530.0" x2="829.0" y2="2007.5" stroke="#36393d" stroke-width="2.8" />
+      <rect x="787.1" y="2124.1" width="26" height="26" fill="#FFFFFF" />
+      <text x="800.1" y="2145.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_26">
+      <line x1="641.8" y1="2628.8" x2="832.2" y2="3158.6" stroke="#36393d" stroke-width="2.6" />
+      <line x1="634.3" y1="2631.5" x2="824.7" y2="3161.4" stroke="#36393d" stroke-width="2.6" />
+      <rect x="752.8" y="3023.9" width="26" height="26" fill="#FFFFFF" />
+      <text x="765.8" y="3044.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_27">
+      <line x1="1941.7" y1="2258.3" x2="2190.0" y2="2010.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="2130.1" y="2067.3" width="26" height="26" fill="#FFFFFF" />
+      <text x="2143.1" y="2088.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_28">
+      <line x1="1861.2" y1="2344.5" x2="1615.3" y2="2590.3" stroke="#36393d" stroke-width="2.6" />
+      <line x1="1855.5" y1="2338.8" x2="1609.7" y2="2584.7" stroke="#36393d" stroke-width="2.6" />
+      <rect x="1645.8" y="2500.8" width="26" height="26" fill="#FFFFFF" />
+      <text x="1658.8" y="2521.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_29">
+      <line x1="1142.6" y1="2260.4" x2="904.2" y2="2007.5" stroke="#36393d" stroke-width="2.8" />
+      <rect x="961.5" y="2040.8" width="26" height="26" fill="#FFFFFF" />
+      <text x="974.5" y="2061.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_30">
+      <line x1="1223.0" y1="2335.2" x2="1486.7" y2="2584.6" stroke="#36393d" stroke-width="2.6" />
+      <line x1="1217.5" y1="2341.0" x2="1481.2" y2="2590.4" stroke="#36393d" stroke-width="2.6" />
+      <rect x="1395.3" y="2525.7" width="26" height="26" fill="#FFFFFF" />
+      <text x="1408.3" y="2546.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+    <g id="rel_edge_31">
+      <line x1="1173.1" y1="2975.5" x2="929.3" y2="3160.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="963.9" y="3086.4" width="26" height="26" fill="#FFFFFF" />
+      <text x="976.9" y="3107.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_32">
+      <line x1="1260.2" y1="2899.3" x2="1476.2" y2="2709.5" stroke="#36393d" stroke-width="2.6" />
+      <line x1="1265.5" y1="2905.4" x2="1481.5" y2="2715.5" stroke="#36393d" stroke-width="2.6" />
+      <rect x="1425.9" y="2756.6" width="26" height="26" fill="#FFFFFF" />
+      <text x="1438.9" y="2777.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_33">
+      <line x1="3100.0" y1="2905.0" x2="3100.0" y2="2710.0" stroke="#36393d" stroke-width="2.8" />
+      <rect x="3105.0" y="2741.8" width="26" height="26" fill="#FFFFFF" />
+      <text x="3118.0" y="2762.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+    </g>
+    <g id="rel_edge_34">
+      <line x1="3104.0" y1="3025.0" x2="3104.0" y2="3220.0" stroke="#36393d" stroke-width="2.6" />
+      <line x1="3096.0" y1="3025.0" x2="3096.0" y2="3220.0" stroke="#36393d" stroke-width="2.6" />
+      <rect x="3069.0" y="3158.2" width="26" height="26" fill="#FFFFFF" />
+      <text x="3082.0" y="3179.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+    </g>
+  </g>
+  <g id="attribute_edges">
+    <line x1="1582.0" y1="360.0" x2="1681.9" y2="314.6" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1484.8" y1="360.0" x2="1549.3" y2="248.9" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1433.1" y1="360.0" x2="1399.4" y2="240.1" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1369.7" y1="360.0" x2="1266.3" y2="282.7" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1300.0" y1="387.2" x2="1173.7" y2="359.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1300.0" y1="431.4" x2="1170.1" y2="441.3" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1318.0" y1="480.0" x2="1222.7" y2="523.3" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3550.0" y1="360.0" x2="3439.5" y2="293.7" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3625.1" y1="360.0" x2="3576.9" y2="243.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3674.9" y1="360.0" x2="3723.1" y2="243.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3750.0" y1="360.0" x2="3860.5" y2="293.7" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3790.0" y1="399.1" x2="3916.1" y2="380.3" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3790.0" y1="440.9" x2="3926.9" y2="461.3" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3750.0" y1="480.0" x2="3859.2" y2="545.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="329.0" y1="1122.5" x2="233.0" y2="1076.9" stroke="#36393d" stroke-width="1.6" />
+    <line x1="450.0" y1="1122.5" x2="450.0" y2="999.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="571.0" y1="1122.5" x2="667.7" y2="1076.6" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1305.0" y1="1124.2" x2="1206.9" y2="1086.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1305.0" y1="1180.0" x2="1160.0" y2="1180.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1305.0" y1="1217.1" x2="1183.6" y2="1248.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1508.9" y1="1120.0" x2="1600.2" y2="1027.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1595.0" y1="1142.9" x2="1706.0" y2="1114.4" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2435.0" y1="1120.4" x2="2527.3" y2="1079.6" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2342.6" y1="1120.0" x2="2416.7" y2="1015.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2296.8" y1="1120.0" x2="2290.3" y2="997.1" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2247.2" y1="1120.0" x2="2163.0" y2="1024.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2165.0" y1="1132.3" x2="2065.6" y2="1097.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2165.0" y1="1233.4" x2="2070.3" y2="1270.9" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2348.6" y1="1240.0" x2="2429.5" y2="1339.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2435.0" y1="1227.7" x2="2543.1" y2="1265.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3100.0" y1="1120.0" x2="3100.0" y2="997.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3255.0" y1="1141.4" x2="3375.1" y2="1111.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="850.0" y1="1892.5" x2="850.0" y2="1769.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="720.0" y1="1910.9" x2="602.4" y2="1875.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="720.0" y1="1950.0" x2="577.5" y2="1950.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="720.0" y1="1992.5" x2="606.6" y2="2029.6" stroke="#36393d" stroke-width="1.6" />
+    <line x1="980.0" y1="1939.7" x2="1122.9" y2="1928.3" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2371.3" y1="1890.0" x2="2472.0" y2="1840.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2395.0" y1="1927.2" x2="2530.5" y2="1905.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2395.0" y1="1966.9" x2="2534.7" y2="1983.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2250.0" y1="2010.0" x2="2250.0" y2="2133.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2105.0" y1="1917.8" x2="1998.3" y2="1894.1" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2105.0" y1="1971.3" x2="1968.4" y2="1991.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2223.0" y1="1890.0" x2="2171.0" y2="1774.7" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2970.0" y1="1798.5" x2="2868.5" y2="1758.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2970.0" y1="1850.0" x2="2833.0" y2="1850.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2970.0" y1="1901.5" x2="2868.5" y2="1941.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="4042.1" y1="1890.0" x2="3942.0" y2="1812.9" stroke="#36393d" stroke-width="1.6" />
+    <line x1="4120.0" y1="1890.0" x2="4120.0" y2="1767.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="4197.9" y1="1890.0" x2="4296.9" y2="1813.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="4260.0" y1="1936.2" x2="4401.4" y2="1922.4" stroke="#36393d" stroke-width="1.6" />
+    <line x1="4260.0" y1="1995.0" x2="4371.7" y2="2031.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="4153.8" y1="2010.0" x2="4216.3" y2="2121.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1550.0" y1="2587.5" x2="1550.0" y2="2464.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1740.0" y1="2693.7" x2="1855.7" y2="2720.4" stroke="#36393d" stroke-width="1.6" />
+    <line x1="1559.6" y1="2712.5" x2="1578.5" y2="2834.7" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3086.7" y1="2590.0" x2="3060.0" y2="2468.9" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2955.0" y1="2617.8" x2="2828.2" y2="2589.7" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2955.0" y1="2652.8" x2="2810.1" y2="2655.6" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3245.0" y1="2643.0" x2="3389.1" y2="2636.1" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3245.0" y1="2675.9" x2="3376.0" y2="2699.3" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3221.3" y1="2710.0" x2="3319.0" y2="2758.3" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3144.0" y1="2710.0" x2="3220.5" y2="2814.4" stroke="#36393d" stroke-width="1.6" />
+    <line x1="705.0" y1="3182.9" x2="583.6" y2="3151.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="705.0" y1="3241.3" x2="568.4" y2="3261.5" stroke="#36393d" stroke-width="1.6" />
+    <line x1="748.6" y1="3280.0" x2="636.3" y2="3346.4" stroke="#36393d" stroke-width="1.6" />
+    <line x1="824.7" y1="3280.0" x2="775.8" y2="3396.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="875.3" y1="3280.0" x2="924.2" y2="3396.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="980.2" y1="3280.0" x2="1075.0" y2="3323.7" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2955.0" y1="3242.9" x2="2833.6" y2="3211.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="2955.0" y1="3309.0" x2="2825.0" y2="3335.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3020.9" y1="3340.0" x2="2919.1" y2="3417.2" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3083.4" y1="3340.0" x2="3050.1" y2="3460.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3134.3" y1="3340.0" x2="3197.8" y2="3451.0" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3230.2" y1="3340.0" x2="3322.9" y2="3382.8" stroke="#36393d" stroke-width="1.6" />
+    <line x1="3245.0" y1="3294.0" x2="3379.0" y2="3307.0" stroke="#36393d" stroke-width="1.6" />
+  </g>
+  <g id="entities">
+    <g id="CHI_NHANH_RAP">
+      <rect x="1300.0" y="360.0" width="300.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.2" />
+      <text x="1450.0" y="428.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">CHI_NHANH_RAP</text>
+    </g>
+    <g id="NHAN_VIEN">
+      <rect x="3510.0" y="360.0" width="280.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.2" />
+      <text x="3650.0" y="428.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">NHAN_VIEN</text>
+    </g>
+    <g id="HANG_GHE">
+      <rect x="320.0" y="1122.5" width="260.0" height="115.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.2" />
+      <text x="450.0" y="1188.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">HANG_GHE</text>
+    </g>
+    <g id="PHONG_CHIEU">
+      <rect x="1305.0" y="1120.0" width="290.0" height="120.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.2" />
+      <text x="1450.0" y="1188.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">PHONG_CHIEU</text>
+    </g>
+    <g id="PHIM">
+      <rect x="2165.0" y="1120.0" width="270.0" height="120.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.2" />
+      <text x="2300.0" y="1188.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">PHIM</text>
+    </g>
+    <g id="PHIM_THE_LOAI">
+      <rect x="2945.0" y="1120.0" width="310.0" height="120.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.2" />
+      <text x="3100.0" y="1188.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">PHIM_THE_LOAI</text>
+    </g>
+    <g id="GHE">
+      <rect x="720.0" y="1892.5" width="260.0" height="115.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.2" />
+      <text x="850.0" y="1958.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">GHE</text>
+    </g>
+    <g id="SUAT_CHIEU">
+      <rect x="2105.0" y="1890.0" width="290.0" height="120.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.2" />
+      <text x="2250.0" y="1958.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">SUAT_CHIEU</text>
+    </g>
+    <g id="THE_LOAI">
+      <rect x="2970.0" y="1792.5" width="260.0" height="115.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.2" />
+      <text x="3100.0" y="1858.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">THE_LOAI</text>
+    </g>
+    <g id="KHACH_HANG">
+      <rect x="3980.0" y="1890.0" width="280.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.2" />
+      <text x="4120.0" y="1958.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">KHACH_HANG</text>
+    </g>
+    <g id="KHOA_GHE_SUAT_CHIEU">
+      <rect x="1360.0" y="2587.5" width="380.0" height="125.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.2" />
+      <text x="1550.0" y="2658.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">KHOA_GHE_SUAT_CHIEU</text>
+    </g>
+    <g id="DON_DAT_VE">
+      <rect x="2955.0" y="2590.0" width="290.0" height="120.0" fill="#ffcc99" stroke="#36393d" stroke-width="2.2" />
+      <text x="3100.0" y="2658.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">DON_DAT_VE</text>
+    </g>
+    <g id="VE_XEM_PHIM">
+      <rect x="705.0" y="3160.0" width="290.0" height="120.0" fill="#ffcc99" stroke="#36393d" stroke-width="2.2" />
+      <text x="850.0" y="3228.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">VE_XEM_PHIM</text>
+    </g>
+    <g id="THANH_TOAN">
+      <rect x="2955.0" y="3220.0" width="290.0" height="120.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.2" />
+      <text x="3100.0" y="3288.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">THANH_TOAN</text>
+    </g>
+  </g>
+  <g id="relationships">
+    <g id="R1">
+      <polygon points="1450.0,740.0 1555.0,800.0 1450.0,860.0 1345.0,800.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1450.0" y="807.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">SO_HUU</text>
+    </g>
+    <g id="R2">
+      <polygon points="2550.0,360.0 2665.0,420.0 2550.0,480.0 2435.0,420.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="2550.0" y="427.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">QUAN_LY_NV</text>
+    </g>
+    <g id="R3">
+      <polygon points="1150.0,1500.0 1255.0,1560.0 1150.0,1620.0 1045.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1150.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">CHUA_GHE</text>
+    </g>
+    <g id="R4">
+      <polygon points="520.0,1500.0 625.0,1560.0 520.0,1620.0 415.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="520.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">PHAN_HANG</text>
+    </g>
+    <g id="R5">
+      <polygon points="2700.0,1122.5 2810.0,1180.0 2700.0,1237.5 2590.0,1180.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="2700.0" y="1187.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">CO_THE_LOAI</text>
+    </g>
+    <g id="R6">
+      <polygon points="3100.0,1457.5 3205.0,1515.0 3100.0,1572.5 2995.0,1515.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="3100.0" y="1522.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">GOM_PHIM</text>
+    </g>
+    <g id="R7">
+      <polygon points="2275.0,1500.0 2380.0,1560.0 2275.0,1620.0 2170.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="2275.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">XEP_LICH</text>
+    </g>
+    <g id="R8">
+      <polygon points="1820.0,1500.0 1930.0,1560.0 1820.0,1620.0 1710.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1820.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">TO_CHUC_TAI</text>
+    </g>
+    <g id="R9">
+      <polygon points="2650.0,2240.0 2760.0,2300.0 2650.0,2360.0 2540.0,2300.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="2650.0" y="2307.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">CO_DON_DAT</text>
+    </g>
+    <g id="R10">
+      <polygon points="3720.0,2290.0 3825.0,2350.0 3720.0,2410.0 3615.0,2350.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="3720.0" y="2357.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">DAT_MUA</text>
+    </g>
+    <g id="R11">
+      <polygon points="3520.0,1500.0 3625.0,1560.0 3520.0,1620.0 3415.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="3520.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">LAP_DON</text>
+    </g>
+    <g id="R12">
+      <polygon points="2050.0,2960.0 2165.0,3020.0 2050.0,3080.0 1935.0,3020.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="2050.0" y="3027.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">BAO_GOM_VE</text>
+    </g>
+    <g id="R13">
+      <polygon points="620.0,2520.0 730.0,2580.0 620.0,2640.0 510.0,2580.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="620.0" y="2587.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">GAN_CHO_VE</text>
+    </g>
+    <g id="R14">
+      <polygon points="1900.0,2237.5 2025.0,2300.0 1900.0,2362.5 1775.0,2300.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1900.0" y="2307.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">KHOA_THEO_SUAT</text>
+    </g>
+    <g id="R15">
+      <polygon points="1180.0,2240.0 1290.0,2300.0 1180.0,2360.0 1070.0,2300.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1180.0" y="2307.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">GIU_CHO_GHE</text>
+    </g>
+    <g id="R16">
+      <polygon points="1220.0,2880.0 1335.0,2940.0 1220.0,3000.0 1105.0,2940.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1220.0" y="2947.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">GIU_KHOA_GHE</text>
+    </g>
+    <g id="R17">
+      <polygon points="3100.0,2905.0 3215.0,2965.0 3100.0,3025.0 2985.0,2965.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="3100.0" y="2972.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">PHAT_SINH_TT</text>
+    </g>
+  </g>
+  <g id="attributes">
+    <g id="attr_CHI_NHANH_RAP_MaCN">
+      <ellipse cx="1725.8" cy="294.7" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1725.8" y="300.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaCN</text>
+      <line x1="1706.8" y1="305.2" x2="1744.8" y2="305.2" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_CHI_NHANH_RAP_MaCodeCN">
+      <ellipse cx="1564.6" cy="222.7" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1564.6" y="228.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCodeCN</text>
+    </g>
+    <g id="attr_CHI_NHANH_RAP_TenChiNhanh">
+      <ellipse cx="1391.8" cy="213.2" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1391.8" y="219.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TenChiNhanh</text>
+    </g>
+    <g id="attr_CHI_NHANH_RAP_DiaChi">
+      <ellipse cx="1234.7" cy="259.1" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1234.7" y="265.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">DiaChi</text>
+    </g>
+    <g id="attr_CHI_NHANH_RAP_ThanhPho">
+      <ellipse cx="1116.2" cy="347.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1116.2" y="353.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThanhPho</text>
+    </g>
+    <g id="attr_CHI_NHANH_RAP_SoDienThoai">
+      <ellipse cx="1093.5" cy="447.1" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1093.5" y="453.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoDienThoai</text>
+    </g>
+    <g id="attr_CHI_NHANH_RAP_DangHoatDong">
+      <ellipse cx="1174.2" cy="545.3" rx="84.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1174.2" y="551.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">DangHoatDong</text>
+    </g>
+    <g id="attr_NHAN_VIEN_MaNV">
+      <ellipse cx="3402.5" cy="271.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3402.5" y="277.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaNV</text>
+      <line x1="3383.5" y1="282.0" x2="3421.5" y2="282.0" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_NHAN_VIEN_MaCN">
+      <ellipse cx="3565.9" cy="217.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3565.9" y="223.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCN</text>
+    </g>
+    <g id="attr_NHAN_VIEN_MaCodeNV">
+      <ellipse cx="3734.1" cy="217.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3734.1" y="223.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCodeNV</text>
+    </g>
+    <g id="attr_NHAN_VIEN_HoTen">
+      <ellipse cx="3897.5" cy="271.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3897.5" y="277.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">HoTen</text>
+    </g>
+    <g id="attr_NHAN_VIEN_SoDienThoai">
+      <ellipse cx="3988.1" cy="369.5" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3988.1" y="375.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoDienThoai</text>
+    </g>
+    <g id="attr_NHAN_VIEN_ChucVu">
+      <ellipse cx="3988.1" cy="470.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3988.1" y="476.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ChucVu</text>
+    </g>
+    <g id="attr_NHAN_VIEN_NgayVaoLam">
+      <ellipse cx="3897.5" cy="568.5" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3897.5" y="574.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgayVaoLam</text>
+    </g>
+    <g id="attr_HANG_GHE_MaHangGhe">
+      <ellipse cx="189.5" cy="1056.3" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="189.5" y="1062.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaHangGhe</text>
+      <line x1="146.8" y1="1066.8" x2="232.3" y2="1066.8" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_HANG_GHE_TenHangGhe">
+      <ellipse cx="450.0" cy="972.5" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="450.0" y="978.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TenHangGhe</text>
+    </g>
+    <g id="attr_HANG_GHE_PhuThu">
+      <ellipse cx="710.5" cy="1056.3" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="710.5" y="1062.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">PhuThu</text>
+    </g>
+    <g id="attr_PHONG_CHIEU_MaPhong">
+      <ellipse cx="1159.2" cy="1068.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1159.2" y="1074.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaPhong</text>
+      <line x1="1126.0" y1="1078.7" x2="1192.5" y2="1078.7" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_PHONG_CHIEU_MaCN">
+      <ellipse cx="1095.0" cy="1180.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1095.0" y="1186.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCN</text>
+    </g>
+    <g id="attr_PHONG_CHIEU_TenPhong">
+      <ellipse cx="1128.3" cy="1262.4" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1128.3" y="1268.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TenPhong</text>
+    </g>
+    <g id="attr_PHONG_CHIEU_LoaiPhong">
+      <ellipse cx="1624.9" cy="1001.9" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1624.9" y="1007.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">LoaiPhong</text>
+    </g>
+    <g id="attr_PHONG_CHIEU_DangHoatDong">
+      <ellipse cx="1771.7" cy="1097.6" rx="84.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1771.7" y="1103.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">DangHoatDong</text>
+    </g>
+    <g id="attr_PHIM_MaPhim">
+      <ellipse cx="2571.9" cy="1059.9" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2571.9" y="1065.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaPhim</text>
+      <line x1="2543.4" y1="1070.4" x2="2600.4" y2="1070.4" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_PHIM_MaCodePhim">
+      <ellipse cx="2435.2" cy="989.7" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2435.2" y="995.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCodePhim</text>
+    </g>
+    <g id="attr_PHIM_TuaDe">
+      <ellipse cx="2288.8" cy="970.1" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2288.8" y="976.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TuaDe</text>
+    </g>
+    <g id="attr_PHIM_ThoiLuongPhut">
+      <ellipse cx="2140.0" cy="998.1" rx="89.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2140.0" y="1004.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiLuongPhut</text>
+    </g>
+    <g id="attr_PHIM_NgayKhoiChieu">
+      <ellipse cx="2007.4" cy="1076.7" rx="89.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2007.4" y="1082.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgayKhoiChieu</text>
+    </g>
+    <g id="attr_PHIM_PhanLoaiTuoi">
+      <ellipse cx="2017.4" cy="1291.8" rx="84.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2017.4" y="1297.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">PhanLoaiTuoi</text>
+    </g>
+    <g id="attr_PHIM_QuocGia">
+      <ellipse cx="2450.2" cy="1365.4" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2450.2" y="1371.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">QuocGia</text>
+    </g>
+    <g id="attr_PHIM_MoTa">
+      <ellipse cx="2592.6" cy="1283.3" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2592.6" y="1289.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MoTa</text>
+    </g>
+    <g id="attr_PHIM_THE_LOAI_MaPhim">
+      <ellipse cx="3100.0" cy="970.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3100.0" y="976.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaPhim</text>
+      <line x1="3071.5" y1="980.5" x2="3128.5" y2="980.5" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_PHIM_THE_LOAI_MaTL">
+      <ellipse cx="3430.8" cy="1097.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3430.8" y="1103.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaTL</text>
+      <line x1="3411.8" y1="1108.1" x2="3449.8" y2="1108.1" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_GHE_MaGhe">
+      <ellipse cx="850.0" cy="1742.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="850.0" y="1748.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaGhe</text>
+      <line x1="826.2" y1="1753.0" x2="873.8" y2="1753.0" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_GHE_MaPhong">
+      <ellipse cx="549.8" cy="1859.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="549.8" y="1865.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaPhong</text>
+    </g>
+    <g id="attr_GHE_MaHangGhe">
+      <ellipse cx="510.0" cy="1950.0" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="510.0" y="1956.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaHangGhe</text>
+    </g>
+    <g id="attr_GHE_HangGhe">
+      <ellipse cx="555.6" cy="2046.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="555.6" y="2052.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">HangGhe</text>
+    </g>
+    <g id="attr_GHE_SoGhe">
+      <ellipse cx="1186.7" cy="1923.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1186.7" y="1929.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoGhe</text>
+    </g>
+    <g id="attr_SUAT_CHIEU_MaSC">
+      <ellipse cx="2513.8" cy="1819.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2513.8" y="1825.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaSC</text>
+      <line x1="2494.8" y1="1830.0" x2="2532.8" y2="1830.0" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_SUAT_CHIEU_MaPhim">
+      <ellipse cx="2591.2" cy="1896.3" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2591.2" y="1902.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaPhim</text>
+    </g>
+    <g id="attr_SUAT_CHIEU_MaPhong">
+      <ellipse cx="2597.2" cy="1990.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2597.2" y="1996.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaPhong</text>
+    </g>
+    <g id="attr_SUAT_CHIEU_ThoiGianBatDau">
+      <ellipse cx="2250.0" cy="2160.0" rx="95.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2250.0" y="2166.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiGianBatDau</text>
+    </g>
+    <g id="attr_SUAT_CHIEU_ThoiGianKetThuc">
+      <ellipse cx="1920.8" cy="1877.0" rx="100.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1920.8" y="1883.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiGianKetThuc</text>
+    </g>
+    <g id="attr_SUAT_CHIEU_GiaCoSo">
+      <ellipse cx="1907.1" cy="2000.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1907.1" y="2006.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">GiaCoSo</text>
+    </g>
+    <g id="attr_SUAT_CHIEU_TrangThai">
+      <ellipse cx="2159.0" cy="1748.1" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2159.0" y="1754.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TrangThai</text>
+    </g>
+    <g id="attr_THE_LOAI_MaTL">
+      <ellipse cx="2821.5" cy="1739.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2821.5" y="1745.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaTL</text>
+      <line x1="2802.5" y1="1750.1" x2="2840.5" y2="1750.1" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_THE_LOAI_TenTheLoai">
+      <ellipse cx="2760.0" cy="1850.0" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2760.0" y="1856.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TenTheLoai</text>
+    </g>
+    <g id="attr_THE_LOAI_MoTa">
+      <ellipse cx="2821.5" cy="1960.4" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2821.5" y="1966.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MoTa</text>
+    </g>
+    <g id="attr_KHACH_HANG_MaKH">
+      <ellipse cx="3911.1" cy="1789.1" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3911.1" y="1795.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaKH</text>
+      <line x1="3892.1" y1="1799.6" x2="3930.1" y2="1799.6" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_KHACH_HANG_HoTen">
+      <ellipse cx="4120.0" cy="1740.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="4120.0" y="1746.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">HoTen</text>
+    </g>
+    <g id="attr_KHACH_HANG_SoDienThoai">
+      <ellipse cx="4328.9" cy="1789.1" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="4328.9" y="1795.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoDienThoai</text>
+    </g>
+    <g id="attr_KHACH_HANG_Email">
+      <ellipse cx="4464.7" cy="1916.1" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="4464.7" y="1922.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">Email</text>
+    </g>
+    <g id="attr_KHACH_HANG_NgaySinh">
+      <ellipse cx="4423.1" cy="2047.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="4423.1" y="2053.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgaySinh</text>
+    </g>
+    <g id="attr_KHACH_HANG_NgayTao">
+      <ellipse cx="4231.2" cy="2147.3" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="4231.2" y="2153.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgayTao</text>
+    </g>
+    <g id="attr_KHOA_GHE_SUAT_CHIEU_MaSC">
+      <ellipse cx="1550.0" cy="2437.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1550.0" y="2443.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaSC</text>
+      <line x1="1531.0" y1="2448.0" x2="1569.0" y2="2448.0" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_KHOA_GHE_SUAT_CHIEU_MaGhe">
+      <ellipse cx="1912.5" cy="2733.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1912.5" y="2739.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaGhe</text>
+      <line x1="1888.8" y1="2744.0" x2="1936.3" y2="2744.0" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_KHOA_GHE_SUAT_CHIEU_MaVe">
+      <ellipse cx="1582.7" cy="2861.7" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1582.7" y="2867.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaVe</text>
+    </g>
+    <g id="attr_DON_DAT_VE_MaDDV">
+      <ellipse cx="3054.1" cy="2442.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3054.1" y="2448.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaDDV</text>
+      <line x1="3030.3" y1="2452.5" x2="3077.8" y2="2452.5" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_DON_DAT_VE_MaSC">
+      <ellipse cx="2770.8" cy="2577.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2770.8" y="2583.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaSC</text>
+    </g>
+    <g id="attr_DON_DAT_VE_MaKH">
+      <ellipse cx="2745.2" cy="2656.8" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2745.2" y="2662.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaKH</text>
+    </g>
+    <g id="attr_DON_DAT_VE_MaNV">
+      <ellipse cx="3453.6" cy="2633.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3453.6" y="2639.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaNV</text>
+    </g>
+    <g id="attr_DON_DAT_VE_MaCodeDDV">
+      <ellipse cx="3437.6" cy="2710.3" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3437.6" y="2716.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCodeDDV</text>
+    </g>
+    <g id="attr_DON_DAT_VE_ThoiGianDat">
+      <ellipse cx="3363.8" cy="2780.5" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3363.8" y="2786.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiGianDat</text>
+    </g>
+    <g id="attr_DON_DAT_VE_TrangThai">
+      <ellipse cx="3239.5" cy="2840.3" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3239.5" y="2846.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TrangThai</text>
+    </g>
+    <g id="attr_VE_XEM_PHIM_MaVe">
+      <ellipse cx="528.3" cy="3137.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="528.3" y="3143.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaVe</text>
+      <line x1="509.3" y1="3148.1" x2="547.3" y2="3148.1" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_VE_XEM_PHIM_MaDDV">
+      <ellipse cx="507.1" cy="3270.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="507.1" y="3276.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaDDV</text>
+    </g>
+    <g id="attr_VE_XEM_PHIM_MaGhe">
+      <ellipse cx="599.0" cy="3368.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="599.0" y="3374.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaGhe</text>
+    </g>
+    <g id="attr_VE_XEM_PHIM_DonGia">
+      <ellipse cx="764.6" cy="3422.8" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="764.6" y="3428.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">DonGia</text>
+    </g>
+    <g id="attr_VE_XEM_PHIM_TrangThai">
+      <ellipse cx="935.4" cy="3422.8" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="935.4" y="3428.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TrangThai</text>
+    </g>
+    <g id="attr_VE_XEM_PHIM_ThoiGianHuy">
+      <ellipse cx="1121.9" cy="3345.3" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="1121.9" y="3351.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiGianHuy</text>
+    </g>
+    <g id="attr_THANH_TOAN_MaTT">
+      <ellipse cx="2778.3" cy="3197.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2778.3" y="3203.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaTT</text>
+      <line x1="2759.3" y1="3208.1" x2="2797.3" y2="3208.1" stroke="#000000" stroke-width="1.8" />
+    </g>
+    <g id="attr_THANH_TOAN_MaDDV">
+      <ellipse cx="2766.4" cy="3346.7" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2766.4" y="3352.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaDDV</text>
+    </g>
+    <g id="attr_THANH_TOAN_SoTien">
+      <ellipse cx="2887.9" cy="3440.9" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="2887.9" y="3446.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoTien</text>
+    </g>
+    <g id="attr_THANH_TOAN_PhuongThuc">
+      <ellipse cx="3042.7" cy="3486.8" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3042.7" y="3492.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">PhuongThuc</text>
+    </g>
+    <g id="attr_THANH_TOAN_TrangThai">
+      <ellipse cx="3212.9" cy="3477.3" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3212.9" y="3483.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TrangThai</text>
+    </g>
+    <g id="attr_THANH_TOAN_NgayThanhToan">
+      <ellipse cx="3371.9" cy="3405.3" rx="89.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3371.9" y="3411.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgayThanhToan</text>
+    </g>
+    <g id="attr_THANH_TOAN_MaGiaoDich">
+      <ellipse cx="3449.6" cy="3313.9" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
+      <text x="3449.6" y="3319.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaGiaoDich</text>
+    </g>
+  </g>
+</svg>

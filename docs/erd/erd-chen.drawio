@@ -1,764 +1,762 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="app.diagrams.net" type="device" version="24.7.17">
-  <diagram id="erd-chen" name="ERD Chen — 14 thực thể / 17 quan hệ">
-    <mxGraphModel adaptiveColors="auto" grid="1" gridSize="10" page="0" background="#FFFFFF">
+  <diagram id="erd-chen-csdl" name="Trang-1">
+    <mxGraphModel dx="4600" dy="3550" grid="1" page="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="0" fold="1" pageScale="1" pageWidth="4600" pageHeight="3550" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="SƠ ĐỒ E–R THEO BÀI GIẢNG — QUẢN LÝ CHUỖI RẠP PHIM" style="text;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;fontSize=24;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="40" y="0" width="4200" height="50" />
+        <mxCell id="rel_edge_1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R1" target="CHI_NHANH_RAP">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cinema_branch" value="CHI NHÁNH RẠP&lt;br&gt;(cinema_branch)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1329.3" y="204.67622" width="160.54611999999997" height="66.63678" />
+        <mxCell id="rel_edge_1_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_1">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cinema_branch/branch_id" value="branch_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="805.6999999999999" y="82.87621999999999" width="112.75067999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_2" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R1" target="PHONG_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_cinema_branch/branch_id" source="cinema_branch" target="cinema_branch/branch_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_2_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_2">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cinema_branch/branch_code" value="branch_code" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="968.8" y="82.87621999999999" width="145.39056" height="35.797999999999995" />
+        <mxCell id="rel_edge_3" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R2" target="CHI_NHANH_RAP">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_cinema_branch/branch_code" source="cinema_branch" target="cinema_branch/branch_code" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_3_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_3">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cinema_branch/branch_name" value="branch_name" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1164.1" y="82.87607999999999" width="149.41304" height="36.60272" />
+        <mxCell id="rel_edge_4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R2" target="NHAN_VIEN">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_cinema_branch/branch_name" source="cinema_branch" target="cinema_branch/branch_name" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_4_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_4">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cinema_branch/address" value="address" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1363.6" y="82.87621999999999" width="92.92471999999998" height="35.72015999999999" />
+        <mxCell id="rel_edge_5" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R3" target="PHONG_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_cinema_branch/address" source="cinema_branch" target="cinema_branch/address" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_5_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_5">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cinema_branch/city" value="city" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1505.6999999999998" y="82.87621999999999" width="44.03812" height="35.72015999999999" />
+        <mxCell id="rel_edge_6" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R3" target="GHE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_cinema_branch/city" source="cinema_branch" target="cinema_branch/city" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_6_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_6">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cinema_branch/phone" value="phone" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1598.1" y="82.87621999999999" width="74.4674" height="35.72015999999999" />
+        <mxCell id="rel_edge_7" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R4" target="HANG_GHE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_cinema_branch/phone" source="cinema_branch" target="cinema_branch/phone" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_7_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_7">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cinema_branch/active" value="active" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1722.0" y="82.87621999999999" width="70.46508" height="35.72015999999999" />
+        <mxCell id="rel_edge_8" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R4" target="GHE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_cinema_branch/active" source="cinema_branch" target="cinema_branch/active" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_8_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_8">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening_room" value="PHÒNG CHIẾU&lt;br&gt;(screening_room)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1031.8" y="771.6762200000001" width="159.65194" height="66.63678" />
+        <mxCell id="rel_edge_9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R5" target="PHIM">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening_room/room_id" value="room_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1330.6999999999998" y="647.77622" width="94.23567999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_9_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_9">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening_room/room_id" source="screening_room" target="screening_room/room_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_10" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R5" target="PHIM_THE_LOAI">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening_room/room_name" value="room_name" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="721.6999999999999" y="647.77622" width="135.17531999999997" height="35.72015999999999" />
+        <mxCell id="rel_edge_10_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_10">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening_room/room_name" source="screening_room" target="screening_room/room_name" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_11" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R6" target="THE_LOAI">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening_room/room_type" value="room_type" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="907.1999999999999" y="647.77622" width="120.65087999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_11_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_11">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening_room/room_type" source="screening_room" target="screening_room/room_type" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_12" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R6" target="PHIM_THE_LOAI">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening_room/active" value="active" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1076.6" y="647.77622" width="70.46508" height="35.72015999999999" />
+        <mxCell id="rel_edge_12_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_12">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening_room/active" source="screening_room" target="screening_room/active" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_13" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R7" target="PHIM">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="seat_type" value="HẠNG GHẾ&lt;br&gt;(seat_type)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="357.0" y="771.6762200000001" width="117.61092" height="66.63678" />
+        <mxCell id="rel_edge_13_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_13">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="seat_type/seat_type_code" value="seat_type_code" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="511.7" y="646.37622" width="161.37688" height="38.99532" />
+        <mxCell id="rel_edge_14" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R7" target="SUAT_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_seat_type/seat_type_code" source="seat_type" target="seat_type/seat_type_code" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_14_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_14">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="seat_type/type_name" value="type_name" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="173.6" y="647.77622" width="125.95267999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_15" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R8" target="PHONG_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_seat_type/type_name" source="seat_type" target="seat_type/type_name" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_15_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_15">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="seat_type/surcharge" value="surcharge" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="349.29999999999995" y="647.77622" width="114.05015999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_16" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R8" target="SUAT_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_seat_type/surcharge" source="seat_type" target="seat_type/surcharge" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_16_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_16">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="seat" value="GHẾ VẬT LÝ&lt;br&gt;(seat)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="496.29999999999995" y="1389.07622" width="126.96249999999999" height="66.63678" />
+        <mxCell id="rel_edge_17" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R9" target="SUAT_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="seat/seat_id" value="seat_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="800.0999999999999" y="1267.27622" width="85.01275999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_17_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_17">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_seat/seat_id" source="seat" target="seat/seat_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_18" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R9" target="DON_DAT_VE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="seat/seat_row" value="seat_row" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="566.0999999999999" y="1187.27622" width="104.80399999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_18_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_18">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_seat/seat_row" source="seat" target="seat/seat_row" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_19" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R10" target="KHACH_HANG">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="seat/seat_number" value="seat_number" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="182.0" y="1267.27622" width="146.04352" height="35.92876" />
+        <mxCell id="rel_edge_19_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_19">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_seat/seat_number" source="seat" target="seat/seat_number" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_20" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R10" target="DON_DAT_VE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie" value="PHIM ĐIỆN ẢNH&lt;br&gt;(movie)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3149.2999999999997" y="771.6762200000001" width="154.94332" height="66.63678" />
+        <mxCell id="rel_edge_20_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_20">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie/movie_id" value="movie_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3735.2" y="647.77622" width="103.48156" height="35.72015999999999" />
+        <mxCell id="rel_edge_21" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R11" target="NHAN_VIEN">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie/movie_id" source="movie" target="movie/movie_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_21_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_21">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie/movie_code" value="movie_code" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2563.3999999999996" y="647.77622" width="136.50951999999998" height="35.72015999999999" />
+        <mxCell id="rel_edge_22" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R11" target="DON_DAT_VE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie/movie_code" source="movie" target="movie/movie_code" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_22_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_22">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie/title" value="title" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2749.6" y="647.77622" width="45.372319999999995" height="35.72015999999999" />
+        <mxCell id="rel_edge_23" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R12" target="DON_DAT_VE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie/title" source="movie" target="movie/title" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_23_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_23">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie/duration_minutes" value="duration_minutes" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2844.1" y="645.6760799999998" width="169.45852" height="40.61176" />
+        <mxCell id="rel_edge_24" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R12" target="VE_XEM_PHIM">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie/duration_minutes" source="movie" target="movie/duration_minutes" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_24_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_24">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie/release_date" value="release_date" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3063.2" y="647.77622" width="145.39056" height="35.797999999999995" />
+        <mxCell id="rel_edge_25" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R13" target="GHE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie/release_date" source="movie" target="movie/release_date" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_25_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_25">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie/age_rating" value="age_rating" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3257.7999999999997" y="647.77622" width="120.68588" height="35.72015999999999" />
+        <mxCell id="rel_edge_26" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R13" target="VE_XEM_PHIM">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie/age_rating" source="movie" target="movie/age_rating" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_26_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_26">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie/country" value="country" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3427.2" y="647.77622" width="86.31224" height="35.72015999999999" />
+        <mxCell id="rel_edge_27" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R14" target="SUAT_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie/country" source="movie" target="movie/country" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_27_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_27">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie/description" value="description" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3563.0" y="647.77622" width="123.29603999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_28" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R14" target="KHOA_GHE_SUAT_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie/description" source="movie" target="movie/description" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_28_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_28">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="genre" value="THỂ LOẠI PHIM&lt;br&gt;(genre)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3953.6" y="771.6762200000001" width="151.21918" height="66.63678" />
+        <mxCell id="rel_edge_29" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R15" target="GHE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="genre/genre_id" value="genre_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="4059.9999999999995" y="647.77622" width="100.8714" height="35.72015999999999" />
+        <mxCell id="rel_edge_29_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_29">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_genre/genre_id" source="genre" target="genre/genre_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_30" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R15" target="KHOA_GHE_SUAT_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="genre/genre_name" value="genre_name" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="4210.5" y="647.77622" width="141.81104" height="35.72015999999999" />
+        <mxCell id="rel_edge_30_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_30">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_genre/genre_name" source="genre" target="genre/genre_name" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_31" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R16" target="VE_XEM_PHIM">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="genre/description" value="description" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3887.7999999999997" y="647.77622" width="123.29603999999999" height="35.72015999999999" />
+        <mxCell id="rel_edge_31_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_31">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_genre/description" source="genre" target="genre/description" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_32" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R16" target="KHOA_GHE_SUAT_CHIEU">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie_genre" value="" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;fillColor=#EAF6F0;strokeColor=#639C80;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3622.6406599999996" y="1352.3946099999998" width="360" height="140" />
+        <mxCell id="rel_edge_32_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_32">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie_genre/movie_id" value="movie_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3819.2" y="1267.27622" width="103.48156" height="35.72015999999999" />
+        <mxCell id="rel_edge_33" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;" edge="1" parent="1" source="R17" target="DON_DAT_VE">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie_genre/movie_id" source="movie_genre" target="movie_genre/movie_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_33_card" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_33">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="movie_genre/genre_id" value="genre_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3971.7999999999997" y="1267.27622" width="100.8714" height="35.72015999999999" />
+        <mxCell id="rel_edge_34" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontSize=15;strokeColor=#36393d;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=#000000;shape=link;width=10;" edge="1" parent="1" source="R17" target="THANH_TOAN">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_movie_genre/genre_id" source="movie_genre" target="movie_genre/genre_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="rel_edge_34_card" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=22;fontColor=#000000;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="rel_edge_34">
+          <mxGeometry x="0.72" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening" value="SUẤT CHIẾU&lt;br&gt;(screening)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1395.1" y="1389.07622" width="129.74331999999998" height="66.63678" />
+        <mxCell id="line_attr_CHI_NHANH_RAP_MaCN" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="CHI_NHANH_RAP" target="attr_CHI_NHANH_RAP_MaCN">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening/screening_id" value="screening_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1055.6" y="1267.27622" width="143.12199999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_CHI_NHANH_RAP_MaCodeCN" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="CHI_NHANH_RAP" target="attr_CHI_NHANH_RAP_MaCodeCN">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening/screening_id" source="screening" target="screening/screening_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_CHI_NHANH_RAP_TenChiNhanh" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="CHI_NHANH_RAP" target="attr_CHI_NHANH_RAP_TenChiNhanh">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening/start_time" value="start_time" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1248.1" y="1267.27622" width="112.70419999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_CHI_NHANH_RAP_DiaChi" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="CHI_NHANH_RAP" target="attr_CHI_NHANH_RAP_DiaChi">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening/start_time" source="screening" target="screening/start_time" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_CHI_NHANH_RAP_ThanhPho" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="CHI_NHANH_RAP" target="attr_CHI_NHANH_RAP_ThanhPho">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening/end_time" value="end_time" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1545.6" y="1267.27622" width="106.1382" height="35.72015999999999" />
+        <mxCell id="line_attr_CHI_NHANH_RAP_SoDienThoai" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="CHI_NHANH_RAP" target="attr_CHI_NHANH_RAP_SoDienThoai">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening/end_time" source="screening" target="screening/end_time" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_CHI_NHANH_RAP_DangHoatDong" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="CHI_NHANH_RAP" target="attr_CHI_NHANH_RAP_DangHoatDong">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening/base_price" value="base_price" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1701.6999999999998" y="1267.27622" width="124.63024" height="35.72015999999999" />
+        <mxCell id="line_attr_NHAN_VIEN_MaNV" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="NHAN_VIEN" target="attr_NHAN_VIEN_MaNV">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening/base_price" source="screening" target="screening/base_price" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_NHAN_VIEN_MaCN" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="NHAN_VIEN" target="attr_NHAN_VIEN_MaCN">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening/status" value="status" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="934.4999999999999" y="1267.27622" width="71.78779999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_NHAN_VIEN_MaCodeNV" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="NHAN_VIEN" target="attr_NHAN_VIEN_MaCodeNV">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening/status" source="screening" target="screening/status" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_NHAN_VIEN_HoTen" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="NHAN_VIEN" target="attr_NHAN_VIEN_HoTen">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="customer" value="KHÁCH HÀNG&lt;br&gt;(customer)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2574.6" y="1389.07622" width="140.01371999999998" height="66.63678" />
+        <mxCell id="line_attr_NHAN_VIEN_SoDienThoai" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="NHAN_VIEN" target="attr_NHAN_VIEN_SoDienThoai">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="customer/customer_id" value="customer_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2259.6" y="1267.27622" width="137.80872" height="35.72015999999999" />
+        <mxCell id="line_attr_NHAN_VIEN_ChucVu" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="NHAN_VIEN" target="attr_NHAN_VIEN_ChucVu">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_customer/customer_id" source="customer" target="customer/customer_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_NHAN_VIEN_NgayVaoLam" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="NHAN_VIEN" target="attr_NHAN_VIEN_NgayVaoLam">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="customer/full_name" value="full_name" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2445.7999999999997" y="1267.27622" width="111.41648" height="35.72015999999999" />
+        <mxCell id="line_attr_HANG_GHE_MaHangGhe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="HANG_GHE" target="attr_HANG_GHE_MaHangGhe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_customer/full_name" source="customer" target="customer/full_name" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_HANG_GHE_TenHangGhe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="HANG_GHE" target="attr_HANG_GHE_TenHangGhe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="customer/phone" value="phone" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2607.5" y="1267.27622" width="74.4674" height="35.72015999999999" />
+        <mxCell id="line_attr_HANG_GHE_PhuThu" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="HANG_GHE" target="attr_HANG_GHE_PhuThu">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_customer/phone" source="customer" target="customer/phone" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_PHONG_CHIEU_MaPhong" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHONG_CHIEU" target="attr_PHONG_CHIEU_MaPhong">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="customer/email" value="email" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2730.7" y="1267.27622" width="65.17504" height="35.72015999999999" />
+        <mxCell id="line_attr_PHONG_CHIEU_MaCN" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHONG_CHIEU" target="attr_PHONG_CHIEU_MaCN">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_customer/email" source="customer" target="customer/email" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_PHONG_CHIEU_TenPhong" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHONG_CHIEU" target="attr_PHONG_CHIEU_TenPhong">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="customer/birth_date" value="birth_date" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2845.5" y="1267.27622" width="114.07311999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_PHONG_CHIEU_LoaiPhong" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHONG_CHIEU" target="attr_PHONG_CHIEU_LoaiPhong">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_customer/birth_date" source="customer" target="customer/birth_date" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_PHONG_CHIEU_DangHoatDong" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHONG_CHIEU" target="attr_PHONG_CHIEU_DangHoatDong">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="customer/created_at" value="created_at" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3008.6" y="1267.27622" width="120.67412" height="35.72015999999999" />
+        <mxCell id="line_attr_PHIM_MaPhim" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM" target="attr_PHIM_MaPhim">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_customer/created_at" source="customer" target="customer/created_at" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_PHIM_MaCodePhim" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM" target="attr_PHIM_MaCodePhim">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="employee" value="NHÂN VIÊN&lt;br&gt;(employee)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1991.4999999999998" y="771.6762200000001" width="119.48132" height="66.63678" />
+        <mxCell id="line_attr_PHIM_TuaDe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM" target="attr_PHIM_TuaDe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="employee/employee_id" value="employee_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1778.0" y="567.77622" width="143.12199999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_PHIM_ThoiLuongPhut" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM" target="attr_PHIM_ThoiLuongPhut">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_employee/employee_id" source="employee" target="employee/employee_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_PHIM_NgayKhoiChieu" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM" target="attr_PHIM_NgayKhoiChieu">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="employee/employee_code" value="employee_code" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1970.4999999999998" y="646.37608" width="161.37071999999998" height="38.9942" />
+        <mxCell id="line_attr_PHIM_PhanLoaiTuoi" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM" target="attr_PHIM_PhanLoaiTuoi">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_employee/employee_code" source="employee" target="employee/employee_code" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_PHIM_QuocGia" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM" target="attr_PHIM_QuocGia">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="employee/full_name" value="full_name" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2181.2" y="647.77622" width="111.41648" height="35.72015999999999" />
+        <mxCell id="line_attr_PHIM_MoTa" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM" target="attr_PHIM_MoTa">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_employee/full_name" source="employee" target="employee/full_name" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_PHIM_THE_LOAI_MaPhim" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM_THE_LOAI" target="attr_PHIM_THE_LOAI_MaPhim">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="employee/phone" value="phone" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2342.8999999999996" y="647.77622" width="74.4674" height="35.72015999999999" />
+        <mxCell id="line_attr_PHIM_THE_LOAI_MaTL" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="PHIM_THE_LOAI" target="attr_PHIM_THE_LOAI_MaTL">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_employee/phone" source="employee" target="employee/phone" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_GHE_MaGhe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="GHE" target="attr_GHE_MaGhe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="employee/role" value="role" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2466.7999999999997" y="647.77622" width="48.0172" height="35.72015999999999" />
+        <mxCell id="line_attr_GHE_MaPhong" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="GHE" target="attr_GHE_MaPhong">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_employee/role" source="employee" target="employee/role" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_GHE_MaHangGhe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="GHE" target="attr_GHE_MaHangGhe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="employee/hired_date" value="hired_date" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1474.1999999999998" y="647.77622" width="120.68588" height="35.72015999999999" />
+        <mxCell id="line_attr_GHE_HangGhe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="GHE" target="attr_GHE_HangGhe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_employee/hired_date" source="employee" target="employee/hired_date" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_GHE_SoGhe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="GHE" target="attr_GHE_SoGhe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="booking" value="ĐƠN ĐẶT VÉ&lt;br&gt;(booking)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1745.8" y="2058.2762199999997" width="132.01566" height="66.63678" />
+        <mxCell id="line_attr_SUAT_CHIEU_MaSC" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="SUAT_CHIEU" target="attr_SUAT_CHIEU_MaSC">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="booking/booking_id" value="booking_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2032.8" y="2015.77622" width="123.33076" height="35.72015999999999" />
+        <mxCell id="line_attr_SUAT_CHIEU_MaPhim" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="SUAT_CHIEU" target="attr_SUAT_CHIEU_MaPhim">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_booking/booking_id" source="booking" target="booking/booking_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_SUAT_CHIEU_MaPhong" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="SUAT_CHIEU" target="attr_SUAT_CHIEU_MaPhong">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="booking/booking_code" value="booking_code" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1457.3999999999999" y="1935.7760799999996" width="150.79343999999998" height="36.8788" />
+        <mxCell id="line_attr_SUAT_CHIEU_ThoiGianBatDau" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="SUAT_CHIEU" target="attr_SUAT_CHIEU_ThoiGianBatDau">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_booking/booking_code" source="booking" target="booking/booking_code" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_SUAT_CHIEU_ThoiGianKetThuc" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="SUAT_CHIEU" target="attr_SUAT_CHIEU_ThoiGianKetThuc">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="booking/booked_at" value="booked_at" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1658.3" y="1855.77622" width="119.37491999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_SUAT_CHIEU_GiaCoSo" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="SUAT_CHIEU" target="attr_SUAT_CHIEU_GiaCoSo">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_booking/booked_at" source="booking" target="booking/booked_at" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_SUAT_CHIEU_TrangThai" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="SUAT_CHIEU" target="attr_SUAT_CHIEU_TrangThai">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="booking/booking_status" value="booking_status" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1906.9999999999998" y="1855.0760799999996" width="157.06823999999997" height="38.133759999999995" />
+        <mxCell id="line_attr_THE_LOAI_MaTL" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THE_LOAI" target="attr_THE_LOAI_MaTL">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_booking/booking_status" source="booking" target="booking/booking_status" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_THE_LOAI_TenTheLoai" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THE_LOAI" target="attr_THE_LOAI_TenTheLoai">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ticket" value="VÉ XEM PHIM&lt;br&gt;(ticket)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="448.7" y="2623.87622" width="138.15158" height="66.63678" />
+        <mxCell id="line_attr_THE_LOAI_MoTa" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THE_LOAI" target="attr_THE_LOAI_MoTa">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ticket/ticket_id" value="ticket_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="592.1999999999999" y="2499.97622" width="95.55811999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_KHACH_HANG_MaKH" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHACH_HANG" target="attr_KHACH_HANG_MaKH">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_ticket/ticket_id" source="ticket" target="ticket/ticket_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_KHACH_HANG_HoTen" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHACH_HANG" target="attr_KHACH_HANG_HoTen">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ticket/unit_price" value="unit_price" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="870.8" y="2419.97622" width="111.41648" height="35.72015999999999" />
+        <mxCell id="line_attr_KHACH_HANG_SoDienThoai" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHACH_HANG" target="attr_KHACH_HANG_SoDienThoai">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_ticket/unit_price" source="ticket" target="ticket/unit_price" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_KHACH_HANG_Email" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHACH_HANG" target="attr_KHACH_HANG_Email">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ticket/ticket_status" value="ticket_status" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="112.0" y="2499.97622" width="140.45388" height="35.72015999999999" />
+        <mxCell id="line_attr_KHACH_HANG_NgaySinh" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHACH_HANG" target="attr_KHACH_HANG_NgaySinh">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_ticket/ticket_status" source="ticket" target="ticket/ticket_status" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_KHACH_HANG_NgayTao" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHACH_HANG" target="attr_KHACH_HANG_NgayTao">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ticket/cancelled_at" value="cancelled_at" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="221.7" y="2419.97622" width="141.81104" height="35.72015999999999" />
+        <mxCell id="line_attr_KHOA_GHE_SUAT_CHIEU_MaSC" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHOA_GHE_SUAT_CHIEU" target="attr_KHOA_GHE_SUAT_CHIEU_MaSC">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_ticket/cancelled_at" source="ticket" target="ticket/cancelled_at" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_KHOA_GHE_SUAT_CHIEU_MaGhe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHOA_GHE_SUAT_CHIEU" target="attr_KHOA_GHE_SUAT_CHIEU_MaGhe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening_seat_lock" value="" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;fillColor=#EAF6F0;strokeColor=#639C80;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="752.5900499999999" y="2021.5946099999996" width="360" height="140" />
+        <mxCell id="line_attr_KHOA_GHE_SUAT_CHIEU_MaVe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="KHOA_GHE_SUAT_CHIEU" target="attr_KHOA_GHE_SUAT_CHIEU_MaVe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening_seat_lock/screening_id" value="screening_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="861.0" y="1855.77622" width="143.12199999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_DON_DAT_VE_MaDDV" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="DON_DAT_VE" target="attr_DON_DAT_VE_MaDDV">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening_seat_lock/screening_id" source="screening_seat_lock" target="screening_seat_lock/screening_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_DON_DAT_VE_MaSC" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="DON_DAT_VE" target="attr_DON_DAT_VE_MaSC">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="screening_seat_lock/seat_id" value="seat_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1053.5" y="1935.77622" width="85.01275999999999" height="35.72015999999999" />
+        <mxCell id="line_attr_DON_DAT_VE_MaKH" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="DON_DAT_VE" target="attr_DON_DAT_VE_MaKH">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_screening_seat_lock/seat_id" source="screening_seat_lock" target="screening_seat_lock/seat_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_DON_DAT_VE_MaNV" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="DON_DAT_VE" target="attr_DON_DAT_VE_MaNV">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="payment" value="THANH TOÁN&lt;br&gt;(payment)" style="rounded=0;whiteSpace=wrap;align=center;fillColor=#EDF4FC;strokeColor=#6B8AAE;fontStyle=1;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2233.0" y="2623.87622" width="137.2" height="66.63678" />
+        <mxCell id="line_attr_DON_DAT_VE_MaCodeDDV" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="DON_DAT_VE" target="attr_DON_DAT_VE_MaCodeDDV">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="payment/payment_id" value="payment_id" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontStyle=4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1896.9999999999998" y="2499.97622" width="131.23096" height="35.72015999999999" />
+        <mxCell id="line_attr_DON_DAT_VE_ThoiGianDat" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="DON_DAT_VE" target="attr_DON_DAT_VE_ThoiGianDat">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_payment/payment_id" source="payment" target="payment/payment_id" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_DON_DAT_VE_TrangThai" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="DON_DAT_VE" target="attr_DON_DAT_VE_TrangThai">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="payment/amount" value="amount" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2078.2999999999997" y="2419.97622" width="87.64616" height="35.72015999999999" />
+        <mxCell id="line_attr_VE_XEM_PHIM_MaVe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="VE_XEM_PHIM" target="attr_VE_XEM_PHIM_MaVe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_payment/amount" source="payment" target="payment/amount" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_VE_XEM_PHIM_MaDDV" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="VE_XEM_PHIM" target="attr_VE_XEM_PHIM_MaDDV">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="payment/payment_method" value="payment_method" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2216.2" y="2497.87622" width="170.2078" height="40.761559999999996" />
+        <mxCell id="line_attr_VE_XEM_PHIM_MaGhe" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="VE_XEM_PHIM" target="attr_VE_XEM_PHIM_MaGhe">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_payment/payment_method" source="payment" target="payment/payment_method" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_VE_XEM_PHIM_DonGia" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="VE_XEM_PHIM" target="attr_VE_XEM_PHIM_DonGia">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="payment/payment_status" value="payment_status" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2436.7" y="2498.57608" width="161.35783999999998" height="38.991679999999995" />
+        <mxCell id="line_attr_VE_XEM_PHIM_TrangThai" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="VE_XEM_PHIM" target="attr_VE_XEM_PHIM_TrangThai">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_payment/payment_status" source="payment" target="payment/payment_status" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_VE_XEM_PHIM_ThoiGianHuy" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="VE_XEM_PHIM" target="attr_VE_XEM_PHIM_ThoiGianHuy">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="payment/paid_at" value="paid_at" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2647.3999999999996" y="2499.97622" width="86.34696" height="35.72015999999999" />
+        <mxCell id="line_attr_THANH_TOAN_MaTT" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THANH_TOAN" target="attr_THANH_TOAN_MaTT">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_payment/paid_at" source="payment" target="payment/paid_at" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_THANH_TOAN_MaDDV" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THANH_TOAN" target="attr_THANH_TOAN_MaDDV">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="payment/transaction_ref" value="transaction_ref" style="ellipse;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#95A4B4;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2783.8999999999996" y="2499.27608" width="155.63912" height="37.847879999999996" />
+        <mxCell id="line_attr_THANH_TOAN_SoTien" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THANH_TOAN" target="attr_THANH_TOAN_SoTien">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="attr_payment/transaction_ref" source="payment" target="payment/transaction_ref" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="line_attr_THANH_TOAN_PhuongThuc" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THANH_TOAN" target="attr_THANH_TOAN_PhuongThuc">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="R_BRANCH_ROOM" value="Sở hữu" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1241.1" y="480.47621999999996" width="126.76467999999998" height="63.38233999999999" />
+        <mxCell id="line_attr_THANH_TOAN_TrangThai" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THANH_TOAN" target="attr_THANH_TOAN_TrangThai">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="R_BRANCH_EMP" value="Quản lý nhân sự" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1536.5" y="463.67621999999994" width="194.19441999999992" height="97.09713999999998" />
+        <mxCell id="line_attr_THANH_TOAN_NgayThanhToan" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THANH_TOAN" target="attr_THANH_TOAN_NgayThanhToan">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="R_ROOM_SEAT" value="Chứa ghế" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="794.5" y="1037.67622" width="144.70497999999992" height="72.35241999999998" />
+        <mxCell id="line_attr_THANH_TOAN_MaGiaoDich" style="endArrow=none;html=1;rounded=0;strokeColor=#36393d;strokeWidth=1.5;fontSize=15;" edge="1" parent="1" source="THANH_TOAN" target="attr_THANH_TOAN_MaGiaoDich">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="R_TYPE_SEAT" value="Phân hạng" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="348.59999999999997" y="1036.27622" width="151.21819999999997" height="75.60909999999994" />
+        <mxCell id="CHI_NHANH_RAP" value="CHI_NHANH_RAP" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#cce5ff;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1300.0" y="360.0" width="300.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_MOVIE_MG" value="Có phân loại" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3301.8999999999996" y="1032.77622" width="164.27754000000013" height="82.13869999999991" />
+        <mxCell id="NHAN_VIEN" value="NHAN_VIEN" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#cce5ff;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3510.0" y="360.0" width="280.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_GENRE_MG" value="Gán thể loại" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="3724.7" y="1034.17622" width="160.53702" height="80.26843999999987" />
+        <mxCell id="HANG_GHE" value="HANG_GHE" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="320.0" y="1122.5" width="260.0" height="115.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_MOVIE_SCR" value="Xếp lịch chiếu" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2635.5" y="1030.67622" width="174.53967999999998" height="87.26983999999999" />
+        <mxCell id="PHONG_CHIEU" value="PHONG_CHIEU" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1305.0" y="1120.0" width="290.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_ROOM_SCR" value="Tổ chức tại" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1288.0" y="1035.57622" width="154.0155399999999" height="77.00769999999997" />
+        <mxCell id="PHIM" value="PHIM" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2165.0" y="1120.0" width="270.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_CUST_BOOK" value="Đặt mua" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2440.8999999999996" y="1669.07622" width="133.43385999999995" height="66.71686" />
+        <mxCell id="PHIM_THE_LOAI" value="PHIM_THE_LOAI" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#ffcccc;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2945.0" y="1120.0" width="310.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_EMP_BOOK" value="Lập đơn" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1984.4999999999998" y="1159.47622" width="132.34284000000005" height="66.17141999999987" />
+        <mxCell id="GHE" value="GHE" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="720.0" y="1892.5" width="260.0" height="115.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_SCR_BOOK" value="Đặt cho suất" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1378.3" y="1661.3762199999999" width="164.2611600000001" height="82.13058000000005" />
+        <mxCell id="SUAT_CHIEU" value="SUAT_CHIEU" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2105.0" y="1890.0" width="290.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_BOOK_TICKET" value="Bao gồm vé" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1153.6" y="2324.97622" width="159.59356000000002" height="79.79677999999984" />
+        <mxCell id="THE_LOAI" value="THE_LOAI" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2970.0" y="1792.5" width="260.0" height="115.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_SEAT_TICKET" value="Gán chỗ lịch sử" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="22.4" y="1799.27622" width="187.64004" height="93.82002000000006" />
+        <mxCell id="KHACH_HANG" value="KHACH_HANG" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#cce5ff;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3980.0" y="1890.0" width="280.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_LOCK_SCR" value="Khóa theo suất" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1145.8999999999999" y="1657.17622" width="182.96432000000001" height="91.48215999999992" />
+        <mxCell id="KHOA_GHE_SUAT_CHIEU" value="KHOA_GHE_SUAT_CHIEU" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=22;fontStyle=1;fillColor=#ffcccc;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1360.0" y="2587.5" width="380.0" height="125.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_LOCK_SEAT" value="Giữ chỗ ghế" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="690.1999999999999" y="1662.07622" width="162.44003999999995" height="81.22002000000006" />
+        <mxCell id="DON_DAT_VE" value="DON_DAT_VE" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#ffcc99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2955.0" y="2590.0" width="290.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_LOCK_TICKET" value="Giữ khóa khi VALID" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="414.4" y="1648.07622" width="218.45109999999997" height="109.22547999999996" />
+        <mxCell id="VE_XEM_PHIM" value="VE_XEM_PHIM" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#ffcc99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="705.0" y="3160.0" width="290.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="R_BOOK_PAY" value="Thanh toán đơn" style="rhombus;whiteSpace=wrap;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1717.1" y="2317.2762199999997" width="189.3135999999999" height="94.65665999999982" />
+        <mxCell id="THANH_TOAN" value="THANH_TOAN" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fillColor=#ffcccc;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2955.0" y="3220.0" width="290.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_0" source="cinema_branch" target="R_BRANCH_ROOM" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R1" value="SO_HUU" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1345.0" y="740.0" width="210.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_0_card" value="1" parent="rel_0" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="R2" value="QUAN_LY_NV" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2435.0" y="360.0" width="230.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_1" source="R_BRANCH_ROOM" target="screening_room" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R3" value="CHUA_GHE" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1045.0" y="1500.0" width="210.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_1_card" value="N" parent="rel_1" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="R4" value="PHAN_HANG" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="415.0" y="1500.0" width="210.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_2" source="cinema_branch" target="R_BRANCH_EMP" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R5" value="CO_THE_LOAI" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2590.0" y="1122.5" width="220.0" height="115.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_2_card" value="1" parent="rel_2" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="R6" value="GOM_PHIM" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2995.0" y="1457.5" width="210.0" height="115.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_3" source="R_BRANCH_EMP" target="employee" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R7" value="XEP_LICH" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2170.0" y="1500.0" width="210.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_3_card" value="N" parent="rel_3" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="R8" value="TO_CHUC_TAI" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1710.0" y="1500.0" width="220.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_4" source="screening_room" target="R_ROOM_SEAT" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R9" value="CO_DON_DAT" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2540.0" y="2240.0" width="220.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_4_card" value="1" parent="rel_4" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="R10" value="DAT_MUA" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3615.0" y="2290.0" width="210.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_5" source="R_ROOM_SEAT" target="seat" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R11" value="LAP_DON" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3415.0" y="1500.0" width="210.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_5_card" value="N" parent="rel_5" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="R12" value="BAO_GOM_VE" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1935.0" y="2960.0" width="230.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_6" source="seat_type" target="R_TYPE_SEAT" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R13" value="GAN_CHO_VE" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="510.0" y="2520.0" width="220.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_6_card" value="1" parent="rel_6" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="R14" value="KHOA_THEO_SUAT" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1775.0" y="2237.5" width="250.0" height="125.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_7" source="R_TYPE_SEAT" target="seat" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R15" value="GIU_CHO_GHE" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1070.0" y="2240.0" width="220.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_7_card" value="N" parent="rel_7" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="R16" value="GIU_KHOA_GHE" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1105.0" y="2880.0" width="230.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_8" source="movie" target="R_MOVIE_MG" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="R17" value="PHAT_SINH_TT" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontStyle=0;fillColor=#FFCC99;strokeColor=#36393d;strokeWidth=2;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2985.0" y="2905.0" width="230.0" height="120.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_8_card" value="1" parent="rel_8" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_CHI_NHANH_RAP_MaCN" value="&lt;u&gt;&lt;b&gt;MaCN&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1660.8" y="267.7" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_9" source="R_MOVIE_MG" target="movie_genre" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_CHI_NHANH_RAP_MaCodeCN" value="MaCodeCN" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1499.6" y="195.7" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_9_card" value="N" parent="rel_9" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_CHI_NHANH_RAP_TenChiNhanh" value="TenChiNhanh" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1313.3" y="186.2" width="157.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_10" source="genre" target="R_GENRE_MG" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_CHI_NHANH_RAP_DiaChi" value="DiaChi" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1169.7" y="232.1" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_10_card" value="1" parent="rel_10" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_CHI_NHANH_RAP_ThanhPho" value="ThanhPho" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1051.2" y="320.0" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_11" source="R_GENRE_MG" target="movie_genre" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_CHI_NHANH_RAP_SoDienThoai" value="SoDienThoai" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1015.0" y="420.1" width="157.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_11_card" value="N" parent="rel_11" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_CHI_NHANH_RAP_DangHoatDong" value="DangHoatDong" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1090.2" y="518.3" width="168.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_12" source="movie" target="R_MOVIE_SCR" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_NHAN_VIEN_MaNV" value="&lt;u&gt;&lt;b&gt;MaNV&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3337.5" y="244.5" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_12_card" value="1" parent="rel_12" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_NHAN_VIEN_MaCN" value="MaCN" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3500.9" y="190.2" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_13" source="R_MOVIE_SCR" target="screening" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_NHAN_VIEN_MaCodeNV" value="MaCodeNV" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3669.1" y="190.2" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_13_card" value="N" parent="rel_13" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_NHAN_VIEN_HoTen" value="HoTen" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3832.5" y="244.5" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_14" source="screening_room" target="R_ROOM_SCR" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_NHAN_VIEN_SoDienThoai" value="SoDienThoai" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3909.6" y="342.5" width="157.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_14_card" value="1" parent="rel_14" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_NHAN_VIEN_ChucVu" value="ChucVu" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3923.1" y="443.5" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_15" source="R_ROOM_SCR" target="screening" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_NHAN_VIEN_NgayVaoLam" value="NgayVaoLam" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3824.5" y="541.5" width="146.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_15_card" value="N" parent="rel_15" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_HANG_GHE_MaHangGhe" value="&lt;u&gt;&lt;b&gt;MaHangGhe&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="122.0" y="1029.3" width="135.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_16" source="customer" target="R_CUST_BOOK" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_HANG_GHE_TenHangGhe" value="TenHangGhe" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="377.0" y="945.5" width="146.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_16_card" value="1" parent="rel_16" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_HANG_GHE_PhuThu" value="PhuThu" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="645.5" y="1029.3" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_17" source="R_CUST_BOOK" target="booking" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_PHONG_CHIEU_MaPhong" value="&lt;u&gt;&lt;b&gt;MaPhong&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1094.2" y="1041.2" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_17_card" value="N" parent="rel_17" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_PHONG_CHIEU_MaCN" value="MaCN" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1030.0" y="1153.0" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_18" source="employee" target="R_EMP_BOOK" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_PHONG_CHIEU_TenPhong" value="TenPhong" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1063.3" y="1235.4" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_18_card" value="1" parent="rel_18" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_PHONG_CHIEU_LoaiPhong" value="LoaiPhong" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1557.4" y="974.9" width="135.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_19" source="R_EMP_BOOK" target="booking" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_PHONG_CHIEU_DangHoatDong" value="DangHoatDong" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1687.7" y="1070.6" width="168.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_19_card" value="N" parent="rel_19" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_PHIM_MaPhim" value="&lt;u&gt;&lt;b&gt;MaPhim&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2506.9" y="1032.9" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_20" source="screening" target="R_SCR_BOOK" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_PHIM_MaCodePhim" value="MaCodePhim" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2362.2" y="962.7" width="146.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_20_card" value="1" parent="rel_20" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_PHIM_TuaDe" value="TuaDe" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2223.8" y="943.1" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_21" source="R_SCR_BOOK" target="booking" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_PHIM_ThoiLuongPhut" value="ThoiLuongPhut" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2050.5" y="971.1" width="179.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_21_card" value="N" parent="rel_21" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_PHIM_NgayKhoiChieu" value="NgayKhoiChieu" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1917.9" y="1049.7" width="179.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_22" source="booking" target="R_BOOK_TICKET" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_PHIM_PhanLoaiTuoi" value="PhanLoaiTuoi" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1933.4" y="1264.8" width="168.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_22_card" value="1" parent="rel_22" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_PHIM_QuocGia" value="QuocGia" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2385.2" y="1338.4" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_23" source="R_BOOK_TICKET" target="ticket" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_PHIM_MoTa" value="MoTa" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2527.6" y="1256.3" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_23_card" value="N" parent="rel_23" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_PHIM_THE_LOAI_MaPhim" value="&lt;u&gt;&lt;b&gt;MaPhim&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3035.0" y="943.0" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_24" source="seat" target="R_SEAT_TICKET" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_PHIM_THE_LOAI_MaTL" value="&lt;u&gt;&lt;b&gt;MaTL&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3365.8" y="1070.6" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_24_card" value="1" parent="rel_24" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_GHE_MaGhe" value="&lt;u&gt;&lt;b&gt;MaGhe&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="785.0" y="1715.5" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_25" source="R_SEAT_TICKET" target="ticket" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_GHE_MaPhong" value="MaPhong" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="484.8" y="1832.6" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_25_card" value="N" parent="rel_25" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_GHE_MaHangGhe" value="MaHangGhe" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="442.5" y="1923.0" width="135.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_26" source="screening" target="R_LOCK_SCR" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_GHE_HangGhe" value="HangGhe" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="490.6" y="2019.2" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_26_card" value="1" parent="rel_26" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_GHE_SoGhe" value="SoGhe" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1121.7" y="1896.2" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_27" source="R_LOCK_SCR" target="screening_seat_lock" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_SUAT_CHIEU_MaSC" value="&lt;u&gt;&lt;b&gt;MaSC&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2448.8" y="1792.5" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_27_card" value="N" parent="rel_27" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_SUAT_CHIEU_MaPhim" value="MaPhim" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2526.2" y="1869.3" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_28" source="seat" target="R_LOCK_SEAT" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_SUAT_CHIEU_MaPhong" value="MaPhong" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2532.2" y="1963.5" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_28_card" value="1" parent="rel_28" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_SUAT_CHIEU_ThoiGianBatDau" value="ThoiGianBatDau" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2155.0" y="2133.0" width="190.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_29" source="R_LOCK_SEAT" target="screening_seat_lock" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_SUAT_CHIEU_ThoiGianKetThuc" value="ThoiGianKetThuc" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1820.3" y="1850.0" width="201.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_29_card" value="N" parent="rel_29" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_SUAT_CHIEU_GiaCoSo" value="GiaCoSo" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1842.1" y="1973.5" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_30" source="R_LOCK_TICKET" target="ticket" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_SUAT_CHIEU_TrangThai" value="TrangThai" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2091.5" y="1721.1" width="135.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_30_card" value="1" parent="rel_30" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_THE_LOAI_MaTL" value="&lt;u&gt;&lt;b&gt;MaTL&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2756.5" y="1712.6" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_31" source="R_LOCK_TICKET" target="screening_seat_lock" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_THE_LOAI_TenTheLoai" value="TenTheLoai" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2687.0" y="1823.0" width="146.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_31_card" value="1" parent="rel_31" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_THE_LOAI_MoTa" value="MoTa" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2756.5" y="1933.4" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_32" source="booking" target="R_BOOK_PAY" parent="1" edge="1" style="startArrow=none;endArrow=none;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_KHACH_HANG_MaKH" value="&lt;u&gt;&lt;b&gt;MaKH&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3846.1" y="1762.1" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_32_card" value="1" parent="rel_32" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="-0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_KHACH_HANG_HoTen" value="HoTen" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="4055.0" y="1713.0" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_33" source="R_BOOK_PAY" target="payment" parent="1" edge="1" style="startArrow=none;endArrow=none;shape=link;width=5;html=1;fontFamily=Arial;fontSize=14;strokeColor=#526579;strokeWidth=1.5;">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="attr_KHACH_HANG_SoDienThoai" value="SoDienThoai" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="4250.4" y="1762.1" width="157.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="rel_33_card" value="N" parent="rel_33" vertex="1" connectable="0" style="edgeLabel;html=1;resizable=0;fontFamily=Arial;fontSize=14;fontColor=#17324D;fillColor=#FFFFFF;">
-          <mxGeometry as="geometry" x="0.65" y="-12" relative="1">
-            <mxPoint as="offset" x="0" y="-5" />
-          </mxGeometry>
+        <mxCell id="attr_KHACH_HANG_Email" value="Email" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="4399.7" y="1889.1" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="legend" value="&lt;b&gt;QUY ƯỚC THEO BÀI GIẢNG&lt;/b&gt;&lt;br&gt;Chữ nhật: thực thể; hình thoi: liên kết; elip: thuộc tính; gạch chân: khóa chính.&lt;br&gt;Chữ nhật kèm hình thoi: thực thể kết hợp. Hai cột khóa gạch chân tạo MỘT khóa ghép.&lt;br&gt;1 / N: lực lượng liên kết; đường kép: tham gia đầy đủ; đường đơn: tham gia một phần.&lt;br&gt;BR-08: mỗi đơn mua có ít nhất một vé; vé thuộc đúng một đơn. Khách vãng lai không bắt buộc có hồ sơ thành viên.&lt;br&gt;Phân bổ ghế: chỉ vé VALID có đúng 1 phân bổ; vé CANCELLED không có. Suất và ghế phải khớp với vé (BR-09/10).&lt;br&gt;Chưa yêu cầu tối thiểu 1 phòng/nhân viên/ghế cho chi nhánh/phòng mới tạo: giữ tham gia một phần và ghi rõ giả định nghiệp vụ.&lt;br&gt;Phim–Thể loại được thể hiện bằng thực thể kết hợp; ánh xạ sang bảng movie_genre theo slide 5, trang 32–33." style="rounded=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=12;fillColor=#FFF9E6;strokeColor=#B29B56;fontFamily=Arial;fontColor=#17324D;fontSize=16;html=1;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="2100" y="2790.513" width="1900" height="250" />
+        <mxCell id="attr_KHACH_HANG_NgaySinh" value="NgaySinh" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="4358.1" y="2020.5" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="movie_genre_association" value="PHIM – THỂ LOẠI&lt;br&gt;(movie_genre)" vertex="1" parent="movie_genre" connectable="0" style="rhombus;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#639C80;fontColor=#17324D;fontFamily=Arial;fontSize=16;fontStyle=1;">
-          <mxGeometry as="geometry" x="0" y="0" width="360" height="140" />
+        <mxCell id="attr_KHACH_HANG_NgayTao" value="NgayTao" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="4166.2" y="2120.3" width="130.0" height="54.0" as="geometry" />
         </mxCell>
-        <mxCell id="screening_seat_lock_association" value="PHÂN BỔ GHẾ HIỆU LỰC&lt;br&gt;(screening_seat_lock)" vertex="1" parent="screening_seat_lock" connectable="0" style="rhombus;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#639C80;fontColor=#17324D;fontFamily=Arial;fontSize=16;fontStyle=1;">
-          <mxGeometry as="geometry" x="0" y="0" width="360" height="140" />
+        <mxCell id="attr_KHOA_GHE_SUAT_CHIEU_MaSC" value="&lt;u&gt;&lt;b&gt;MaSC&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1485.0" y="2410.5" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_KHOA_GHE_SUAT_CHIEU_MaGhe" value="&lt;u&gt;&lt;b&gt;MaGhe&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1847.5" y="2706.5" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_KHOA_GHE_SUAT_CHIEU_MaVe" value="MaVe" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1517.7" y="2834.7" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_DON_DAT_VE_MaDDV" value="&lt;u&gt;&lt;b&gt;MaDDV&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2989.1" y="2415.0" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_DON_DAT_VE_MaSC" value="MaSC" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2705.8" y="2550.0" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_DON_DAT_VE_MaKH" value="MaKH" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2680.2" y="2629.8" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_DON_DAT_VE_MaNV" value="MaNV" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3388.6" y="2606.0" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_DON_DAT_VE_MaCodeDDV" value="MaCodeDDV" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3370.1" y="2683.3" width="135.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_DON_DAT_VE_ThoiGianDat" value="ThoiGianDat" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3285.3" y="2753.5" width="157.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_DON_DAT_VE_TrangThai" value="TrangThai" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3172.0" y="2813.3" width="135.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_VE_XEM_PHIM_MaVe" value="&lt;u&gt;&lt;b&gt;MaVe&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="463.3" y="3110.6" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_VE_XEM_PHIM_MaDDV" value="MaDDV" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="442.1" y="3243.5" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_VE_XEM_PHIM_MaGhe" value="MaGhe" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="534.0" y="3341.5" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_VE_XEM_PHIM_DonGia" value="DonGia" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="699.6" y="3395.8" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_VE_XEM_PHIM_TrangThai" value="TrangThai" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="867.9" y="3395.8" width="135.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_VE_XEM_PHIM_ThoiGianHuy" value="ThoiGianHuy" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1043.4" y="3318.3" width="157.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_THANH_TOAN_MaTT" value="&lt;u&gt;&lt;b&gt;MaTT&lt;/b&gt;&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=5;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2713.3" y="3170.6" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_THANH_TOAN_MaDDV" value="MaDDV" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2701.4" y="3319.7" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_THANH_TOAN_SoTien" value="SoTien" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2822.9" y="3413.9" width="130.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_THANH_TOAN_PhuongThuc" value="PhuongThuc" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="2969.7" y="3459.8" width="146.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_THANH_TOAN_TrangThai" value="TrangThai" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3145.4" y="3450.3" width="135.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_THANH_TOAN_NgayThanhToan" value="NgayThanhToan" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3282.4" y="3378.3" width="179.0" height="54.0" as="geometry" />
+        </mxCell>
+        <mxCell id="attr_THANH_TOAN_MaGiaoDich" value="MaGiaoDich" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontStyle=0;fillColor=#ffffff;strokeColor=#36393d;strokeWidth=1.5;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="3376.6" y="3286.9" width="146.0" height="54.0" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

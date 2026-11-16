@@ -7,7 +7,30 @@
 
 Ánh xạ theo slide 5 của bài giảng: thực thể thông thường thành quan hệ; quan hệ 1:N đưa khóa phía 1 sang bảng phía N; thực thể kết hợp không có định danh riêng lấy khóa ghép từ các thực thể tham gia. Bản E–R chính tại `docs/erd/erd-chen.drawio` dùng ký hiệu thực thể kết hợp cho phân loại phim và phân bổ ghế hiệu lực. `movie_genre(movie_id, genre_id)` có khóa ghép từ Phim/Thể loại; `screening_seat_lock(screening_id, seat_id, ticket_id)` lấy khóa ghép Suất/Ghế và có khóa dự tuyển khác `ticket_id`. Số 14 là số bảng của lựa chọn ánh xạ này, không phải điều kiện bắt buộc cho mọi cách vẽ E–R tương đương. Tham gia đầy đủ trên E–R còn cần quy trình/trigger bảo vệ; FK không tự bảo đảm phía cha có ít nhất một dòng con.
 
-Quy ước ký hiệu trong biểu diễn lược đồ quan hệ mức logic:
+### Sơ đồ Lược đồ Quan hệ theo Ký hiệu Bài giảng (Bảng ngang & Mũi tên tham chiếu PK $\to$ FK)
+
+- **Bản vẽ có thể chỉnh sửa (draw.io):** [luoc-do-quan-he.drawio](luoc-do-quan-he.drawio) (đồng bộ tại [`docs/erd/luoc-do-quan-he.drawio`](../erd/luoc-do-quan-he.drawio))
+- **Bản xuất Vector & Hình ảnh:** [luoc-do-quan-he.pdf](luoc-do-quan-he.pdf) • [luoc-do-quan-he.svg](luoc-do-quan-he.svg) • [luoc-do-quan-he.png](luoc-do-quan-he.png)
+
+![Sơ đồ Lược đồ Quan hệ — 14 Bảng Chuẩn 3NF](luoc-do-quan-he.png)
+
+**Biểu diễn 14 lược đồ quan hệ theo tên tiếng Việt không dấu (trên sơ đồ `luoc-do-quan-he`):**
+1. **`CHI_NHANH_RAP`** (<u>**`MaCN`**</u>, `MaCodeCN`, `TenChiNhanh`, `DiaChi`, `ThanhPho`, `SoDienThoai`, `DangHoatDong`)
+2. **`PHONG_CHIEU`** (<u>**`MaPhong`**</u>, *`MaCN`*, `TenPhong`, `LoaiPhong`, `DangHoatDong`)
+3. **`HANG_GHE`** (<u>**`MaHangGhe`**</u>, `TenHangGhe`, `PhuThu`)
+4. **`GHE`** (<u>**`MaGhe`**</u>, *`MaPhong`*, *`MaHangGhe`*, `HangGhe`, `SoGhe`)
+5. **`PHIM`** (<u>**`MaPhim`**</u>, `MaCodePhim`, `TuaDe`, `ThoiLuongPhut`, `NgayKhoiChieu`, `PhanLoaiTuoi`, `QuocGia`, `MoTa`)
+6. **`THE_LOAI`** (<u>**`MaTL`**</u>, `TenTheLoai`, `MoTa`)
+7. **`PHIM_THE_LOAI`** (<u>***`MaPhim`***, ***`MaTL`***</u>)
+8. **`SUAT_CHIEU`** (<u>**`MaSC`**</u>, *`MaPhim`*, *`MaPhong`*, `ThoiGianBatDau`, `ThoiGianKetThuc`, `GiaCoSo`, `TrangThai`)
+9. **`KHACH_HANG`** (<u>**`MaKH`**</u>, `HoTen`, `SoDienThoai`, `Email`, `NgaySinh`, `NgayTao`)
+10. **`NHAN_VIEN`** (<u>**`MaNV`**</u>, *`MaCN`*, `MaCodeNV`, `HoTen`, `SoDienThoai`, `ChucVu`, `NgayVaoLam`)
+11. **`DON_DAT_VE`** (<u>**`MaDDV`**</u>, *`MaSC`*, *`MaKH`*, *`MaNV`*, `MaCodeDDV`, `ThoiGianDat`, `TrangThai`)
+12. **`VE_XEM_PHIM`** (<u>**`MaVe`**</u>, *`MaDDV`*, *`MaGhe`*, `DonGia`, `TrangThai`, `ThoiGianHuy`)
+13. **`KHOA_GHE_SUAT_CHIEU`** (<u>***`MaSC`***, ***`MaGhe`***</u>, *`MaVe`*)
+14. **`THANH_TOAN`** (<u>**`MaTT`**</u>, *`MaDDV`*, `SoTien`, `PhuongThuc`, `TrangThai`, `NgayThanhToan`, `MaGiaoDich`)
+
+Quy ước ký hiệu trong biểu diễn lược đồ quan hệ mức logic (ánh xạ sang tên bảng/cột vật lý SQL):
 - **Gạch chân nét liền (`PK`)**: Thuộc tính thuộc Khóa chính (Primary Key).
 - *Chữ nghiêng kèm dấu `#` (`FK`)*: Thuộc tính đóng vai trò Khóa ngoại (Foreign Key).
 - `AK`: Khóa dự tuyển khác trên **toàn bộ các bộ của quan hệ** (Alternate Key — mọi thuộc tính thành phần đều `NOT NULL` và `UNIQUE` trên toàn bảng).
