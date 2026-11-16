@@ -65,8 +65,14 @@ def verify_drawio(chen: str, diagram: str, svg: str) -> None:
     image = ET.fromstring(svg)
     ns = {'s': 'http://www.w3.org/2000/svg'}
     metadata = image.find('s:metadata', ns)
-    expected_hash = hashlib.sha256((ROOT / 'docs/erd/erd-chen.drawio').read_bytes()).hexdigest()
-    require(metadata is not None and expected_hash in metadata.text, 'SVG chưa được xuất lại từ draw.io hiện tại')
+    raw_chen = (ROOT / 'docs/erd/erd-chen.drawio').read_bytes()
+    chen_hashes = {
+        hashlib.sha256(raw_chen).hexdigest(),
+        hashlib.sha256(raw_chen.replace(b'\r\n', b'\n')).hexdigest(),
+        hashlib.sha256(raw_chen.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')).hexdigest(),
+    }
+    require(metadata is not None and any(h in metadata.text for h in chen_hashes),
+            'SVG chưa được xuất lại từ draw.io hiện tại')
 
     rhombuses = [c for c in cells if c.get('vertex') == '1' and 'rhombus' in c.get('style', '')]
     ellipses = [c for c in cells if c.get('vertex') == '1' and 'ellipse' in c.get('style', '')]
@@ -99,7 +105,12 @@ def verify_drawio(chen: str, diagram: str, svg: str) -> None:
             'Lược đồ quan hệ draw.io phải có đủ 14 bảng, 76 ô thuộc tính và 17 mũi tên FK')
     l_img = ET.fromstring(logical_svg)
     l_meta = l_img.find('s:metadata', ns)
-    require(l_meta is not None and hashlib.sha256(logical_drawio).hexdigest() in l_meta.text,
+    logical_hashes = {
+        hashlib.sha256(logical_drawio).hexdigest(),
+        hashlib.sha256(logical_drawio.replace(b'\r\n', b'\n')).hexdigest(),
+        hashlib.sha256(logical_drawio.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')).hexdigest(),
+    }
+    require(l_meta is not None and any(h in l_meta.text for h in logical_hashes),
             'SVG lược đồ quan hệ chưa đồng bộ SHA-256 với draw.io')
 
 
