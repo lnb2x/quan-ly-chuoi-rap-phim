@@ -1,6 +1,6 @@
 {
-  "generated_at_utc": "2026-11-15T10:03:35.553992+00:00",
-  "run_started_at_utc": "2026-11-15T10:02:53.503228+00:00",
+  "generated_at_utc": "2026-11-15T16:17:29.263352+00:00",
+  "run_started_at_utc": "2026-11-15T16:16:44.250553+00:00",
   "suite_count": 15,
   "tests": 104,
   "failures": 0,
@@ -13,7 +13,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.BookingConcurrencyIT.xml",
-      "sha256": "f8d340c9dc567d2afb16a34f5088141eebbff69a332360675666e46ab8e91b9f"
+      "sha256": "0395e093e3ce7e0d80ebb1ae7cf7d81caf729bf204b965a5fffd2dc278f45400"
     },
     "com.cinema.integration.BookingIdentityIT": {
       "tests": 1,
@@ -21,7 +21,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.BookingIdentityIT.xml",
-      "sha256": "3ba1ae91348fee89f16034323694784cffbc5987bdad0f80b92b61743b9f5f6c"
+      "sha256": "042e1d44d0754356f669308ac80ca2a3d164fadac4196a4ae21ffcc5f6543f80"
     },
     "com.cinema.integration.BusinessRulesIT": {
       "tests": 17,
@@ -29,7 +29,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.BusinessRulesIT.xml",
-      "sha256": "5c3cbd8ffac563fa55774aa306190638ee618d78ea7883434ce2a8bb751f638d"
+      "sha256": "d53b47554d864c308bf061646f685aa1edc89b0a3e63a7e2ba08f6aea0c38180"
     },
     "com.cinema.integration.DatabaseIntegrityIT": {
       "tests": 15,
@@ -37,7 +37,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.DatabaseIntegrityIT.xml",
-      "sha256": "2378c40e8ba74b74dd235af3307415dc9d05c2d4410e596b03aeddf28964f2ac"
+      "sha256": "63ae6690fbc096d3c845528bb2d9f94764b8b13928df19d912db28469ef7cd7a"
     },
     "com.cinema.integration.PaymentRecoveryIT": {
       "tests": 13,
@@ -45,7 +45,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.PaymentRecoveryIT.xml",
-      "sha256": "fb85b5f64a75553631dfcc98472fb8460f7cb57fc7f4ec9ebeb09cbb8ca0d267"
+      "sha256": "c190d7586c2a94f44780a27bc2a1d4bc827cc36ee6998bf003300e7c51e34076"
     },
     "com.cinema.integration.ReportAccuracyIT": {
       "tests": 4,
@@ -53,7 +53,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.ReportAccuracyIT.xml",
-      "sha256": "75e465bb64ef4878e59ee9ab531ddd1c5083ce17b70983c778e7441b9fea62d1"
+      "sha256": "fb03e21f13ab117ba7676d1f3990e9ac1c0ada8da4a8448c98caa0eea0eb269f"
     },
     "com.cinema.integration.SandboxPaymentIT": {
       "tests": 17,
@@ -61,7 +61,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.SandboxPaymentIT.xml",
-      "sha256": "3841335d689eacfdf3b5d2b623a218964ad7c2d7bcbb32ea655979954a92d4a1"
+      "sha256": "810bb095c85756740427d5fd5a310b73df6efb6281c9201f3ac31c20bfca9400"
     },
     "com.cinema.integration.ScreeningConcurrencyIT": {
       "tests": 2,
@@ -69,7 +69,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.ScreeningConcurrencyIT.xml",
-      "sha256": "654331e53834af0a6f261b1008355e63a11a13dde2ee582b58b304d791e02672"
+      "sha256": "4add9907a02a0eb5b37060374f20453bc63235ee909c23d52251aecc7a385347"
     },
     "com.cinema.integration.ScreeningSearchIT": {
       "tests": 3,
@@ -77,7 +77,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.ScreeningSearchIT.xml",
-      "sha256": "08160bd7d7afe1273a8682ad65297b7bc9c9aa5e889faecf64399bb51e602ed4"
+      "sha256": "5659f6f50d62dceaf1d4e2b7821207ce8be61dc5993c72b5e9b035392591786e"
     },
     "com.cinema.architecture.ArchitectureComplianceTest": {
       "tests": 5,
@@ -85,7 +85,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.architecture.ArchitectureComplianceTest.xml",
-      "sha256": "b2054028868d37010808446bf2bafd29fc70f4807af35840bdd7120ff0234d2f"
+      "sha256": "e568d0325c4ac3cec7b94379405924a02db899f05708ee2f60b2e5dc198498cf"
     },
     "com.cinema.unit.PdfReportWriterTest": {
       "tests": 3,
@@ -93,7 +93,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.PdfReportWriterTest.xml",
-      "sha256": "1574403dc3ca9f35d1a6446c7260e788d5018a189a10ae00660ded6d515c2624"
+      "sha256": "4f63efa4d23e74684e7bd3d190ffb709611c6b26ccfad8226692b719c19757d8"
     },
     "com.cinema.unit.ScreeningValidationTest": {
       "tests": 5,
@@ -101,7 +101,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.ScreeningValidationTest.xml",
-      "sha256": "e95c076742ef5837f3bdaa0e0e8941f342b356a70112e8f2d3441cb1a604a2f3"
+      "sha256": "295b68daa72c46e858c7b1d540519b7bc38e9b7b533136c8f34068403f5d373c"
     },
     "com.cinema.unit.TestSafetyGuardTest": {
       "tests": 6,
@@ -109,7 +109,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.TestSafetyGuardTest.xml",
-      "sha256": "81e537acfb944dfae2aa980c2fa3a24c765efd1a9fab00920aa57fd8133d2c54"
+      "sha256": "7e7f863938a6b9144d6102a65a1cf7f65085ea2264205f60d5c40c1fa15bf03a"
     },
     "com.cinema.unit.UiTaskTest": {
       "tests": 2,
@@ -117,7 +117,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.UiTaskTest.xml",
-      "sha256": "50cc53f30039d00390a6871bd3f4983601904bf0c686777e8aee33a08ab1d8b0"
+      "sha256": "92a5c9a4374d61c9662d9da234b60487b46dd129400e4020f1214bcc864654cd"
     },
     "com.cinema.unit.VnpayGatewayTest": {
       "tests": 10,
@@ -125,12 +125,11 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.VnpayGatewayTest.xml",
-      "sha256": "2e8b781ef88980f1cf45fded92019533c0e5a139793228c9701ac63e2b1ccd97"
+      "sha256": "aba84116ae8345e15dac689a0df194737893f5e4bfd6cdf10271ce26ec53bd39"
     }
   },
   "tested_source_hashes": {
     "database/schema/00_clean_reset_test_db.sql": "3c63a283c25200aeaed386d2ddcda9fad0a7e74d7b85f7b52dac1c2729e87ac3",
-    "database/schema/00_init_databases_and_user.sql": "1f14ad32df8c188bda5150562a285af13ee8b7dd5b32dff796c3db0a8d27abe7",
     "database/schema/01_schema.sql": "3d5568d24b034647b50ab770a2055c395111204607cc2e76333cb87ebf125d0e",
     "database/schema/01b_foreign_keys.sql": "ce4af7c6bc1e86e436a0b98259e27b1783a6df9395804c6727f30f3dcbac3088",
     "database/schema/02_triggers.sql": "8d5a833981abe231e8840f19abd794c2e282903e163f7639dbd77c0fa3844424",

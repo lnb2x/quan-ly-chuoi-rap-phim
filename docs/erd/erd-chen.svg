@@ -1,723 +1,762 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg xmlns="http://www.w3.org/2000/svg" width="4600" height="3550" viewBox="0 0 4600 3550">
-  <title>Sơ đồ E-R (Chen) — Hệ thống Quản lý Chuỗi Rạp Chiếu Phim</title>
-  <metadata>Source: erd-chen.drawio; SHA-256: 0e58ab799ca09a796ecf16a67ad21ce326c2c17cc2bc1862157bd987549c8db2</metadata>
+  <title>Sơ đồ E–R (Chen) theo bài giảng — Hệ thống Quản lý Chuỗi Rạp Chiếu Phim</title>
+  <metadata>Source: erd-chen.drawio; SHA-256: 060d51947dea031d06e5571d3653447dc4acf19b15920d3784cde001e79fa9b6</metadata>
   <rect width="4600" height="3550" fill="#FFFFFF" />
   <g id="relationship_edges">
     <g id="rel_edge_1">
       <line x1="1450.0" y1="740.0" x2="1450.0" y2="480.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="1455.0" y="527.4" width="26" height="26" fill="#FFFFFF" />
-      <text x="1468.0" y="548.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <g id="rel_edge_1_card">
+        <rect x="1455.0" y="534.6" width="26" height="26" fill="#FFFFFF" />
+        <text x="1468.0" y="554.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_2">
       <line x1="1454.0" y1="860.0" x2="1454.0" y2="1120.0" stroke="#36393d" stroke-width="2.6" />
       <line x1="1446.0" y1="860.0" x2="1446.0" y2="1120.0" stroke="#36393d" stroke-width="2.6" />
-      <rect x="1419.0" y="1042.6" width="26" height="26" fill="#FFFFFF" />
-      <text x="1432.0" y="1063.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_2_card">
+        <rect x="1419.0" y="1039.4" width="26" height="26" fill="#FFFFFF" />
+        <text x="1432.0" y="1059.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
     <g id="rel_edge_3">
       <line x1="2435.0" y1="420.0" x2="1600.0" y2="420.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="1787.4" y="387.0" width="26" height="26" fill="#FFFFFF" />
-      <text x="1800.4" y="408.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <g id="rel_edge_3_card">
+        <rect x="1804.1" y="389.0" width="26" height="26" fill="#FFFFFF" />
+        <text x="1817.1" y="409.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_4">
       <line x1="2665.0" y1="416.0" x2="3510.0" y2="416.0" stroke="#36393d" stroke-width="2.6" />
       <line x1="2665.0" y1="424.0" x2="3510.0" y2="424.0" stroke="#36393d" stroke-width="2.6" />
-      <rect x="3294.2" y="423.0" width="26" height="26" fill="#FFFFFF" />
-      <text x="3307.2" y="444.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_4_card">
+        <rect x="3277.3" y="425.0" width="26" height="26" fill="#FFFFFF" />
+        <text x="3290.3" y="445.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
     <g id="rel_edge_5">
       <line x1="1182.6" y1="1518.7" x2="1402.6" y2="1240.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="1351.0" y="1303.0" width="26" height="26" fill="#FFFFFF" />
-      <text x="1364.0" y="1324.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <g id="rel_edge_5_card">
+        <rect x="1346.6" y="1310.6" width="26" height="26" fill="#FFFFFF" />
+        <text x="1359.6" y="1330.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_6">
       <line x1="1121.1" y1="1604.1" x2="897.4" y2="1894.9" stroke="#36393d" stroke-width="2.6" />
       <line x1="1114.8" y1="1599.2" x2="891.1" y2="1890.1" stroke="#36393d" stroke-width="2.6" />
-      <rect x="920.7" y="1796.7" width="26" height="26" fill="#FFFFFF" />
-      <text x="933.7" y="1817.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_6_card">
+        <rect x="925.1" y="1792.9" width="26" height="26" fill="#FFFFFF" />
+        <text x="938.1" y="1812.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
     <g id="rel_edge_7">
       <line x1="510.0" y1="1505.7" x2="460.6" y2="1237.5" stroke="#36393d" stroke-width="2.8" />
-      <rect x="477.2" y="1283.6" width="26" height="26" fill="#FFFFFF" />
-      <text x="490.2" y="1304.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <g id="rel_edge_7_card">
+        <rect x="478.1" y="1291.0" width="26" height="26" fill="#FFFFFF" />
+        <text x="491.1" y="1311.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_8">
       <line x1="557.3" y1="1597.9" x2="804.4" y2="1889.9" stroke="#36393d" stroke-width="2.6" />
       <line x1="551.2" y1="1603.0" x2="798.3" y2="1895.1" stroke="#36393d" stroke-width="2.6" />
-      <rect x="715.3" y="1819.0" width="26" height="26" fill="#FFFFFF" />
-      <text x="728.3" y="1840.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_8_card">
+        <rect x="710.4" y="1815.2" width="26" height="26" fill="#FFFFFF" />
+        <text x="723.4" y="1835.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
     <g id="rel_edge_9">
-      <line x1="2590.0" y1="1180.0" x2="2435.0" y2="1180.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="2459.2" y="1147.0" width="26" height="26" fill="#FFFFFF" />
-      <text x="2472.2" y="1168.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <line x1="2930.0" y1="1180.0" x2="2435.0" y2="1180.0" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_9_card">
+        <rect x="2550.7" y="1149.0" width="26" height="26" fill="#FFFFFF" />
+        <text x="2563.7" y="1169.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">M</text>
+      </g>
     </g>
     <g id="rel_edge_10">
-      <line x1="2810.0" y1="1176.0" x2="2945.0" y2="1176.0" stroke="#36393d" stroke-width="2.6" />
-      <line x1="2810.0" y1="1184.0" x2="2945.0" y2="1184.0" stroke="#36393d" stroke-width="2.6" />
-      <rect x="2899.6" y="1183.0" width="26" height="26" fill="#FFFFFF" />
-      <text x="2912.6" y="1204.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <line x1="3100.0" y1="1250.0" x2="3100.0" y2="1792.5" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_10_card">
+        <rect x="3069.0" y="1638.5" width="26" height="26" fill="#FFFFFF" />
+        <text x="3082.0" y="1658.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
     <g id="rel_edge_11">
-      <line x1="3100.0" y1="1572.5" x2="3100.0" y2="1792.5" stroke="#36393d" stroke-width="2.8" />
-      <rect x="3069.0" y="1724.7" width="26" height="26" fill="#FFFFFF" />
-      <text x="3082.0" y="1745.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <line x1="2278.8" y1="1502.2" x2="2296.1" y2="1240.0" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_11_card">
+        <rect x="2296.5" y="1296.3" width="26" height="26" fill="#FFFFFF" />
+        <text x="2309.5" y="1316.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_12">
-      <line x1="3096.0" y1="1457.5" x2="3096.0" y2="1240.0" stroke="#36393d" stroke-width="2.6" />
-      <line x1="3104.0" y1="1457.5" x2="3104.0" y2="1240.0" stroke="#36393d" stroke-width="2.6" />
-      <rect x="3105.0" y="1277.2" width="26" height="26" fill="#FFFFFF" />
-      <text x="3118.0" y="1298.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
-    </g>
-    <g id="rel_edge_13">
-      <line x1="2278.8" y1="1502.2" x2="2296.1" y2="1240.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="2296.9" y="1289.1" width="26" height="26" fill="#FFFFFF" />
-      <text x="2309.9" y="1310.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
-    </g>
-    <g id="rel_edge_14">
       <line x1="2275.3" y1="1618.1" x2="2257.8" y2="1890.3" stroke="#36393d" stroke-width="2.6" />
       <line x1="2267.3" y1="1617.6" x2="2249.9" y2="1889.7" stroke="#36393d" stroke-width="2.6" />
-      <rect x="2227.1" y="1808.5" width="26" height="26" fill="#FFFFFF" />
-      <text x="2240.1" y="1829.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_12_card">
+        <rect x="2227.4" y="1805.1" width="26" height="26" fill="#FFFFFF" />
+        <text x="2240.4" y="1825.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
-    <g id="rel_edge_15">
+    <g id="rel_edge_13">
       <line x1="1781.8" y1="1520.8" x2="1508.4" y2="1240.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="1573.9" y="1279.8" width="26" height="26" fill="#FFFFFF" />
-      <text x="1586.9" y="1300.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <g id="rel_edge_13_card">
+        <rect x="1579.4" y="1287.5" width="26" height="26" fill="#FFFFFF" />
+        <text x="1592.4" y="1307.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
-    <g id="rel_edge_16">
+    <g id="rel_edge_14">
       <line x1="1864.0" y1="1594.5" x2="2186.5" y2="1887.0" stroke="#36393d" stroke-width="2.6" />
       <line x1="1858.6" y1="1600.4" x2="2181.2" y2="1893.0" stroke="#36393d" stroke-width="2.6" />
-      <rect x="2081.3" y="1818.1" width="26" height="26" fill="#FFFFFF" />
-      <text x="2094.3" y="1839.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_14_card">
+        <rect x="2074.9" y="1814.3" width="26" height="26" fill="#FFFFFF" />
+        <text x="2087.9" y="1834.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
-    <g id="rel_edge_17">
+    <g id="rel_edge_15">
       <line x1="2607.8" y1="2263.0" x2="2318.6" y2="2010.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="2386.8" y="2042.2" width="26" height="26" fill="#FFFFFF" />
-      <text x="2399.8" y="2063.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <g id="rel_edge_15_card">
+        <rect x="2392.6" y="2049.2" width="26" height="26" fill="#FFFFFF" />
+        <text x="2405.6" y="2069.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
-    <g id="rel_edge_18">
+    <g id="rel_edge_16">
       <line x1="2697.8" y1="2332.1" x2="3025.3" y2="2586.8" stroke="#36393d" stroke-width="2.6" />
       <line x1="2692.9" y1="2338.4" x2="3020.4" y2="2593.2" stroke="#36393d" stroke-width="2.6" />
-      <rect x="2920.2" y="2528.1" width="26" height="26" fill="#FFFFFF" />
-      <text x="2933.2" y="2549.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_16_card">
+        <rect x="2913.7" y="2525.0" width="26" height="26" fill="#FFFFFF" />
+        <text x="2926.7" y="2545.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
+    </g>
+    <g id="rel_edge_17">
+      <line x1="3758.2" y1="2311.8" x2="4060.0" y2="2010.0" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_17_card">
+        <rect x="3981.3" y="2088.2" width="26" height="26" fill="#FFFFFF" />
+        <text x="3994.3" y="2108.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
+    </g>
+    <g id="rel_edge_18">
+      <line x1="3663.1" y1="2377.5" x2="3224.0" y2="2590.0" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_18_card">
+        <rect x="3317.3" y="2505.5" width="26" height="26" fill="#FFFFFF" />
+        <text x="3330.3" y="2525.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
     <g id="rel_edge_19">
-      <line x1="3758.2" y1="2311.8" x2="4060.0" y2="2010.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="3987.3" y="2080.2" width="26" height="26" fill="#FFFFFF" />
-      <text x="4000.3" y="2101.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <line x1="3526.4" y1="1503.7" x2="3643.2" y2="480.0" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_19_card">
+        <rect x="3617.7" y="735.2" width="26" height="26" fill="#FFFFFF" />
+        <text x="3630.7" y="755.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_20">
-      <line x1="3663.1" y1="2377.5" x2="3224.0" y2="2590.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="3308.6" y="2507.8" width="26" height="26" fill="#FFFFFF" />
-      <text x="3321.6" y="2528.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
-    </g>
-    <g id="rel_edge_21">
-      <line x1="3526.4" y1="1503.7" x2="3643.2" y2="480.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="3620.0" y="712.7" width="26" height="26" fill="#FFFFFF" />
-      <text x="3633.0" y="733.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
-    </g>
-    <g id="rel_edge_22">
       <line x1="3504.8" y1="1610.6" x2="3126.9" y2="2591.4" stroke="#36393d" stroke-width="2.6" />
       <line x1="3497.3" y1="1607.7" x2="3119.4" y2="2588.6" stroke="#36393d" stroke-width="2.6" />
-      <rect x="3184.0" y="2333.1" width="26" height="26" fill="#FFFFFF" />
-      <text x="3197.0" y="2354.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_20_card">
+        <rect x="3191.6" y="2315.5" width="26" height="26" fill="#FFFFFF" />
+        <text x="3204.6" y="2335.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
-    <g id="rel_edge_23">
+    <g id="rel_edge_21">
       <line x1="2117.3" y1="2992.0" x2="2953.7" y2="2697.3" stroke="#36393d" stroke-width="2.6" />
       <line x1="2120.0" y1="2999.6" x2="2956.3" y2="2704.9" stroke="#36393d" stroke-width="2.6" />
-      <rect x="2747.3" y="2773.8" width="26" height="26" fill="#FFFFFF" />
-      <text x="2760.3" y="2794.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <g id="rel_edge_21_card">
+        <rect x="2730.5" y="2781.7" width="26" height="26" fill="#FFFFFF" />
+        <text x="2743.5" y="2801.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
-    <g id="rel_edge_24">
+    <g id="rel_edge_22">
       <line x1="1963.5" y1="3038.5" x2="995.7" y2="3199.8" stroke="#36393d" stroke-width="2.6" />
       <line x1="1962.2" y1="3030.6" x2="994.3" y2="3191.9" stroke="#36393d" stroke-width="2.6" />
-      <rect x="1211.3" y="3124.4" width="26" height="26" fill="#FFFFFF" />
-      <text x="1224.3" y="3145.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_22_card">
+        <rect x="1230.7" y="3123.1" width="26" height="26" fill="#FFFFFF" />
+        <text x="1243.7" y="3143.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
-    <g id="rel_edge_25">
+    <g id="rel_edge_23">
       <line x1="638.3" y1="2530.0" x2="829.0" y2="2007.5" stroke="#36393d" stroke-width="2.8" />
-      <rect x="787.1" y="2124.1" width="26" height="26" fill="#FFFFFF" />
-      <text x="800.1" y="2145.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <g id="rel_edge_23_card">
+        <rect x="783.3" y="2136.5" width="26" height="26" fill="#FFFFFF" />
+        <text x="796.3" y="2156.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
-    <g id="rel_edge_26">
+    <g id="rel_edge_24">
       <line x1="641.8" y1="2628.8" x2="832.2" y2="3158.6" stroke="#36393d" stroke-width="2.6" />
       <line x1="634.3" y1="2631.5" x2="824.7" y2="3161.4" stroke="#36393d" stroke-width="2.6" />
-      <rect x="752.8" y="3023.9" width="26" height="26" fill="#FFFFFF" />
-      <text x="765.8" y="3044.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_24_card">
+        <rect x="749.0" y="3015.3" width="26" height="26" fill="#FFFFFF" />
+        <text x="762.0" y="3035.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
+    </g>
+    <g id="rel_edge_25">
+      <line x1="1631.0" y1="2490.0" x2="2181.2" y2="2010.0" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_25_card">
+        <rect x="2037.0" y="2135.4" width="26" height="26" fill="#FFFFFF" />
+        <text x="2050.0" y="2155.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">M</text>
+      </g>
+    </g>
+    <g id="rel_edge_26">
+      <line x1="1460.2" y1="2490.0" x2="915.0" y2="2007.5" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_26_card">
+        <rect x="1055.7" y="2106.5" width="26" height="26" fill="#FFFFFF" />
+        <text x="1068.7" y="2126.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
     <g id="rel_edge_27">
-      <line x1="1941.7" y1="2258.3" x2="2190.0" y2="2010.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="2130.1" y="2067.3" width="26" height="26" fill="#FFFFFF" />
-      <text x="2143.1" y="2088.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <line x1="1175.8" y1="2985.4" x2="933.3" y2="3160.0" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_27_card">
+        <rect x="972.9" y="3087.0" width="26" height="26" fill="#FFFFFF" />
+        <text x="985.9" y="3107.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_28">
-      <line x1="1861.2" y1="2344.5" x2="1615.3" y2="2590.3" stroke="#36393d" stroke-width="2.6" />
-      <line x1="1855.5" y1="2338.8" x2="1609.7" y2="2584.7" stroke="#36393d" stroke-width="2.6" />
-      <rect x="1645.8" y="2500.8" width="26" height="26" fill="#FFFFFF" />
-      <text x="1658.8" y="2521.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <line x1="1257.2" y1="2905.1" x2="1479.6" y2="2637.4" stroke="#36393d" stroke-width="2.6" />
+      <line x1="1263.3" y1="2910.2" x2="1485.7" y2="2642.6" stroke="#36393d" stroke-width="2.6" />
+      <g id="rel_edge_28_card">
+        <rect x="1425.7" y="2708.1" width="26" height="26" fill="#FFFFFF" />
+        <text x="1438.7" y="2728.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_29">
-      <line x1="1142.6" y1="2260.4" x2="904.2" y2="2007.5" stroke="#36393d" stroke-width="2.8" />
-      <rect x="961.5" y="2040.8" width="26" height="26" fill="#FFFFFF" />
-      <text x="974.5" y="2061.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      <line x1="3100.0" y1="2905.0" x2="3100.0" y2="2710.0" stroke="#36393d" stroke-width="2.8" />
+      <g id="rel_edge_29_card">
+        <rect x="3105.0" y="2747.7" width="26" height="26" fill="#FFFFFF" />
+        <text x="3118.0" y="2767.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
+      </g>
     </g>
     <g id="rel_edge_30">
-      <line x1="1223.0" y1="2335.2" x2="1486.7" y2="2584.6" stroke="#36393d" stroke-width="2.6" />
-      <line x1="1217.5" y1="2341.0" x2="1481.2" y2="2590.4" stroke="#36393d" stroke-width="2.6" />
-      <rect x="1395.3" y="2525.7" width="26" height="26" fill="#FFFFFF" />
-      <text x="1408.3" y="2546.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
-    </g>
-    <g id="rel_edge_31">
-      <line x1="1173.1" y1="2975.5" x2="929.3" y2="3160.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="963.9" y="3086.4" width="26" height="26" fill="#FFFFFF" />
-      <text x="976.9" y="3107.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
-    </g>
-    <g id="rel_edge_32">
-      <line x1="1260.2" y1="2899.3" x2="1476.2" y2="2709.5" stroke="#36393d" stroke-width="2.6" />
-      <line x1="1265.5" y1="2905.4" x2="1481.5" y2="2715.5" stroke="#36393d" stroke-width="2.6" />
-      <rect x="1425.9" y="2756.6" width="26" height="26" fill="#FFFFFF" />
-      <text x="1438.9" y="2777.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
-    </g>
-    <g id="rel_edge_33">
-      <line x1="3100.0" y1="2905.0" x2="3100.0" y2="2710.0" stroke="#36393d" stroke-width="2.8" />
-      <rect x="3105.0" y="2741.8" width="26" height="26" fill="#FFFFFF" />
-      <text x="3118.0" y="2762.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">1</text>
-    </g>
-    <g id="rel_edge_34">
       <line x1="3104.0" y1="3025.0" x2="3104.0" y2="3220.0" stroke="#36393d" stroke-width="2.6" />
       <line x1="3096.0" y1="3025.0" x2="3096.0" y2="3220.0" stroke="#36393d" stroke-width="2.6" />
-      <rect x="3069.0" y="3158.2" width="26" height="26" fill="#FFFFFF" />
-      <text x="3082.0" y="3179.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      <g id="rel_edge_30_card">
+        <rect x="3069.0" y="3156.3" width="26" height="26" fill="#FFFFFF" />
+        <text x="3082.0" y="3176.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">N</text>
+      </g>
     </g>
   </g>
   <g id="attribute_edges">
-    <line x1="1582.0" y1="360.0" x2="1681.9" y2="314.6" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1484.8" y1="360.0" x2="1549.3" y2="248.9" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1433.1" y1="360.0" x2="1399.4" y2="240.1" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1369.7" y1="360.0" x2="1266.3" y2="282.7" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1300.0" y1="387.2" x2="1173.7" y2="359.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1300.0" y1="431.4" x2="1170.1" y2="441.3" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1318.0" y1="480.0" x2="1222.7" y2="523.3" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3550.0" y1="360.0" x2="3439.5" y2="293.7" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3625.1" y1="360.0" x2="3576.9" y2="243.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3674.9" y1="360.0" x2="3723.1" y2="243.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3750.0" y1="360.0" x2="3860.5" y2="293.7" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3790.0" y1="399.1" x2="3916.1" y2="380.3" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3790.0" y1="440.9" x2="3926.9" y2="461.3" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3750.0" y1="480.0" x2="3859.2" y2="545.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="329.0" y1="1122.5" x2="233.0" y2="1076.9" stroke="#36393d" stroke-width="1.6" />
-    <line x1="450.0" y1="1122.5" x2="450.0" y2="999.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="571.0" y1="1122.5" x2="667.7" y2="1076.6" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1305.0" y1="1124.2" x2="1206.9" y2="1086.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1305.0" y1="1180.0" x2="1160.0" y2="1180.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1305.0" y1="1217.1" x2="1183.6" y2="1248.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1508.9" y1="1120.0" x2="1600.2" y2="1027.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1595.0" y1="1142.9" x2="1706.0" y2="1114.4" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2435.0" y1="1120.4" x2="2527.3" y2="1079.6" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2342.6" y1="1120.0" x2="2416.7" y2="1015.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2296.8" y1="1120.0" x2="2290.3" y2="997.1" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2247.2" y1="1120.0" x2="2163.0" y2="1024.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2165.0" y1="1132.3" x2="2065.6" y2="1097.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2165.0" y1="1233.4" x2="2070.3" y2="1270.9" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2348.6" y1="1240.0" x2="2429.5" y2="1339.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2435.0" y1="1227.7" x2="2543.1" y2="1265.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3100.0" y1="1120.0" x2="3100.0" y2="997.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3255.0" y1="1141.4" x2="3375.1" y2="1111.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="850.0" y1="1892.5" x2="850.0" y2="1769.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="720.0" y1="1910.9" x2="602.4" y2="1875.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="720.0" y1="1950.0" x2="577.5" y2="1950.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="720.0" y1="1992.5" x2="606.6" y2="2029.6" stroke="#36393d" stroke-width="1.6" />
-    <line x1="980.0" y1="1939.7" x2="1122.9" y2="1928.3" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2371.3" y1="1890.0" x2="2472.0" y2="1840.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2395.0" y1="1927.2" x2="2530.5" y2="1905.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2395.0" y1="1966.9" x2="2534.7" y2="1983.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2250.0" y1="2010.0" x2="2250.0" y2="2133.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2105.0" y1="1917.8" x2="1998.3" y2="1894.1" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2105.0" y1="1971.3" x2="1968.4" y2="1991.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2223.0" y1="1890.0" x2="2171.0" y2="1774.7" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2970.0" y1="1798.5" x2="2868.5" y2="1758.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2970.0" y1="1850.0" x2="2833.0" y2="1850.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2970.0" y1="1901.5" x2="2868.5" y2="1941.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="4042.1" y1="1890.0" x2="3942.0" y2="1812.9" stroke="#36393d" stroke-width="1.6" />
-    <line x1="4120.0" y1="1890.0" x2="4120.0" y2="1767.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="4197.9" y1="1890.0" x2="4296.9" y2="1813.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="4260.0" y1="1936.2" x2="4401.4" y2="1922.4" stroke="#36393d" stroke-width="1.6" />
-    <line x1="4260.0" y1="1995.0" x2="4371.7" y2="2031.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="4153.8" y1="2010.0" x2="4216.3" y2="2121.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1550.0" y1="2587.5" x2="1550.0" y2="2464.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1740.0" y1="2693.7" x2="1855.7" y2="2720.4" stroke="#36393d" stroke-width="1.6" />
-    <line x1="1559.6" y1="2712.5" x2="1578.5" y2="2834.7" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3086.7" y1="2590.0" x2="3060.0" y2="2468.9" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2955.0" y1="2617.8" x2="2828.2" y2="2589.7" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2955.0" y1="2652.8" x2="2810.1" y2="2655.6" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3245.0" y1="2643.0" x2="3389.1" y2="2636.1" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3245.0" y1="2675.9" x2="3376.0" y2="2699.3" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3221.3" y1="2710.0" x2="3319.0" y2="2758.3" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3144.0" y1="2710.0" x2="3220.5" y2="2814.4" stroke="#36393d" stroke-width="1.6" />
-    <line x1="705.0" y1="3182.9" x2="583.6" y2="3151.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="705.0" y1="3241.3" x2="568.4" y2="3261.5" stroke="#36393d" stroke-width="1.6" />
-    <line x1="748.6" y1="3280.0" x2="636.3" y2="3346.4" stroke="#36393d" stroke-width="1.6" />
-    <line x1="824.7" y1="3280.0" x2="775.8" y2="3396.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="875.3" y1="3280.0" x2="924.2" y2="3396.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="980.2" y1="3280.0" x2="1075.0" y2="3323.7" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2955.0" y1="3242.9" x2="2833.6" y2="3211.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="2955.0" y1="3309.0" x2="2825.0" y2="3335.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3020.9" y1="3340.0" x2="2919.1" y2="3417.2" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3083.4" y1="3340.0" x2="3050.1" y2="3460.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3134.3" y1="3340.0" x2="3197.8" y2="3451.0" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3230.2" y1="3340.0" x2="3322.9" y2="3382.8" stroke="#36393d" stroke-width="1.6" />
-    <line x1="3245.0" y1="3294.0" x2="3379.0" y2="3307.0" stroke="#36393d" stroke-width="1.6" />
+    <g id="line_attr_CHI_NHANH_RAP_MaCN">
+      <line x1="1535.7" y1="360.0" x2="1621.6" y2="299.8" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_CHI_NHANH_RAP_MaCodeCN">
+      <line x1="1471.9" y1="360.0" x2="1517.3" y2="235.3" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_CHI_NHANH_RAP_TenChiNhanh">
+      <line x1="1433.9" y1="360.0" x2="1399.0" y2="229.6" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_CHI_NHANH_RAP_DiaChi">
+      <line x1="1378.5" y1="360.0" x2="1294.9" y2="289.9" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_CHI_NHANH_RAP_ThanhPho">
+      <line x1="1300.0" y1="393.5" x2="1239.0" y2="382.8" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_CHI_NHANH_RAP_SoDienThoai">
+      <line x1="1300.0" y1="451.9" x2="1234.8" y2="465.8" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_CHI_NHANH_RAP_DangHoatDong">
+      <line x1="1378.5" y1="480.0" x2="1288.3" y2="555.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_NHAN_VIEN_MaNV">
+      <line x1="3590.0" y1="360.0" x2="3508.7" y2="278.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_NHAN_VIEN_MaCodeNV">
+      <line x1="3639.4" y1="360.0" x2="3616.5" y2="230.2" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_NHAN_VIEN_HoTen">
+      <line x1="3678.0" y1="360.0" x2="3730.6" y2="247.1" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_NHAN_VIEN_SoDienThoai">
+      <line x1="3753.9" y1="360.0" x2="3831.3" y2="315.3" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_NHAN_VIEN_ChucVu">
+      <line x1="3790.0" y1="432.2" x2="3850.4" y2="437.5" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_NHAN_VIEN_NgayVaoLam">
+      <line x1="3726.8" y1="480.0" x2="3820.1" y2="552.9" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_HANG_GHE_MaHangGhe">
+      <line x1="367.9" y1="1122.5" x2="290.7" y2="1068.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_HANG_GHE_TenHangGhe">
+      <line x1="450.0" y1="1122.5" x2="450.0" y2="997.0" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_HANG_GHE_PhuThu">
+      <line x1="532.1" y1="1122.5" x2="609.3" y2="1068.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHONG_CHIEU_MaPhong">
+      <line x1="1321.3" y1="1120.0" x2="1271.2" y2="1096.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHONG_CHIEU_TenPhong">
+      <line x1="1305.0" y1="1180.0" x2="1260.0" y2="1180.0" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHONG_CHIEU_LoaiPhong">
+      <line x1="1535.7" y1="1120.0" x2="1613.4" y2="1065.5" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHONG_CHIEU_DangHoatDong">
+      <line x1="1595.0" y1="1159.6" x2="1654.2" y2="1151.3" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHIM_MaPhim">
+      <line x1="2396.0" y1="1120.0" x2="2488.7" y2="1062.1" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHIM_MaCodePhim">
+      <line x1="2331.9" y1="1120.0" x2="2408.1" y2="976.8" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHIM_TuaDe">
+      <line x1="2294.8" y1="1120.0" x2="2281.5" y2="967.9" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHIM_ThoiLuongPhut">
+      <line x1="2253.1" y1="1120.0" x2="2157.3" y2="997.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHIM_NgayKhoiChieu">
+      <line x1="2165.0" y1="1136.1" x2="2083.6" y2="1109.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHIM_PhanLoaiTuoi">
+      <line x1="2165.0" y1="1234.5" x2="2096.0" y2="1262.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHIM_QuocGia">
+      <line x1="2331.9" y1="1240.0" x2="2396.3" y2="1361.1" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_PHIM_MoTa">
+      <line x1="2412.9" y1="1240.0" x2="2485.2" y2="1278.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_GHE_MaGhe">
+      <line x1="726.7" y1="1892.5" x2="675.7" y2="1868.8" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_GHE_HangGhe">
+      <line x1="720.0" y1="1950.0" x2="665.0" y2="1950.0" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_GHE_SoGhe">
+      <line x1="758.0" y1="2007.5" x2="682.5" y2="2054.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_SUAT_CHIEU_MaSC">
+      <line x1="2296.9" y1="1890.0" x2="2383.8" y2="1778.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_SUAT_CHIEU_ThoiGianBatDau">
+      <line x1="2395.0" y1="1902.9" x2="2469.4" y2="1878.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_SUAT_CHIEU_ThoiGianKetThuc">
+      <line x1="2395.0" y1="1980.8" x2="2471.7" y2="1997.1" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_SUAT_CHIEU_GiaCoSo">
+      <line x1="2262.8" y1="2010.0" x2="2293.2" y2="2153.0" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_SUAT_CHIEU_TrangThai">
+      <line x1="2222.0" y1="2010.0" x2="2163.1" y2="2136.5" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THE_LOAI_MaTL">
+      <line x1="3000.4" y1="1792.5" x2="2934.5" y2="1754.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THE_LOAI_TenTheLoai">
+      <line x1="2970.0" y1="1850.0" x2="2918.0" y2="1850.0" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THE_LOAI_MoTa">
+      <line x1="3000.4" y1="1907.5" x2="2934.5" y2="1945.6" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_KHACH_HANG_MaKH">
+      <line x1="4060.0" y1="1890.0" x2="3978.7" y2="1808.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_KHACH_HANG_HoTen">
+      <line x1="4120.0" y1="1890.0" x2="4120.0" y2="1762.0" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_KHACH_HANG_SoDienThoai">
+      <line x1="4180.0" y1="1890.0" x2="4267.9" y2="1802.1" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_KHACH_HANG_Email">
+      <line x1="4260.0" y1="1950.0" x2="4320.0" y2="1950.0" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_KHACH_HANG_NgaySinh">
+      <line x1="4186.7" y1="2010.0" x2="4274.9" y2="2089.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_KHACH_HANG_NgayTao">
+      <line x1="4125.2" y1="2010.0" x2="4136.3" y2="2137.2" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_DON_DAT_VE_MaDDV">
+      <line x1="2955.0" y1="2597.2" x2="2909.3" y2="2580.6" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_DON_DAT_VE_MaCodeDDV">
+      <line x1="3245.0" y1="2650.0" x2="3310.0" y2="2650.0" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_DON_DAT_VE_ThoiGianDat">
+      <line x1="3212.8" y1="2710.0" x2="3301.0" y2="2756.9" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_DON_DAT_VE_TrangThai">
+      <line x1="3137.5" y1="2710.0" x2="3213.5" y2="2831.7" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_VE_XEM_PHIM_MaVe">
+      <line x1="705.0" y1="3181.1" x2="658.3" y2="3168.6" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_VE_XEM_PHIM_DonGia">
+      <line x1="721.4" y1="3280.0" x2="666.6" y2="3305.5" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_VE_XEM_PHIM_TrangThai">
+      <line x1="822.0" y1="3280.0" x2="767.3" y2="3397.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_VE_XEM_PHIM_ThoiGianHuy">
+      <line x1="878.0" y1="3280.0" x2="936.9" y2="3406.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THANH_TOAN_MaTT">
+      <line x1="2955.0" y1="3249.2" x2="2898.7" y2="3237.2" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THANH_TOAN_SoTien">
+      <line x1="2971.3" y1="3340.0" x2="2903.0" y2="3371.8" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THANH_TOAN_PhuongThuc">
+      <line x1="3062.5" y1="3340.0" x2="2978.6" y2="3474.3" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THANH_TOAN_TrangThai">
+      <line x1="3105.3" y1="3340.0" x2="3119.0" y2="3497.1" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THANH_TOAN_NgayThanhToan">
+      <line x1="3154.0" y1="3340.0" x2="3260.6" y2="3458.4" stroke="#36393d" stroke-width="1.5" />
+    </g>
+    <g id="line_attr_THANH_TOAN_MaGiaoDich">
+      <line x1="3245.0" y1="3310.8" x2="3323.7" y2="3327.6" stroke="#36393d" stroke-width="1.5" />
+    </g>
   </g>
-  <g id="entities">
+  <g id="vertices">
     <g id="CHI_NHANH_RAP">
-      <rect x="1300.0" y="360.0" width="300.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.2" />
-      <text x="1450.0" y="428.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">CHI_NHANH_RAP</text>
+      <rect x="1300.0" y="360.0" width="300.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.0" />
+      <text x="1450.0" y="428.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">CHI_NHANH_RAP</text>
     </g>
     <g id="NHAN_VIEN">
-      <rect x="3510.0" y="360.0" width="280.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.2" />
-      <text x="3650.0" y="428.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">NHAN_VIEN</text>
+      <rect x="3510.0" y="360.0" width="280.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.0" />
+      <text x="3650.0" y="428.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">NHAN_VIEN</text>
     </g>
     <g id="HANG_GHE">
-      <rect x="320.0" y="1122.5" width="260.0" height="115.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.2" />
-      <text x="450.0" y="1188.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">HANG_GHE</text>
+      <rect x="320.0" y="1122.5" width="260.0" height="115.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.0" />
+      <text x="450.0" y="1188.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">HANG_GHE</text>
     </g>
     <g id="PHONG_CHIEU">
-      <rect x="1305.0" y="1120.0" width="290.0" height="120.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.2" />
-      <text x="1450.0" y="1188.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">PHONG_CHIEU</text>
+      <rect x="1305.0" y="1120.0" width="290.0" height="120.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.0" />
+      <text x="1450.0" y="1188.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">PHONG_CHIEU</text>
     </g>
     <g id="PHIM">
-      <rect x="2165.0" y="1120.0" width="270.0" height="120.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.2" />
-      <text x="2300.0" y="1188.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">PHIM</text>
+      <rect x="2165.0" y="1120.0" width="270.0" height="120.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.0" />
+      <text x="2300.0" y="1188.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">PHIM</text>
     </g>
     <g id="PHIM_THE_LOAI">
-      <rect x="2945.0" y="1120.0" width="310.0" height="120.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.2" />
-      <text x="3100.0" y="1188.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">PHIM_THE_LOAI</text>
+      <rect x="2930.0" y="1110.0" width="340.0" height="140.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.0" />
     </g>
     <g id="GHE">
-      <rect x="720.0" y="1892.5" width="260.0" height="115.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.2" />
-      <text x="850.0" y="1958.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">GHE</text>
+      <rect x="720.0" y="1892.5" width="260.0" height="115.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.0" />
+      <text x="850.0" y="1958.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">GHE</text>
     </g>
     <g id="SUAT_CHIEU">
-      <rect x="2105.0" y="1890.0" width="290.0" height="120.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.2" />
-      <text x="2250.0" y="1958.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">SUAT_CHIEU</text>
+      <rect x="2105.0" y="1890.0" width="290.0" height="120.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="2.0" />
+      <text x="2250.0" y="1958.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">SUAT_CHIEU</text>
     </g>
     <g id="THE_LOAI">
-      <rect x="2970.0" y="1792.5" width="260.0" height="115.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.2" />
-      <text x="3100.0" y="1858.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">THE_LOAI</text>
+      <rect x="2970.0" y="1792.5" width="260.0" height="115.0" fill="#d5e8d4" stroke="#82b366" stroke-width="2.0" />
+      <text x="3100.0" y="1858.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">THE_LOAI</text>
     </g>
     <g id="KHACH_HANG">
-      <rect x="3980.0" y="1890.0" width="280.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.2" />
-      <text x="4120.0" y="1958.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">KHACH_HANG</text>
+      <rect x="3980.0" y="1890.0" width="280.0" height="120.0" fill="#cce5ff" stroke="#36393d" stroke-width="2.0" />
+      <text x="4120.0" y="1958.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">KHACH_HANG</text>
     </g>
     <g id="KHOA_GHE_SUAT_CHIEU">
-      <rect x="1360.0" y="2587.5" width="380.0" height="125.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.2" />
-      <text x="1550.0" y="2658.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="bold" fill="#000000">KHOA_GHE_SUAT_CHIEU</text>
+      <rect x="1330.0" y="2490.0" width="430.0" height="150.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.0" />
     </g>
     <g id="DON_DAT_VE">
-      <rect x="2955.0" y="2590.0" width="290.0" height="120.0" fill="#ffcc99" stroke="#36393d" stroke-width="2.2" />
-      <text x="3100.0" y="2658.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">DON_DAT_VE</text>
+      <rect x="2955.0" y="2590.0" width="290.0" height="120.0" fill="#ffcc99" stroke="#36393d" stroke-width="2.0" />
+      <text x="3100.0" y="2658.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">DON_DAT_VE</text>
     </g>
     <g id="VE_XEM_PHIM">
-      <rect x="705.0" y="3160.0" width="290.0" height="120.0" fill="#ffcc99" stroke="#36393d" stroke-width="2.2" />
-      <text x="850.0" y="3228.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">VE_XEM_PHIM</text>
+      <rect x="705.0" y="3160.0" width="290.0" height="120.0" fill="#ffcc99" stroke="#36393d" stroke-width="2.0" />
+      <text x="850.0" y="3228.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">VE_XEM_PHIM</text>
     </g>
     <g id="THANH_TOAN">
-      <rect x="2955.0" y="3220.0" width="290.0" height="120.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.2" />
-      <text x="3100.0" y="3288.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" fill="#000000">THANH_TOAN</text>
+      <rect x="2955.0" y="3220.0" width="290.0" height="120.0" fill="#ffcccc" stroke="#36393d" stroke-width="2.0" />
+      <text x="3100.0" y="3288.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-decoration="none" fill="#000000">THANH_TOAN</text>
     </g>
-  </g>
-  <g id="relationships">
     <g id="R1">
       <polygon points="1450.0,740.0 1555.0,800.0 1450.0,860.0 1345.0,800.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="1450.0" y="807.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">SO_HUU</text>
+      <text x="1450.0" y="806.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">SO_HUU</text>
     </g>
     <g id="R2">
       <polygon points="2550.0,360.0 2665.0,420.0 2550.0,480.0 2435.0,420.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="2550.0" y="427.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">QUAN_LY_NV</text>
+      <text x="2550.0" y="426.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">QUAN_LY_NV</text>
     </g>
     <g id="R3">
       <polygon points="1150.0,1500.0 1255.0,1560.0 1150.0,1620.0 1045.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="1150.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">CHUA_GHE</text>
+      <text x="1150.0" y="1566.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">CHUA_GHE</text>
     </g>
     <g id="R4">
       <polygon points="520.0,1500.0 625.0,1560.0 520.0,1620.0 415.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="520.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">PHAN_HANG</text>
+      <text x="520.0" y="1566.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">PHAN_HANG</text>
     </g>
     <g id="R5">
-      <polygon points="2700.0,1122.5 2810.0,1180.0 2700.0,1237.5 2590.0,1180.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="2700.0" y="1187.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">CO_THE_LOAI</text>
+      <polygon points="2275.0,1500.0 2380.0,1560.0 2275.0,1620.0 2170.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="2275.0" y="1566.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">XEP_LICH</text>
     </g>
     <g id="R6">
-      <polygon points="3100.0,1457.5 3205.0,1515.0 3100.0,1572.5 2995.0,1515.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="3100.0" y="1522.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">GOM_PHIM</text>
+      <polygon points="1820.0,1500.0 1930.0,1560.0 1820.0,1620.0 1710.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1820.0" y="1566.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">TO_CHUC_TAI</text>
     </g>
     <g id="R7">
-      <polygon points="2275.0,1500.0 2380.0,1560.0 2275.0,1620.0 2170.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="2275.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">XEP_LICH</text>
+      <polygon points="2650.0,2240.0 2760.0,2300.0 2650.0,2360.0 2540.0,2300.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="2650.0" y="2306.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">CO_DON_DAT</text>
     </g>
     <g id="R8">
-      <polygon points="1820.0,1500.0 1930.0,1560.0 1820.0,1620.0 1710.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="1820.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">TO_CHUC_TAI</text>
+      <polygon points="3720.0,2290.0 3825.0,2350.0 3720.0,2410.0 3615.0,2350.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="3720.0" y="2356.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">DAT_MUA</text>
     </g>
     <g id="R9">
-      <polygon points="2650.0,2240.0 2760.0,2300.0 2650.0,2360.0 2540.0,2300.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="2650.0" y="2307.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">CO_DON_DAT</text>
+      <polygon points="3520.0,1500.0 3625.0,1560.0 3520.0,1620.0 3415.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="3520.0" y="1566.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">LAP_DON</text>
     </g>
     <g id="R10">
-      <polygon points="3720.0,2290.0 3825.0,2350.0 3720.0,2410.0 3615.0,2350.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="3720.0" y="2357.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">DAT_MUA</text>
+      <polygon points="2050.0,2960.0 2165.0,3020.0 2050.0,3080.0 1935.0,3020.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="2050.0" y="3026.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">BAO_GOM_VE</text>
     </g>
     <g id="R11">
-      <polygon points="3520.0,1500.0 3625.0,1560.0 3520.0,1620.0 3415.0,1560.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="3520.0" y="1567.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">LAP_DON</text>
+      <polygon points="620.0,2520.0 730.0,2580.0 620.0,2640.0 510.0,2580.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="620.0" y="2586.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">GAN_CHO_VE</text>
     </g>
     <g id="R12">
-      <polygon points="2050.0,2960.0 2165.0,3020.0 2050.0,3080.0 1935.0,3020.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="2050.0" y="3027.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">BAO_GOM_VE</text>
+      <polygon points="1225.0,2890.0 1345.0,2950.0 1225.0,3010.0 1105.0,2950.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1225.0" y="2956.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">GIU_KHOA_GHE</text>
     </g>
     <g id="R13">
-      <polygon points="620.0,2520.0 730.0,2580.0 620.0,2640.0 510.0,2580.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="620.0" y="2587.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">GAN_CHO_VE</text>
-    </g>
-    <g id="R14">
-      <polygon points="1900.0,2237.5 2025.0,2300.0 1900.0,2362.5 1775.0,2300.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="1900.0" y="2307.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">KHOA_THEO_SUAT</text>
-    </g>
-    <g id="R15">
-      <polygon points="1180.0,2240.0 1290.0,2300.0 1180.0,2360.0 1070.0,2300.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="1180.0" y="2307.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">GIU_CHO_GHE</text>
-    </g>
-    <g id="R16">
-      <polygon points="1220.0,2880.0 1335.0,2940.0 1220.0,3000.0 1105.0,2940.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="1220.0" y="2947.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">GIU_KHOA_GHE</text>
-    </g>
-    <g id="R17">
       <polygon points="3100.0,2905.0 3215.0,2965.0 3100.0,3025.0 2985.0,2965.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
-      <text x="3100.0" y="2972.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#000000">PHAT_SINH_TT</text>
+      <text x="3100.0" y="2971.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-decoration="none" fill="#000000">PHAT_SINH_TT</text>
     </g>
-  </g>
-  <g id="attributes">
     <g id="attr_CHI_NHANH_RAP_MaCN">
-      <ellipse cx="1725.8" cy="294.7" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1725.8" y="300.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaCN</text>
-      <line x1="1706.8" y1="305.2" x2="1744.8" y2="305.2" stroke="#000000" stroke-width="1.8" />
+      <ellipse cx="1654.8" cy="276.6" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1654.8" y="282.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaCN</text>
     </g>
     <g id="attr_CHI_NHANH_RAP_MaCodeCN">
-      <ellipse cx="1564.6" cy="222.7" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1564.6" y="228.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCodeCN</text>
+      <ellipse cx="1527.0" cy="208.6" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1527.0" y="214.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">MaCodeCN</text>
     </g>
     <g id="attr_CHI_NHANH_RAP_TenChiNhanh">
-      <ellipse cx="1391.8" cy="213.2" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1391.8" y="219.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TenChiNhanh</text>
+      <ellipse cx="1391.8" cy="202.7" rx="73.5" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1391.8" y="208.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TenChiNhanh</text>
     </g>
     <g id="attr_CHI_NHANH_RAP_DiaChi">
-      <ellipse cx="1234.7" cy="259.1" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1234.7" y="265.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">DiaChi</text>
+      <ellipse cx="1266.1" cy="265.7" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1266.1" y="271.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">DiaChi</text>
     </g>
     <g id="attr_CHI_NHANH_RAP_ThanhPho">
-      <ellipse cx="1116.2" cy="347.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1116.2" y="353.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThanhPho</text>
+      <ellipse cx="1179.2" cy="372.2" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1179.2" y="378.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">ThanhPho</text>
     </g>
     <g id="attr_CHI_NHANH_RAP_SoDienThoai">
-      <ellipse cx="1093.5" cy="447.1" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1093.5" y="453.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoDienThoai</text>
+      <ellipse cx="1171.2" cy="479.3" rx="73.5" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1171.2" y="485.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">SoDienThoai</text>
     </g>
     <g id="attr_CHI_NHANH_RAP_DangHoatDong">
-      <ellipse cx="1174.2" cy="545.3" rx="84.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1174.2" y="551.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">DangHoatDong</text>
+      <ellipse cx="1258.5" cy="580.7" rx="79.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1258.5" y="586.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">DangHoatDong</text>
     </g>
     <g id="attr_NHAN_VIEN_MaNV">
-      <ellipse cx="3402.5" cy="271.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3402.5" y="277.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaNV</text>
-      <line x1="3383.5" y1="282.0" x2="3421.5" y2="282.0" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_NHAN_VIEN_MaCN">
-      <ellipse cx="3565.9" cy="217.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3565.9" y="223.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCN</text>
+      <ellipse cx="3483.8" cy="253.8" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3483.8" y="259.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaNV</text>
     </g>
     <g id="attr_NHAN_VIEN_MaCodeNV">
-      <ellipse cx="3734.1" cy="217.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3734.1" y="223.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCodeNV</text>
+      <ellipse cx="3611.8" cy="203.3" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3611.8" y="209.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">MaCodeNV</text>
     </g>
     <g id="attr_NHAN_VIEN_HoTen">
-      <ellipse cx="3897.5" cy="271.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3897.5" y="277.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">HoTen</text>
+      <ellipse cx="3743.0" cy="220.6" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3743.0" y="226.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">HoTen</text>
     </g>
     <g id="attr_NHAN_VIEN_SoDienThoai">
-      <ellipse cx="3988.1" cy="369.5" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3988.1" y="375.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoDienThoai</text>
+      <ellipse cx="3870.8" cy="292.5" rx="73.5" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3870.8" y="298.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">SoDienThoai</text>
     </g>
     <g id="attr_NHAN_VIEN_ChucVu">
-      <ellipse cx="3988.1" cy="470.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3988.1" y="476.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ChucVu</text>
+      <ellipse cx="3914.0" cy="443.1" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3914.0" y="449.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">ChucVu</text>
     </g>
     <g id="attr_NHAN_VIEN_NgayVaoLam">
-      <ellipse cx="3897.5" cy="568.5" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3897.5" y="574.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgayVaoLam</text>
+      <ellipse cx="3850.9" cy="577.0" rx="68.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3850.9" y="583.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">NgayVaoLam</text>
     </g>
     <g id="attr_HANG_GHE_MaHangGhe">
-      <ellipse cx="189.5" cy="1056.3" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="189.5" y="1062.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaHangGhe</text>
-      <line x1="146.8" y1="1066.8" x2="232.3" y2="1066.8" stroke="#000000" stroke-width="1.8" />
+      <ellipse cx="257.5" cy="1045.2" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="257.5" y="1051.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaHangGhe</text>
     </g>
     <g id="attr_HANG_GHE_TenHangGhe">
-      <ellipse cx="450.0" cy="972.5" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="450.0" y="978.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TenHangGhe</text>
+      <ellipse cx="450.0" cy="970.0" rx="68.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="450.0" y="976.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TenHangGhe</text>
     </g>
     <g id="attr_HANG_GHE_PhuThu">
-      <ellipse cx="710.5" cy="1056.3" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="710.5" y="1062.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">PhuThu</text>
+      <ellipse cx="642.5" cy="1045.2" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="642.5" y="1051.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">PhuThu</text>
     </g>
     <g id="attr_PHONG_CHIEU_MaPhong">
-      <ellipse cx="1159.2" cy="1068.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1159.2" y="1074.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaPhong</text>
-      <line x1="1126.0" y1="1078.7" x2="1192.5" y2="1078.7" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_PHONG_CHIEU_MaCN">
-      <ellipse cx="1095.0" cy="1180.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1095.0" y="1186.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCN</text>
+      <ellipse cx="1228.0" cy="1076.5" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1228.0" y="1082.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaPhong</text>
     </g>
     <g id="attr_PHONG_CHIEU_TenPhong">
-      <ellipse cx="1128.3" cy="1262.4" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1128.3" y="1268.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TenPhong</text>
+      <ellipse cx="1195.0" cy="1180.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1195.0" y="1186.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TenPhong</text>
     </g>
     <g id="attr_PHONG_CHIEU_LoaiPhong">
-      <ellipse cx="1624.9" cy="1001.9" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1624.9" y="1007.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">LoaiPhong</text>
+      <ellipse cx="1646.6" cy="1042.3" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1646.6" y="1048.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">LoaiPhong</text>
     </g>
     <g id="attr_PHONG_CHIEU_DangHoatDong">
-      <ellipse cx="1771.7" cy="1097.6" rx="84.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1771.7" y="1103.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">DangHoatDong</text>
+      <ellipse cx="1727.3" cy="1141.0" rx="79.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="1727.3" y="1147.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">DangHoatDong</text>
     </g>
     <g id="attr_PHIM_MaPhim">
-      <ellipse cx="2571.9" cy="1059.9" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2571.9" y="1065.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaPhim</text>
-      <line x1="2543.4" y1="1070.4" x2="2600.4" y2="1070.4" stroke="#000000" stroke-width="1.8" />
+      <ellipse cx="2524.7" cy="1039.6" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2524.7" y="1045.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaPhim</text>
     </g>
     <g id="attr_PHIM_MaCodePhim">
-      <ellipse cx="2435.2" cy="989.7" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2435.2" y="995.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCodePhim</text>
+      <ellipse cx="2422.1" cy="950.4" rx="68.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2422.1" y="956.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">MaCodePhim</text>
     </g>
     <g id="attr_PHIM_TuaDe">
-      <ellipse cx="2288.8" cy="970.1" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2288.8" y="976.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TuaDe</text>
+      <ellipse cx="2279.1" cy="940.9" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2279.1" y="947.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TuaDe</text>
     </g>
     <g id="attr_PHIM_ThoiLuongPhut">
-      <ellipse cx="2140.0" cy="998.1" rx="89.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2140.0" y="1004.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiLuongPhut</text>
+      <ellipse cx="2136.8" cy="971.2" rx="85.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2136.8" y="977.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">ThoiLuongPhut</text>
     </g>
     <g id="attr_PHIM_NgayKhoiChieu">
-      <ellipse cx="2007.4" cy="1076.7" rx="89.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2007.4" y="1082.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgayKhoiChieu</text>
+      <ellipse cx="2024.2" cy="1090.4" rx="85.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2024.2" y="1096.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">NgayKhoiChieu</text>
     </g>
     <g id="attr_PHIM_PhanLoaiTuoi">
-      <ellipse cx="2017.4" cy="1291.8" rx="84.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2017.4" y="1297.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">PhanLoaiTuoi</text>
+      <ellipse cx="2045.0" cy="1283.0" rx="79.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2045.0" y="1289.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">PhanLoaiTuoi</text>
     </g>
     <g id="attr_PHIM_QuocGia">
-      <ellipse cx="2450.2" cy="1365.4" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2450.2" y="1371.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">QuocGia</text>
+      <ellipse cx="2410.3" cy="1387.5" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2410.3" y="1393.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">QuocGia</text>
     </g>
     <g id="attr_PHIM_MoTa">
-      <ellipse cx="2592.6" cy="1283.3" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2592.6" y="1289.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MoTa</text>
-    </g>
-    <g id="attr_PHIM_THE_LOAI_MaPhim">
-      <ellipse cx="3100.0" cy="970.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3100.0" y="976.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaPhim</text>
-      <line x1="3071.5" y1="980.5" x2="3128.5" y2="980.5" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_PHIM_THE_LOAI_MaTL">
-      <ellipse cx="3430.8" cy="1097.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3430.8" y="1103.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaTL</text>
-      <line x1="3411.8" y1="1108.1" x2="3449.8" y2="1108.1" stroke="#000000" stroke-width="1.8" />
+      <ellipse cx="2525.2" cy="1299.7" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2525.2" y="1305.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">MoTa</text>
     </g>
     <g id="attr_GHE_MaGhe">
-      <ellipse cx="850.0" cy="1742.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="850.0" y="1748.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaGhe</text>
-      <line x1="826.2" y1="1753.0" x2="873.8" y2="1753.0" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_GHE_MaPhong">
-      <ellipse cx="549.8" cy="1859.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="549.8" y="1865.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaPhong</text>
-    </g>
-    <g id="attr_GHE_MaHangGhe">
-      <ellipse cx="510.0" cy="1950.0" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="510.0" y="1956.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaHangGhe</text>
+      <ellipse cx="632.5" cy="1848.6" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="632.5" y="1854.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaGhe</text>
     </g>
     <g id="attr_GHE_HangGhe">
-      <ellipse cx="555.6" cy="2046.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="555.6" y="2052.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">HangGhe</text>
+      <ellipse cx="600.0" cy="1950.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="600.0" y="1956.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">HangGhe</text>
     </g>
     <g id="attr_GHE_SoGhe">
-      <ellipse cx="1186.7" cy="1923.2" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1186.7" y="1929.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoGhe</text>
+      <ellipse cx="646.5" cy="2077.2" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="646.5" y="2083.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">SoGhe</text>
     </g>
     <g id="attr_SUAT_CHIEU_MaSC">
-      <ellipse cx="2513.8" cy="1819.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2513.8" y="1825.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaSC</text>
-      <line x1="2494.8" y1="1830.0" x2="2532.8" y2="1830.0" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_SUAT_CHIEU_MaPhim">
-      <ellipse cx="2591.2" cy="1896.3" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2591.2" y="1902.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaPhim</text>
-    </g>
-    <g id="attr_SUAT_CHIEU_MaPhong">
-      <ellipse cx="2597.2" cy="1990.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2597.2" y="1996.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaPhong</text>
+      <ellipse cx="2403.9" cy="1753.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2403.9" y="1759.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaSC</text>
     </g>
     <g id="attr_SUAT_CHIEU_ThoiGianBatDau">
-      <ellipse cx="2250.0" cy="2160.0" rx="95.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2250.0" y="2166.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiGianBatDau</text>
+      <ellipse cx="2530.6" cy="1858.8" rx="90.5" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2530.6" y="1864.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">ThoiGianBatDau</text>
     </g>
     <g id="attr_SUAT_CHIEU_ThoiGianKetThuc">
-      <ellipse cx="1920.8" cy="1877.0" rx="100.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1920.8" y="1883.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiGianKetThuc</text>
+      <ellipse cx="2548.3" cy="2013.4" rx="96.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2548.3" y="2019.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">ThoiGianKetThuc</text>
     </g>
     <g id="attr_SUAT_CHIEU_GiaCoSo">
-      <ellipse cx="1907.1" cy="2000.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1907.1" y="2006.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">GiaCoSo</text>
+      <ellipse cx="2298.9" cy="2179.9" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2298.9" y="2186.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">GiaCoSo</text>
     </g>
     <g id="attr_SUAT_CHIEU_TrangThai">
-      <ellipse cx="2159.0" cy="1748.1" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2159.0" y="1754.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TrangThai</text>
+      <ellipse cx="2150.7" cy="2163.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2150.7" y="2169.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TrangThai</text>
     </g>
     <g id="attr_THE_LOAI_MaTL">
-      <ellipse cx="2821.5" cy="1739.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2821.5" y="1745.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaTL</text>
-      <line x1="2802.5" y1="1750.1" x2="2840.5" y2="1750.1" stroke="#000000" stroke-width="1.8" />
+      <ellipse cx="2896.5" cy="1732.5" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2896.5" y="1738.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaTL</text>
     </g>
     <g id="attr_THE_LOAI_TenTheLoai">
-      <ellipse cx="2760.0" cy="1850.0" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2760.0" y="1856.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TenTheLoai</text>
+      <ellipse cx="2850.0" cy="1850.0" rx="68.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2850.0" y="1856.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TenTheLoai</text>
     </g>
     <g id="attr_THE_LOAI_MoTa">
-      <ellipse cx="2821.5" cy="1960.4" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2821.5" y="1966.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MoTa</text>
+      <ellipse cx="2896.5" cy="1967.5" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2896.5" y="1973.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">MoTa</text>
     </g>
     <g id="attr_KHACH_HANG_MaKH">
-      <ellipse cx="3911.1" cy="1789.1" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3911.1" y="1795.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaKH</text>
-      <line x1="3892.1" y1="1799.6" x2="3930.1" y2="1799.6" stroke="#000000" stroke-width="1.8" />
+      <ellipse cx="3953.8" cy="1783.8" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3953.8" y="1789.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaKH</text>
     </g>
     <g id="attr_KHACH_HANG_HoTen">
-      <ellipse cx="4120.0" cy="1740.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="4120.0" y="1746.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">HoTen</text>
+      <ellipse cx="4120.0" cy="1735.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="4120.0" y="1741.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">HoTen</text>
     </g>
     <g id="attr_KHACH_HANG_SoDienThoai">
-      <ellipse cx="4328.9" cy="1789.1" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="4328.9" y="1795.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoDienThoai</text>
+      <ellipse cx="4293.2" cy="1776.8" rx="73.5" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="4293.2" y="1782.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">SoDienThoai</text>
     </g>
     <g id="attr_KHACH_HANG_Email">
-      <ellipse cx="4464.7" cy="1916.1" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="4464.7" y="1922.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">Email</text>
+      <ellipse cx="4385.0" cy="1950.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="4385.0" y="1956.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">Email</text>
     </g>
     <g id="attr_KHACH_HANG_NgaySinh">
-      <ellipse cx="4423.1" cy="2047.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="4423.1" y="2053.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgaySinh</text>
+      <ellipse cx="4302.1" cy="2113.9" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="4302.1" y="2120.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">NgaySinh</text>
     </g>
     <g id="attr_KHACH_HANG_NgayTao">
-      <ellipse cx="4231.2" cy="2147.3" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="4231.2" y="2153.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgayTao</text>
-    </g>
-    <g id="attr_KHOA_GHE_SUAT_CHIEU_MaSC">
-      <ellipse cx="1550.0" cy="2437.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1550.0" y="2443.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaSC</text>
-      <line x1="1531.0" y1="2448.0" x2="1569.0" y2="2448.0" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_KHOA_GHE_SUAT_CHIEU_MaGhe">
-      <ellipse cx="1912.5" cy="2733.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1912.5" y="2739.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaGhe</text>
-      <line x1="1888.8" y1="2744.0" x2="1936.3" y2="2744.0" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_KHOA_GHE_SUAT_CHIEU_MaVe">
-      <ellipse cx="1582.7" cy="2861.7" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1582.7" y="2867.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaVe</text>
+      <ellipse cx="4138.7" cy="2164.2" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="4138.7" y="2170.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">NgayTao</text>
     </g>
     <g id="attr_DON_DAT_VE_MaDDV">
-      <ellipse cx="3054.1" cy="2442.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3054.1" y="2448.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaDDV</text>
-      <line x1="3030.3" y1="2452.5" x2="3077.8" y2="2452.5" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_DON_DAT_VE_MaSC">
-      <ellipse cx="2770.8" cy="2577.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2770.8" y="2583.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaSC</text>
-    </g>
-    <g id="attr_DON_DAT_VE_MaKH">
-      <ellipse cx="2745.2" cy="2656.8" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2745.2" y="2662.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaKH</text>
-    </g>
-    <g id="attr_DON_DAT_VE_MaNV">
-      <ellipse cx="3453.6" cy="2633.0" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3453.6" y="2639.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaNV</text>
+      <ellipse cx="2860.4" cy="2562.8" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2860.4" y="2568.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaDDV</text>
     </g>
     <g id="attr_DON_DAT_VE_MaCodeDDV">
-      <ellipse cx="3437.6" cy="2710.3" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3437.6" y="2716.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaCodeDDV</text>
+      <ellipse cx="3375.0" cy="2650.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3375.0" y="2656.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">MaCodeDDV</text>
     </g>
     <g id="attr_DON_DAT_VE_ThoiGianDat">
-      <ellipse cx="3363.8" cy="2780.5" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3363.8" y="2786.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiGianDat</text>
+      <ellipse cx="3342.8" cy="2779.1" rx="73.5" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3342.8" y="2785.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">ThoiGianDat</text>
     </g>
     <g id="attr_DON_DAT_VE_TrangThai">
-      <ellipse cx="3239.5" cy="2840.3" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3239.5" y="2846.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TrangThai</text>
+      <ellipse cx="3229.8" cy="2857.8" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3229.8" y="2863.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TrangThai</text>
     </g>
     <g id="attr_VE_XEM_PHIM_MaVe">
-      <ellipse cx="528.3" cy="3137.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="528.3" y="3143.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaVe</text>
-      <line x1="509.3" y1="3148.1" x2="547.3" y2="3148.1" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_VE_XEM_PHIM_MaDDV">
-      <ellipse cx="507.1" cy="3270.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="507.1" y="3276.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaDDV</text>
-    </g>
-    <g id="attr_VE_XEM_PHIM_MaGhe">
-      <ellipse cx="599.0" cy="3368.5" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="599.0" y="3374.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaGhe</text>
+      <ellipse cx="603.7" cy="3154.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="603.7" y="3160.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaVe</text>
     </g>
     <g id="attr_VE_XEM_PHIM_DonGia">
-      <ellipse cx="764.6" cy="3422.8" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="764.6" y="3428.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">DonGia</text>
+      <ellipse cx="623.4" cy="3325.7" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="623.4" y="3331.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">DonGia</text>
     </g>
     <g id="attr_VE_XEM_PHIM_TrangThai">
-      <ellipse cx="935.4" cy="3422.8" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="935.4" y="3428.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TrangThai</text>
+      <ellipse cx="754.9" cy="3423.9" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="754.9" y="3430.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TrangThai</text>
     </g>
     <g id="attr_VE_XEM_PHIM_ThoiGianHuy">
-      <ellipse cx="1121.9" cy="3345.3" rx="78.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="1121.9" y="3351.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">ThoiGianHuy</text>
+      <ellipse cx="949.3" cy="3433.0" rx="73.5" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="949.3" y="3439.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">ThoiGianHuy</text>
     </g>
     <g id="attr_THANH_TOAN_MaTT">
-      <ellipse cx="2778.3" cy="3197.6" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2778.3" y="3203.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" fill="#000000">MaTT</text>
-      <line x1="2759.3" y1="3208.1" x2="2797.3" y2="3208.1" stroke="#000000" stroke-width="1.8" />
-    </g>
-    <g id="attr_THANH_TOAN_MaDDV">
-      <ellipse cx="2766.4" cy="3346.7" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2766.4" y="3352.7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaDDV</text>
+      <ellipse cx="2840.8" cy="3224.9" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2840.8" y="3231.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-decoration="underline" fill="#000000">MaTT</text>
     </g>
     <g id="attr_THANH_TOAN_SoTien">
-      <ellipse cx="2887.9" cy="3440.9" rx="65.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="2887.9" y="3446.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">SoTien</text>
+      <ellipse cx="2859.8" cy="3392.0" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2859.8" y="3398.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">SoTien</text>
     </g>
     <g id="attr_THANH_TOAN_PhuongThuc">
-      <ellipse cx="3042.7" cy="3486.8" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3042.7" y="3492.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">PhuongThuc</text>
+      <ellipse cx="2962.2" cy="3500.5" rx="68.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="2962.2" y="3506.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">PhuongThuc</text>
     </g>
     <g id="attr_THANH_TOAN_TrangThai">
-      <ellipse cx="3212.9" cy="3477.3" rx="67.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3212.9" y="3483.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">TrangThai</text>
+      <ellipse cx="3121.4" cy="3524.1" rx="65.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3121.4" y="3530.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">TrangThai</text>
     </g>
     <g id="attr_THANH_TOAN_NgayThanhToan">
-      <ellipse cx="3371.9" cy="3405.3" rx="89.5" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3371.9" y="3411.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">NgayThanhToan</text>
+      <ellipse cx="3284.0" cy="3484.4" rx="85.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3284.0" y="3490.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">NgayThanhToan</text>
     </g>
     <g id="attr_THANH_TOAN_MaGiaoDich">
-      <ellipse cx="3449.6" cy="3313.9" rx="73.0" ry="27.0" fill="#FFFFFF" stroke="#36393d" stroke-width="1.6" />
-      <text x="3449.6" y="3319.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" fill="#000000">MaGiaoDich</text>
+      <ellipse cx="3383.7" cy="3340.3" rx="68.0" ry="27.0" fill="#ffffff" stroke="#36393d" stroke-width="1.5" />
+      <text x="3383.7" y="3346.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-decoration="none" fill="#000000">MaGiaoDich</text>
+    </g>
+    <g id="assoc_PHIM_THE_LOAI">
+      <polygon points="3100.0,1116.0 3264.0,1180.0 3100.0,1244.0 2936.0,1180.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="3100.0" y="1187.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-decoration="none" fill="#000000">PHIM_THE_LOAI</text>
+    </g>
+    <g id="assoc_KHOA_GHE_SUAT_CHIEU">
+      <polygon points="1545.0,2496.0 1754.0,2565.0 1545.0,2634.0 1336.0,2565.0" fill="#FFCC99" stroke="#36393d" stroke-width="2.0" />
+      <text x="1545.0" y="2571.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" text-decoration="none" fill="#000000">KHOA_GHE_SUAT_CHIEU</text>
     </g>
   </g>
 </svg>

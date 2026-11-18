@@ -3,16 +3,29 @@
 
 ---
 
-## 1. Tổng hợp Danh mục 14 Lược đồ Quan hệ Mức Logic (Chuẩn 3NF)
+## 1. Quy trình Ánh xạ E–R sang 14 Lược đồ Quan hệ Mức Logic theo Bài giảng
 
-Ánh xạ theo slide 5 của bài giảng: thực thể thông thường thành quan hệ; quan hệ 1:N đưa khóa phía 1 sang bảng phía N; thực thể kết hợp không có định danh riêng lấy khóa ghép từ các thực thể tham gia. Bản E–R chính tại `docs/erd/erd-chen.drawio` dùng ký hiệu thực thể kết hợp cho phân loại phim và phân bổ ghế hiệu lực. `movie_genre(movie_id, genre_id)` có khóa ghép từ Phim/Thể loại; `screening_seat_lock(screening_id, seat_id, ticket_id)` lấy khóa ghép Suất/Ghế và có khóa dự tuyển khác `ticket_id`. Số 14 là số bảng của lựa chọn ánh xạ này, không phải điều kiện bắt buộc cho mọi cách vẽ E–R tương đương. Tham gia đầy đủ trên E–R còn cần quy trình/trigger bảo vệ; FK không tự bảo đảm phía cha có ít nhất một dòng con.
+Toàn bộ 14 lược đồ quan hệ và 17 khóa ngoại của hệ thống được chuyển đổi trực tiếp từ Sơ đồ E–R (`docs/erd/erd-chen.drawio`) theo đúng **quy trình 7 bước ánh xạ mô hình E–R sang mô hình quan hệ** trong Chương 2 Phần 3 (*Slide 5 tr. 19–43; Giáo trình CSDL tr. 65–76 — TS. Nguyễn Quỳnh Chi*):
 
-### Sơ đồ Lược đồ Quan hệ theo Ký hiệu Bài giảng (Bảng ngang & Mũi tên tham chiếu PK $\to$ FK)
+1. **Bước 1 — Ánh xạ các thực thể thông thường / thực thể khỏe (Slide 5 tr. 19–22, Giáo trình tr. 65–67):**
+   - Ánh xạ 12 tập thực thể khỏe (`CHI_NHANH_RAP`, `PHONG_CHIEU`, `HANG_GHE`, `GHE`, `PHIM`, `THE_LOAI`, `SUAT_CHIEU`, `KHACH_HANG`, `NHAN_VIEN`, `DON_DAT_VE`, `VE_XEM_PHIM`, `THANH_TOAN`) thành 12 lược đồ quan hệ tương ứng, giữ nguyên **59 thuộc tính đơn bản thân** và khóa chính định danh của từng thực thể.
+   - Không có thuộc tính ghép cần tách thành phần con; thuộc tính đa trị thể loại của phim được chuyển sang quan hệ liên kết `movie_genre` thay vì lưu danh sách phân cách bằng dấu phẩy.
+2. **Bước 2 — Xem xét thực thể yếu vs thực thể mạnh (Slide 5 tr. 24, Giáo trình tr. 46–47 & 67–68):**
+   - Khác với ví dụ `payment-number` đánh số lại từ `1` theo từng khoản vay trong giáo trình tr. 46, các biên lai `payment` và tấm vé `ticket` của chuỗi rạp cần mã định danh toàn cục độc lập (`payment_id`, `ticket_id`) để đối soát cổng thanh toán, quét mã vé tại cổng soát vé và tra cứu kiểm toán toàn chuỗi, nên được thiết kế là các thực thể khỏe có khóa chính riêng.
+3. **Bước 3 — Ánh xạ các mối quan hệ hai ngôi (Slide 5 tr. 26–31, Giáo trình tr. 68–71):**
+   - **12 mối quan hệ `1 - N` hai ngôi (`SO_HUU`, `QUAN_LY_NV`, `CHUA_GHE`, `PHAN_HANG`, `XEP_LICH`, `TO_CHUC_TAI`, `CO_DON_DAT`, `DAT_MUA`, `LAP_DON`, `BAO_GOM_VE`, `GAN_CHO_VE`, `PHAT_SINH_TT`):** Đưa khóa chính của quan hệ phía `1` sang làm khóa ngoại (`FK`) trong quan hệ phía `N` — sinh ra **12 khóa ngoại** (`branch_id` trong `screening_room` và `employee`; `room_id`, `seat_type_code` trong `seat`; `movie_id`, `room_id` trong `screening`; `screening_id`, `customer_id`, `employee_id` trong `booking`; `booking_id`, `seat_id` trong `ticket`; `booking_id` trong `payment`). Riêng `booking.customer_id` cho phép `NULL` vì `DAT_MUA` có sự tham gia một phần ở cả hai phía (khách vãng lai).
+   - **01 mối quan hệ `1 - 1` hai ngôi (`GIU_KHOA_GHE` giữa `VE_XEM_PHIM` tham gia tùy chọn và `KHOA_GHE_SUAT_CHIEU` tham gia bắt buộc):** Áp dụng đúng quy tắc vàng ở **Slide 5 tr. 30 / Giáo trình tr. 70–71** (*ví dụ `nurses` — `in-charge` === `care center`*), đưa khóa chính `ticket_id` (`MaVe`) của bên tham gia tùy chọn vào quan hệ của bên tham gia bắt buộc (`screening_seat_lock`) làm khóa ngoại `NOT NULL UNIQUE` nhằm tránh lưu trữ giá trị rỗng `NULL` — sinh ra **khóa ngoại thứ 13**.
+4. **Bước 4 & Bước 6 — Ánh xạ các thực thể kết hợp (Slide 5 tr. 32–34 & 40–42, Giáo trình tr. 70–75):**
+   - **Trường hợp không gán định danh riêng (Slide 5 tr. 33):** Hai thực thể kết hợp `PHIM_THE_LOAI` (`movie_genre`) và `KHOA_GHE_SUAT_CHIEU` (`screening_seat_lock`) tạo thành 2 lược đồ quan hệ kết hợp với khóa chính ngầm định là hợp khóa chính của các thực thể tham gia: `(movie_id, genre_id)` và `(screening_id, seat_id)`, đồng thời đóng vai trò là **04 khóa ngoại** tham chiếu về `movie`, `genre`, `screening`, `seat` — hoàn tất đủ **17 khóa ngoại** ($59 + 17 = 76$ thuộc tính logic trên 14 bảng).
+   - *(Ghi chú liên hệ trường hợp có gán định danh riêng — Slide 5 tr. 34, ví dụ `shipment`):* Giải thích lý do `screening` dùng khóa chính riêng `screening_id` và đưa `(movie_id, room_id)` xuống làm khóa ngoại vì cùng một bộ phim có thể chiếu lặp lại nhiều suất ở cùng một phòng chiếu theo thời gian.
+5. **Bước 5 & Bước 7 (Quan hệ đệ quy & Lớp cha/lớp con — Slide 5 tr. 35–38 & 44–50):** Phạm vi bài toán không phát sinh phân cấp kế thừa thuộc tính riêng giữa các vai trò nhân viên nên biểu diễn gọn bằng thuộc tính phân loại `employee.role`.
 
-- **Bản vẽ có thể chỉnh sửa (draw.io):** [luoc-do-quan-he.drawio](luoc-do-quan-he.drawio) (đồng bộ tại [`docs/erd/luoc-do-quan-he.drawio`](../erd/luoc-do-quan-he.drawio))
+### Sơ đồ Lược đồ Quan hệ theo Quy ước Bài giảng (Thanh ngang & Mũi tên tham chiếu `FK → PK`)
+
+- **Bản vẽ gốc chỉnh sửa được (draw.io):** [luoc-do-quan-he.drawio](luoc-do-quan-he.drawio) (đồng bộ tại [`docs/erd/luoc-do-quan-he.drawio`](../erd/luoc-do-quan-he.drawio))
 - **Bản xuất Vector & Hình ảnh:** [luoc-do-quan-he.pdf](luoc-do-quan-he.pdf) • [luoc-do-quan-he.svg](luoc-do-quan-he.svg) • [luoc-do-quan-he.png](luoc-do-quan-he.png)
 
-![Sơ đồ Lược đồ Quan hệ — 14 Bảng Chuẩn 3NF](luoc-do-quan-he.png)
+Theo đúng ký hiệu minh họa trong Giáo trình tr. 67–79: mỗi quan hệ là một thanh ngang chia ô thuộc tính, thuộc tính khóa chính (`PK`) gạch chân nét liền, thuộc tính khóa ngoại (`FK`) gạch chân nét đứt, và **17 mũi tên cong đều xuất phát từ thuộc tính khóa ngoại (`FK`) trỏ đầu mũi tên về thuộc tính khóa chính (`PK`) được tham chiếu**.
 
 **Biểu diễn 14 lược đồ quan hệ theo tên tiếng Việt không dấu (trên sơ đồ `luoc-do-quan-he`):**
 1. **`CHI_NHANH_RAP`** (<u>**`MaCN`**</u>, `MaCodeCN`, `TenChiNhanh`, `DiaChi`, `ThanhPho`, `SoDienThoai`, `DangHoatDong`)
@@ -30,11 +43,7 @@
 13. **`KHOA_GHE_SUAT_CHIEU`** (<u>***`MaSC`***, ***`MaGhe`***</u>, *`MaVe`*)
 14. **`THANH_TOAN`** (<u>**`MaTT`**</u>, *`MaDDV`*, `SoTien`, `PhuongThuc`, `TrangThai`, `NgayThanhToan`, `MaGiaoDich`)
 
-Quy ước ký hiệu trong biểu diễn lược đồ quan hệ mức logic (ánh xạ sang tên bảng/cột vật lý SQL):
-- **Gạch chân nét liền (`PK`)**: Thuộc tính thuộc Khóa chính (Primary Key).
-- *Chữ nghiêng kèm dấu `#` (`FK`)*: Thuộc tính đóng vai trò Khóa ngoại (Foreign Key).
-- `AK`: Khóa dự tuyển khác trên **toàn bộ các bộ của quan hệ** (Alternate Key — mọi thuộc tính thành phần đều `NOT NULL` và `UNIQUE` trên toàn bảng).
-
+**Biểu diễn ánh xạ sang tên bảng/cột vật lý SQL** *(gạch chân liền = `PK`; chữ nghiêng `#` = `FK`; `AK` = Khóa dự bị / khóa phụ trên toàn bảng)*:
 1. **`cinema_branch`** (<u>`branch_id`</u>, `branch_code` [AK], `branch_name` [AK], `address`, `city`, `phone` [AK], `active`)
 2. **`screening_room`** (<u>`room_id`</u>, *`#branch_id`*, `room_name`, `room_type`, `active`) — với `AK(branch_id, room_name)`
 3. **`seat_type`** (<u>`seat_type_code`</u>, `type_name` [AK], `surcharge`)
@@ -50,14 +59,14 @@ Quy ước ký hiệu trong biểu diễn lược đồ quan hệ mức logic (�
 13. **`screening_seat_lock`** (<u>*`#screening_id`*, *`#seat_id`*</u>, *`#ticket_id`* [AK])
 14. **`payment`** (<u>`payment_id`</u>, *`#booking_id`*, `amount`, `payment_method`, `payment_status`, `paid_at`, `transaction_ref`)
 
-### Phân tách Rõ Mức Logic Quan hệ và Mức Cài đặt Vật lý MySQL 8.4
-- **Ở mức mô hình quan hệ logic (Relational Model):** Bảng `payment` chỉ gồm 7 thuộc tính nghiệp vụ nêu trên và có duy nhất một khóa dự tuyển trên toàn bảng là `PK(payment_id)`.
-- **Ở mức cài đặt vật lý (Physical DDL trên MySQL 8.4 InnoDB):** Do MySQL 8.4 không hỗ trợ cú pháp `CREATE UNIQUE INDEX ... WHERE payment_status = 'SUCCESS'` như PostgreSQL, tệp `01_schema.sql` cài đặt thêm một cột biểu thức vật lý `active_success_booking INT GENERATED ALWAYS AS (CASE WHEN payment_status = 'SUCCESS' THEN booking_id ELSE NULL END) STORED` kèm `UNIQUE KEY uq_payment_one_success`. Cột này mang giá trị `NULL` đối với các dòng `PENDING`, `FAILED`, `REFUNDED`, nên **tuyệt đối không phải là thuộc tính logic hay khóa dự tuyển của quan hệ `payment`**, mà chỉ là cấu trúc chỉ mục vật lý để cưỡng chế ràng buộc duy nhất trên tập con các giao dịch thành công.
-- Đối với nghiệp vụ vé và giữ ghế: Bảng `ticket` đã loại bỏ hoàn toàn cột dư thừa `screening_id` và biểu thức `active_seat_key`; việc chống bán trùng ghế đang hợp lệ (`VALID`) được mô hình hóa tường minh bằng quan hệ chuẩn 3NF `screening_seat_lock(screening_id, seat_id, ticket_id)`.
+### Đối chiếu Kiến trúc Trừu tượng 3 Lớp (Chương 1 — Slide 2 tr. 9–22, Giáo trình tr. 22–26)
+- **Mức bên ngoài (External / View Level):** Gồm 04 khung nhìn (`vw_screening_search`, `vw_verified_booking_revenue`, `vw_branch_daily_revenue`, `vw_screening_occupancy` trong `03_views.sql`) tính toán động các dữ liệu dẫn xuất (sức chứa phòng, ghế trống, tỷ lệ lấp đầy, doanh thu thực thu) và định dạng ngày `dd/MM/yyyy` trên giao diện độc lập với mức lưu trữ (độc lập dữ liệu mức logic).
+- **Mức khái niệm (Conceptual / Logical Level):** Gồm đúng 14 lược đồ quan hệ chuẩn 3NF với 76 thuộc tính logic và 17 khóa ngoại nêu trên, không chứa thuộc tính dẫn xuất (thỏa định nghĩa 1NF tại Slide 7 tr. 14).
+- **Mức bên trong (Internal / Physical Level trên MySQL 8.4 InnoDB):** Do MySQL 8.4 không có cú pháp `CREATE UNIQUE INDEX ... WHERE payment_status = 'SUCCESS'`, tệp `01_schema.sql` bổ sung cấu trúc chỉ mục vật lý `active_success_booking INT GENERATED ALWAYS AS (CASE WHEN payment_status = 'SUCCESS' THEN booking_id ELSE NULL END) STORED` kèm `UNIQUE KEY uq_payment_one_success` (khai thác tính chất `UNIQUE` cho phép nhiều giá trị `NULL` nêu tại Slide 9 tr. 25). Sự thay đổi cơ chế chỉ mục mức trong này hoàn toàn trong suốt đối với mức khái niệm và mức ngoài (độc lập dữ liệu mức vật lý).
 
 ---
 
-## 2. Đặc tả Chi tiết 14 Bảng Quan hệ (Data Dictionary — Khớp 100% `01_schema.sql`)
+## 2. Đặc tả Chi tiết 14 Bảng Quan hệ (Từ điển Dữ liệu — Khớp 100% `01_schema.sql`)
 
 ### Bảng 1: `cinema_branch` — Chi nhánh Rạp chiếu phim
 Lưu trữ danh sách các cụm rạp thuộc chuỗi trên toàn quốc.
@@ -138,8 +147,8 @@ Lưu danh mục thể loại điện ảnh.
 
 ---
 
-### Bảng 7: `movie_genre` — Liên kết Phim và Thể loại
-Bảng trung gian biểu diễn quan hệ nhiều – nhiều ($M:N$) giữa `movie` và `genre`.
+### Bảng 7: `movie_genre` — Quan hệ kết hợp Phim và Thể loại
+Quan hệ kết hợp ánh xạ từ thực thể kết hợp `PHIM_THE_LOAI` ($M:N$ giữa `movie` và `genre`).
 
 | Tên cột | Kiểu dữ liệu | NULL? | Mặc định | Ràng buộc (PK/FK/UQ/CHECK) | Mô tả ý nghĩa (Tiếng Việt) |
 |---|---|---|---|---|---|
@@ -172,7 +181,7 @@ Lưu thông tin khách hàng đăng ký thành viên tại chuỗi rạp.
 | `full_name` | `VARCHAR(120)` | `NOT NULL` | — | — | Họ và tên đầy đủ của khách hàng. |
 | `phone` | `VARCHAR(20)` | `NOT NULL` | — | `UNIQUE (uq_customer_phone)` | Số điện thoại liên hệ và định danh thành viên tại quầy. |
 | `email` | `VARCHAR(120)` | `NOT NULL` | — | `UNIQUE (uq_customer_email)` | Địa chỉ thư điện tử nhận vé của khách hàng. |
-| `birth_date` | `DATE` | `NULL` | `NULL` | — | Ngày sinh khách hàng (phục vụ kiểm tra độ tuổi phim). |
+| `birth_date` | `DATE` | `NULL` | `NULL` | — | Ngày sinh khách hàng (không lưu tuổi dẫn xuất theo Slide 2 tr. 11). |
 | `created_at` | `DATETIME` | `NOT NULL` | `CURRENT_TIMESTAMP` | — | Thời điểm đăng ký tài khoản thành viên. |
 
 ---
@@ -200,7 +209,7 @@ Lưu thông tin chung của một lần giao dịch đặt vé xem phim (mỗi �
 | `booking_id` | `INT AUTO_INCREMENT` | `NOT NULL` | Auto | `PRIMARY KEY (pk_booking)` | Mã định danh tự tăng của đơn đặt vé. |
 | `booking_code` | `VARCHAR(30)` | `NOT NULL` | — | `UNIQUE (uq_booking_code)` | Mã đơn đặt vé in trên hóa đơn (VD: `BK-20261101-0001`). |
 | `screening_id` | `INT` | `NOT NULL` | — | `FK -> screening(screening_id)` | Mã suất chiếu mà đơn đặt vé này mua chỗ. |
-| `customer_id` | `INT` | `NULL` | `NULL` | `FK -> customer(customer_id)` | Mã khách hàng thành viên; nhận giá trị `NULL` khi là **Khách vãng lai mua trực tiếp tại quầy**. |
+| `customer_id` | `INT` | `NULL` | `NULL` | `FK -> customer(customer_id)` | Mã khách hàng thành viên; nhận `NULL` khi là **Khách vãng lai mua trực tiếp tại quầy**. |
 | `employee_id` | `INT` | `NOT NULL` | — | `FK -> employee(employee_id)` | Mã nhân viên thực hiện giao dịch đặt vé. |
 | `booked_at` | `DATETIME` | `NOT NULL` | `CURRENT_TIMESTAMP` | — | Thời điểm khởi tạo đơn đặt vé. |
 | `booking_status` | `VARCHAR(20)` | `NOT NULL` | `'CONFIRMED'` | `CHECK (booking_status IN ('CONFIRMED', 'PENDING', 'CANCELLED'))` | Trạng thái đơn (`CONFIRMED`: Đã xác nhận, `PENDING`: Chờ thanh toán, `CANCELLED`: Đã hủy). |
@@ -208,7 +217,7 @@ Lưu thông tin chung của một lần giao dịch đặt vé xem phim (mỗi �
 ---
 
 ### Bảng 12: `ticket` — Vé xem phim chi tiết theo ghế (Chuẩn 3NF)
-Lưu từng vé gắn với từng ghế cụ thể trong một đơn đặt vé, bao gồm cả lịch sử các vé đã hủy (`CANCELLED`). Suất chiếu của vé được suy diễn bảo toàn qua `booking.screening_id` (không lưu dư thừa `screening_id` để loại bỏ phụ thuộc hàm bắc cầu).
+Lưu từng vé gắn với từng ghế cụ thể trong một đơn đặt vé, bao gồm cả lịch sử các vé đã hủy (`CANCELLED`). Suất chiếu của vé được suy diễn bảo toàn qua `booking.screening_id` (loại bỏ `screening_id` để khử phụ thuộc hàm bắc cầu).
 
 | Tên cột | Kiểu dữ liệu | NULL? | Mặc định | Ràng buộc (PK/FK/UQ/CHECK) | Mô tả ý nghĩa (Tiếng Việt) |
 |---|---|---|---|---|---|
@@ -221,8 +230,8 @@ Lưu từng vé gắn với từng ghế cụ thể trong một đơn đặt vé
 
 ---
 
-### Bảng 13: `screening_seat_lock` — Khóa phân bổ ghế hiệu lực theo suất chiếu (Chuẩn 3NF)
-Lưu sự cấp phát ghế đang có hiệu lực (`VALID`) của một tấm vé trong một suất chiếu xác định. Được đồng bộ tự động qua Trigger khi `ticket` thêm mới, hủy (`CANCELLED`) hoặc xóa, đảm bảo chống bán trùng ghế ở mức khóa chính B-Tree InnoDB mà không làm bẩn chuẩn 3NF của `ticket`.
+### Bảng 13: `screening_seat_lock` — Quan hệ kết hợp phân bổ ghế hiệu lực theo suất chiếu (Chuẩn 3NF)
+Ánh xạ từ thực thể kết hợp `KHOA_GHE_SUAT_CHIEU` và mối quan hệ `1:1` `GIU_KHOA_GHE` (Slide 5 tr. 30 & 33). Đồng bộ tự động qua Trigger khi `ticket` thêm mới, hủy (`CANCELLED`) hoặc xóa, đảm bảo chống bán trùng ghế ở mức khóa chính B-Tree InnoDB.
 
 | Tên cột | Kiểu dữ liệu | NULL? | Mặc định | Ràng buộc (PK/FK/UQ/CHECK) | Mô tả ý nghĩa (Tiếng Việt) |
 |---|---|---|---|---|---|
@@ -237,20 +246,22 @@ Lưu lịch sử các lần thanh toán của đơn đặt vé.
 
 | Tên cột | Phân loại | Kiểu dữ liệu | NULL? | Mặc định | Ràng buộc (PK/FK/UQ/CHECK) | Mô tả ý nghĩa (Tiếng Việt) |
 |---|---|---|---|---|---|---|
-| `payment_id` | Thuộc tính logic | `INT AUTO_INCREMENT` | `NOT NULL` | Auto | `PRIMARY KEY (pk_payment)` | Mã định danh giao dịch thanh toán (khóa dự tuyển duy nhất của bảng). |
+| `payment_id` | Thuộc tính logic | `INT AUTO_INCREMENT` | `NOT NULL` | Auto | `PRIMARY KEY (pk_payment)` | Mã định danh giao dịch thanh toán (khóa dự bị duy nhất của bảng). |
 | `booking_id` | Thuộc tính logic | `INT` | `NOT NULL` | — | `FK -> booking(booking_id)` | Mã đơn đặt vé được thanh toán. |
 | `amount` | Thuộc tính logic | `DECIMAL(12,2)` | `NOT NULL` | — | `CHECK (amount >= 0)` | Số tiền của giao dịch thanh toán (VNĐ). |
 | `payment_method` | Thuộc tính logic | `VARCHAR(20)` | `NOT NULL` | `'CASH'` | `CHECK (payment_method IN ('CASH', 'CARD', 'TRANSFER', 'EWALLET'))` | Phương thức thanh toán (`CASH`, `CARD`, `TRANSFER`, `EWALLET`). |
 | `payment_status` | Thuộc tính logic | `VARCHAR(20)` | `NOT NULL` | `'SUCCESS'` | `CHECK (payment_status IN ('PENDING', 'SUCCESS', 'FAILED', 'REFUNDED'))` | Trạng thái thanh toán (`PENDING`, `SUCCESS`, `FAILED`, `REFUNDED`). |
-| `paid_at` | Thuộc tính logic | `DATETIME` | `NULL` | `NULL` | — | Thời điểm thanh toán hoàn tất (ghi nhận thời điểm tính doanh thu khi `SUCCESS`). |
+| `paid_at` | Thuộc tính logic | `DATETIME` | `NULL` | `NULL` | — | Thời điểm thanh toán hoàn tất (ghi nhận ngày tính doanh thu khi `SUCCESS`). |
 | `transaction_ref` | Thuộc tính logic | `VARCHAR(60)` | `NULL` | `NULL` | — | Mã tham chiếu biên lai / ngân hàng / cổng thanh toán. |
-| `active_success_booking` | *Chỉ mục vật lý MySQL 8.4* | `INT` | `NULL` | Generated | `GENERATED ALWAYS AS (CASE WHEN payment_status = 'SUCCESS' THEN booking_id ELSE NULL END) STORED`, `UNIQUE (uq_payment_one_success)` | *Cột biểu thức vật lý phục vụ chỉ mục duy nhất có điều kiện trên tập con `payment_status = 'SUCCESS'` (không phải thuộc tính logic hay khóa dự tuyển của toàn bảng).* |
+| `active_success_booking` | *Chỉ mục vật lý mức trong* | `INT` | `NULL` | Generated | `GENERATED ALWAYS AS (CASE WHEN payment_status = 'SUCCESS' THEN booking_id ELSE NULL END) STORED`, `UNIQUE (uq_payment_one_success)` | *Cột biểu thức vật lý phục vụ chỉ mục duy nhất có điều kiện trên tập con `payment_status = 'SUCCESS'` (không thuộc lược đồ quan hệ mức logic).* |
 
 ---
 
-## 3. Tổng hợp 17 Ràng buộc Tham chiếu Khóa ngoại (`01b_foreign_keys.sql`)
+## 3. Tổng hợp 17 Ràng buộc Toàn vẹn Tham chiếu (`01b_foreign_keys.sql`)
 
-| STT | Tên Ràng buộc FK | Bảng Con (Child Table) | Cột FK | Bảng Cha (Parent Table) | Cột PK Tham chiếu | Quy tắc `ON DELETE` / `ON UPDATE` |
+Theo đúng nguyên tắc toàn vẹn tham chiếu trong bài giảng (*Slide 4 tr. 55, Slide 9 tr. 20, Giáo trình tr. 58 & 105*): `ON DELETE RESTRICT` được áp dụng cho các thực thể hạ tầng và giao dịch lịch sử độc lập để ngăn xóa mất dấu vết kiểm toán; `ON DELETE CASCADE` áp dụng cho các quan hệ kết hợp phụ thuộc tồn tại (`movie_genre.movie_id` và `screening_seat_lock.ticket_id`); `ON DELETE SET NULL` áp dụng cho `booking.customer_id` để giữ hóa đơn vãng lai nếu xóa hồ sơ thành viên.
+
+| STT | Tên Ràng buộc (`CONSTRAINT`) | Bảng Tham chiếu (`FK`) | Cột `FK` | Bảng Được Tham chiếu (`PK`) | Cột `PK` | Quy tắc `ON DELETE` / `ON UPDATE` |
 |---:|---|---|---|---|---|---|
 | 1 | `fk_room_branch` | `screening_room` | `branch_id` | `cinema_branch` | `branch_id` | `RESTRICT` / `CASCADE` |
 | 2 | `fk_seat_room` | `seat` | `room_id` | `screening_room` | `room_id` | `RESTRICT` / `CASCADE` |

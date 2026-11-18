@@ -49,6 +49,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File database/setup.ps1 -TargetDa
 
 `setup.ps1` chỉ khởi tạo database trống. Khởi động ứng dụng giữ dữ liệu hiện có; các chế độ reset trong setup chỉ áp dụng cho `cinema_chain_test` theo điều kiện xác nhận của script.
 
+`setup.ps1` tự tạo database đích và cấp quyền tài khoản từ cấu hình cục bộ, nên không cần tệp SQL khởi tạo database riêng. Trong `02_triggers.sql`, `DROP TRIGGER IF EXISTS` dùng để cài lại định nghĩa trigger, không xóa dữ liệu bảng; `DELETE FROM screening_seat_lock` giải phóng ghế khi hủy vé. Hai thao tác xóa toàn bộ database được tách riêng: `00_clean_reset_test_db.sql` chỉ dành cho DB test qua chế độ reset; `prepare_demo_db.ps1` chỉ tạo lại DB demo khi người vận hành xác nhận rõ ràng.
+
 ## Kiểm thử
 
 Mã kiểm thử nằm trong `src/test/`. Cấu hình test phải trỏ tới `cinema_chain_test` bằng tài khoản `cinema_app` trong file cấu hình cục bộ.

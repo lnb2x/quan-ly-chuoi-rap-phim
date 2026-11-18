@@ -364,6 +364,57 @@ ORDER BY start_time ASC, screening_id ASC;
 ```
 - **Kết quả thực tế trên bộ dữ liệu mẫu (`10_seed.sql`):** Trả về 06 suất chiếu ngày `04/11/2026` tại Chi nhánh #1 (VD: Suất `#3` *Quật Mộ Trùng Ma*: sức chứa `80`, đã bán `3` vé, còn trống `77` ghế, lấp đầy `3.75%`, doanh thu `330.000 VNĐ`; trên toàn kỳ `04/11/2026 -> 10/11/2026` toàn chuỗi khớp chính xác **`292 vé`** và **`35.165.000 VNĐ`**).
 
+---
+
+## 6. Biểu diễn Đại số Quan hệ (Slide 8) & Đối chiếu Lý thuyết SQL (Slide 9–12, TS. Nguyễn Quỳnh Chi)
+
+### 6.1. Hệ thống Ký hiệu Đại số Quan hệ Chuẩn theo Bài giảng Chương 3 (Slide 8)
+Theo Slide 8 (*Ngôn ngữ truy vấn Đại số quan hệ*) và Giáo trình *Bài giảng DBMS v1.1* (trang 79–98):
+- **5 phép toán cơ bản:** Phép chọn $\sigma_{(\text{mệnh đề})}(r)$ (kết hợp $=, \neq, <, \le, >, \ge$ và $\land, \lor, \neg$), Phép chiếu $\pi_{(\text{danh sách thuộc tính})}(r)$, Phép hợp $r \cup s$ (trên hai quan hệ *khả hợp*: cùng bậc và miền giá trị tương ứng giống nhau), Phép trừ $r - s$ (khả hợp), Phép tích Đề-các $r \times s$; đi kèm toán tử đặt lại tên $\rho_{x(A_1, \dots, A_n)}(r)$ (Slide 8, trang 54–56).
+- **Các phép toán mở rộng:** Phép giao $r \cap s \equiv r - (r - s)$; Phép kết nối theta/bằng $r \bowtie_{(\text{predicate})} s \equiv \sigma_{(\text{predicate})}(r \times s)$; **Phép kết nối tự nhiên** ký hiệu bằng dấu sao **`r * s`** (kết nối bằng trên mọi thuộc tính cùng tên và giữ mỗi thuộc tính chung một lần — Slide 8, trang 36–37); **Phép kết nối ngoài** (trái, phải, đầy đủ — giữ lại các bộ không khớp và điền `null` — Slide 8, trang 38–39); **Phép bán kết nối (Semi-Join)** $r \ltimes_{(\text{predicate})} s \equiv \pi_{(\text{thuộc tính của } r)}(r \bowtie_{(\text{predicate})} s)$ (Slide 8, trang 40–41); và **Phép chia (Division)** $r \div s \equiv \pi_{(X-Y)}(r) - \pi_{(X-Y)}((\pi_{(X-Y)}(r) \times s) - r)$ với $Y \subseteq X$ (Slide 8, trang 42–48).
+
+### 6.2. Biểu thức Đại số Quan hệ Tương ứng cho Các Chức năng `R5.1`–`R7.2` và Phép Chia
+1. **Kiểm tra xung đột khung giờ chiếu cùng phòng (`R5.1` / `BR-06` — Phép chọn $\sigma$ & Phép chiếu $\pi$):**
+   $$Q_{\text{overlap}} = \pi_{(\text{screening\_id}, \text{movie\_id}, \text{start\_time}, \text{end\_time})}\big(\sigma_{(\text{room\_id} = r_0 \land \text{status} = \text{'OPEN'} \land \text{start\_time} < t_{\text{end}} \land \text{end\_time} > t_{\text{start}})}(\text{screening})\big)$$
+2. **Nạp sơ đồ ghế của suất chiếu $s_0$ (`R5.2` — Kết nối tự nhiên `*` kết hợp Kết nối ngoài trái):**
+   - Kết nối tự nhiên $\sigma_{(\text{screening\_id} = s_0)}(\text{screening}) * \text{seat} * \text{seat\_type}$ ghép suất chiếu với 80 ghế cùng phòng (`room_id`) và phụ thu hạng ghế (`seat_type_code`); sau đó **kết nối ngoài trái** với `screening_seat_lock` trên `(screening_id, seat_id)` để giữ đủ cả 80 ghế (ghế trống nhận `ticket_id = null`, ghế đã giữ nhận `ticket_id != null`).
+3. **Tìm tập mã ghế còn trống của suất chiếu $s_0$ (`R6` — Phép trừ $r - s$ trên hai quan hệ khả hợp bậc 1):**
+   $$G_{\text{trống}}(s_0) = \pi_{(\text{seat\_id})}\big(\sigma_{(\text{screening\_id} = s_0)}(\text{screening}) * \text{seat}\big) - \pi_{(\text{seat\_id})}\big(\sigma_{(\text{screening\_id} = s_0)}(\text{screening\_seat\_lock})\big)$$
+4. **Tập vé hợp lệ đã thu tiền phục vụ Báo cáo Doanh thu & Bán vé (`R7.1`, `R7.2` — Kết nối tự nhiên `*` và Phép bán kết nối $\ltimes$):**
+   $$V_{\text{paid}} = \Big(\sigma_{(\text{ticket\_status} = \text{'VALID'})}(\text{ticket}) * \sigma_{(\text{booking\_status} = \text{'CONFIRMED'})}(\text{booking})\Big) \ltimes_{(\text{booking\_id})} \sigma_{(\text{payment\_status} = \text{'SUCCESS'} \land \text{paid\_at} \in [d_1, d_2])}(\text{payment})$$
+   *(Phép bán kết nối $\ltimes$ tương ứng mệnh đề `EXISTS (SELECT 1 FROM payment ...)` trong Mục 4.2c và 5.1b: chỉ giữ lại các bộ phía trái mà không nhân bản dòng vé nếu lịch sử `payment` có nhiều giao dịch).*
+5. **Truy vấn Phép Chia ($\div$) trên CSDL Chuỗi Rạp theo Mẫu 6 Bước $T_1 \dots T_6$ (Slide 8 trang 47–48 & Slide 11 trang 18–19):**
+   - **Bài toán:** *Tìm mã phim (`movie_id`) có lịch chiếu mở (`status = 'OPEN'`) tại tất cả các chi nhánh đang hoạt động (`active = 1`).*
+   - **Giải pháp dùng phép toán mở rộng $\div$ (Slide 8, trang 48):**
+     $$R_{\text{mb}} = \pi_{(\text{movie\_id}, \text{branch\_id})}\big(\sigma_{(\text{status} = \text{'OPEN'})}(\text{screening}) * \text{screening\_room}\big), \quad S_{\text{br}} = \pi_{(\text{branch\_id})}\big(\sigma_{(\text{active} = 1)}(\text{cinema\_branch})\big)$$
+     $$Q_{\text{all\_branches}} = R_{\text{mb}} \div S_{\text{br}}$$
+   - **Giải pháp chỉ dùng 5 phép toán cơ bản (Slide 8, trang 47):**
+     - $T_1 = R_{\text{mb}}$ *(tất cả các cặp `(movie_id, branch_id)` có lịch chiếu mở thực tế)*;
+     - $T_2 = S_{\text{br}}$ *(tất cả các `branch_id` đang hoạt động)*;
+     - $T_3 = \pi_{(\text{movie\_id})}(T_1) \times T_2$ *(ghép mọi `movie_id` trong $T_1$ với mọi `branch_id` trong $T_2$)*;
+     - $T_4 = T_3 - T_1$ *(các cặp `(movie_id, branch_id)` bị khuyết lịch chiếu)*;
+     - $T_5 = \pi_{(\text{movie\_id})}(T_1) - \pi_{(\text{movie\_id})}(T_4)$ *(loại bỏ các phim còn thiếu ít nhất một chi nhánh — cho kết quả đúng bằng $R_{\text{mb}} \div S_{\text{br}}$)*.
+   - **Câu lệnh SQL tương đương trên MySQL 8.4 (theo mẫu `GROUP BY / HAVING COUNT(DISTINCT ...)` trên Slide 11 trang 19 và phủ định kép `NOT EXISTS`):**
+     ```sql
+     SELECT m.movie_id, m.movie_code, m.title
+     FROM movie m
+     JOIN screening sc      ON sc.movie_id = m.movie_id AND sc.status = 'OPEN'
+     JOIN screening_room rm ON rm.room_id = sc.room_id
+     JOIN cinema_branch br  ON br.branch_id = rm.branch_id AND br.active = 1
+     GROUP BY m.movie_id, m.movie_code, m.title
+     HAVING COUNT(DISTINCT br.branch_id) = (
+         SELECT COUNT(*) FROM cinema_branch WHERE active = 1
+     );
+     ```
+
+### 6.3. Đối chiếu Tuân thủ Quy tắc Ngôn ngữ SQL (Slide 9, 10, 11, 12)
+- **Đặt tên tường minh cho các ràng buộc toàn vẹn (Slide 9):** Toàn bộ `01_schema.sql` và `01b_foreign_keys.sql` đều đặt tên `CONSTRAINT` chuẩn hóa (`pk_*`, `fk_*`, `uq_*`, `chk_*`), đồng thời phân biệt rõ `PRIMARY KEY` (luôn `NOT NULL`) với `UNIQUE` trên cột cho phép `NULL` (`transaction_ref`, `active_success_booking`).
+- **Xử lý logic ba giá trị của `NULL` và toán tử miền (Slide 10):** Mọi điều kiện kiểm tra rỗng đều dùng `IS NULL` / `IS NOT NULL` (tuyệt đối không dùng `= NULL`); các phép tổng hợp báo cáo đều bọc `COALESCE(..., 0)` để tránh `NULL` làm rỗng kết quả cộng; lọc khoảng ngày/giờ dùng `BETWEEN ... AND ...` và tìm kiếm chuỗi dùng `LIKE`.
+- **Quy tắc $N - 1$ điều kiện kết nối không vòng tròn, `LEFT JOIN` và 4 đặc tính `VIEW` (Slide 11, trang 24–34):**
+  - Truy vấn đối soát 4 bảng `ticket -> booking -> screening -> screening_room` (Mục 4.2c, 5.1b) dùng đúng $4 - 1 = 3$ điều kiện kết nối khóa ngoại, tuyệt đối tránh kết nối vòng tròn dư thừa qua `seat` (Slide 11, trang 29).
+  - Báo cáo doanh thu chi nhánh dùng `cinema_branch LEFT JOIN vw_verified_booking_revenue` (Slide 11, trang 32–34) để giữ lại cả chi nhánh có doanh thu bằng `0` trong kỳ lọc.
+  - Bốn giao diện hiển thị (`vw_screening_search`, `vw_verified_booking_revenue`, `vw_branch_daily_revenue`, `vw_screening_occupancy`) trong `03_views.sql` vận dụng đúng 4 đặc tính của `CREATE VIEW` trên Slide 11 trang 26: dùng thay tên bảng trong `SELECT`, tự động cập nhật dữ liệu mới nhất khi kích hoạt, giới hạn cột/hàng theo ngữ cảnh nghiệp vụ, và làm nguồn tổng hợp chuẩn cho báo cáo.
+- **Đơn vị giao dịch nguyên tử `COMMIT` / `ROLLBACK` (Slide 12):** Mọi chuỗi lệnh `SELECT ... FOR UPDATE` + `INSERT`/`UPDATE` nhiều bảng trong `TransactionTemplate` chỉ `COMMIT` khi toàn bộ quy tắc hợp lệ, và lập tức `ROLLBACK` khôi phục tính nhất quán CSDL khi xảy ra lỗi hoặc vi phạm Trigger.
 
 ## Thanh toán VNPay Sandbox (mở rộng demo, chỉ DB test)
 

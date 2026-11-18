@@ -260,31 +260,16 @@ if ($Mode -eq "ResetTestDb") {
     "=== MYSQL 8.4 LTS TEST DB PROVISIONING LOG [MODE: RESET TEST DB -> cinema_chain_test] ($(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) ===" | Out-File -FilePath $logFile -Encoding utf8
     Invoke-MySqlStdin "SELECT VERSION() AS mysql_version, @@version_comment AS distribution, @@sql_mode AS sql_mode, @@character_set_server AS charset, @@collation_server AS collation;" "root" $rootPass -TableOutput | Out-File -FilePath $logFile -Append -Encoding utf8
 
-    Write-Output "[Bước 1/6] Xóa và tạo mới duy nhất CSDL kiểm thử 'cinema_chain_test' (00_clean_reset_test_db.sql)..."
+    Write-Output "[ResetTestDb] Xóa và tạo mới duy nhất CSDL kiểm thử 'cinema_chain_test' (00_clean_reset_test_db.sql)..."
     Invoke-MySqlFile "$PSScriptRoot\schema\00_clean_reset_test_db.sql" "root" $rootPass | Out-Null
-    Provision-LeastPrivilegeAppUser $appUser $appPass $rootPass
-
-    Write-Output "[Bước 2/6] Tạo cấu trúc 14 bảng chuẩn 3NF trên 'cinema_chain_test' (01_schema.sql)..."
-    Invoke-MySqlFile "$PSScriptRoot\schema\01_schema.sql" "root" $rootPass "cinema_chain_test" | Out-Null
-
-    Write-Output "[Bước 3/6] Thiết lập 17 ràng buộc FOREIGN KEY trên 'cinema_chain_test' (01b_foreign_keys.sql)..."
-    Invoke-MySqlFile "$PSScriptRoot\schema\01b_foreign_keys.sql" "root" $rootPass "cinema_chain_test" | Out-Null
-
-    Write-Output "[Bước 4/6] Thiết lập 12 Trigger nghiệp vụ trên 'cinema_chain_test' (02_triggers.sql)..."
-    Invoke-MySqlFile "$PSScriptRoot\schema\02_triggers.sql" "root" $rootPass "cinema_chain_test" | Out-Null
-
-    Write-Output "[Bước 5/6] Thiết lập 04 Khung nhìn (VIEW) trên 'cinema_chain_test' (03_views.sql)..."
-    Invoke-MySqlFile "$PSScriptRoot\schema\03_views.sql" "root" $rootPass "cinema_chain_test" | Out-Null
-
-    Write-Output "[Bước 6/6] Nạp dữ liệu mẫu chuẩn 3NF vào 'cinema_chain_test' (10_seed.sql)..."
-    Invoke-MySqlFile "$PSScriptRoot\seed\10_seed.sql" "root" $rootPass "cinema_chain_test" | Out-Null
 }
 else {
     "=== MYSQL 8.4 LTS SETUP LOG [MODE: NORMAL | TARGET: $TargetDatabase] ($(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) ===" | Out-File -FilePath $logFile -Encoding utf8
     Invoke-MySqlStdin "CREATE DATABASE IF NOT EXISTS $TargetDatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" "root" $rootPass | Out-Null
-    Provision-LeastPrivilegeAppUser $appUser $appPass $rootPass
-    Initialize-DatabaseNonDestructive $TargetDatabase $rootPass
 }
+
+Provision-LeastPrivilegeAppUser $appUser $appPass $rootPass
+Initialize-DatabaseNonDestructive $TargetDatabase $rootPass
 
 # =============================================================================
 # 5. Đối chứng Metadata 14 bảng chuẩn 3NF & Toàn vẹn Nghiệp vụ trên TargetDatabase
