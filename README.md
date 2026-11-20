@@ -16,7 +16,7 @@ Lớp **INT1313-20261-01** · Nhóm **8** · Giảng viên **Nguyễn Quỳnh Ch
 | Nội dung | Tệp hoặc thư mục |
 |---|---|
 | Báo cáo đầy đủ 7 mục và phụ lục SQL | [PDF](docs/academic-report/BaoCao_QuanLyChuoiRap.pdf), [Word](docs/academic-report/BaoCao_QuanLyChuoiRap.docx) |
-| ERD Chen và mô hình quan hệ | [ERD A1](docs/erd/ERD_Chen_A1.pdf), [Data Diagram A3](docs/erd/Data_Diagram_A3.pdf); nguồn sửa được trong `docs/erd/` |
+| ERD Chen và mô hình quan hệ | [ER Diagram](docs/erd/ER.drawio.pdf), [Lược đồ Quan hệ](docs/erd/luoc-do-quan-he.drawio.pdf); nguồn sửa được trong `docs/erd/` |
 | Yêu cầu dữ liệu và nghiệp vụ | `docs/requirements/` |
 | Lược đồ 14 bảng và từ điển dữ liệu | `docs/relational-model/schema-design.md` |
 | Phụ thuộc hàm, 3NF và lossless join | `docs/normalization/normalization.md` |

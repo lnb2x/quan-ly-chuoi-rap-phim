@@ -380,15 +380,15 @@ Theo Slide 8 (*Ngôn ngữ truy vấn Đại số quan hệ*) và Giáo trình *
    - Kết nối tự nhiên $\sigma_{(\text{screening\_id} = s_0)}(\text{screening}) * \text{seat} * \text{seat\_type}$ ghép suất chiếu với 80 ghế cùng phòng (`room_id`) và phụ thu hạng ghế (`seat_type_code`); sau đó **kết nối ngoài trái** với `screening_seat_lock` trên `(screening_id, seat_id)` để giữ đủ cả 80 ghế (ghế trống nhận `ticket_id = null`, ghế đã giữ nhận `ticket_id != null`).
 3. **Tìm tập mã ghế còn trống của suất chiếu $s_0$ (`R6` — Phép trừ $r - s$ trên hai quan hệ khả hợp bậc 1):**
    $$G_{\text{trống}}(s_0) = \pi_{(\text{seat\_id})}\big(\sigma_{(\text{screening\_id} = s_0)}(\text{screening}) * \text{seat}\big) - \pi_{(\text{seat\_id})}\big(\sigma_{(\text{screening\_id} = s_0)}(\text{screening\_seat\_lock})\big)$$
-4. **Tập vé hợp lệ đã thu tiền phục vụ Báo cáo Doanh thu & Bán vé (`R7.1`, `R7.2` — Kết nối tự nhiên `*` và Phép bán kết nối $\ltimes$):**
-   $$V_{\text{paid}} = \Big(\sigma_{(\text{ticket\_status} = \text{'VALID'})}(\text{ticket}) * \sigma_{(\text{booking\_status} = \text{'CONFIRMED'})}(\text{booking})\Big) \ltimes_{(\text{booking\_id})} \sigma_{(\text{payment\_status} = \text{'SUCCESS'} \land \text{paid\_at} \in [d_1, d_2])}(\text{payment})$$
+4. **Tập vé hợp lệ đã thu tiền phục vụ Báo cáo Doanh thu & Bán vé (`R7.1`, `R7.2` — Kết nối tự nhiên `*` và Phép bán kết nối $\ltimes$ / ký hiệu $\triangleright$ trên Slide 8):**
+   $$V_{\text{paid}} = \Big(\sigma_{(\text{ticket\_status} = \text{'VALID'})}(\text{ticket}) * \sigma_{(\text{booking\_status} = \text{'CONFIRMED'})}(\text{booking})\Big) \ltimes_{(\text{booking.booking\_id} = \text{payment.booking\_id})} \sigma_{(\text{payment\_status} = \text{'SUCCESS'} \land \text{DATE(paid\_at)} \in [d_1, d_2])}(\text{payment})$$
    *(Phép bán kết nối $\ltimes$ tương ứng mệnh đề `EXISTS (SELECT 1 FROM payment ...)` trong Mục 4.2c và 5.1b: chỉ giữ lại các bộ phía trái mà không nhân bản dòng vé nếu lịch sử `payment` có nhiều giao dịch).*
-5. **Truy vấn Phép Chia ($\div$) trên CSDL Chuỗi Rạp theo Mẫu 6 Bước $T_1 \dots T_6$ (Slide 8 trang 47–48 & Slide 11 trang 18–19):**
+5. **Truy vấn Phép Chia ($\div$) trên CSDL Chuỗi Rạp theo 5 Bước $T_1 \dots T_5$ (Slide 8 & Slide 11 trang 18–19):**
    - **Bài toán:** *Tìm mã phim (`movie_id`) có lịch chiếu mở (`status = 'OPEN'`) tại tất cả các chi nhánh đang hoạt động (`active = 1`).*
-   - **Giải pháp dùng phép toán mở rộng $\div$ (Slide 8, trang 48):**
+   - **Giải pháp dùng phép toán mở rộng $\div$ (Slide 8):**
      $$R_{\text{mb}} = \pi_{(\text{movie\_id}, \text{branch\_id})}\big(\sigma_{(\text{status} = \text{'OPEN'})}(\text{screening}) * \text{screening\_room}\big), \quad S_{\text{br}} = \pi_{(\text{branch\_id})}\big(\sigma_{(\text{active} = 1)}(\text{cinema\_branch})\big)$$
      $$Q_{\text{all\_branches}} = R_{\text{mb}} \div S_{\text{br}}$$
-   - **Giải pháp chỉ dùng 5 phép toán cơ bản (Slide 8, trang 47):**
+   - **Giải pháp chỉ dùng 5 phép toán cơ bản (tương đương định nghĩa $r \div s$ trên Slide 8):**
      - $T_1 = R_{\text{mb}}$ *(tất cả các cặp `(movie_id, branch_id)` có lịch chiếu mở thực tế)*;
      - $T_2 = S_{\text{br}}$ *(tất cả các `branch_id` đang hoạt động)*;
      - $T_3 = \pi_{(\text{movie\_id})}(T_1) \times T_2$ *(ghép mọi `movie_id` trong $T_1$ với mọi `branch_id` trong $T_2$)*;

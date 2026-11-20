@@ -5,7 +5,7 @@
 
 ## 1. Quy trình Ánh xạ E–R sang 14 Lược đồ Quan hệ Mức Logic theo Bài giảng
 
-Toàn bộ 14 lược đồ quan hệ và 17 khóa ngoại của hệ thống được chuyển đổi trực tiếp từ Sơ đồ E–R (`docs/erd/erd-chen.drawio`) theo đúng **quy trình 7 bước ánh xạ mô hình E–R sang mô hình quan hệ** trong Chương 2 Phần 3 (*Slide 5 tr. 19–43; Giáo trình CSDL tr. 65–76 — TS. Nguyễn Quỳnh Chi*):
+Toàn bộ 14 lược đồ quan hệ và 17 khóa ngoại của hệ thống được chuyển đổi trực tiếp từ Sơ đồ E–R (`docs/erd/ER.drawio`) theo đúng **quy trình 7 bước ánh xạ mô hình E–R sang mô hình quan hệ** trong Chương 2 Phần 3 (*Slide 5 tr. 19–43; Giáo trình CSDL tr. 65–76 — TS. Nguyễn Quỳnh Chi*):
 
 1. **Bước 1 — Ánh xạ các thực thể thông thường / thực thể khỏe (Slide 5 tr. 19–22, Giáo trình tr. 65–67):**
    - Ánh xạ 12 tập thực thể khỏe (`CHI_NHANH_RAP`, `PHONG_CHIEU`, `HANG_GHE`, `GHE`, `PHIM`, `THE_LOAI`, `SUAT_CHIEU`, `KHACH_HANG`, `NHAN_VIEN`, `DON_DAT_VE`, `VE_XEM_PHIM`, `THANH_TOAN`) thành 12 lược đồ quan hệ tương ứng, giữ nguyên **59 thuộc tính đơn bản thân** và khóa chính định danh của từng thực thể.
@@ -22,26 +22,26 @@ Toàn bộ 14 lược đồ quan hệ và 17 khóa ngoại của hệ thống đ
 
 ### Sơ đồ Lược đồ Quan hệ theo Quy ước Bài giảng (Thanh ngang & Mũi tên tham chiếu `FK → PK`)
 
-- **Bản vẽ gốc chỉnh sửa được (draw.io):** [luoc-do-quan-he.drawio](luoc-do-quan-he.drawio) (đồng bộ tại [`docs/erd/luoc-do-quan-he.drawio`](../erd/luoc-do-quan-he.drawio))
-- **Bản xuất Vector & Hình ảnh:** [luoc-do-quan-he.pdf](luoc-do-quan-he.pdf) • [luoc-do-quan-he.svg](luoc-do-quan-he.svg) • [luoc-do-quan-he.png](luoc-do-quan-he.png)
+- **Bản vẽ gốc chỉnh sửa được (draw.io):** [`docs/erd/luoc-do-quan-he.drawio`](../erd/luoc-do-quan-he.drawio)
+- **Bản xuất Vector & Hình ảnh:** [`docs/erd/luoc-do-quan-he.drawio.pdf`](../erd/luoc-do-quan-he.drawio.pdf) • [`docs/erd/luoc-do-quan-he.drawio.png`](../erd/luoc-do-quan-he.drawio.png)
 
-Theo đúng ký hiệu minh họa trong Giáo trình tr. 67–79: mỗi quan hệ là một thanh ngang chia ô thuộc tính, thuộc tính khóa chính (`PK`) gạch chân nét liền, thuộc tính khóa ngoại (`FK`) gạch chân nét đứt, và **17 mũi tên cong đều xuất phát từ thuộc tính khóa ngoại (`FK`) trỏ đầu mũi tên về thuộc tính khóa chính (`PK`) được tham chiếu**.
+Theo đúng ký hiệu minh họa trong **Slide 5 tr. 27 & tr. 33** (*Giáo trình tr. 67–79*): mỗi quan hệ là một thanh ngang chia ô thuộc tính; thuộc tính khóa chính (`PK`, bao gồm cả khóa chính ghép kiêm khóa ngoại của hai quan hệ kết hợp `PHIM_THE_LOAI`, `KHOA_GHE_SUAT_CHIEU` theo mẫu `ORDER-LINE` trên Slide 5 tr. 33) gạch chân nét liền; thuộc tính khóa ngoại đơn (`FK`) gạch chân nét đứt; và **17 mũi tên cong đều xuất phát từ thuộc tính khóa ngoại (`FK`) trỏ đầu mũi tên về thuộc tính khóa chính (`PK`) được tham chiếu**.
 
-**Biểu diễn 14 lược đồ quan hệ theo tên tiếng Việt không dấu (trên sơ đồ `luoc-do-quan-he`):**
-1. **`CHI_NHANH_RAP`** (<u>**`MaCN`**</u>, `MaCodeCN`, `TenChiNhanh`, `DiaChi`, `ThanhPho`, `SoDienThoai`, `DangHoatDong`)
-2. **`PHONG_CHIEU`** (<u>**`MaPhong`**</u>, *`MaCN`*, `TenPhong`, `LoaiPhong`, `DangHoatDong`)
-3. **`HANG_GHE`** (<u>**`MaHangGhe`**</u>, `TenHangGhe`, `PhuThu`)
-4. **`GHE`** (<u>**`MaGhe`**</u>, *`MaPhong`*, *`MaHangGhe`*, `HangGhe`, `SoGhe`)
-5. **`PHIM`** (<u>**`MaPhim`**</u>, `MaCodePhim`, `TuaDe`, `ThoiLuongPhut`, `NgayKhoiChieu`, `PhanLoaiTuoi`, `QuocGia`, `MoTa`)
-6. **`THE_LOAI`** (<u>**`MaTL`**</u>, `TenTheLoai`, `MoTa`)
-7. **`PHIM_THE_LOAI`** (<u>***`MaPhim`***, ***`MaTL`***</u>)
-8. **`SUAT_CHIEU`** (<u>**`MaSC`**</u>, *`MaPhim`*, *`MaPhong`*, `ThoiGianBatDau`, `ThoiGianKetThuc`, `GiaCoSo`, `TrangThai`)
-9. **`KHACH_HANG`** (<u>**`MaKH`**</u>, `HoTen`, `SoDienThoai`, `Email`, `NgaySinh`, `NgayTao`)
-10. **`NHAN_VIEN`** (<u>**`MaNV`**</u>, *`MaCN`*, `MaCodeNV`, `HoTen`, `SoDienThoai`, `ChucVu`, `NgayVaoLam`)
-11. **`DON_DAT_VE`** (<u>**`MaDDV`**</u>, *`MaSC`*, *`MaKH`*, *`MaNV`*, `MaCodeDDV`, `ThoiGianDat`, `TrangThai`)
-12. **`VE_XEM_PHIM`** (<u>**`MaVe`**</u>, *`MaDDV`*, *`MaGhe`*, `DonGia`, `TrangThai`, `ThoiGianHuy`)
-13. **`KHOA_GHE_SUAT_CHIEU`** (<u>***`MaSC`***, ***`MaGhe`***</u>, *`MaVe`*)
-14. **`THANH_TOAN`** (<u>**`MaTT`**</u>, *`MaDDV`*, `SoTien`, `PhuongThuc`, `TrangThai`, `NgayThanhToan`, `MaGiaoDich`)
+**Biểu diễn 14 lược đồ quan hệ theo tên tiếng Việt không dấu (trên sơ đồ `luoc-do-quan-he.drawio`; gạch chân liền = `PK`, `#` = `FK`):**
+1. **`CHI_NHANH_RAP`** (<u>`MaCN`</u>, `MaCodeCN`, `TenChiNhanh`, `DiaChi`, `ThanhPho`, `SoDienThoai`, `DangHoatDong`)
+2. **`PHONG_CHIEU`** (<u>`MaPhong`</u>, *`#MaCN`*, `TenPhong`, `LoaiPhong`, `DangHoatDong`)
+3. **`HANG_GHE`** (<u>`MaHangGhe`</u>, `TenHangGhe`, `PhuThu`)
+4. **`GHE`** (<u>`MaGhe`</u>, *`#MaPhong`*, *`#MaHangGhe`*, `HangGhe`, `SoGhe`)
+5. **`PHIM`** (<u>`MaPhim`</u>, `MaCodePhim`, `TuaDe`, `ThoiLuongPhut`, `NgayKhoiChieu`, `PhanLoaiTuoi`, `QuocGia`, `MoTa`)
+6. **`THE_LOAI`** (<u>`MaTL`</u>, `TenTheLoai`, `MoTa`)
+7. **`PHIM_THE_LOAI`** (<u>*`#MaPhim`*</u>, <u>*`#MaTL`*</u>)
+8. **`SUAT_CHIEU`** (<u>`MaSC`</u>, *`#MaPhim`*, *`#MaPhong`*, `ThoiGianBatDau`, `ThoiGianKetThuc`, `GiaCoSo`, `TrangThai`)
+9. **`KHACH_HANG`** (<u>`MaKH`</u>, `HoTen`, `SoDienThoai`, `Email`, `NgaySinh`, `NgayTao`)
+10. **`NHAN_VIEN`** (<u>`MaNV`</u>, *`#MaCN`*, `MaCodeNV`, `HoTen`, `SoDienThoai`, `ChucVu`, `NgayVaoLam`)
+11. **`DON_DAT_VE`** (<u>`MaDDV`</u>, *`#MaSC`*, *`#MaKH`*, *`#MaNV`*, `MaCodeDDV`, `ThoiGianDat`, `TrangThai`)
+12. **`VE_XEM_PHIM`** (<u>`MaVe`</u>, *`#MaDDV`*, *`#MaGhe`*, `DonGia`, `TrangThai`, `ThoiGianHuy`)
+13. **`KHOA_GHE_SUAT_CHIEU`** (<u>*`#MaSC`*</u>, <u>*`#MaGhe`*</u>, *`#MaVe`*)
+14. **`THANH_TOAN`** (<u>`MaTT`</u>, *`#MaDDV`*, `SoTien`, `PhuongThuc`, `TrangThai`, `NgayThanhToan`, `MaGiaoDich`)
 
 **Biểu diễn ánh xạ sang tên bảng/cột vật lý SQL** *(gạch chân liền = `PK`; chữ nghiêng `#` = `FK`; `AK` = Khóa dự bị / khóa phụ trên toàn bảng)*:
 1. **`cinema_branch`** (<u>`branch_id`</u>, `branch_code` [AK], `branch_name` [AK], `address`, `city`, `phone` [AK], `active`)
@@ -248,7 +248,7 @@ Lưu lịch sử các lần thanh toán của đơn đặt vé.
 |---|---|---|---|---|---|---|
 | `payment_id` | Thuộc tính logic | `INT AUTO_INCREMENT` | `NOT NULL` | Auto | `PRIMARY KEY (pk_payment)` | Mã định danh giao dịch thanh toán (khóa dự bị duy nhất của bảng). |
 | `booking_id` | Thuộc tính logic | `INT` | `NOT NULL` | — | `FK -> booking(booking_id)` | Mã đơn đặt vé được thanh toán. |
-| `amount` | Thuộc tính logic | `DECIMAL(12,2)` | `NOT NULL` | — | `CHECK (amount >= 0)` | Số tiền của giao dịch thanh toán (VNĐ). |
+| `amount` | Thuộc tính logic | `DECIMAL(12,2)` | `NOT NULL` | — | `CHECK (amount >= 0)` + Trigger `trg_payment_validate_ins/upd` yêu cầu `amount > 0` (`BR-13`) | Số tiền của giao dịch thanh toán (VNĐ, thực tế bắt buộc dương). |
 | `payment_method` | Thuộc tính logic | `VARCHAR(20)` | `NOT NULL` | `'CASH'` | `CHECK (payment_method IN ('CASH', 'CARD', 'TRANSFER', 'EWALLET'))` | Phương thức thanh toán (`CASH`, `CARD`, `TRANSFER`, `EWALLET`). |
 | `payment_status` | Thuộc tính logic | `VARCHAR(20)` | `NOT NULL` | `'SUCCESS'` | `CHECK (payment_status IN ('PENDING', 'SUCCESS', 'FAILED', 'REFUNDED'))` | Trạng thái thanh toán (`PENDING`, `SUCCESS`, `FAILED`, `REFUNDED`). |
 | `paid_at` | Thuộc tính logic | `DATETIME` | `NULL` | `NULL` | — | Thời điểm thanh toán hoàn tất (ghi nhận ngày tính doanh thu khi `SUCCESS`). |
