@@ -118,8 +118,13 @@ public final class RevenueReportPanel extends JPanel {
         dailyCard.add(lblSec2, BorderLayout.NORTH);
         dailyCard.add(new JScrollPane(dailyTable), BorderLayout.CENTER);
 
+        branchCard.setMinimumSize(new Dimension(0, 120));
+        dailyCard.setMinimumSize(new Dimension(0, 120));
+
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, branchCard, dailyCard);
         splitPane.setResizeWeight(0.45);
+        splitPane.setContinuousLayout(true);
+        splitPane.setOneTouchExpandable(true);
         splitPane.setBorder(null);
         splitPane.setOpaque(false);
 

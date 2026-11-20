@@ -58,8 +58,19 @@ public final class AppShell extends JFrame {
     public AppShell(AppConfig appConfig, SandboxPaymentService sandboxPayments) {
         super("Hệ Thống Quản Lý Chuỗi Rạp Chiếu Phim CineViet — Java 21 LTS & MySQL 8.4 LTS");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1420, 880);
-        setMinimumSize(new Dimension(1240, 760));
+        setMinimumSize(new Dimension(1024, 640));
+        int initW = 1420;
+        int initH = 880;
+        try {
+            Rectangle usable = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+            if (usable != null && usable.width > 0 && usable.height > 0) {
+                initW = Math.max(1024, Math.min(1420, usable.width - 24));
+                initH = Math.max(640, Math.min(880, usable.height - 24));
+            }
+        } catch (HeadlessException ignored) {
+            // Giữ kích thước mặc định trong môi trường không có màn hình
+        }
+        setSize(initW, initH);
         setLocationRelativeTo(null);
 
         ConnectionProvider connectionProvider = new ConnectionProvider(appConfig);

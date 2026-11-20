@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  * Sơ đồ ghế trực quan trong phòng chiếu (8 hàng A-H x 10 ghế = 80 ghế).
  * Cho phép chọn/bỏ chọn các ghế còn trống và chặn chọn ghế đã bán (OCCUPIED).
  */
-public final class SeatMapPanel extends JPanel {
+public final class SeatMapPanel extends JPanel implements Scrollable {
 
     private static final Color COLOR_STD = new Color(224, 242, 254);
     private static final Color COLOR_VIP = new Color(254, 243, 199);
@@ -53,13 +53,13 @@ public final class SeatMapPanel extends JPanel {
     }
 
     private JPanel createLegendPanel() {
-        JPanel legend = new JPanel(new FlowLayout(FlowLayout.CENTER, 14, 4));
+        JPanel legend = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 4));
         legend.setBackground(Theme.BG_CARD);
-        legend.add(createLegendItem("Ghế Thường (STD)", COLOR_STD, Theme.TEXT_PRIMARY));
-        legend.add(createLegendItem("Ghế VIP (+20k)", COLOR_VIP, Theme.TEXT_PRIMARY));
-        legend.add(createLegendItem("Ghế Đôi (+45k)", COLOR_COUPLE, Theme.TEXT_PRIMARY));
+        legend.add(createLegendItem("Thường (STD)", COLOR_STD, Theme.TEXT_PRIMARY));
+        legend.add(createLegendItem("VIP (+20k)", COLOR_VIP, Theme.TEXT_PRIMARY));
+        legend.add(createLegendItem("Đôi (+45k)", COLOR_COUPLE, Theme.TEXT_PRIMARY));
         legend.add(createLegendItem("Đang chọn", COLOR_SELECTED, Color.WHITE));
-        legend.add(createLegendItem("Đã bán (Không thể chọn)", COLOR_OCCUPIED, new Color(153, 27, 27)));
+        legend.add(createLegendItem("Đã bán", COLOR_OCCUPIED, new Color(153, 27, 27)));
         return legend;
     }
 
@@ -177,5 +177,31 @@ public final class SeatMapPanel extends JPanel {
         if (selectionListener != null) {
             selectionListener.accept(getSelectedSeats());
         }
+    }
+
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 16;
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 64;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        Container parent = getParent();
+        return parent == null || parent.getWidth() >= 420;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return false;
     }
 }

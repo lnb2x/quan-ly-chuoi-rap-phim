@@ -17,6 +17,8 @@ import com.cinema.shared.validation.BusinessRuleException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -83,13 +85,24 @@ public final class TicketBookingPanel extends JPanel {
         JPanel seatCard = Theme.createCardPanel(new BorderLayout(8, 8));
         JLabel lblSeatMapTitle = new JLabel("Sơ đồ Ghế Phòng chiếu (Nhấn vào ghế trống để chọn / bỏ chọn):");
         lblSeatMapTitle.setFont(Theme.FONT_SUBTITLE);
+        JScrollPane seatScroll = new JScrollPane(seatMapPanel);
+        seatScroll.setBorder(null);
+        seatScroll.setOpaque(false);
+        seatScroll.getViewport().setBackground(Theme.BG_CARD);
+        seatScroll.getVerticalScrollBar().setUnitIncrement(16);
+        seatScroll.getHorizontalScrollBar().setUnitIncrement(16);
         seatCard.add(lblSeatMapTitle, BorderLayout.NORTH);
-        seatCard.add(seatMapPanel, BorderLayout.CENTER);
+        seatCard.add(seatScroll, BorderLayout.CENTER);
+        seatCard.setMinimumSize(new Dimension(260, 160));
 
         JPanel formCard = buildBookingFormCard();
+        formCard.setMinimumSize(new Dimension(280, 160));
 
         JSplitPane centerSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, seatCard, formCard);
-        centerSplit.setResizeWeight(0.62);
+        centerSplit.setResizeWeight(0.58);
+        centerSplit.setContinuousLayout(true);
+        centerSplit.setOneTouchExpandable(true);
+        centerSplit.setMinimumSize(new Dimension(0, 180));
         centerSplit.setBorder(null);
         centerSplit.setOpaque(false);
 
@@ -109,11 +122,33 @@ public final class TicketBookingPanel extends JPanel {
         Theme.styleTable(bookingTable);
 
         JPanel historyCard = buildHistoryCard();
+        historyCard.setMinimumSize(new Dimension(0, 140));
+        historyCard.setPreferredSize(new Dimension(0, 220));
 
         JSplitPane mainVerticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerSplit, historyCard);
-        mainVerticalSplit.setResizeWeight(0.66);
+        mainVerticalSplit.setResizeWeight(0.62);
+        mainVerticalSplit.setContinuousLayout(true);
+        mainVerticalSplit.setOneTouchExpandable(true);
         mainVerticalSplit.setBorder(null);
         mainVerticalSplit.setOpaque(false);
+
+        mainVerticalSplit.addComponentListener(new ComponentAdapter() {
+            private boolean initialized;
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                if (!initialized && mainVerticalSplit.getHeight() > 0) {
+                    initialized = true;
+                    int h = mainVerticalSplit.getHeight();
+                    int historyHeight = Math.max(190, (int) (h * 0.34));
+                    int divider = Math.max(180, h - historyHeight);
+                    mainVerticalSplit.setDividerLocation(divider);
+                    if (centerSplit.getWidth() > 0) {
+                        centerSplit.setDividerLocation((int) (centerSplit.getWidth() * 0.56));
+                    }
+                }
+            }
+        });
 
         add(topPanel, BorderLayout.NORTH);
         add(mainVerticalSplit, BorderLayout.CENTER);
@@ -134,6 +169,12 @@ public final class TicketBookingPanel extends JPanel {
         gbc.gridx = 0;
         gbc.weightx = 1.0;
 
+        cboScreening.setMinimumSize(new Dimension(160, 30));
+        cboScreening.setPreferredSize(new Dimension(240, 30));
+        cboCustomer.setMinimumSize(new Dimension(160, 30));
+        cboCustomer.setPreferredSize(new Dimension(240, 30));
+        cboEmployee.setMinimumSize(new Dimension(160, 30));
+        cboEmployee.setPreferredSize(new Dimension(240, 30));
         cboScreening.addActionListener(e -> {
             if (!updatingScreenings) refreshSeatMapAndBookings();
         });
@@ -220,18 +261,32 @@ public final class TicketBookingPanel extends JPanel {
         }
         btnPanel.add(btnBook);
 
+        JPanel formHolder = new FitWidthPanel(new BorderLayout());
+        formHolder.setOpaque(false);
+        formHolder.add(form, BorderLayout.NORTH);
+        JScrollPane formScroll = new JScrollPane(
+                formHolder,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+        );
+        formScroll.setBorder(null);
+        formScroll.setOpaque(false);
+        formScroll.getViewport().setBackground(Theme.BG_CARD);
+        formScroll.getVerticalScrollBar().setUnitIncrement(16);
+
         card.add(subTitle, BorderLayout.NORTH);
-        card.add(form, BorderLayout.CENTER);
+        card.add(formScroll, BorderLayout.CENTER);
         card.add(buttonsContainer, BorderLayout.SOUTH);
         return card;
     }
 
     private JPanel buildHistoryCard() {
         JPanel card = Theme.createCardPanel(new BorderLayout(8, 8));
-        JPanel header = new JPanel(new BorderLayout());
+        JPanel header = new JPanel(new BorderLayout(10, 0));
         header.setOpaque(false);
         lblHistoryTitle.setFont(Theme.FONT_SUBTITLE);
-        header.add(lblHistoryTitle, BorderLayout.WEST);
+        lblHistoryTitle.setMinimumSize(new Dimension(0, 24));
+        header.add(lblHistoryTitle, BorderLayout.CENTER);
 
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         actions.setOpaque(false);
@@ -595,5 +650,36 @@ public final class TicketBookingPanel extends JPanel {
             }
         }
         return false;
+    }
+
+    private static final class FitWidthPanel extends JPanel implements Scrollable {
+        FitWidthPanel(LayoutManager layout) {
+            super(layout);
+        }
+
+        @Override
+        public Dimension getPreferredScrollableViewportSize() {
+            return getPreferredSize();
+        }
+
+        @Override
+        public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+            return 16;
+        }
+
+        @Override
+        public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+            return 64;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportWidth() {
+            return true;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportHeight() {
+            return false;
+        }
     }
 }

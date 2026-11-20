@@ -99,9 +99,13 @@ public final class ScreeningManagementPanel extends JPanel {
         });
 
         JPanel tableCard = buildTableCard();
+        formCard.setMinimumSize(new Dimension(0, 140));
+        tableCard.setMinimumSize(new Dimension(0, 160));
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, formCard, tableCard);
         splitPane.setResizeWeight(0.36);
+        splitPane.setContinuousLayout(true);
+        splitPane.setOneTouchExpandable(true);
         splitPane.setBorder(null);
         splitPane.setOpaque(false);
 
@@ -177,8 +181,21 @@ public final class ScreeningManagementPanel extends JPanel {
         actions.add(btnUpdate);
         actions.add(btnCreate);
 
+        JPanel gridHolder = new JPanel(new BorderLayout());
+        gridHolder.setOpaque(false);
+        gridHolder.add(grid, BorderLayout.NORTH);
+        JScrollPane formScroll = new JScrollPane(
+                gridHolder,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+        formScroll.setBorder(null);
+        formScroll.setOpaque(false);
+        formScroll.getViewport().setBackground(Theme.BG_CARD);
+        formScroll.getVerticalScrollBar().setUnitIncrement(16);
+
         card.add(headerRow, BorderLayout.NORTH);
-        card.add(grid, BorderLayout.CENTER);
+        card.add(formScroll, BorderLayout.CENTER);
         card.add(actions, BorderLayout.SOUTH);
         return card;
     }
