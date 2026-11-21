@@ -65,7 +65,7 @@ def restrict_file_access(path: Path) -> None:
         if not username:
             raise RuntimeError("Không xác định được tài khoản Windows để bảo vệ tệp cục bộ.")
         subprocess.run(
-            ["icacls", str(path), "/inheritance:r", "/grant:r", f"{username}:(R,W)"],
+            ["icacls", str(path), "/inheritance:r", "/grant:r", f"{username}:(R,W,D)"],
             capture_output=True, text=True, check=True,
         )
     path.chmod(0o600)

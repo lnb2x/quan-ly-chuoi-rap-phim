@@ -65,6 +65,29 @@
 
     <build>
         <plugins>
+            <!-- Giữ nguyên các bản sao lưu CSDL demo trong target/demo-backup khi chạy mvn clean -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.build.directory}</directory>
+                            <includes>
+                                <include>**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>demo-backup</exclude>
+                                <exclude>demo-backup/**</exclude>
+                            </excludes>
+                            <useDefaultExcludes>false</useDefaultExcludes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

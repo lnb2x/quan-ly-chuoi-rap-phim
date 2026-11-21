@@ -86,7 +86,7 @@ function New-RestrictedMySqlDefaultsFile([string]$user, [string]$pass) {
     $cfgContent = "[client]`nhost=127.0.0.1`nport=3306`nprotocol=TCP`nuser=$user`npassword=`"$escaped`"`n[mysql]`ndefault-character-set=utf8mb4`n"
     [System.IO.File]::WriteAllText($tmpPath, $cfgContent, [System.Text.UTF8Encoding]::new($false))
     if ($env:USERNAME) {
-        & icacls $tmpPath /inheritance:r /grant:r "$($env:USERNAME):(R,W)" | Out-Null
+        & icacls $tmpPath /inheritance:r /grant:r "$($env:USERNAME):(R,W,D)" | Out-Null
     }
     return $tmpPath
 }

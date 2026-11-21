@@ -28,7 +28,7 @@ function Invoke-TestDbSqlStdin {
     $escapedPwd = $appPwd.Replace('\', '\\').Replace('"', '\"')
     $cnfContent = "[client]`r`nhost=127.0.0.1`r`nport=3306`r`nprotocol=TCP`r`ndefault-character-set=utf8mb4`r`nuser=$appUser`r`npassword=`"$escapedPwd`"`r`n"
     [System.IO.File]::WriteAllText($tmpDefaults, $cnfContent, (New-Object System.Text.UTF8Encoding($false)))
-    & icacls $tmpDefaults /inheritance:r /grant:r "$($env:USERNAME):(R,W)" | Out-Null
+    & icacls $tmpDefaults /inheritance:r /grant:r "$($env:USERNAME):(R,W,D)" | Out-Null
     try {
         $sqlText = Get-Content -LiteralPath $SqlScriptPath -Raw -Encoding UTF8
         $prevPref = $ErrorActionPreference
