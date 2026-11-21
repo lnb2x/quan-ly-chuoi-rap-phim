@@ -32,10 +32,10 @@ public final class ScreeningSearchPanel extends JPanel {
     private final ScreeningSearchService service;
     private final StatusBanner statusBanner = new StatusBanner();
 
-    private final JTextField txtMovieKeyword = new JTextField("", 14);
+    private final JTextField txtMovieKeyword = new JTextField("", 18);
     private final JComboBox<String> cboMovie = new JComboBox<>();
     private final JComboBox<String> cboBranch = new JComboBox<>();
-    private final JTextField txtDate = new JTextField("2026-11-04", 10);
+    private final JTextField txtDate = new JTextField("2026-11-04", 18);
     private final JTextField txtFromTime = new JTextField("", 6);
     private final JTextField txtToTime = new JTextField("", 6);
     private final JCheckBox chkOnlyAvailable = new JCheckBox("Chỉ suất đang mở & còn ghế trống", true);
@@ -135,32 +135,74 @@ public final class ScreeningSearchPanel extends JPanel {
         JLabel subTitle = new JLabel("Bộ lọc Tra cứu Tham số hóa (Parameterized Query)");
         subTitle.setFont(Theme.FONT_SUBTITLE);
 
-        JPanel grid = new JPanel(new GridBagLayout());
-        grid.setOpaque(false);
+        // Long dropdown items should not determine the width of the other inputs.
+        cboMovie.setPrototypeDisplayValue("MV-000 - Tên bộ phim chiếu tại rạp");
+        cboBranch.setPrototypeDisplayValue("CN-HN00 - Tên chi nhánh");
+
+        setFilterMinimumWidth(txtMovieKeyword, 140);
+        setFilterMinimumWidth(txtDate, 140);
+        setFilterMinimumWidth(cboMovie, 150);
+        setFilterMinimumWidth(cboBranch, 150);
+
+        JPanel grid = new FilterGrid();
+
+        JPanel textFilters = new JPanel(new GridBagLayout());
+        textFilters.setOpaque(false);
+        JPanel movieFilters = new JPanel(new GridLayout(2, 1));
+        movieFilters.setOpaque(false);
+        JPanel branchFilters = new JPanel(new GridBagLayout());
+        branchFilters.setOpaque(false);
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(4, 8, 4, 8);
+        gbc.insets = new Insets(4, 0, 4, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        addFilterCell(grid, gbc, 0, 0, "Từ khóa tên/mã phim:", txtMovieKeyword);
-        addFilterCell(grid, gbc, 0, 2, "Chọn bộ phim:", cboMovie);
-        addFilterCell(grid, gbc, 0, 4, "Chi nhánh rạp:", cboBranch);
+        addFilterCell(textFilters, gbc, 0, "Từ khóa tên/mã phim:", txtMovieKeyword);
+        addFilterCell(textFilters, gbc, 1, "Ngày chiếu (yyyy-MM-dd):", txtDate);
+        addFilterCell(branchFilters, gbc, 0, "Chi nhánh rạp:", cboBranch);
 
-        addFilterCell(grid, gbc, 1, 0, "Ngày chiếu (yyyy-MM-dd):", txtDate);
-
-        JPanel timeRangePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+        setFilterMinimumWidth(txtFromTime, 58);
+        setFilterMinimumWidth(txtToTime, 58);
+        txtFromTime.setMaximumSize(txtFromTime.getPreferredSize());
+        txtToTime.setMaximumSize(txtToTime.getPreferredSize());
+        JPanel timeRangePanel = new JPanel();
+        timeRangePanel.setLayout(new BoxLayout(timeRangePanel, BoxLayout.X_AXIS));
         timeRangePanel.setOpaque(false);
         timeRangePanel.add(txtFromTime);
+        timeRangePanel.add(Box.createHorizontalStrut(6));
         timeRangePanel.add(new JLabel("đến"));
+        timeRangePanel.add(Box.createHorizontalStrut(6));
         timeRangePanel.add(txtToTime);
-        addFilterCell(grid, gbc, 1, 2, "Khung giờ bắt đầu (HH:mm):", timeRangePanel);
+        movieFilters.add(filterRow("Chọn bộ phim:", cboMovie, 40));
+        movieFilters.add(filterRow("Khung giờ bắt đầu (HH:mm):", timeRangePanel, 4));
 
         chkOnlyAvailable.setOpaque(false);
         chkOnlyAvailable.setFont(Theme.FONT_BOLD);
         gbc.gridy = 1;
-        gbc.gridx = 4;
+        gbc.gridx = 0;
         gbc.gridwidth = 2;
-        grid.add(chkOnlyAvailable, gbc);
-        gbc.gridwidth = 1;
+        branchFilters.add(chkOnlyAvailable, gbc);
+
+        GridBagConstraints group = new GridBagConstraints();
+        group.gridy = 0;
+        group.fill = GridBagConstraints.BOTH;
+        group.insets = new Insets(0, 0, 0, 18);
+        group.gridx = 0;
+        group.weightx = 0.30;
+        grid.add(textFilters, group);
+        group.gridx = 1;
+        group.weightx = 0.42;
+        grid.add(movieFilters, group);
+        group.gridx = 2;
+        group.weightx = 0.28;
+        group.insets = new Insets(0, 0, 0, 0);
+        grid.add(branchFilters, group);
+
+        JScrollPane filterScroll = new JScrollPane(grid, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        filterScroll.setBorder(BorderFactory.createEmptyBorder());
+        filterScroll.setOpaque(false);
+        filterScroll.getViewport().setOpaque(false);
 
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         actions.setOpaque(false);
@@ -175,20 +217,69 @@ public final class ScreeningSearchPanel extends JPanel {
         actions.add(btnSearch);
 
         card.add(subTitle, BorderLayout.NORTH);
-        card.add(grid, BorderLayout.CENTER);
+        card.add(filterScroll, BorderLayout.CENTER);
         card.add(actions, BorderLayout.SOUTH);
         return card;
     }
 
-    private void addFilterCell(JPanel panel, GridBagConstraints gbc, int row, int col, String label, JComponent comp) {
+    private static void setFilterMinimumWidth(JComponent field, int width) {
+        field.setMinimumSize(new Dimension(width, field.getPreferredSize().height));
+    }
+
+    private static JPanel filterRow(String label, JComponent field, int gap) {
+        JPanel row = new JPanel(new BorderLayout(gap, 0));
+        row.setOpaque(false);
+        row.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 8));
+        JLabel caption = new JLabel(label);
+        caption.setFont(Theme.FONT_BOLD);
+        row.add(caption, BorderLayout.WEST);
+        row.add(field, BorderLayout.CENTER);
+        return row;
+    }
+
+    private static final class FilterGrid extends JPanel implements Scrollable {
+        FilterGrid() {
+            super(new GridBagLayout());
+            setOpaque(false);
+        }
+
+        @Override
+        public Dimension getPreferredScrollableViewportSize() {
+            Dimension size = getPreferredSize();
+            size.height += UIManager.getInt("ScrollBar.width");
+            return size;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportWidth() {
+            return getParent() instanceof JViewport viewport && viewport.getWidth() >= getMinimumSize().width;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportHeight() {
+            return false;
+        }
+
+        @Override
+        public int getScrollableUnitIncrement(Rectangle visible, int orientation, int direction) {
+            return 20;
+        }
+
+        @Override
+        public int getScrollableBlockIncrement(Rectangle visible, int orientation, int direction) {
+            return Math.max(20, visible.width - 20);
+        }
+    }
+
+    private void addFilterCell(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent comp) {
         gbc.gridy = row;
-        gbc.gridx = col;
+        gbc.gridx = 0;
         gbc.weightx = 0.0;
         JLabel lbl = new JLabel(label);
         lbl.setFont(Theme.FONT_BOLD);
         panel.add(lbl, gbc);
 
-        gbc.gridx = col + 1;
+        gbc.gridx = 1;
         gbc.weightx = 1.0;
         panel.add(comp, gbc);
     }
@@ -319,7 +410,7 @@ public final class ScreeningSearchPanel extends JPanel {
                         Theme.formatCurrency(r.basePrice()),
                         r.totalSeats(),
                         r.soldSeats(),
-                        r.availableSeats() + " ghế trống",
+                        r.availableSeats(),
                         r.status()
                 });
             }
