@@ -18,3 +18,8 @@ Tóm tắt từng suite và hash nguồn của lần chạy nằm trong [summary
 Chạy lại `database/verify_all.ps1` sẽ tạo log, XML và manifest mới trên máy chạy. Kết quả ở bảng trên mô tả lần thực thi đã ghi nhận, không tự áp dụng cho môi trường khác.
 
 Chưa chứng nhận giao dịch VNPay merchant, hoàn tiền thật, tải lớn, phục hồi sau mất điện hoặc vận hành hệ thống đặt vé online.
+
+
+## Đối chiếu sơ đồ quan hệ ngày 21/11/2026
+
+Bộ kiểm tra ERD chạy riêng bằng `python -X utf8 -B tools/verify_erd.py`. Với [bản vẽ dùng để trình bày](../erd/luoc-do-quan-he.drawio), công cụ đếm được 30 cạnh và dừng ở điều kiện yêu cầu 17 cạnh. Khi áp dụng cùng phép kiểm tra cho [bản vẽ dùng để đối chiếu](../erd/erd-logical.drawio) và [bản SVG tương ứng](../erd/erd-logical.svg), cả 17 cặp khóa ngoại đều khớp [định nghĩa SQL](../../database/schema/01b_foreign_keys.sql). Việc xác minh tự động bản trình bày còn mở.

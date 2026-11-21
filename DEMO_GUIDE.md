@@ -17,7 +17,7 @@ Lớp INT1313-20261-01, giảng viên Nguyễn Quỳnh Chi. Chuẩn bị báo c�
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File database/start_mysql84.ps1
-.\mvnw.cmd exec:java "-Dexec.mainClass=com.cinema.app.Main"
+.\mvnw.cmd compile exec:java "-Dexec.mainClass=com.cinema.app.Main"
 ```
 
 Khi chạy ứng dụng, kiểm tra thanh tiêu đề và thanh bên trái (sidebar) để xác nhận chương trình kết nối đúng MySQL 8.4 và tài khoản `cinema_app`. Khi khởi động, chương trình giữ nguyên dữ liệu hiện có trong database (không tự động reset hay nạp lại dữ liệu mẫu).
