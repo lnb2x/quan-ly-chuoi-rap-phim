@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Màn hình Nhập liệu 2: Đặt vé & Chọn ghế theo Sơ đồ Phòng chiếu (Screen 2 - R5).
+ * Màn hình Nhập liệu 2: Đặt vé & Chọn ghế theo Sơ đồ Phòng chiếu.
  * Hỗ trợ khách thành viên và khách vãng lai, hiển thị sơ đồ ghế trực quan,
  * tạo đơn đặt vé + vé + thanh toán trong một giao dịch nguyên tử và cho phép hủy đơn để bán lại ghế.
  */

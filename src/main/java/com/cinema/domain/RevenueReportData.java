@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Mô hình dữ liệu chuẩn cho Báo cáo Doanh thu (Screen 4 - R7).
+ * Mô hình dữ liệu chuẩn cho Báo cáo Doanh thu.
  * Người lập báo cáo: Kế toán chuỗi rạp.
  * Người nhận báo cáo: Giám đốc Kinh doanh chuỗi rạp.
  */

@@ -26,11 +26,11 @@ import java.sql.Statement;
 import java.util.List;
 
 /**
- * Trình chạy Kiểm chứng Giao diện Thực tế & Chụp ảnh Màn hình Xác thực (Layer C / Gate D — Real GUI Behavior).
+ * Trình chạy kiểm tra giao diện Swing và chụp ảnh màn hình minh họa.
  * <p>
  * CAM KẾT BẢO TOÀN DỮ LIỆU DEMO:
- * Chốt chặn {@link TestDatabaseGuard} bắt buộc trình kiểm thử này CHỈ được chạy trên {@code cinema_chain_test},
- * tuyệt đối từ chối chạy nếu cấu hình trỏ sang {@code cinema_chain}.
+ * Lớp {@link TestDatabaseGuard} chỉ cho phép trình kiểm tra này chạy trên {@code cinema_chain_test},
+ * từ chối nếu cấu hình trỏ sang {@code cinema_chain}.
  * <p>
  * Kiểm tra đầy đủ cả trường hợp HỢP LỆ và trường hợp BỊ TỪ CHỐI trực tiếp qua 5 màn hình Swing thật:
  * <ol>

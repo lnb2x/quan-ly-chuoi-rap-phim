@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Tầng dịch vụ nghiệp vụ cho Đặt vé & Chọn ghế (Screen 2 - R5).
+ * Tầng dịch vụ nghiệp vụ cho Đặt vé & Chọn ghế.
  * Đảm bảo giao dịch nguyên tử (Atomic Transaction), chống bán trùng ghế ngay cả
  * dưới nhiều luồng đồng thời, bảo toàn giá vé lịch sử và hỗ trợ hủy vé / bán lại ghế.
  */

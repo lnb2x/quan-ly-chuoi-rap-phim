@@ -48,11 +48,11 @@ import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Kiểm thử Độ chính xác Báo cáo Tài chính & Xuất PDF tiếng Việt (Gate E — Report Accuracy).
+ * Kiểm thử Độ chính xác Báo cáo Tài chính & Xuất PDF tiếng Việt .
  * <p>
- * Đảm bảo nguyên tắc độc lập phép kiểm chứng (Independent Oracle — Section 4.D):
+ * Nguyên tắc đối chiếu kết quả báo cáo:
  * <ul>
- *   <li>Tuyệt đối không gọi lại phương thức hay View của chính Service/Repository đang cần kiểm tra làm đáp án.</li>
+ *   <li>Không gọi lại phương thức hay View của chính Service/Repository đang cần kiểm tra làm đáp án.</li>
  *   <li>Đối chiếu đồng thời với: (1) kết quả biết trước của bộ dữ liệu mẫu chuẩn (35.165.000 VNĐ),
  *       (2) truy vấn SQL độc lập trên bảng gốc viết riêng trong bài test, và
  *       (3) bộ dữ liệu kiểm chứng có đáp án toán học tính tay trước (Known-Answer Fixture).</li>
@@ -173,7 +173,7 @@ class ReportAccuracyIT {
     }
 
     @Test
-    @DisplayName("Gate E.1: Báo cáo Doanh thu khớp 100% với đáp án biết trước (35.165.000 VNĐ), SQL độc lập và PDF tiếng Việt [R7, BR-14, BR-15, BR-16]")
+    @DisplayName("Báo cáo Doanh thu khớp với đáp án biết trước (35.165.000 VNĐ), SQL độc lập và PDF tiếng Việt [BR-14, BR-15, BR-16]")
     void revenueReportTotalsAndPdfMustMatchIndependentSqlAndKnownSeedTotal() throws Exception {
         LocalDate from = LocalDate.of(2026, 11, 1);
         LocalDate to = LocalDate.of(2026, 11, 15);
@@ -221,7 +221,7 @@ class ReportAccuracyIT {
     }
 
     @Test
-    @DisplayName("Gate E.2: Báo cáo Tình hình Bán vé khớp 100% với truy vấn SQL độc lập theo từng bộ lọc và xuất tệp PDF tiếng Việt [R7, BR-14, BR-16]")
+    @DisplayName("Báo cáo Tình hình Bán vé khớp với truy vấn SQL độc lập theo từng bộ lọc và xuất tệp PDF tiếng Việt [BR-14, BR-16]")
     void ticketSalesReportTotalsAndPdfMustMatchIndependentSqlExactly() throws Exception {
         LocalDate from = LocalDate.of(2026, 11, 4);
         LocalDate to = LocalDate.of(2026, 11, 10);
@@ -266,7 +266,7 @@ class ReportAccuracyIT {
     }
 
     @Test
-    @DisplayName("Gate E.3: Đối chiếu với bộ dữ liệu kiểm chứng có đáp án toán học tính tay trước (Known-Answer Fixture: Retry + Cancelled + Pending)")
+    @DisplayName("Đối chiếu với bộ dữ liệu kiểm chứng có đáp án toán học tính tay trước (Known-Answer Fixture: Retry + Cancelled + Pending)")
     void reportsAndPdfsMustMatchHandComputedKnownAnswerFixture() throws Exception {
         LocalDate fixtureDate = LocalDate.of(2026, 12, 26);
         cleanUpFixtureDate(fixtureDate);

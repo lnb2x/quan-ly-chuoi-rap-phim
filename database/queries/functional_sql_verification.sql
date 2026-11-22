@@ -2,14 +2,14 @@
 -- TỆP: functional_sql_verification.sql
 -- MỤC ĐÍCH: Bộ câu lệnh SQL ví dụ chạy được trên `cinema_chain_test` tương ứng
 --           1-1 với các câu lệnh tham số hóa (?) trong mã nguồn Java của 5 màn hình
---           chấm điểm R5 (2 Form nhập liệu), R6 (Tìm kiếm), R7 (2 Báo cáo).
+--           (2 Form nhập liệu, 1 Màn hình tìm kiếm, 2 Báo cáo).
 -- LƯU Ý AN TOÀN: Mọi ví dụ ghi (INSERT/UPDATE) đều bọc trong giao dịch và kết thúc
 --                bằng ROLLBACK để bảo toàn nguyên trạng dữ liệu mẫu kiểm thử.
 -- =============================================================================
 
 SET NAMES utf8mb4;
 
-SELECT '=== [R5.1] FORM 1: QUẢN LÝ SUẤT CHIẾU (KIỂM TRA PHÒNG, CHỐNG TRÙNG LỊCH, INSERT & UPDATE) ===' AS section_banner;
+SELECT '=== FORM 1: QUẢN LÝ SUẤT CHIẾU (KIỂM TRA PHÒNG, CHỐNG TRÙNG LỊCH, INSERT & UPDATE) ===' AS section_banner;
 
 START TRANSACTION;
 
@@ -69,7 +69,7 @@ WHERE screening_id = @demo_new_screening_id;
 
 ROLLBACK;
 
-SELECT '=== [R5.2] FORM 2: ĐẶT VÉ & CHỌN GHẾ (SƠ ĐỒ GHẾ 3NF, FOR UPDATE, TẠO ĐƠN/VÉ/THANH TOÁN, HỦY/HOÀN TIỀN) ===' AS section_banner;
+SELECT '=== FORM 2: ĐẶT VÉ & CHỌN GHẾ (SƠ ĐỒ GHẾ 3NF, FOR UPDATE, TẠO ĐƠN/VÉ/THANH TOÁN, HỦY/HOÀN TIỀN) ===' AS section_banner;
 
 -- 2a. Truy vấn sơ đồ ghế trực quan của Suất #1 qua bảng khóa ghế 3NF `screening_seat_lock` (BookingRepository.findSeatsForScreening)
 SELECT
@@ -156,7 +156,7 @@ SELECT
 -- Trong ứng dụng thật, giao dịch hợp lệ kết thúc bằng COMMIT; ở kịch bản kiểm chứng này dùng ROLLBACK để giữ sạch DB test
 ROLLBACK;
 
-SELECT '=== [R6] MÀN HÌNH 3: TRA CỨU SUẤT CHIẾU & KIỂM TRA GHẾ TRỐNG (TỔNG HỢP KPI + PHÂN TRANG) ===' AS section_banner;
+SELECT '=== MÀN HÌNH 3: TRA CỨU SUẤT CHIẾU & KIỂM TRA GHẾ TRỐNG (TỔNG HỢP KPI + PHÂN TRANG) ===' AS section_banner;
 
 -- 3a. Tổng hợp KPI toàn tập kết quả khớp bộ lọc (ScreeningSearchRepository.summarizeSearch)
 SELECT
@@ -188,7 +188,7 @@ WHERE 1 = 1
 ORDER BY start_time ASC, branch_id ASC, room_id ASC, screening_id ASC
 LIMIT 50 OFFSET 0;
 
-SELECT '=== [R7.1] MÀN HÌNH 4: BÁO CÁO DOANH THU CHUỖI RẠP (KẾ TOÁN LẬP -> GỬI GIÁM ĐỐC KINH DOANH) ===' AS section_banner;
+SELECT '=== MÀN HÌNH 4: BÁO CÁO DOANH THU CHUỖI RẠP (KẾ TOÁN LẬP -> GỬI GIÁM ĐỐC KINH DOANH) ===' AS section_banner;
 
 -- 4a. Bảng I — Tổng hợp doanh thu thực thu theo Chi nhánh kỳ 01/11/2026 - 15/11/2026 (RevenueReportRepository.findBranchSummaries)
 SELECT
@@ -227,7 +227,7 @@ LEFT JOIN ticket tk ON tk.booking_id = bk.booking_id
 GROUP BY bk.booking_status, pm.payment_status
 ORDER BY bk.booking_status, pm.payment_status;
 
-SELECT '=== [R7.2] MÀN HÌNH 5: BÁO CÁO TÌNH HÌNH BÁN VÉ & TỶ LỆ LẤP ĐẦY (QUẢN LÝ CHI NHÁNH -> BAN ĐIỀU HÀNH/QL KINH DOANH) ===' AS section_banner;
+SELECT '=== MÀN HÌNH 5: BÁO CÁO TÌNH HÌNH BÁN VÉ & TỶ LỆ LẤP ĐẦY (QUẢN LÝ CHI NHÁNH -> BAN ĐIỀU HÀNH/QL KINH DOANH) ===' AS section_banner;
 
 -- 5a. Chi tiết bán vé, sức chứa, ghế trống & tỷ lệ lấp đầy theo Suất chiếu tại Chi nhánh #1 ngày 04/11/2026 (TicketSalesReportRepository.findScreeningSales)
 SELECT

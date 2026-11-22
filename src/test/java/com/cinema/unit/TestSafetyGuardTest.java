@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Kiểm thử đơn vị và hành vi tiến trình cho chốt chặn bảo vệ CSDL demo {@code cinema_chain},
- * tách biệt script kiểm thử khỏi provisioning và chống lộ thông tin bí mật trên tham số dòng lệnh (Section 3).
+ * tách biệt script kiểm thử khỏi provisioning và chống lộ thông tin bí mật trên tham số dòng lệnh.
  */
 class TestSafetyGuardTest {
 

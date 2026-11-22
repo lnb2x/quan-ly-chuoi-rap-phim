@@ -1,20 +1,20 @@
-# ARCHITECTURE.md — Kiến trúc Hệ thống Quản lý Chuỗi Rạp Chiếu Phim
+# Kiến trúc ứng dụng quản lý chuỗi rạp chiếu phim
 
-## 1. Tổng quan Kiến trúc (Architecture Overview)
+## 1. Tổng quan các tầng
 
-Ứng dụng **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được thiết kế theo kiến trúc **Desktop Đa tầng Hướng tính năng (Feature-Oriented Layered Architecture)** trên nền tảng **Java 21 LTS**, **Java Swing (FlatLaf)** và **JDBC (MySQL Connector/J)** kết nối trực tiếp tới hệ quản trị CSDL quan hệ **MySQL Community Server 8.4 LTS (InnoDB)**.
+Ứng dụng được tổ chức theo các tầng tách biệt theo từng nhóm chức năng trên **Java 21**, **Java Swing (FlatLaf)** và **JDBC (MySQL Connector/J)** kết nối tới **MySQL Community Server 8.4 (InnoDB)**.
 
 ```mermaid
 flowchart TD
-    subgraph UI["Tầng Giao diện (Swing + FlatLaf - com.cinema.app & ..ui)"]
-        U1["ScreeningManagementPanel\n(Quản lý Suất chiếu — Phân trang 50 dòng)"]
-        U2["TicketBookingPanel\n(Đặt vé, Bộ lọc nhanh & Sơ đồ ghế)"]
-        U3["ScreeningSearchPanel\n(Tra cứu Suất chiếu — Phân trang 50 dòng)"]
-        U4["RevenueReportPanel\n(Báo cáo Doanh thu)"]
-        U5["TicketSalesReportPanel\n(Báo cáo Bán vé)"]
+    subgraph UI["Tầng giao diện (Swing + FlatLaf - com.cinema.app & ..ui)"]
+        U1["ScreeningManagementPanel\n(Quản lý suất chiếu - 50 dòng/trang)"]
+        U2["TicketBookingPanel\n(Đặt vé, bộ lọc nhanh & sơ đồ ghế)"]
+        U3["ScreeningSearchPanel\n(Tra cứu suất chiếu - 50 dòng/trang)"]
+        U4["RevenueReportPanel\n(Báo cáo doanh thu)"]
+        U5["TicketSalesReportPanel\n(Báo cáo bán vé)"]
     end
 
-    subgraph SVC["Tầng Nghiệp vụ & Báo cáo (Services & Reporting)"]
+    subgraph SVC["Tầng nghiệp vụ & xuất báo cáo"]
         S1["ScreeningService"]
         S2["BookingService"]
         S3["ScreeningSearchService"]
@@ -23,7 +23,7 @@ flowchart TD
         PDF["PdfReportWriter\n(Apache PDFBox 3)"]
     end
 
-    subgraph REPO["Tầng Truy cập Dữ liệu (Repositories & TransactionTemplate)"]
+    subgraph REPO["Tầng truy cập dữ liệu & giao dịch"]
         R1["ScreeningRepository"]
         R2["BookingRepository"]
         R3["ScreeningSearchRepository"]
@@ -32,8 +32,8 @@ flowchart TD
         TX["TransactionTemplate & ConnectionProvider"]
     end
 
-    subgraph DB["Tầng Cơ sở Dữ liệu (MySQL Community Server 8.4 LTS - InnoDB)"]
-        DDL["14 Bảng Chuẩn 3NF + 17 FK + CHECK + 12 Triggers + 4 Views"]
+    subgraph DB["Cơ sở dữ liệu (MySQL Community Server 8.4 - InnoDB)"]
+        DDL["14 bảng chuẩn 3NF + 17 FK + CHECK + 12 Trigger + 4 View"]
     end
 
     U1 --> S1 --> R1 --> TX
@@ -47,20 +47,20 @@ flowchart TD
 
 ---
 
-## 2. Nguyên tắc Thiết kế Cốt lõi (Design Principles)
+## 2. Nguyên tắc tổ chức mã nguồn và dữ liệu
 
-1. **Tách biệt tuyệt đối SQL khỏi Giao diện & Không Cắt ngầm Dữ liệu (`Zero SQL in UI` & `Explicit Pagination`):**
-   - Các lớp trong gói `..ui` và `com.cinema.app` chỉ làm nhiệm vụ hiển thị dữ liệu từ các đối tượng `domain` (`PageResult`, `SearchPageResult`, Java `record`), thu nhận thao tác người dùng và gọi `Service`. Quy tắc này được kiểm tra tự động bằng **ArchUnit** (`ArchitectureComplianceTest`).
-   - Toàn bộ các danh sách lớn đã loại bỏ giới hạn ngầm `LIMIT 1000` và thay bằng **phân trang tường minh `50 dòng/trang`** (Màn hình 1 & 3) hoặc **bộ lọc nhanh Chi nhánh/Ngày hiển thị rõ tổng số dòng** (Màn hình 2).
+1. **Tách giao diện khỏi truy vấn SQL và phân trang rõ ràng:**
+   - Các lớp trong gói `..ui` và `com.cinema.app` chỉ hiển thị dữ liệu từ các lớp `domain` (`PageResult`, `SearchPageResult`, Java `record`), nhận thao tác người dùng và gọi tầng `Service`. Quy tắc phân tầng được kiểm tra tự động trong `ArchitectureComplianceTest`.
+   - Các danh sách lớn dùng phân trang `50 dòng/trang` (màn hình quản lý suất chiếu và tra cứu) hoặc bộ lọc chi nhánh/ngày kèm hiển thị tổng số dòng (màn hình đặt vé).
 
-2. **Chuẩn hóa 3NF Nghiêm ngặt Kết hợp Toàn vẹn Kép (True 3NF + Dual-Layer Integrity):**
-   - Bảng `ticket` chỉ lưu `(ticket_id, booking_id, seat_id, unit_price, ticket_status, cancelled_at)`, loại bỏ hoàn toàn phụ thuộc bắc cầu `ticket_id -> booking_id -> screening_id`.
-   - Bảng chuẩn 3NF `screening_seat_lock(screening_id, seat_id, ticket_id)` lưu khóa giữ ghế của các vé đang `VALID`, được đồng bộ tự động bởi Trigger ở tầng CSDL.
+2. **Thiết kế bảng chuẩn 3NF kết hợp ràng buộc ở CSDL:**
+   - Bảng `ticket` lưu `(ticket_id, booking_id, seat_id, unit_price, ticket_status, cancelled_at)`, không lưu lặp `screening_id` để tránh phụ thuộc bắc cầu `ticket_id -> booking_id -> screening_id`.
+   - Bảng `screening_seat_lock(screening_id, seat_id, ticket_id)` lưu các ghế đang được giữ bởi vé `VALID` và được đồng bộ qua trigger ở tầng MySQL.
 
-3. **Kiểm soát Giao dịch & Xử lý Đồng thời (Concurrency & Transaction Safety):**
-   - **Chống trùng lịch chiếu trong cùng phòng (`BR-06`):** `ScreeningService` mở giao dịch (`TransactionTemplate`), khóa dòng phòng chiếu (`SELECT room_id, active FROM screening_room WHERE room_id = ? FOR UPDATE`), kiểm tra xung đột khoảng thời gian `[start_time, end_time)` rồi mới thực hiện ghi dữ liệu, kết hợp Trigger `trg_screening_validate_ins`/`upd`.
-   - **Chống bán trùng ghế khi đặt vé đồng thời (`BR-10`):** `BookingService` mở giao dịch, khóa dòng suất chiếu (`SELECT screening_id, room_id, base_price, status FROM screening WHERE screening_id = ? FOR UPDATE`), kiểm tra `screening_seat_lock` và chèn nguyên tử `booking`, `ticket`, `payment`. Khóa chính `PRIMARY KEY (screening_id, seat_id)` trên `screening_seat_lock` đóng vai trò chốt chặn phần cứng B-Tree InnoDB cuối cùng, đồng thời tự động giải phóng ghế khi vé chuyển sang `CANCELLED`.
+3. **Giao dịch và kiểm soát đồng thời:**
+   - **Chống trùng lịch chiếu trong cùng phòng (`BR-06`):** `ScreeningService` mở giao dịch (`TransactionTemplate`), khóa dòng phòng chiếu (`SELECT room_id, active FROM screening_room WHERE room_id = ? FOR UPDATE`), kiểm tra giao khoảng thời gian `[start_time, end_time)` rồi mới ghi dữ liệu, đồng thời có trigger `trg_screening_validate_ins`/`upd` kiểm tra tại CSDL.
+   - **Chống bán trùng ghế khi đặt vé đồng thời (`BR-10`):** `BookingService` mở giao dịch, khóa dòng suất chiếu (`SELECT screening_id, room_id, base_price, status FROM screening WHERE screening_id = ? FOR UPDATE`), kiểm tra `screening_seat_lock` và ghi `booking`, `ticket`, `payment` trong cùng giao dịch. Khóa chính `PRIMARY KEY (screening_id, seat_id)` trên `screening_seat_lock` ngăn ghi trùng ghế ở mức chỉ mục InnoDB và giải phóng ghế khi vé chuyển sang `CANCELLED`.
 
-4. **Ghi nhận Doanh thu Nhất quán & Chống Nhân bản Số liệu (`BR-14`, `BR-15`):**
-   - Mỗi đơn đặt vé (`booking`) chỉ được phép có tối đa **01** giao dịch thanh toán ở trạng thái `SUCCESS` (được bảo vệ bởi chỉ mục vật lý có điều kiện `uq_payment_one_success` và Trigger).
-   - Doanh thu thực thu được định nghĩa duy nhất: **Tổng `ticket.unit_price` của các vé `VALID` thuộc đơn `CONFIRMED` có thanh toán `SUCCESS`**, loại trừ hoàn toàn các đơn `PENDING`, `FAILED` và `CANCELLED`/`REFUNDED`.
+4. **Đối soát doanh thu nhất quán (`BR-14`, `BR-15`):**
+   - Mỗi đơn đặt vé (`booking`) có tối đa một giao dịch thanh toán `SUCCESS` (nhờ chỉ mục duy nhất có điều kiện `uq_payment_one_success` và trigger kiểm tra).
+   - Doanh thu chỉ cộng `ticket.unit_price` của các vé `VALID` thuộc đơn `CONFIRMED` có thanh toán `SUCCESS`, không tính các đơn `PENDING`, `FAILED` hoặc `CANCELLED`/`REFUNDED`.

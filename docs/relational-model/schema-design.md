@@ -1,5 +1,4 @@
-# THIẾT KẾ LƯỢC ĐỒ CƠ SỞ DỮ LIỆU QUAN HỆ VÀ TỪ ĐIỂN DỮ LIỆU
-**(Tài liệu đáp ứng Tiêu chí R3 — 2.0 điểm)**
+# Thiết kế lược đồ cơ sở dữ liệu quan hệ và từ điển dữ liệu
 
 ---
 
@@ -14,7 +13,7 @@ Toàn bộ 14 lược đồ quan hệ và 17 khóa ngoại của hệ thống đ
    - Khác với ví dụ `payment-number` đánh số lại từ `1` theo từng khoản vay trong giáo trình tr. 46, các biên lai `payment` và tấm vé `ticket` của chuỗi rạp cần mã định danh toàn cục độc lập (`payment_id`, `ticket_id`) để đối soát cổng thanh toán, quét mã vé tại cổng soát vé và tra cứu kiểm toán toàn chuỗi, nên được thiết kế là các thực thể khỏe có khóa chính riêng.
 3. **Bước 3 — Ánh xạ các mối quan hệ hai ngôi (Slide 5 tr. 26–31, Giáo trình tr. 68–71):**
    - **12 mối quan hệ `1 - N` hai ngôi (`SO_HUU`, `QUAN_LY_NV`, `CHUA_GHE`, `PHAN_HANG`, `XEP_LICH`, `TO_CHUC_TAI`, `CO_DON_DAT`, `DAT_MUA`, `LAP_DON`, `BAO_GOM_VE`, `GAN_CHO_VE`, `PHAT_SINH_TT`):** Đưa khóa chính của quan hệ phía `1` sang làm khóa ngoại (`FK`) trong quan hệ phía `N` — sinh ra **12 khóa ngoại** (`branch_id` trong `screening_room` và `employee`; `room_id`, `seat_type_code` trong `seat`; `movie_id`, `room_id` trong `screening`; `screening_id`, `customer_id`, `employee_id` trong `booking`; `booking_id`, `seat_id` trong `ticket`; `booking_id` trong `payment`). Riêng `booking.customer_id` cho phép `NULL` vì `DAT_MUA` có sự tham gia một phần ở cả hai phía (khách vãng lai).
-   - **01 mối quan hệ `1 - 1` hai ngôi (`GIU_KHOA_GHE` giữa `VE_XEM_PHIM` tham gia tùy chọn và `KHOA_GHE_SUAT_CHIEU` tham gia bắt buộc):** Áp dụng đúng quy tắc vàng ở **Slide 5 tr. 30 / Giáo trình tr. 70–71** (*ví dụ `nurses` — `in-charge` === `care center`*), đưa khóa chính `ticket_id` (`MaVe`) của bên tham gia tùy chọn vào quan hệ của bên tham gia bắt buộc (`screening_seat_lock`) làm khóa ngoại `NOT NULL UNIQUE` nhằm tránh lưu trữ giá trị rỗng `NULL` — sinh ra **khóa ngoại thứ 13**.
+   - **01 mối quan hệ `1 - 1` hai ngôi (`GIU_KHOA_GHE` giữa `VE_XEM_PHIM` tham gia tùy chọn và `KHOA_GHE_SUAT_CHIEU` tham gia bắt buộc):** Áp dụng đúng quy tắc ở **Slide 5 tr. 30–31 / Giáo trình tr. 70–71** (*ví dụ `nurses` — `in-charge` === `care center`*), đưa khóa chính `ticket_id` (`MaVe`) của bên tham gia tùy chọn vào quan hệ của bên tham gia bắt buộc (`screening_seat_lock`) làm khóa ngoại `NOT NULL UNIQUE` nhằm tránh lưu trữ giá trị rỗng `NULL` — sinh ra **khóa ngoại thứ 13**.
 4. **Bước 4 & Bước 6 — Ánh xạ các thực thể kết hợp (Slide 5 tr. 32–34 & 40–42, Giáo trình tr. 70–75):**
    - **Trường hợp không gán định danh riêng (Slide 5 tr. 33):** Hai thực thể kết hợp `PHIM_THE_LOAI` (`movie_genre`) và `KHOA_GHE_SUAT_CHIEU` (`screening_seat_lock`) tạo thành 2 lược đồ quan hệ kết hợp với khóa chính ngầm định là hợp khóa chính của các thực thể tham gia: `(movie_id, genre_id)` và `(screening_id, seat_id)`, đồng thời đóng vai trò là **04 khóa ngoại** tham chiếu về `movie`, `genre`, `screening`, `seat` — hoàn tất đủ **17 khóa ngoại** ($59 + 17 = 76$ thuộc tính logic trên 14 bảng).
    - *(Ghi chú liên hệ trường hợp có gán định danh riêng — Slide 5 tr. 34, ví dụ `shipment`):* Giải thích lý do `screening` dùng khóa chính riêng `screening_id` và đưa `(movie_id, room_id)` xuống làm khóa ngoại vì cùng một bộ phim có thể chiếu lặp lại nhiều suất ở cùng một phòng chiếu theo thời gian.
@@ -31,14 +30,14 @@ Theo đúng ký hiệu minh họa trong **Slide 5 tr. 27 & tr. 33** (*Giáo trì
 1. **`CHI_NHANH_RAP`** (<u>`MaCN`</u>, `MaCodeCN`, `TenChiNhanh`, `DiaChi`, `ThanhPho`, `SoDienThoai`, `DangHoatDong`)
 2. **`PHONG_CHIEU`** (<u>`MaPhong`</u>, *`#MaCN`*, `TenPhong`, `LoaiPhong`, `DangHoatDong`)
 3. **`HANG_GHE`** (<u>`MaHangGhe`</u>, `TenHangGhe`, `PhuThu`)
-4. **`GHE`** (<u>`MaGhe`</u>, *`#MaPhong`*, *`#MaHangGhe`*, `HangGhe`, `SoGhe`)
+4. **`GHE`** (<u>`MaGhe`</u>, *`#MaPhong`*, `HangGhe`, `SoGhe`, *`#MaHangGhe`*)
 5. **`PHIM`** (<u>`MaPhim`</u>, `MaCodePhim`, `TuaDe`, `ThoiLuongPhut`, `NgayKhoiChieu`, `PhanLoaiTuoi`, `QuocGia`, `MoTa`)
 6. **`THE_LOAI`** (<u>`MaTL`</u>, `TenTheLoai`, `MoTa`)
 7. **`PHIM_THE_LOAI`** (<u>*`#MaPhim`*</u>, <u>*`#MaTL`*</u>)
 8. **`SUAT_CHIEU`** (<u>`MaSC`</u>, *`#MaPhim`*, *`#MaPhong`*, `ThoiGianBatDau`, `ThoiGianKetThuc`, `GiaCoSo`, `TrangThai`)
 9. **`KHACH_HANG`** (<u>`MaKH`</u>, `HoTen`, `SoDienThoai`, `Email`, `NgaySinh`, `NgayTao`)
 10. **`NHAN_VIEN`** (<u>`MaNV`</u>, *`#MaCN`*, `MaCodeNV`, `HoTen`, `SoDienThoai`, `ChucVu`, `NgayVaoLam`)
-11. **`DON_DAT_VE`** (<u>`MaDDV`</u>, *`#MaSC`*, *`#MaKH`*, *`#MaNV`*, `MaCodeDDV`, `ThoiGianDat`, `TrangThai`)
+11. **`DON_DAT_VE`** (<u>`MaDDV`</u>, `MaCodeDDV`, *`#MaSC`*, *`#MaKH`*, *`#MaNV`*, `ThoiGianDat`, `TrangThai`)
 12. **`VE_XEM_PHIM`** (<u>`MaVe`</u>, *`#MaDDV`*, *`#MaGhe`*, `DonGia`, `TrangThai`, `ThoiGianHuy`)
 13. **`KHOA_GHE_SUAT_CHIEU`** (<u>*`#MaSC`*</u>, <u>*`#MaGhe`*</u>, *`#MaVe`*)
 14. **`THANH_TOAN`** (<u>`MaTT`</u>, *`#MaDDV`*, `SoTien`, `PhuongThuc`, `TrangThai`, `NgayThanhToan`, `MaGiaoDich`)
@@ -66,7 +65,7 @@ Theo đúng ký hiệu minh họa trong **Slide 5 tr. 27 & tr. 33** (*Giáo trì
 
 ---
 
-## 2. Đặc tả Chi tiết 14 Bảng Quan hệ (Từ điển Dữ liệu — Khớp 100% `01_schema.sql`)
+## 2. Đặc tả chi tiết 14 bảng quan hệ (Từ điển dữ liệu theo `01_schema.sql`)
 
 ### Bảng 1: `cinema_branch` — Chi nhánh Rạp chiếu phim
 Lưu trữ danh sách các cụm rạp thuộc chuỗi trên toàn quốc.

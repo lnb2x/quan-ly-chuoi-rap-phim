@@ -1,5 +1,4 @@
-# PHÂN TÍCH YÊU CẦU NGHIỆP VỤ VÀ DỮ LIỆU CẦN LƯU TRỮ
-**(Tài liệu đáp ứng Tiêu chí R1 — 1.0 điểm)**
+# Phân tích yêu cầu nghiệp vụ và dữ liệu cần lưu trữ
 
 ---
 
@@ -8,8 +7,8 @@
 Doanh nghiệp **CineViet Cinema Chain** vận hành một chuỗi rạp chiếu phim hiện đại tại nhiều tỉnh/thành phố lớn (Hà Nội, TP. Hồ Chí Minh, Đà Nẵng, Hải Phòng...). Mỗi chi nhánh rạp quản lý nhiều phòng chiếu tiêu chuẩn khác nhau (`2D`, `3D`, `IMAX`), mỗi phòng chiếu có sơ đồ ghế vật lý cố định phân chia theo hạng ghế (`STD` – Ghế thường, `VIP` – Ghế VIP, `COUPLE` – Ghế đôi).
 
 Hàng ngày, hệ thống phải xử lý đồng thời các quy trình nghiệp vụ cốt lõi:
-1. **Quản lý danh mục phim và lập lịch chiếu (Screening Management):** Phân bổ phim vào từng phòng chiếu thuộc từng chi nhánh theo khung giờ cụ thể, đảm bảo thời lượng suất chiếu đủ cho thời lượng phim cộng thời gian dọn phòng/quảng cáo và tuyệt đối không chồng lấn lịch chiếu trong cùng một phòng.
-2. **Bán vé và đặt chỗ theo sơ đồ ghế thời gian thực (Ticket Booking):** Phục vụ cả khách hàng thành viên lẫn khách vãng lai tại quầy. Hệ thống phải hiển thị trực quan ghế trống/ghế đã bán, tính đúng đơn giá vé từng ghế (giá cơ sở của suất chiếu + phụ thu hạng ghế tại thời điểm mua), xử lý thanh toán nguyên tử và ngăn chặn tuyệt đối việc một ghế bị bán hai lần cho cùng một suất chiếu ngay cả khi có nhiều nhân viên thu ngân thao tác đồng thời.
+1. **Quản lý danh mục phim và lập lịch chiếu (Screening Management):** Phân bổ phim vào từng phòng chiếu thuộc từng chi nhánh theo khung giờ cụ thể, đảm bảo thời lượng suất chiếu đủ cho thời lượng phim cộng thời gian dọn phòng/quảng cáo và không chồng lấn lịch chiếu trong cùng một phòng.
+2. **Bán vé và đặt chỗ theo sơ đồ ghế thời gian thực (Ticket Booking):** Phục vụ cả khách hàng thành viên lẫn khách vãng lai tại quầy. Hệ thống hiển thị trực quan ghế trống/ghế đã bán, tính đúng đơn giá vé từng ghế (giá cơ sở của suất chiếu + phụ thu hạng ghế tại thời điểm mua), xử lý thanh toán trong một giao dịch và ngăn việc một ghế bị bán hai lần cho cùng một suất chiếu ngay cả khi nhiều nhân viên thu ngân thao tác đồng thời.
 3. **Xử lý hủy vé, hoàn tiền và mở bán lại ghế (Ticket Cancellation & Seat Resale):** Khi đơn đặt vé hoặc vé bị hủy hợp lệ, khóa giữ ghế đang hiệu lực phải được giải phóng ngay để có thể bán lại cho khách hàng khác mà vẫn giữ nguyên lịch sử vé đã hủy phục vụ kiểm toán.
 4. **Tra cứu lịch chiếu và kiểm tra ghế trống (Screening Search):** Cho phép nhân viên và khách hàng tìm kiếm nhanh các suất chiếu theo tên phim, chi nhánh, ngày chiếu, khoảng thời gian và xem ngay số lượng ghế còn trống với phân trang tường minh (không cắt ngầm kết quả).
 5. **Tổng hợp báo cáo quản trị và tài chính (Business & Financial Reporting):**

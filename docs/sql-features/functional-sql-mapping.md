@@ -1,11 +1,10 @@
-# ĐẶC TẢ ÁNH XẠ CÂU LỆNH SQL CHỨC NĂNG TƯƠNG ỨNG VỚI R5, R6, R7
-**(Tài liệu đáp ứng Tiêu chí R8 — Bổ sung SQL thực thi tương ứng các chức năng ứng dụng)**
+# Ánh xạ câu lệnh SQL theo từng màn hình và báo cáo
 
 ---
 
-## Nguyên tắc Đối chiếu SQL Mã nguồn Java và SQL Kiểm chứng Thực tế
+## Nguyên tắc đối chiếu SQL trong mã nguồn Java và SQL kiểm tra thực tế
 
-Toàn bộ các câu lệnh SQL dưới đây được trích xuất trực tiếp từ 5 lớp `*Repository.java` của ứng dụng (kết nối qua `PreparedStatement` chống SQL Injection tuyệt đối) và được kiểm chứng thực thi tự động trên **`cinema_chain_test` (MySQL Community Server 8.4.0 LTS)** thông qua tệp `database/queries/functional_sql_verification.sql`.
+Các câu lệnh SQL dưới đây được trích từ 5 lớp `*Repository.java` của ứng dụng (sử dụng `PreparedStatement`) và được chạy kiểm tra trên **`cinema_chain_test` (MySQL Community Server 8.4)** thông qua tệp `database/queries/functional_sql_verification.sql`.
 
 Mỗi chức năng đều phân biệt rõ hai dạng biểu diễn:
 1. **Câu lệnh SQL tham số hóa (`?`) trong mã nguồn Java (`PreparedStatement`):** Mã thực thi thật trong ứng dụng.
@@ -13,7 +12,7 @@ Mỗi chức năng đều phân biệt rõ hai dạng biểu diễn:
 
 ---
 
-## 1. Biểu mẫu Nhập liệu 1: Quản lý Lịch chiếu & Suất chiếu (`R5.1`)
+## 1. Biểu mẫu Nhập liệu 1: Quản lý Lịch chiếu & Suất chiếu
 
 - **Mục đích:** Cho phép Quản lý Chi nhánh nạp danh mục chi nhánh/phòng/phim, kiểm tra hợp lệ thời lượng phim (`BR-05`), khóa dòng phòng chiếu chống tranh chấp đồng thời (`FOR UPDATE`), phát hiện xung đột lịch chiếu trong cùng phòng (`BR-06`), thêm mới/cập nhật suất chiếu và phân trang danh sách suất chiếu (`50 dòng/trang`).
 - **Đầu vào:** `movieId`, `roomId`, `startTime`, `endTime`, `basePrice`, `status` (`OPEN` / `CANCELLED`), bộ lọc phân trang `(branchId, roomId, movieId, dateFilter, limit, offset)`.
@@ -94,7 +93,7 @@ ROLLBACK; -- Chỉ kiểm chứng, không lưu dữ liệu ví dụ
 
 ---
 
-## 2. Biểu mẫu Nhập liệu 2: Đặt vé, Chọn ghế Sơ đồ Phòng & Hủy Hoàn tiền (`R5.2`)
+## 2. Biểu mẫu Nhập liệu 2: Đặt vé, Chọn ghế Sơ đồ Phòng & Hủy Hoàn tiền
 
 - **Mục đích:** Tải danh sách suất chiếu mở bán (có bộ lọc nhanh Chi nhánh + Ngày chiếu, hiển thị đầy đủ tổng số suất không cắt ngầm), hiển thị sơ đồ 80 ghế trực quan dựa trên bảng chuẩn 3NF `screening_seat_lock`, khóa dòng suất chiếu `FOR UPDATE`, tạo nguyên tử `booking` + `ticket` (không chứa `screening_id`) + `payment`, và xử lý hủy đơn hoàn tiền giải phóng ghế mở bán lại (`BR-10`, `BR-11`, `BR-12`, `BR-13`).
 - **Đầu vào:** `screeningId`, `customerId` (`NULL` nếu Khách vãng lai tại quầy), `employeeId`, `seatIds` (danh sách mã ghế), `paymentMethod` (`CASH`/`CARD`/`TRANSFER`/`EWALLET`), `payImmediately` (`true` -> `CONFIRMED/SUCCESS`, `false` -> `PENDING/PENDING`).
@@ -185,7 +184,7 @@ ROLLBACK;
 
 ---
 
-## 3. Màn hình Tìm kiếm Vận hành: Tra cứu Suất chiếu & Kiểm tra Ghế trống (`R6`)
+## 3. Màn hình Tìm kiếm Vận hành: Tra cứu Suất chiếu & Kiểm tra Ghế trống
 
 - **Mục đích:** Lọc đa tiêu chí theo từ khóa tên/mã phim, bộ phim, chi nhánh, ngày chiếu, khoảng giờ bắt đầu và cờ *"Chỉ suất đang mở & còn ghế trống"*; hiển thị tổng hợp KPI trên toàn bộ tập kết quả khớp và phân trang bảng kết quả `50 dòng/trang` (loại bỏ hoàn toàn lỗi cắt ngầm `LIMIT 1000`).
 - **Đầu vào:** `movieKeyword`, `movieId`, `branchId`, `screeningDate`, `fromTime`, `toTime`, `onlyOpenWithAvailableSeats`, `pageIndex`, `pageSize = 50`.
@@ -244,7 +243,7 @@ LIMIT 50 OFFSET 0;
 
 ---
 
-## 4. Báo cáo Quản trị 1: Báo cáo Doanh thu Chuỗi rạp (`R7.1`)
+## 4. Báo cáo Quản trị 1: Báo cáo Doanh thu Chuỗi rạp
 
 - **Định danh quản trị:** **Người lập:** *Kế toán Chuỗi rạp* $\rightarrow$ **Người nhận:** *Giám đốc Kinh doanh Chuỗi rạp*.
 - **Mục đích:** Tổng hợp số đơn đã thu tiền, số vé hợp lệ và tổng doanh thu thực thu theo từng Chi nhánh và theo Ngày thanh toán (`paid_at`), phục vụ xem trên màn hình (Preview) và kết xuất PDF tiếng Việt (`reports/exports/BaoCaoDoanhThu_Mau.pdf`).
@@ -255,7 +254,7 @@ LIMIT 50 OFFSET 0;
 
 ### 4.1. Quy tắc Hạch toán Minh bạch Các Trạng thái `SUCCESS`, `PENDING`, `CANCELLED`, `REFUNDED`, `FAILED`
 
-| Trạng thái Đơn (`booking_status`) | Trạng thái Vé (`ticket_status`) | Trạng thái Thanh toán (`payment_status`) | Giữ Khóa Ghế (`screening_seat_lock`)? | Ghi nhận vào Doanh thu Thực thu (`R7.1` & `R7.2`)? | Giải thích Nghiệp vụ Kế toán & Vận hành |
+| Trạng thái Đơn (`booking_status`) | Trạng thái Vé (`ticket_status`) | Trạng thái Thanh toán (`payment_status`) | Giữ Khóa Ghế (`screening_seat_lock`)? | Ghi nhận vào Doanh thu Thực thu? | Giải thích Nghiệp vụ Kế toán & Vận hành |
 |---|---|---|---|---|---|
 | `CONFIRMED` | `VALID` | `SUCCESS` *(kể cả đơn từng có dòng `FAILED` trước đó)* | **Có** (`292` ghế trên seed) | **CÓ — Ghi nhận đúng 1 lần** (`125` đơn = `35.165.000 VNĐ`) | Chỉ tổng hợp `SUM(ticket.unit_price)` của vé `VALID` một lần duy nhất nhờ `vw_verified_booking_revenue` / `EXISTS`, không bị nhân đôi bởi dòng `FAILED` cũ (`BR-14`, `BR-15`). |
 | `PENDING` | `VALID` | `PENDING` | **Có** (`35` ghế đang giữ chỗ tạm) | **KHÔNG (`0 VNĐ`)** | Đơn đặt giữ chỗ chờ thu tiền: ghế đã trừ khỏi `available_seats`, nhưng chưa thu tiền nên Kế toán chưa ghi nhận doanh thu thực thu. |
@@ -314,7 +313,7 @@ WHERE tk.ticket_status = 'VALID'
 
 ---
 
-## 5. Báo cáo Quản trị 2: Báo cáo Tình hình Bán vé & Tỷ lệ Lấp đầy (`R7.2`)
+## 5. Báo cáo Quản trị 2: Báo cáo Tình hình Bán vé & Tỷ lệ Lấp đầy
 
 - **Định danh quản trị:** **Người lập:** *Quản lý Chi nhánh* $\rightarrow$ **Người nhận:** *Ban Điều hành và Quản lý Kinh doanh*.
 - **Mục đích:** Thống kê hiệu quả khai thác từng suất chiếu theo ngày chiếu (`screening_date`) và chi nhánh: sức chứa phòng (`room_capacity`), số vé đã thanh toán thành công (`tickets_sold`), số ghế còn trống thực tế (`available_seats` — trừ cả các ghế đang giữ bởi đơn `PENDING`), tỷ lệ lấp đầy (`occupancy_rate_pct %`) và doanh thu bán vé (`sales_revenue`), xuất PDF tiếng Việt (`reports/exports/BaoCaoBanVe_Mau.pdf`).
@@ -371,18 +370,19 @@ ORDER BY start_time ASC, screening_id ASC;
 ### 6.1. Hệ thống Ký hiệu Đại số Quan hệ Chuẩn theo Bài giảng Chương 3 (Slide 8)
 Theo Slide 8 (*Ngôn ngữ truy vấn Đại số quan hệ*) và Giáo trình *Bài giảng DBMS v1.1* (trang 79–98):
 - **5 phép toán cơ bản:** Phép chọn $\sigma_{(\text{mệnh đề})}(r)$ (kết hợp $=, \neq, <, \le, >, \ge$ và $\land, \lor, \neg$), Phép chiếu $\pi_{(\text{danh sách thuộc tính})}(r)$, Phép hợp $r \cup s$ (trên hai quan hệ *khả hợp*: cùng bậc và miền giá trị tương ứng giống nhau), Phép trừ $r - s$ (khả hợp), Phép tích Đề-các $r \times s$; đi kèm toán tử đặt lại tên $\rho_{x(A_1, \dots, A_n)}(r)$ (Slide 8, trang 54–56).
-- **Các phép toán mở rộng:** Phép giao $r \cap s \equiv r - (r - s)$; Phép kết nối theta/bằng $r \bowtie_{(\text{predicate})} s \equiv \sigma_{(\text{predicate})}(r \times s)$; **Phép kết nối tự nhiên** ký hiệu bằng dấu sao **`r * s`** (kết nối bằng trên mọi thuộc tính cùng tên và giữ mỗi thuộc tính chung một lần — Slide 8, trang 36–37); **Phép kết nối ngoài** (trái, phải, đầy đủ — giữ lại các bộ không khớp và điền `null` — Slide 8, trang 38–39); **Phép bán kết nối (Semi-Join)** $r \ltimes_{(\text{predicate})} s \equiv \pi_{(\text{thuộc tính của } r)}(r \bowtie_{(\text{predicate})} s)$ (Slide 8, trang 40–41); và **Phép chia (Division)** $r \div s \equiv \pi_{(X-Y)}(r) - \pi_{(X-Y)}((\pi_{(X-Y)}(r) \times s) - r)$ với $Y \subseteq X$ (Slide 8, trang 42–48).
+- **Các phép toán mở rộng:** Phép giao $r \cap s \equiv r - (r - s)$; Phép kết nối theta/bằng $r \bowtie_{(\text{predicate})} s \equiv \sigma_{(\text{predicate})}(r \times s)$; **Phép kết nối tự nhiên** ký hiệu bằng dấu sao **`r * s`** (kết nối bằng trên mọi thuộc tính cùng tên và giữ mỗi thuộc tính chung một lần — Slide 8, trang 36–37); **Phép kết nối ngoài** gồm kết nối ngoài trái $r \supset\!\triangleleft s$, kết nối ngoài phải $r \triangleright\!\subset s$ và kết nối ngoài đầy đủ $r \supset\!\triangleleft\triangleright\!\subset s$ (mở rộng kết nối tự nhiên, giữ lại các bộ không khớp và gán giá trị rỗng `null` — Slide 8, trang 38–39); **Phép bán kết nối (Semi-Join)** $r \triangleright_{(\text{predicate})} s \equiv \pi_{(\text{thuộc tính của } r)}(r \bowtie_{(\text{predicate})} s)$ (Slide 8, trang 40–41); và **Phép chia (Division)** $r \div s \equiv \pi_{(X-Y)}(r) - \pi_{(X-Y)}((\pi_{(X-Y)}(r) \times s) - r)$ với $Y \subseteq X$ (Slide 8, trang 42–48).
 
-### 6.2. Biểu thức Đại số Quan hệ Tương ứng cho Các Chức năng `R5.1`–`R7.2` và Phép Chia
-1. **Kiểm tra xung đột khung giờ chiếu cùng phòng (`R5.1` / `BR-06` — Phép chọn $\sigma$ & Phép chiếu $\pi$):**
+### 6.2. Biểu thức Đại số Quan hệ Tương ứng cho Các Chức năng và Phép Chia
+1. **Kiểm tra xung đột khung giờ chiếu cùng phòng (`BR-06` — Phép chọn $\sigma$ & Phép chiếu $\pi$):**
    $$Q_{\text{overlap}} = \pi_{(\text{screening\_id}, \text{movie\_id}, \text{start\_time}, \text{end\_time})}\big(\sigma_{(\text{room\_id} = r_0 \land \text{status} = \text{'OPEN'} \land \text{start\_time} < t_{\text{end}} \land \text{end\_time} > t_{\text{start}})}(\text{screening})\big)$$
-2. **Nạp sơ đồ ghế của suất chiếu $s_0$ (`R5.2` — Kết nối tự nhiên `*` kết hợp Kết nối ngoài trái):**
-   - Kết nối tự nhiên $\sigma_{(\text{screening\_id} = s_0)}(\text{screening}) * \text{seat} * \text{seat\_type}$ ghép suất chiếu với 80 ghế cùng phòng (`room_id`) và phụ thu hạng ghế (`seat_type_code`); sau đó **kết nối ngoài trái** với `screening_seat_lock` trên `(screening_id, seat_id)` để giữ đủ cả 80 ghế (ghế trống nhận `ticket_id = null`, ghế đã giữ nhận `ticket_id != null`).
-3. **Tìm tập mã ghế còn trống của suất chiếu $s_0$ (`R6` — Phép trừ $r - s$ trên hai quan hệ khả hợp bậc 1):**
+2. **Nạp sơ đồ ghế của suất chiếu $s_0$ (Kết nối tự nhiên `*` kết hợp Kết nối ngoài trái $\supset\!\triangleleft$ — Slide 8, trang 36–39):**
+   $$S_{\text{map}}(s_0) = \big(\sigma_{(\text{screening\_id} = s_0)}(\text{screening}) * \text{seat} * \text{seat\_type}\big) \supset\!\triangleleft \text{screening\_seat\_lock}$$
+   *(Kết nối tự nhiên `*` ghép suất chiếu $s_0$ với 80 ghế cùng `room_id` và phụ thu hạng ghế `seat_type_code`; tiếp theo phép kết nối ngoài trái $\supset\!\triangleleft$ với `screening_seat_lock` trên hai thuộc tính chung `(screening_id, seat_id)` giữ đủ cả 80 ghế, trong đó ghế trống nhận `ticket_id = null` và ghế đang giữ nhận `ticket_id != null`).*
+3. **Tìm tập mã ghế còn trống của suất chiếu $s_0$ (Phép trừ $r - s$ trên hai quan hệ khả hợp bậc 1):**
    $$G_{\text{trống}}(s_0) = \pi_{(\text{seat\_id})}\big(\sigma_{(\text{screening\_id} = s_0)}(\text{screening}) * \text{seat}\big) - \pi_{(\text{seat\_id})}\big(\sigma_{(\text{screening\_id} = s_0)}(\text{screening\_seat\_lock})\big)$$
-4. **Tập vé hợp lệ đã thu tiền phục vụ Báo cáo Doanh thu & Bán vé (`R7.1`, `R7.2` — Kết nối tự nhiên `*` và Phép bán kết nối $\ltimes$ / ký hiệu $\triangleright$ trên Slide 8):**
-   $$V_{\text{paid}} = \Big(\sigma_{(\text{ticket\_status} = \text{'VALID'})}(\text{ticket}) * \sigma_{(\text{booking\_status} = \text{'CONFIRMED'})}(\text{booking})\Big) \ltimes_{(\text{booking.booking\_id} = \text{payment.booking\_id})} \sigma_{(\text{payment\_status} = \text{'SUCCESS'} \land \text{DATE(paid\_at)} \in [d_1, d_2])}(\text{payment})$$
-   *(Phép bán kết nối $\ltimes$ tương ứng mệnh đề `EXISTS (SELECT 1 FROM payment ...)` trong Mục 4.2c và 5.1b: chỉ giữ lại các bộ phía trái mà không nhân bản dòng vé nếu lịch sử `payment` có nhiều giao dịch).*
+4. **Tập vé hợp lệ đã thu tiền phục vụ Báo cáo Doanh thu & Bán vé (Kết nối tự nhiên `*` và Phép bán kết nối $\triangleright$ — Slide 8, trang 40–41):**
+   $$V_{\text{paid}} = \Big(\sigma_{(\text{ticket\_status} = \text{'VALID'})}(\text{ticket}) * \sigma_{(\text{booking\_status} = \text{'CONFIRMED'})}(\text{booking})\Big) \triangleright_{(\text{booking.booking\_id} = \text{payment.booking\_id})} \sigma_{(\text{payment\_status} = \text{'SUCCESS'} \land \text{DATE(paid\_at)} \in [d_1, d_2])}(\text{payment})$$
+   *(Phép bán kết nối $\triangleright$ tương ứng mệnh đề `EXISTS (SELECT 1 FROM payment ...)` trong Mục 4.2c và 5.1b: chỉ giữ lại các bộ thuộc quan hệ bên trái mà không nhân bản dòng vé nếu lịch sử `payment` có nhiều giao dịch).*
 5. **Truy vấn Phép Chia ($\div$) trên CSDL Chuỗi Rạp theo 5 Bước $T_1 \dots T_5$ (Slide 8 & Slide 11 trang 18–19):**
    - **Bài toán:** *Tìm mã phim (`movie_id`) có lịch chiếu mở (`status = 'OPEN'`) tại tất cả các chi nhánh đang hoạt động (`active = 1`).*
    - **Giải pháp dùng phép toán mở rộng $\div$ (Slide 8):**
@@ -409,9 +409,9 @@ Theo Slide 8 (*Ngôn ngữ truy vấn Đại số quan hệ*) và Giáo trình *
 
 ### 6.3. Đối chiếu Tuân thủ Quy tắc Ngôn ngữ SQL (Slide 9, 10, 11, 12)
 - **Đặt tên tường minh cho các ràng buộc toàn vẹn (Slide 9):** Toàn bộ `01_schema.sql` và `01b_foreign_keys.sql` đều đặt tên `CONSTRAINT` chuẩn hóa (`pk_*`, `fk_*`, `uq_*`, `chk_*`), đồng thời phân biệt rõ `PRIMARY KEY` (luôn `NOT NULL`) với `UNIQUE` trên cột cho phép `NULL` (`transaction_ref`, `active_success_booking`).
-- **Xử lý logic ba giá trị của `NULL` và toán tử miền (Slide 10):** Mọi điều kiện kiểm tra rỗng đều dùng `IS NULL` / `IS NOT NULL` (tuyệt đối không dùng `= NULL`); các phép tổng hợp báo cáo đều bọc `COALESCE(..., 0)` để tránh `NULL` làm rỗng kết quả cộng; lọc khoảng ngày/giờ dùng `BETWEEN ... AND ...` và tìm kiếm chuỗi dùng `LIKE`.
+- **Xử lý logic ba giá trị của `NULL` và toán tử miền (Slide 10):** Mọi điều kiện kiểm tra rỗng đều dùng `IS NULL` / `IS NOT NULL` (không dùng `= NULL`); các phép tổng hợp báo cáo đều bọc `COALESCE(..., 0)` để tránh `NULL` làm rỗng kết quả cộng; lọc khoảng ngày/giờ dùng `BETWEEN ... AND ...` và tìm kiếm chuỗi dùng `LIKE`.
 - **Quy tắc $N - 1$ điều kiện kết nối không vòng tròn, `LEFT JOIN` và 4 đặc tính `VIEW` (Slide 11, trang 24–34):**
-  - Truy vấn đối soát 4 bảng `ticket -> booking -> screening -> screening_room` (Mục 4.2c, 5.1b) dùng đúng $4 - 1 = 3$ điều kiện kết nối khóa ngoại, tuyệt đối tránh kết nối vòng tròn dư thừa qua `seat` (Slide 11, trang 29).
+  - Truy vấn đối soát 4 bảng `ticket -> booking -> screening -> screening_room` (Mục 4.2c, 5.1b) dùng đúng $4 - 1 = 3$ điều kiện kết nối khóa ngoại, tránh kết nối vòng tròn dư thừa qua `seat` (Slide 11, trang 29).
   - Báo cáo doanh thu chi nhánh dùng `cinema_branch LEFT JOIN vw_verified_booking_revenue` (Slide 11, trang 32–34) để giữ lại cả chi nhánh có doanh thu bằng `0` trong kỳ lọc.
   - Bốn giao diện hiển thị (`vw_screening_search`, `vw_verified_booking_revenue`, `vw_branch_daily_revenue`, `vw_screening_occupancy`) trong `03_views.sql` vận dụng đúng 4 đặc tính của `CREATE VIEW` trên Slide 11 trang 26: dùng thay tên bảng trong `SELECT`, tự động cập nhật dữ liệu mới nhất khi kích hoạt, giới hạn cột/hàng theo ngữ cảnh nghiệp vụ, và làm nguồn tổng hợp chuẩn cho báo cáo.
 - **Đơn vị giao dịch nguyên tử `COMMIT` / `ROLLBACK` (Slide 12):** Mọi chuỗi lệnh `SELECT ... FOR UPDATE` + `INSERT`/`UPDATE` nhiều bảng trong `TransactionTemplate` chỉ `COMMIT` khi toàn bộ quy tắc hợp lệ, và lập tức `ROLLBACK` khôi phục tính nhất quán CSDL khi xảy ra lỗi hoặc vi phạm Trigger.

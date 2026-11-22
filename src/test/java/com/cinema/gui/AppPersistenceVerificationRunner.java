@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * Kiểm chứng Bảo toàn Dữ liệu qua Đóng & Mở lại Ứng dụng Bình thường (Layer E — Section 4.E).
+ * Kiểm tra lưu trữ dữ liệu qua hai phiên đóng và mở lại ứng dụng trên hai tiến trình JVM.
  * <p>
  * Hỗ trợ chạy qua 2 tiến trình JVM tách biệt hoàn toàn ({@code --session1 <stateFile>} rồi {@code --session2 <stateFile>})
- * hoặc chạy nối tiếp trong một lần gọi không tham số trên {@code cinema_chain_test} (tuyệt đối không chạm {@code cinema_chain}):
+ * hoặc chạy nối tiếp trong một lần gọi không tham số trên {@code cinema_chain_test} (không tác động tới {@code cinema_chain}):
  * <ol>
  *   <li>Phiên 1 (JVM #1): Mở {@link AppShell}, thao tác qua GUI tạo mới 1 Suất chiếu (Màn hình 1),
  *       chọn đúng suất chiếu đó trên Màn hình 2 và đặt 2 ghế + thanh toán SUCCESS.</li>
@@ -38,7 +38,7 @@ import java.util.Properties;
  *   <li>Đóng hoàn toàn cửa sổ và kết thúc tiến trình Phiên 1.</li>
  *   <li>Phiên 2 (JVM #2 mới hoàn toàn): Mở lại {@link AppShell} theo đúng luồng khởi động bình thường
  *       (không chạy bất kỳ lệnh reset/DROP/TRUNCATE/DELETE nào).</li>
- *   <li>Đối chiếu toàn bộ dữ liệu hiển thị trên GUI và Tổng báo cáo Trước khi đóng vs. Sau khi mở lại khớp 100%.</li>
+ *   <li>Đối chiếu toàn bộ dữ liệu hiển thị trên GUI và Tổng báo cáo Trước khi đóng vs. Sau khi mở lại khớp nhau.</li>
  * </ol>
  */
 public final class AppPersistenceVerificationRunner {

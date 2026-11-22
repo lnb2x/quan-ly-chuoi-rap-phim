@@ -165,7 +165,7 @@ BEGIN
 END$$
 
 -- -----------------------------------------------------------------------------
--- 3. Trigger bảo vệ bất biến đơn đặt vé khi CẬP NHẬT booking
+-- 3. Trigger kiểm tra ràng buộc đơn đặt vé khi CẬP NHẬT booking
 -- -----------------------------------------------------------------------------
 CREATE TRIGGER trg_booking_validate_upd
 BEFORE UPDATE ON booking

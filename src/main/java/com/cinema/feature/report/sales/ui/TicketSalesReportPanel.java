@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Màn hình Báo cáo 2: Báo cáo Tình hình Bán vé và Tỷ lệ Lấp đầy theo Suất chiếu (Screen 5 - R7).
+ * Màn hình Báo cáo 2: Báo cáo Tình hình Bán vé và Tỷ lệ Lấp đầy theo Suất chiếu.
  * Người lập báo cáo: Quản lý Chi nhánh.
  * Người nhận báo cáo: Ban Điều hành và Quản lý Kinh doanh.
  * Hỗ trợ xem trước trên màn hình (Preview) và xuất tệp PDF tiếng Việt.

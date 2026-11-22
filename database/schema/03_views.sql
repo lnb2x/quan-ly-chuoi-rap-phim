@@ -53,7 +53,7 @@ JOIN cinema_branch b  ON b.branch_id = r.branch_id;
 --    - Chỉ tính đơn có booking_status = 'CONFIRMED'
 --    - Có đúng 1 giao dịch payment_status = 'SUCCESS'
 --    - Chỉ cộng các vé có ticket_status = 'VALID'
---    - Đơn PENDING, CANCELLED hoặc thanh toán FAILED / REFUNDED bị loại trừ 100%
+--    - Đơn PENDING, CANCELLED hoặc thanh toán FAILED / REFUNDED không tính vào doanh thu
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_verified_booking_revenue AS
 SELECT

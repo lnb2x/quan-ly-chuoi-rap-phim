@@ -13,7 +13,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 /**
- * Tầng dịch vụ nghiệp vụ cho Tra cứu Suất chiếu (Screen 3 - R6).
+ * Tầng dịch vụ nghiệp vụ cho Tra cứu Suất chiếu.
  */
 public final class ScreeningSearchService {
 

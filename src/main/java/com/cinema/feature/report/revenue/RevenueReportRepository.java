@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tầng truy cập dữ liệu cho Báo cáo Doanh thu Chuỗi rạp (Screen 4 - R7).
+ * Tầng truy cập dữ liệu cho Báo cáo Doanh thu Chuỗi rạp.
  * Tuân thủ nghiêm ngặt quy tắc ghi nhận doanh thu BR-14 & BR-15:
  * Chỉ cộng vé VALID thuộc đơn CONFIRMED có giao dịch thanh toán SUCCESS,
- * tuyệt đối không nhân bản doanh thu khi một đơn có nhiều lần thử thanh toán.
+ * không nhân bản doanh thu khi một đơn có nhiều lần thử thanh toán.
  */
 public final class RevenueReportRepository {
 
@@ -172,7 +172,7 @@ public final class RevenueReportRepository {
 
     /**
      * Truy vấn SQL độc lập trực tiếp từ bảng ticket + booking + EXISTS(payment SUCCESS)
-     * để kiểm chứng chéo độ chính xác tuyệt đối của Báo cáo Doanh thu (Gate E).
+     * để đối chiếu kết quả của Báo cáo Doanh thu.
      */
     public BigDecimal queryIndependentVerifiedRevenue(LocalDate fromDate, LocalDate toDate, Integer branchId) {
         StringBuilder sql = new StringBuilder("""

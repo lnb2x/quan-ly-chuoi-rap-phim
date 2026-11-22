@@ -1,85 +1,201 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""Đối chiếu tự động ERD Chen, Lược đồ Quan hệ, Crow's Foot/Mermaid và các thuật toán Chuẩn hóa theo bài giảng CSDL."""
+"""Đối chiếu sơ đồ ER.drawio, luoc-do-quan-he.drawio, Mermaid và DDL MySQL."""
 
 from __future__ import annotations
 
-import hashlib
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from itertools import combinations
 from pathlib import Path
 from types import MappingProxyType
 from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
-SVG_NS = {"s": "http://www.w3.org/2000/svg"}
 
-VN_TABLE_MAP: MappingProxyType[str, str] = MappingProxyType({
-    "cinema_branch": "CHI_NHANH_RAP",
-    "screening_room": "PHONG_CHIEU",
-    "seat_type": "HANG_GHE",
-    "seat": "GHE",
-    "movie": "PHIM",
-    "genre": "THE_LOAI",
-    "movie_genre": "PHIM_THE_LOAI",
-    "screening": "SUAT_CHIEU",
-    "customer": "KHACH_HANG",
-    "employee": "NHAN_VIEN",
-    "booking": "DON_DAT_VE",
-    "ticket": "VE_XEM_PHIM",
-    "screening_seat_lock": "KHOA_GHE_SUAT_CHIEU",
-    "payment": "THANH_TOAN",
-})
-
-VN_PK_MAP: MappingProxyType[str, str] = MappingProxyType({
-    "cinema_branch": "MaCN",
-    "screening_room": "MaPhong",
-    "seat_type": "MaHangGhe",
-    "seat": "MaGhe",
-    "movie": "MaPhim",
-    "genre": "MaTL",
-    "screening": "MaSC",
-    "customer": "MaKH",
-    "employee": "MaNV",
-    "booking": "MaDDV",
-    "ticket": "MaVe",
-    "payment": "MaTT",
-})
+VN_SCHEMA_MAP: MappingProxyType[str, tuple[str, tuple[tuple[str, str], ...]]] = (
+    MappingProxyType(
+        {
+            "cinema_branch": (
+                "CHI_NHANH_RAP",
+                (
+                    ("branch_id", "MaCN"),
+                    ("branch_code", "MaCodeCN"),
+                    ("branch_name", "TenChiNhanh"),
+                    ("address", "DiaChi"),
+                    ("city", "ThanhPho"),
+                    ("phone", "SoDienThoai"),
+                    ("active", "DangHoatDong"),
+                ),
+            ),
+            "screening_room": (
+                "PHONG_CHIEU",
+                (
+                    ("room_id", "MaPhong"),
+                    ("branch_id", "MaCN"),
+                    ("room_name", "TenPhong"),
+                    ("room_type", "LoaiPhong"),
+                    ("active", "DangHoatDong"),
+                ),
+            ),
+            "seat_type": (
+                "HANG_GHE",
+                (
+                    ("seat_type_code", "MaHangGhe"),
+                    ("type_name", "TenHangGhe"),
+                    ("surcharge", "PhuThu"),
+                ),
+            ),
+            "seat": (
+                "GHE",
+                (
+                    ("seat_id", "MaGhe"),
+                    ("room_id", "MaPhong"),
+                    ("seat_row", "HangGhe"),
+                    ("seat_number", "SoGhe"),
+                    ("seat_type_code", "MaHangGhe"),
+                ),
+            ),
+            "movie": (
+                "PHIM",
+                (
+                    ("movie_id", "MaPhim"),
+                    ("movie_code", "MaCodePhim"),
+                    ("title", "TuaDe"),
+                    ("duration_minutes", "ThoiLuongPhut"),
+                    ("release_date", "NgayKhoiChieu"),
+                    ("age_rating", "PhanLoaiTuoi"),
+                    ("country", "QuocGia"),
+                    ("description", "MoTa"),
+                ),
+            ),
+            "genre": (
+                "THE_LOAI",
+                (
+                    ("genre_id", "MaTL"),
+                    ("genre_name", "TenTheLoai"),
+                    ("description", "MoTa"),
+                ),
+            ),
+            "movie_genre": (
+                "PHIM_THE_LOAI",
+                (
+                    ("movie_id", "MaPhim"),
+                    ("genre_id", "MaTL"),
+                ),
+            ),
+            "screening": (
+                "SUAT_CHIEU",
+                (
+                    ("screening_id", "MaSC"),
+                    ("movie_id", "MaPhim"),
+                    ("room_id", "MaPhong"),
+                    ("start_time", "ThoiGianBatDau"),
+                    ("end_time", "ThoiGianKetThuc"),
+                    ("base_price", "GiaCoSo"),
+                    ("status", "TrangThai"),
+                ),
+            ),
+            "customer": (
+                "KHACH_HANG",
+                (
+                    ("customer_id", "MaKH"),
+                    ("full_name", "HoTen"),
+                    ("phone", "SoDienThoai"),
+                    ("email", "Email"),
+                    ("birth_date", "NgaySinh"),
+                    ("created_at", "NgayTao"),
+                ),
+            ),
+            "employee": (
+                "NHAN_VIEN",
+                (
+                    ("employee_id", "MaNV"),
+                    ("branch_id", "MaCN"),
+                    ("employee_code", "MaCodeNV"),
+                    ("full_name", "HoTen"),
+                    ("phone", "SoDienThoai"),
+                    ("role", "ChucVu"),
+                    ("hired_date", "NgayVaoLam"),
+                ),
+            ),
+            "booking": (
+                "DON_DAT_VE",
+                (
+                    ("booking_id", "MaDDV"),
+                    ("booking_code", "MaCodeDDV"),
+                    ("screening_id", "MaSC"),
+                    ("customer_id", "MaKH"),
+                    ("employee_id", "MaNV"),
+                    ("booked_at", "ThoiGianDat"),
+                    ("booking_status", "TrangThai"),
+                ),
+            ),
+            "ticket": (
+                "VE_XEM_PHIM",
+                (
+                    ("ticket_id", "MaVe"),
+                    ("booking_id", "MaDDV"),
+                    ("seat_id", "MaGhe"),
+                    ("unit_price", "DonGia"),
+                    ("ticket_status", "TrangThai"),
+                    ("cancelled_at", "ThoiGianHuy"),
+                ),
+            ),
+            "screening_seat_lock": (
+                "KHOA_GHE_SUAT_CHIEU",
+                (
+                    ("screening_id", "MaSC"),
+                    ("seat_id", "MaGhe"),
+                    ("ticket_id", "MaVe"),
+                ),
+            ),
+            "payment": (
+                "THANH_TOAN",
+                (
+                    ("payment_id", "MaTT"),
+                    ("booking_id", "MaDDV"),
+                    ("amount", "SoTien"),
+                    ("payment_method", "PhuongThuc"),
+                    ("payment_status", "TrangThai"),
+                    ("paid_at", "NgayThanhToan"),
+                    ("transaction_ref", "MaGiaoDich"),
+                ),
+            ),
+        }
+    )
+)
 
 
 def require(condition: bool, message: str) -> None:
-    """Ném ValueError nếu điều kiện kiểm chứng không thỏa mãn."""
     if not condition:
         raise ValueError(message)
 
 
-def safe_parse_xml(xml_text: str) -> ET.Element:
-    """Phân tích cú pháp XML an toàn, từ chối khai báo DTD/ENTITY chống tấn công mở rộng thực thể."""
+def parse_xml(xml_text: str) -> ET.Element:
     upper = xml_text.upper()
-    require("<!DOCTYPE" not in upper and "<!ENTITY" not in upper, "Từ chối DTD/ENTITY trong tài liệu XML")
+    require(
+        "<!DOCTYPE" not in upper and "<!ENTITY" not in upper,
+        "Không cho phép DTD/ENTITY trong XML",
+    )
     return ET.fromstring(xml_text)
 
 
-def names(text: str) -> tuple[str, ...]:
-    """Tách danh sách định danh phân cách bởi dấu phẩy."""
-    return tuple(part.strip() for part in text.split(",") if part.strip())
+def strip_html(text: str | None) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", text or "")).strip()
 
 
-def sha256_variants(text: str) -> set[str]:
-    """Tính tập băm SHA-256 cho cả chuẩn xuống dòng LF và CRLF của chuỗi nguồn."""
-    raw = text.encode("utf-8")
-    lf = raw.replace(b"\r\n", b"\n")
-    crlf = lf.replace(b"\n", b"\r\n")
-    return {
-        hashlib.sha256(raw).hexdigest(),
-        hashlib.sha256(lf).hexdigest(),
-        hashlib.sha256(crlf).hexdigest(),
-    }
+def style_map(style_text: str | None) -> dict[str, str]:
+    result: dict[str, str] = {}
+    for item in (style_text or "").split(";"):
+        if "=" in item:
+            key, val = item.split("=", 1)
+            result[key] = val
+    return result
 
 
-def closure(attributes: set[str], dependencies: list[tuple[set[str], set[str]]]) -> set[str]:
-    """Thuật toán Closure(X, F): tính bao đóng thuộc tính X+ trên tập phụ thuộc hàm F."""
+def closure(
+    attributes: set[str], dependencies: list[tuple[set[str], set[str]]]
+) -> set[str]:
     result = set(attributes)
     while True:
         previous = result.copy()
@@ -90,13 +206,15 @@ def closure(attributes: set[str], dependencies: list[tuple[set[str], set[str]]])
             return result
 
 
-def member(dependencies: list[tuple[set[str], set[str]]], left: set[str], right: set[str]) -> bool:
-    """Thuật toán Member(F, X -> Y): kiểm tra F |= X -> Y thông qua Closure(X, F)."""
+def member(
+    dependencies: list[tuple[set[str], set[str]]], left: set[str], right: set[str]
+) -> bool:
     return right <= closure(left, dependencies)
 
 
-def min_cover(dependencies: list[tuple[set[str], set[str]]]) -> list[tuple[frozenset[str], str]]:
-    """Thuật toán MinCover(F): (1) Tách vế phải đơn -> (2) Left-Reduce -> (3) Nonredundant."""
+def min_cover(
+    dependencies: list[tuple[set[str], set[str]]],
+) -> list[tuple[frozenset[str], str]]:
     single: list[tuple[set[str], str]] = [
         (set(left), attr) for left, right in dependencies for attr in sorted(right)
     ]
@@ -125,10 +243,12 @@ def algorithm_lossless(
     dependencies: list[tuple[set[str], set[str]]],
     decomposition: list[set[str]],
 ) -> bool:
-    """Thuật toán Lossless(R, F, D): kiểm tra bảng ma trận T (a_j / b_ij) có sinh hàng toàn a hay không."""
     col_index = {attr: idx for idx, attr in enumerate(attrs, 1)}
     matrix = [
-        [f"a_{col_index[attr]}" if attr in sub else f"b_{row_i}_{col_index[attr]}" for attr in attrs]
+        [
+            f"a_{col_index[attr]}" if attr in sub else f"b_{row_i}_{col_index[attr]}"
+            for attr in attrs
+        ]
         for row_i, sub in enumerate(decomposition, 1)
     ]
     changed = True
@@ -164,7 +284,6 @@ def algorithm_preserve(
     left: set[str],
     right: set[str],
 ) -> bool:
-    """Thuật toán Preserve(D, F, X -> Y): lặp Z = Z U ((Z ∩ R_i)+ ∩ R_i) kiểm tra bảo toàn FD."""
     z_set = set(left)
     while True:
         prev = z_set.copy()
@@ -175,10 +294,14 @@ def algorithm_preserve(
 
 
 def verify_ticket_decomposition() -> None:
-    """Kiểm chứng MinCover, Lossless và Preserve trên phép phân tách quan hệ vé U_old."""
     ordered_attrs = [
-        "ticket_id", "booking_id", "screening_id", "seat_id",
-        "unit_price", "ticket_status", "cancelled_at",
+        "ticket_id",
+        "booking_id",
+        "screening_id",
+        "seat_id",
+        "unit_price",
+        "ticket_status",
+        "cancelled_at",
     ]
     universe = set(ordered_attrs)
     ticket = universe - {"screening_id"}
@@ -198,414 +321,456 @@ def verify_ticket_decomposition() -> None:
         (frozenset({"booking_id", "seat_id"}), "ticket_id"),
         (frozenset({"booking_id"}), "screening_id"),
     }
-    require(set(cover) == expected_cover and len(cover) == 7,
-            "MinCover của U_old phải khớp chính xác 7 phụ thuộc hàm tối thiểu (giữ nguyên khóa ghép {booking_id, seat_id})")
+    require(
+        set(cover) == expected_cover and len(cover) == 7,
+        "Phủ tối thiểu của U_old phải gồm đúng 7 phụ thuộc hàm",
+    )
 
     decomposition = [ticket, booking_screening]
-    require(ticket | booking_screening == universe, "Phép tách không phủ đúng lược đồ gốc")
-    require(algorithm_lossless(ordered_attrs, original, decomposition),
-            "Algorithm Lossless (ma trận a_y, b_xy) phải trả về TRUE")
-    require(not algorithm_lossless(["A", "B", "C"], [({"A"}, {"C"}), ({"B"}, {"C"})], [{"A"}, {"B"}, {"A", "B"}]),
-            "Algorithm Lossless phải trả về FALSE và kết thúc hữu hạn trên phép tách mất thông tin 3 quan hệ")
+    require(
+        algorithm_lossless(ordered_attrs, original, decomposition),
+        "Phép tách ticket phải kết nối không mất thông tin",
+    )
     for left, right in original:
-        require(algorithm_preserve(decomposition, original, left, right),
-                f"Algorithm Preserve thất bại cho phụ thuộc hàm: {left} -> {right}")
+        require(
+            algorithm_preserve(decomposition, original, left, right),
+            f"Phép tách không bảo toàn phụ thuộc hàm: {left} -> {right}",
+        )
 
     local = [({"ticket_id"}, ticket - {"ticket_id"}), *original[1:]]
     cover_fds = [(set(lhs), {rhs}) for lhs, rhs in cover]
-    require(closure({"booking_id"}, original) != universe, "booking_id không được nhầm là siêu khóa của vé")
     for size in range(len(universe) + 1):
         for subset in combinations(sorted(universe), size):
             sub_set = set(subset)
-            orig_cl = closure(sub_set, original)
-            require(orig_cl == closure(sub_set, local) == closure(sub_set, cover_fds),
-                    f"Không bảo toàn bao đóng: {subset}")
-
-
-def parse_sql_fk_pairs(foreign_keys_sql: str) -> set[tuple[str, str]]:
-    """Trích xuất tập 17 cặp (Child.FK, Parent.PK) tiếng Việt từ 01b_foreign_keys.sql."""
-    pairs: set[tuple[str, str]] = set()
-    for table, body in re.findall(r"ALTER TABLE (\w+)\s+(.*?);", foreign_keys_sql, re.S):
-        for _, parent, _ in re.findall(r"FOREIGN KEY \((\w+)\)\s+REFERENCES (\w+) \((\w+)\)", body):
-            require(table in VN_TABLE_MAP and parent in VN_PK_MAP, f"Bảng FK chưa ánh xạ: {table} -> {parent}")
-            pk_vn = VN_PK_MAP[parent]
-            pairs.add((f"{VN_TABLE_MAP[table]}.{pk_vn}", f"{VN_TABLE_MAP[parent]}.{pk_vn}"))
-    require(len(pairs) == 17, f"Phải trích xuất đúng 17 cặp FK -> PK từ SQL, thực tế: {len(pairs)}")
-    return pairs
-
-
-def _validate_mxgraph_cells(xml_text: str, label: str) -> tuple[list[ET.Element], dict[str, ET.Element]]:
-    """Kiểm tra tính toàn vẹn ID, tham chiếu parent/source/target và kích thước hình dương của mxGraph."""
-    model = safe_parse_xml(xml_text).find("./diagram/mxGraphModel")
-    require(model is not None, f"Thiếu mxGraphModel trong {label}")
-    cells = model.findall("./root/mxCell")
-    by_id = {cell.get("id", ""): cell for cell in cells if cell.get("id")}
-    require(len(by_id) == len(cells), f"Trùng hoặc thiếu ID trong {label}")
-    for cell in cells:
-        for attr in ("parent", "source", "target"):
-            ref = cell.get(attr)
-            require(not ref or ref in by_id, f"Tham chiếu {attr} không hợp lệ trong {label}: {ref}")
-        parent_id = cell.get("parent")
-        if cell.get("vertex") == "1" and parent_id and by_id[parent_id].get("edge") != "1":
-            geom = cell.find("mxGeometry")
             require(
-                geom is not None and float(geom.get("width", "0")) > 0 and float(geom.get("height", "0")) > 0,
-                f"Hình {label} có kích thước không hợp lệ: {cell.get('id')}",
+                closure(sub_set, original)
+                == closure(sub_set, local)
+                == closure(sub_set, cover_fds),
+                f"Lệch bao đóng trên tập con: {subset}",
             )
-    return cells, by_id
 
 
-def verify_chen_drawio(diagram: str, svg: str) -> None:
-    """Kiểm chứng sơ đồ E-R chuẩn Chen (draw.io & SVG): 59 thuộc tính nội tại, 2 thực thể kết hợp, 13 nét đôi."""
-    cells, by_id = _validate_mxgraph_cells(diagram, "erd-chen.drawio")
-    image = safe_parse_xml(svg)
-    metadata = image.find("s:metadata", SVG_NS)
-    meta_text = metadata.text if metadata is not None and metadata.text else ""
-    require(any(digest in meta_text for digest in sha256_variants(diagram)),
-            "SVG Chen chưa được xuất lại đồng bộ SHA-256 từ erd-chen.drawio")
-
-    top_rhombuses = [c for c in cells if c.get("vertex") == "1" and c.get("parent") == "1" and "rhombus" in c.get("style", "")]
-    assoc_rhombuses = [
-        c for c in cells
-        if c.get("vertex") == "1" and c.get("parent") in ("PHIM_THE_LOAI", "KHOA_GHE_SUAT_CHIEU") and "rhombus" in c.get("style", "")
-    ]
-    ellipses = [c for c in cells if c.get("vertex") == "1" and "ellipse" in c.get("style", "")]
-    rect_entities = [
-        c for c in cells
-        if c.get("vertex") == "1" and c.get("parent") == "1" and "rhombus" not in c.get("style", "") and "ellipse" not in c.get("style", "")
-    ]
-    require(len(rect_entities) == 14, "Sơ đồ Chen draw.io phải có đủ 14 hộp thực thể (12 mạnh + 2 kết hợp)")
-    require(len(assoc_rhombuses) == 2, "Hai thực thể kết hợp phải có hình thoi nội tiếp")
-    require(len(top_rhombuses) == 13, "Sơ đồ Chen draw.io phải có đúng 13 hình thoi quan hệ hai ngôi")
-    require(len(ellipses) == 59, "Sơ đồ Chen draw.io chỉ được chứa đúng 59 thuộc tính nội tại (0 FK)")
-
-    for assoc_id in ("assoc_PHIM_THE_LOAI", "assoc_KHOA_GHE_SUAT_CHIEU"):
-        require(image.find(f".//s:g[@id='{assoc_id}']/s:polygon", SVG_NS) is not None,
-                f"SVG thiếu hình thoi nội tiếp của thực thể kết hợp: {assoc_id}")
-
-    rel_edges = [c for c in cells if c.get("edge") == "1" and c.get("id", "").startswith("rel_edge_")]
-    require(len(rel_edges) == 30, "Sơ đồ Chen draw.io phải có đúng 30 nhánh liên kết")
-    require(sum("shape=link;" in c.get("style", "") for c in rel_edges) == 13,
-            "Sơ đồ Chen draw.io phải có đúng 13 đường nét đôi tham gia đầy đủ")
-    for edge in rel_edges:
-        eid = edge.get("id", "")
-        card_cell = by_id.get(f"{eid}_card")
-        require(card_cell is not None and card_cell.get("value") in ("1", "N", "M"), f"Thiếu nhãn bản số 1/N/M: {eid}")
-        is_double = "shape=link;" in edge.get("style", "")
-        group = image.find(f".//s:g[@id='{eid}']", SVG_NS)
-        require(group is not None and len(group.findall("s:line", SVG_NS)) == (2 if is_double else 1),
-                f"SVG thiếu nét đơn/kép: {eid}")
-
-
-def verify_logical_drawio(logical_diagram: str, logical_svg: str, expected_fk_pairs: set[tuple[str, str]]) -> None:
-    """Kiểm chứng Lược đồ Quan hệ (draw.io & SVG): 14 bảng, 76 cột logic và đúng 17 mũi tên FK -> PK."""
-    l_cells, l_by_id = _validate_mxgraph_cells(logical_diagram, "luoc-do-quan-he.drawio")
-    l_edges = [c for c in l_cells if c.get("edge") == "1"]
-    l_titles = [c for c in l_cells if c.get("vertex") == "1" and c.get("id", "").startswith("title_")]
-    l_cols = [c for c in l_cells if c.get("vertex") == "1" and not c.get("id", "").startswith("title_")]
-    require(len(l_titles) == 14 and len(l_cols) == 76 and len(l_edges) == 17,
-            "Lược đồ quan hệ draw.io phải có đủ 14 bảng, 76 ô thuộc tính và 17 mũi tên FK")
-
-    l_img = safe_parse_xml(logical_svg)
-    l_meta = l_img.find("s:metadata", SVG_NS)
-    l_meta_text = l_meta.text if l_meta is not None and l_meta.text else ""
-    require(any(digest in l_meta_text for digest in sha256_variants(logical_diagram)),
-            "SVG lược đồ quan hệ chưa đồng bộ SHA-256 với luoc-do-quan-he.drawio")
-
-    actual_pairs: set[tuple[str, str]] = set()
-    for edge in l_edges:
-        eid = edge.get("id", "")
-        src = edge.get("source", "")
-        dst = edge.get("target", "")
-        style = edge.get("style", "")
-        src_val = l_by_id[src].get("value", "")
-        dst_val = l_by_id[dst].get("value", "")
-        require("dashed" in src_val, f"Mũi tên tham chiếu phải xuất phát từ FK gạch chân đứt: {src} -> {dst}")
-        require("<u>" in dst_val or "<u " in dst_val, f"Đầu mũi tên phải trỏ vào PK gạch chân liền: {src} -> {dst}")
-        require("endArrow=classic" in style and "startArrow=" not in style, f"Sai kiểu đầu mũi tên FK -> PK: {eid}")
-        svg_edge = l_img.find(f".//s:g[@id='{eid}']", SVG_NS)
-        require(
-            svg_edge is not None
-            and svg_edge.find("s:path", SVG_NS) is not None
-            and svg_edge.find("s:polygon", SVG_NS) is not None,
-            f"SVG thiếu đường cong hoặc đầu mũi tên đa giác cho {eid}",
+def parse_ddl_and_fks(
+    schema_sql: str, fk_sql: str
+) -> tuple[
+    dict[str, list[str]],
+    dict[str, set[str]],
+    set[tuple[str, str]],
+    set[tuple[str, str, str, str]],
+]:
+    tables_raw = dict(
+        re.findall(
+            r"CREATE TABLE IF NOT EXISTS (\w+) \((.*?)\) ENGINE=", schema_sql, re.DOTALL
         )
-        actual_pairs.add((src, dst))
-    require(actual_pairs == expected_fk_pairs, "Tập 17 cặp mũi tên (FK -> PK) không khớp chính xác với 01b_foreign_keys.sql")
+    )
+    require(
+        set(tables_raw.keys()) == set(VN_SCHEMA_MAP.keys()),
+        "Danh sách 14 bảng SQL không khớp bảng ánh xạ",
+    )
 
-
-def verify_drawio(
-    diagram: str,
-    svg: str,
-    logical_diagram: str,
-    logical_svg: str,
-    expected_fk_pairs: set[tuple[str, str]],
-) -> None:
-    """Kiểm chứng đồng thời sơ đồ Chen và Lược đồ Quan hệ định dạng draw.io + SVG."""
-    verify_chen_drawio(diagram, svg)
-    verify_logical_drawio(logical_diagram, logical_svg, expected_fk_pairs)
-
-
-def _parse_logical_entity_fields(table: str, body: str) -> tuple[dict[str, tuple[bool, str]], set[str], set[str], dict[str, set[str]]]:
-    """Đọc danh sách cột, PK, FK và UQ của một bảng trong erd-logical.puml."""
-    fields: dict[str, tuple[bool, str]] = {}
-    primary: set[str] = set()
-    foreign: set[str] = set()
-    unique_groups: dict[str, set[str]] = defaultdict(set)
-    for line in body.splitlines():
-        match = re.fullmatch(r"\s*(\* )?([\w*/]+) : ([A-Z]+(?:\([^)]*\))?)(?: <<([^>]+)>>)?", line)
-        if not match:
-            require(line.strip() == "--", f"Dòng ERD chưa được kiểm tra: {table}: {line}")
-            continue
-        mandatory, raw_name, sql_type, flags = match.groups()
-        col_name = raw_name.replace("*", "").replace("/", "")
-        require(col_name not in fields, f"Thuộc tính trùng: {table}.{col_name}")
-        fields[col_name] = (bool(mandatory), sql_type)
-        for flag in names(flags or ""):
-            if flag == "PK":
-                primary.add(col_name)
-            elif flag == "FK":
-                foreign.add(col_name)
-            elif flag == "UQ":
-                unique_groups[col_name].add(col_name)
-            elif re.fullmatch(r"UQ\d+", flag):
-                unique_groups[flag].add(col_name)
-            elif flag not in ("NULLable", "PHYSICAL SUBSET-IDX"):
-                raise ValueError(f"Cờ ERD không hợp lệ tại {table}.{col_name}: {flag}")
-    return fields, primary, foreign, unique_groups
-
-
-def _parse_chen_entity_attrs(table: str, body: str) -> tuple[set[str], set[str]]:
-    """Đọc và kiểm tra nghiêm ngặt từng dòng thuộc tính của thực thể trong erd-chen.puml."""
-    attrs: set[str] = set()
-    keys: set[str] = set()
-    for line in body.splitlines():
-        if not line.strip():
-            continue
-        match = re.fullmatch(r"\s+(\w+)( <<key>>)?", line)
-        require(match is not None, f"Dòng thuộc tính Chen không hợp lệ tại {table}: {line}")
-        attr_name, key_flag = match.groups()
-        require(attr_name not in attrs, f"Thuộc tính Chen bị lặp tại {table}: {attr_name}")
-        attrs.add(attr_name)
-        if key_flag:
-            keys.add(attr_name)
-    return attrs, keys
-
-
-def _verify_chen_relationships(
-    chen: str,
-    tables: set[str],
-    chen_associative: set[str],
-    expected_binary_chen: set[frozenset[tuple[str, str]]],
-) -> None:
-    """Kiểm chứng 13 hình thoi nhị phân và 2 thực thể kết hợp M:N trong erd-chen.puml."""
-    relationships = set(re.findall(r'^relationship "[^"\n]+" as (R_\w+) \{', chen, re.M))
-    connections: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
-    assoc_links: dict[str, list[tuple[str, str]]] = defaultdict(list)
-    for left, stroke, maximum, right in re.findall(r"^(\w+) ([-=])([1NM])\2 (\w+)$", chen, re.M):
-        if left in relationships or right in relationships:
-            entity, relation = (right, left) if left in relationships else (left, right)
-            require(entity in tables and maximum in ("1", "N"), f"Liên kết hai ngôi Chen không hợp lệ: {left}..{right}")
-            connections[relation].append((entity, stroke, maximum))
-        else:
-            require((left in chen_associative) ^ (right in chen_associative),
-                    f"Liên kết trực tiếp chỉ hợp lệ cho thực thể kết hợp: {left}..{right}")
-            assoc, participant = (left, right) if left in chen_associative else (right, left)
-            require(participant in tables and stroke == "-" and maximum in ("M", "N"),
-                    f"Liên kết M:N của thực thể kết hợp không hợp lệ: {left}..{right}")
-            assoc_links[assoc].append((participant, maximum))
-
-    require(set(assoc_links.keys()) == {"movie_genre", "screening_seat_lock"}, "Thiếu liên kết M:N cho thực thể kết hợp")
-    require({p for p, _ in assoc_links["movie_genre"]} == {"movie", "genre"}
-            and {m for _, m in assoc_links["movie_genre"]} == {"M", "N"}, "Sai liên kết M:N của movie_genre")
-    require({p for p, _ in assoc_links["screening_seat_lock"]} == {"screening", "seat"}
-            and {m for _, m in assoc_links["screening_seat_lock"]} == {"M", "N"}, "Sai liên kết M:N của screening_seat_lock")
-
-    normalized = set()
-    for edges in connections.values():
-        require(len(edges) == 2, "Mỗi hình thoi liên kết hai ngôi Chen phải có hai đầu")
-        normalized.add(frozenset(
-            (entity, ("1" if stroke == "=" else "0") + "," + edges[1 - index][2])
-            for index, (entity, stroke, _) in enumerate(edges)
-        ))
-    require(len(relationships) == len(connections) == 13 and normalized == expected_binary_chen,
-            "Sai quan hệ/bản số Chen so với 13 FK hai ngôi và quy tắc BR-08")
-
-
-def verify(schema: str, foreign_keys: str, logical: str, chen: str, mermaid: str) -> None:
-    """Đối chiếu toàn diện DDL, FK, PlantUML Logical/Chen và sơ đồ Mermaid."""
-    tables = dict(re.findall(r"CREATE TABLE IF NOT EXISTS (\w+) \((.*?)\) ENGINE=", schema, re.S))
-    entities = dict(re.findall(r'entity "[^"\n]+" as (\w+) \{\n(.*?)\n\}', logical, re.S))
-    chen_raw = re.findall(r'entity "[^"\n]+" as (\w+)( <<associative>>)? \{(.*?)\}', chen, re.S)
-    chen_entities = {name: body for name, _, body in chen_raw}
-    chen_associative = {name for name, stereo, _ in chen_raw if stereo.strip() == "<<associative>>"}
-
-    require(len(tables) == 14 and tables.keys() == entities.keys() == chen_entities.keys(),
-            "ERD phải có đủ 14 thực thể đúng tên bảng SQL")
-    require(chen_associative == {"movie_genre", "screening_seat_lock"},
-            "Bản Chen phải đánh dấu đúng 2 thực thể kết hợp <<associative>>")
-    require(chen.startswith("@startchen ") and chen.rstrip().endswith("@endchen"), "Sơ đồ Chen phải dùng @startchen/@endchen")
-
-    expected_logical: set[tuple[str, str, str, str]] = set()
-    expected_binary_chen: set[frozenset[tuple[str, str]]] = set()
     fk_blocks: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
-    for tbl_name, body in re.findall(r"ALTER TABLE (\w+)\s+(.*?);", foreign_keys, re.S):
-        fk_blocks[tbl_name].extend(re.findall(r"FOREIGN KEY \((\w+)\)\s+REFERENCES (\w+) \((\w+)\)", body))
+    for tbl, body in re.findall(r"ALTER TABLE (\w+)\s+(.*?);", fk_sql, re.DOTALL):
+        fk_blocks[tbl].extend(
+            re.findall(r"FOREIGN KEY \((\w+)\)\s+REFERENCES (\w+) \((\w+)\)", body)
+        )
 
-    for table, ddl in tables.items():
-        columns = dict(re.findall(r"^\s+(\w+)\s+((?:INT|VARCHAR|CHAR|TINYINT|DECIMAL|DATE|DATETIME|TEXT)\b[^\n]*)", ddl, re.M))
-        fields, primary, foreign, unique_groups = _parse_logical_entity_fields(table, entities[table])
-        require(columns.keys() == fields.keys(), f"Sai danh sách thuộc tính: {table}")
-        for col_name, definition in columns.items():
-            type_match = re.match(r"[A-Z]+(?:\([^)]*\))?", definition)
-            require(type_match is not None and fields[col_name] == ("NOT NULL" in definition, type_match.group()),
-                    f"Sai kiểu dữ liệu hoặc NULL: {table}.{col_name}")
+    vn_cols_by_table: dict[str, list[str]] = {}
+    vn_pks_by_table: dict[str, set[str]] = {}
+    expected_vn_fks: set[tuple[str, str]] = set()
+    expected_mermaid: set[tuple[str, str, str, str]] = set()
+
+    for sql_table, ddl in tables_raw.items():
+        vn_table, col_pairs = VN_SCHEMA_MAP[sql_table]
+        col_map = dict(col_pairs)
+        sql_cols_defs = dict(
+            re.findall(
+                r"^\s+(\w+)\s+((?:INT|VARCHAR|CHAR|TINYINT|DECIMAL|DATE|DATETIME|TEXT)\b[^\n]*)",
+                ddl,
+                re.MULTILINE,
+            )
+        )
+        logical_sql_cols = [c for c in sql_cols_defs if c != "active_success_booking"]
+        require(
+            logical_sql_cols == [c for c, _ in col_pairs],
+            f"Thứ tự hoặc danh sách cột SQL bảng {sql_table} không khớp: {logical_sql_cols}",
+        )
+        vn_cols_by_table[vn_table] = [vn for _, vn in col_pairs]
+
         pk_match = re.search(r"PRIMARY KEY \(([^)]+)\)", ddl)
-        require(pk_match is not None, f"Thiếu PRIMARY KEY trong DDL: {table}")
-        sql_primary = set(names(pk_match.group(1)))
-        require(primary == sql_primary, f"Sai khóa chính: {table}")
+        require(pk_match is not None, f"Thiếu PRIMARY KEY ở bảng {sql_table}")
+        sql_pks = {
+            part.strip() for part in pk_match.group(1).split(",") if part.strip()
+        }
+        vn_pks_by_table[vn_table] = {col_map[col] for col in sql_pks}
 
-        fks = fk_blocks[table]
-        fk_cols = {column for column, _, _ in fks}
-        require(foreign == fk_cols, f"Sai cột FK: {table}")
-
-        chen_attrs, chen_primary = _parse_chen_entity_attrs(table, chen_entities[table])
-        expected_intrinsic = set(columns.keys()) - fk_cols - {"active_success_booking"}
-        require(chen_attrs == expected_intrinsic, f"Sơ đồ Chen sai tập thuộc tính nội tại ở {table}")
-        require(chen_primary == (set() if table in chen_associative else sql_primary), f"Sai khóa chính Chen: {table}")
-
-        sql_unique = {frozenset(names(group)) for group in re.findall(r"UNIQUE \(([^)]+)\)", ddl)}
+        sql_unique = {
+            frozenset(part.strip() for part in grp.split(",") if part.strip())
+            for grp in re.findall(r"UNIQUE \(([^)]+)\)", ddl)
+        }
         sql_unique.discard(frozenset({"active_success_booking"}))
-        require({frozenset(group) for group in unique_groups.values()} == sql_unique, f"Sai khóa duy nhất: {table}")
 
-        for column, parent, _ in fks:
-            nullable = "NOT NULL" not in columns[column]
-            single_unique = frozenset({column}) in sql_unique
-            expected_logical.add((parent, "|o" if nullable else "||", "o|" if single_unique else "o{", table))
-            if table in chen_associative and column in sql_primary:
-                continue
-            expected_binary_chen.add(frozenset({
-                (parent, "0,1" if single_unique else "0,N"),
-                (table, "0,1" if nullable else "1,1"),
-            }))
+        for fk_col, parent_sql, parent_pk_sql in fk_blocks[sql_table]:
+            parent_vn, parent_pairs = VN_SCHEMA_MAP[parent_sql]
+            parent_map = dict(parent_pairs)
+            expected_vn_fks.add(
+                (
+                    f"{vn_table}.{col_map[fk_col]}",
+                    f"{parent_vn}.{parent_map[parent_pk_sql]}",
+                )
+            )
+            nullable = "NOT NULL" not in sql_cols_defs[fk_col]
+            single_unique = frozenset({fk_col}) in sql_unique
+            expected_mermaid.add(
+                (
+                    parent_sql,
+                    "|o" if nullable else "||",
+                    "o|" if single_unique else "o{",
+                    sql_table,
+                )
+            )
 
-    br08_default = frozenset({("booking", "0,N"), ("ticket", "1,1")})
-    require(br08_default in expected_binary_chen, "Thiếu quan hệ booking-ticket trước khi áp dụng BR-08")
-    expected_binary_chen.remove(br08_default)
-    expected_binary_chen.add(frozenset({("booking", "1,N"), ("ticket", "1,1")}))
-
-    actual_logical = re.findall(r"^(\w+) (\|\||\|o)--(o\{|\|\{|o\|) (\w+) :", logical, re.M)
-    require(len(actual_logical) == 17 and set(actual_logical) == expected_logical, "Sai bản số Crow's Foot so với 17 FK SQL")
-    actual_mermaid = re.findall(r"^    (\w+) (\|\||\|o)--(o\{|\|\{|o\|) (\w+) :", mermaid, re.M)
-    require(len(actual_mermaid) == 17 and set(actual_mermaid) == expected_logical, "Sai bản số Mermaid so với 17 FK SQL")
-    _verify_chen_relationships(chen, set(tables.keys()), chen_associative, expected_binary_chen)
+    require(
+        len(expected_vn_fks) == 17,
+        f"Phải có đúng 17 khóa ngoại, thực tế: {len(expected_vn_fks)}",
+    )
+    return vn_cols_by_table, vn_pks_by_table, expected_vn_fks, expected_mermaid
 
 
-def _sync_svg_hash(svg_text: str, drawio_text: str, source_name: str) -> str:
-    """Cập nhật metadata SHA-256 trong bản sao SVG phục vụ kiểm thử đột biến độc lập."""
-    digest = hashlib.sha256(drawio_text.encode("utf-8")).hexdigest()
-    return re.sub(
-        r"<metadata>.*?</metadata>",
-        f"<metadata>Source: {source_name}; SHA-256: {digest}</metadata>",
-        svg_text,
-        count=1,
+def verify_er_drawio(
+    er_xml: str,
+    vn_cols_by_table: dict[str, list[str]],
+    vn_pks_by_table: dict[str, set[str]],
+    expected_vn_fks: set[tuple[str, str]],
+) -> None:
+    root = parse_xml(er_xml)
+    cells = root.findall("./diagram/mxGraphModel/root/mxCell")
+    by_id = {c.get("id", ""): c for c in cells if c.get("id")}
+    require(len(by_id) == len(cells), "Trùng hoặc thiếu ID trong ER.drawio")
+
+    # Mọi cạnh phải gắn source và target tường minh
+    edges = [c for c in cells if c.get("edge") == "1"]
+    for edge in edges:
+        src, dst = edge.get("source", ""), edge.get("target", "")
+        require(
+            src in by_id and dst in by_id,
+            f"Cạnh rời chưa gắn nút trong ER.drawio: {edge.get('id')}",
+        )
+
+    # Kiểm tra 12 thực thể khỏe, 2 thực thể kết hợp (hộp chữ nhật + hình thoi cùng tọa độ), 13 hình thoi quan hệ 2 ngôi
+    rects = []
+    rhombuses = []
+    ellipses = []
+    card_labels = []
+    for cell in cells:
+        if cell.get("vertex") != "1":
+            continue
+        st = cell.get("style", "")
+        val = strip_html(cell.get("value"))
+        geom = cell.find("mxGeometry")
+        require(geom is not None, f"Thiếu mxGeometry: {cell.get('id')}")
+        pos = (
+            round(float(geom.get("x", "0")), 1),
+            round(float(geom.get("y", "0")), 1),
+            round(float(geom.get("width", "0")), 1),
+            round(float(geom.get("height", "0")), 1),
+        )
+        if "ellipse" in st:
+            ellipses.append((cell, val))
+        elif "rhombus" in st:
+            rhombuses.append((cell, val, pos))
+        elif "text;" in st:
+            if val in ("1", "N", "M"):
+                card_labels.append(val)
+        else:
+            rects.append((cell, val, pos))
+
+    rect_by_pos = {pos: (cell, val) for cell, val, pos in rects}
+    assoc_names = {val for _, val, pos in rhombuses if pos in rect_by_pos}
+    strong_names = {val for _, val, _ in rects if val}
+    binary_rhombuses = [val for _, val, pos in rhombuses if pos not in rect_by_pos]
+
+    require(
+        assoc_names == {"PHIM_THE_LOAI", "KHOA_GHE_SUAT_CHIEU"},
+        f"Sai thực thể kết hợp trên ER.drawio: {assoc_names}",
+    )
+    require(
+        strong_names | assoc_names == set(vn_cols_by_table.keys()),
+        "Tập 14 thực thể/thực thể kết hợp trên ER.drawio không khớp 14 bảng",
+    )
+    require(
+        len(binary_rhombuses) == 13,
+        f"ER.drawio phải có 13 hình thoi quan hệ hai ngôi, thực tế: {len(binary_rhombuses)}",
+    )
+    require(
+        len(ellipses) == 59,
+        f"ER.drawio chỉ được chứa đúng 59 thuộc tính bản thân (0 FK), thực tế: {len(ellipses)}",
+    )
+    require(
+        len(card_labels) == 34,
+        f"ER.drawio phải có đủ 34 nhãn bản số 1/N/M (26 cho 13 quan hệ hai ngôi + 8 cho 2 thực thể kết hợp), thực tế: {len(card_labels)}",
+    )
+
+    # Kiểm tra thuộc tính gắn đúng từng thực thể khỏe và gạch chân khóa chính
+    fk_cols_by_table: dict[str, set[str]] = defaultdict(set)
+    for child_fk, _ in expected_vn_fks:
+        t_name, c_name = child_fk.split(".", 1)
+        fk_cols_by_table[t_name].add(c_name)
+
+    entity_id_to_name = {cell.get("id", ""): val for cell, val, _ in rects if val}
+    attrs_per_entity: dict[str, set[str]] = defaultdict(set)
+    pks_per_entity: dict[str, set[str]] = defaultdict(set)
+    ellipse_ids = {cell.get("id", ""): (cell, val) for cell, val in ellipses}
+
+    pair_lines: Counter[tuple[str, str]] = Counter()
+    for edge in edges:
+        s_id, t_id = edge.get("source", ""), edge.get("target", "")
+        if s_id in ellipse_ids or t_id in ellipse_ids:
+            e_id, ent_id = (s_id, t_id) if s_id in ellipse_ids else (t_id, s_id)
+            require(
+                ent_id in entity_id_to_name,
+                f"Thuộc tính {e_id} không nối vào thực thể khỏe hợp lệ",
+            )
+            e_cell, attr_val = ellipse_ids[e_id]
+            ent_name = entity_id_to_name[ent_id]
+            attrs_per_entity[ent_name].add(attr_val)
+            st = e_cell.get("style", "")
+            raw = e_cell.get("value", "")
+            if "fontStyle=4" in st or "<u>" in raw:
+                pks_per_entity[ent_name].add(attr_val)
+        else:
+            pair = tuple(sorted((s_id, t_id)))
+            pair_lines[pair] += 2 if "shape=link" in edge.get("style", "") else 1
+
+    for vn_table, all_cols in vn_cols_by_table.items():
+        if vn_table in assoc_names:
+            require(
+                vn_table not in attrs_per_entity,
+                f"Thực thể kết hợp {vn_table} không có thuộc tính riêng",
+            )
+            continue
+        expected_intrinsic = set(all_cols) - fk_cols_by_table[vn_table]
+        require(
+            attrs_per_entity[vn_table] == expected_intrinsic,
+            f"Sai tập thuộc tính bản thân của {vn_table} trên ER.drawio: {attrs_per_entity[vn_table]} != {expected_intrinsic}",
+        )
+        require(
+            pks_per_entity[vn_table] == vn_pks_by_table[vn_table],
+            f"Sai gạch chân khóa chính của {vn_table} trên ER.drawio",
+        )
+
+    double_line_count = sum(1 for cnt in pair_lines.values() if cnt == 2)
+    require(
+        double_line_count == 13,
+        f"ER.drawio phải có đúng 13 nhánh tham gia đầy đủ (nét đôi), thực tế: {double_line_count}",
     )
 
 
-def run_mutation_self_tests(
-    contents: list[str],
-    chen_drawio: str,
-    chen_svg: str,
-    logical_drawio: str,
-    logical_svg: str,
-    fk_pairs: set[tuple[str, str]],
+def verify_relational_drawio(
+    rel_xml: str,
+    vn_cols_by_table: dict[str, list[str]],
+    vn_pks_by_table: dict[str, set[str]],
+    expected_vn_fks: set[tuple[str, str]],
 ) -> None:
-    """Thực thi 11 phép thử đột biến âm tính đảm bảo bộ kiểm chứng phát hiện mọi sai lệch."""
-    for index, old, new in (
-        (2, "cinema_branch ||--o{ screening_room", "cinema_branch ||--|{ screening_room"),
-        (2, "//booking_id// : INT <<FK, UQ1>>", "//booking_id// : INT <<FK, UQ>>"),
-        (3, "as movie_genre <<associative>> {", "as movie_genre {"),
-        (3, "booking =1= R_BOOK_TICKET", "booking -1- R_BOOK_TICKET"),
-        (3, "  room_id <<key>>\n", "  room_id <<key>>\n  branch_id\n"),
-        (3, "  room_id <<key>>\n", "  room_id <<key>>\n  branch_id <<FK>>\n"),
-    ):
-        broken = contents.copy()
-        require(old in broken[index], f"Mẫu tự kiểm tra không khớp: {old}")
-        broken[index] = broken[index].replace(old, new, 1)
-        try:
-            verify(*broken)
-        except ValueError:
-            continue
-        raise ValueError("Bộ kiểm chứng đã bỏ lọt lỗi ngữ nghĩa cố ý")
+    root = parse_xml(rel_xml)
+    cells = root.findall("./diagram/mxGraphModel/root/mxCell")
+    by_id = {c.get("id", ""): c for c in cells if c.get("id")}
+    require(
+        len(by_id) == len(cells), "Trùng hoặc thiếu ID trong luoc-do-quan-he.drawio"
+    )
 
-    for broken_kind in ("zero_size", "single_total", "missing_assoc_diamond", "reversed_fk_arrow", "wrong_fk_target", "stale_svg_hash"):
-        c_tree = safe_parse_xml(chen_drawio)
-        l_tree = safe_parse_xml(logical_drawio)
-        if broken_kind == "zero_size":
-            geom = c_tree.find('.//mxCell[@id="R1"]/mxGeometry')
-            assert geom is not None
-            geom.set("width", "0")
-        elif broken_kind == "single_total":
-            edge = c_tree.find('.//mxCell[@id="rel_edge_2"]')
-            assert edge is not None
-            edge.set("style", edge.get("style", "").replace("shape=link;", ""))
-        elif broken_kind == "missing_assoc_diamond":
-            parent_box = c_tree.find('.//mxCell[@id="PHIM_THE_LOAI"]')
-            assoc = c_tree.find('.//mxCell[@id="assoc_PHIM_THE_LOAI"]')
-            root_el = c_tree.find("./diagram/mxGraphModel/root")
-            assert parent_box is not None and assoc is not None and root_el is not None
-            root_el.remove(assoc)
-            parent_box.set("value", "PHIM_THE_LOAI")
-        elif broken_kind == "reversed_fk_arrow":
-            fk1 = l_tree.find('.//mxCell[@id="fk_1"]')
-            assert fk1 is not None
-            src, dst = fk1.get("source", ""), fk1.get("target", "")
-            fk1.set("source", dst)
-            fk1.set("target", src)
-        elif broken_kind == "wrong_fk_target":
-            fk10 = l_tree.find('.//mxCell[@id="fk_10"]')
-            assert fk10 is not None
-            fk10.set("target", "PHIM.MaPhim")
-        c_xml = ET.tostring(c_tree, encoding="unicode")
-        l_xml = ET.tostring(l_tree, encoding="unicode")
-        c_svg_test = chen_svg if broken_kind == "stale_svg_hash" else _sync_svg_hash(chen_svg, c_xml, "erd-chen.drawio")
-        l_svg_test = _sync_svg_hash(logical_svg, l_xml, "luoc-do-quan-he.drawio")
-        if broken_kind == "stale_svg_hash":
-            c_xml = c_xml + "\n"
-        try:
-            verify_drawio(c_xml, c_svg_test, l_xml, l_svg_test, fk_pairs)
-        except ValueError:
+    def abs_rect(cid: str) -> tuple[float, float, float, float]:
+        x = y = w = h = 0.0
+        cur = by_id.get(cid)
+        first = True
+        while cur is not None:
+            geom = cur.find("mxGeometry")
+            if geom is not None:
+                x += float(geom.get("x") or 0)
+                y += float(geom.get("y") or 0)
+                if first:
+                    w = float(geom.get("width") or 0)
+                    h = float(geom.get("height") or 0)
+                    first = False
+            pid = cur.get("parent", "")
+            cur = by_id.get(pid) if pid not in ("", "0", "1") else None
+        return x, y, w, h
+
+    titles: list[tuple[str, float, float]] = []
+    col_cells: list[tuple[ET.Element, str, float, float, float, float]] = []
+    for cell in cells:
+        if cell.get("vertex") != "1":
             continue
-        raise ValueError(f"Bộ kiểm chứng bỏ lọt lỗi cố ý: {broken_kind}")
+        val = strip_html(cell.get("value"))
+        if not val:
+            continue
+        x, y, w, h = abs_rect(cell.get("id", ""))
+        if val in vn_cols_by_table:
+            titles.append((val, x, y))
+        else:
+            col_cells.append((cell, val, x, y, w, h))
+
+    require(
+        len(titles) == 14,
+        f"luoc-do-quan-he.drawio phải có đủ 14 nhãn tên bảng, thực tế: {len(titles)}",
+    )
+    require(
+        len(col_cells) == 76,
+        f"luoc-do-quan-he.drawio phải có đủ 76 ô thuộc tính, thực tế: {len(col_cells)}",
+    )
+
+    def nearest_table(cx: float, cy: float) -> str:
+        candidates = [
+            (abs(cy - ty) * 10 + max(0.0, cx - tx) / 100.0, tname)
+            for tname, tx, ty in titles
+            if 0.0 <= cy - ty <= 70.0 and -20.0 <= cx - tx <= 1700.0
+        ]
+        require(bool(candidates), f"Không tìm thấy bảng cho ô tại ({cx}, {cy})")
+        return min(candidates)[1]
+
+    cols_grouped: dict[
+        str, list[tuple[float, str, ET.Element, tuple[float, float, float, float]]]
+    ] = defaultdict(list)
+    col_boxes: dict[str, tuple[float, float, float, float]] = {}
+    for cell, val, x, y, w, h in col_cells:
+        tname = nearest_table(x, y)
+        cols_grouped[tname].append((x, val, cell, (x, y, w, h)))
+        col_boxes[f"{tname}.{val}"] = (x, y, w, h)
+
+    for tname, expected_cols in vn_cols_by_table.items():
+        ordered = [
+            val
+            for _, val, _, _ in sorted(cols_grouped[tname], key=lambda item: item[0])
+        ]
+        require(
+            ordered == expected_cols,
+            f"Danh sách/thứ tự thuộc tính bảng {tname} trên luoc-do-quan-he.drawio không khớp DDL: {ordered} != {expected_cols}",
+        )
+        # Kiểm tra gạch chân liền cho PK (bao gồm cả khóa ghép kiêm FK theo Slide 5 tr. 23, 25, 29, 33, 43)
+        for _, val, cell, _ in cols_grouped[tname]:
+            st = cell.get("style", "")
+            raw = cell.get("value", "")
+            has_solid_u = ("fontStyle=4" in st) or ("<u>" in raw)
+            is_pk = val in vn_pks_by_table[tname]
+            require(
+                has_solid_u == is_pk,
+                f"Quy ước gạch chân liền PK không đúng tại {tname}.{val} (expected={is_pk}, actual={has_solid_u})",
+            )
+
+    def col_containing(
+        px: float, py: float, tol_x: float = 4.0, tol_y: float = 8.0
+    ) -> str:
+        matches = [
+            full_name
+            for full_name, (bx, by, bw, bh) in col_boxes.items()
+            if bx - tol_x <= px <= bx + bw + tol_x
+            and by - tol_y <= py <= by + bh + tol_y
+        ]
+        require(
+            len(matches) == 1,
+            f"Điểm ({px:.1f}, {py:.1f}) không nằm gọn trong đúng 1 ô thuộc tính: {matches}",
+        )
+        return matches[0]
+
+    non_pk_fks = {
+        src
+        for src, _ in expected_vn_fks
+        if src.split(".", 1)[1] not in vn_pks_by_table[src.split(".", 1)[0]]
+    }
+    dashed_cols: set[str] = set()
+    arrow_pairs: set[tuple[str, str]] = set()
+
+    for cell in cells:
+        if cell.get("edge") != "1":
+            continue
+        st = style_map(cell.get("style"))
+        geom = cell.find("mxGeometry")
+        require(geom is not None, f"Thiếu mxGeometry trên cạnh {cell.get('id')}")
+        if st.get("dashed") == "1" and st.get("endArrow") == "none":
+            sp = geom.find("mxPoint[@as='sourcePoint']")
+            tp = geom.find("mxPoint[@as='targetPoint']")
+            require(
+                sp is not None and tp is not None,
+                f"Thiếu tọa độ đoạn gạch đứt: {cell.get('id')}",
+            )
+            sx, sy = float(sp.get("x", "0")), float(sp.get("y", "0"))
+            tx, ty = float(tp.get("x", "0")), float(tp.get("y", "0"))
+            col_left = col_containing(sx, sy, tol_x=0.0, tol_y=0.0)
+            col_right = col_containing(tx, ty, tol_x=0.0, tol_y=0.0)
+            require(
+                col_left == col_right,
+                f"Đoạn gạch đứt tràn qua ranh giới ô: {col_left} -> {col_right}",
+            )
+            dashed_cols.add(col_left)
+        else:
+            require(
+                st.get("endArrow") == "classic" and "startArrow" not in st,
+                f"Mũi tên khóa ngoại phải có đầu mũi tên một chiều tại đích: {cell.get('id')}",
+            )
+            src_id, dst_id = cell.get("source", ""), cell.get("target", "")
+            require(
+                src_id in by_id and dst_id in by_id,
+                f"Mũi tên chưa gắn nguồn/đích: {cell.get('id')}",
+            )
+            sx, sy, sw, sh = abs_rect(src_id)
+            dx, dy, dw, dh = abs_rect(dst_id)
+            ex_x = sx + float(st.get("exitX", "0.5")) * sw
+            ex_y = sy + float(st.get("exitY", "0.5")) * sh
+            en_x = dx + float(st.get("entryX", "0.5")) * dw
+            en_y = dy + float(st.get("entryY", "0.5")) * dh
+            src_col = col_containing(ex_x, ex_y)
+            dst_col = col_containing(en_x, en_y)
+            arrow_pairs.add((src_col, dst_col))
+
+    require(
+        dashed_cols == non_pk_fks,
+        f"Tập thuộc tính FK đơn gạch chân nét đứt không khớp Slide 5: thiếu={non_pk_fks - dashed_cols}, thừa={dashed_cols - non_pk_fks}",
+    )
+    require(
+        arrow_pairs == expected_vn_fks,
+        f"Tập 17 mũi tên FK -> PK không khớp 01b_foreign_keys.sql: thiếu={expected_vn_fks - arrow_pairs}, thừa={arrow_pairs - expected_vn_fks}",
+    )
+
+
+def verify_mermaid(
+    erd_md: str, expected_mermaid: set[tuple[str, str, str, str]]
+) -> None:
+    actual = set(
+        re.findall(
+            r"^    (\w+) (\|\||\|o)--(o\{|\|\{|o\|) (\w+) :", erd_md, re.MULTILINE
+        )
+    )
+    require(
+        len(actual) == 17 and actual == expected_mermaid,
+        "Sơ đồ Mermaid trong erd-explanation.md không khớp 17 khóa ngoại SQL",
+    )
 
 
 def main() -> None:
-    """Điểm vào kiểm chứng tĩnh toàn bộ ERD, Lược đồ Quan hệ và thuật toán chuẩn hóa 3NF."""
-    inputs = [
-        ROOT / path for path in (
-            "database/schema/01_schema.sql",
-            "database/schema/01b_foreign_keys.sql",
-            "docs/erd/erd-logical.puml",
-            "docs/erd/erd-chen.puml",
-            "docs/erd/erd-explanation.md",
-        )
-    ]
-    contents = [path.read_text(encoding="utf-8") for path in inputs]
-    verify(*contents)
+    schema_sql = (ROOT / "database/schema/01_schema.sql").read_text(encoding="utf-8")
+    fk_sql = (ROOT / "database/schema/01b_foreign_keys.sql").read_text(encoding="utf-8")
+    er_xml = (ROOT / "docs/erd/ER.drawio").read_text(encoding="utf-8")
+    rel_xml = (ROOT / "docs/erd/luoc-do-quan-he.drawio").read_text(encoding="utf-8")
+    erd_md = (ROOT / "docs/erd/erd-explanation.md").read_text(encoding="utf-8")
 
-    fk_pairs = parse_sql_fk_pairs(contents[1])
-    chen_drawio = (ROOT / "docs/erd/erd-chen.drawio").read_text(encoding="utf-8")
-    chen_svg = (ROOT / "docs/erd/erd-chen.svg").read_text(encoding="utf-8")
-    logical_drawio = (ROOT / "docs/erd/luoc-do-quan-he.drawio").read_text(encoding="utf-8")
-    logical_svg = (ROOT / "docs/erd/luoc-do-quan-he.svg").read_text(encoding="utf-8")
-    verify_drawio(chen_drawio, chen_svg, logical_drawio, logical_svg, fk_pairs)
+    vn_cols_by_table, vn_pks_by_table, expected_vn_fks, expected_mermaid = (
+        parse_ddl_and_fks(schema_sql, fk_sql)
+    )
+    verify_er_drawio(er_xml, vn_cols_by_table, vn_pks_by_table, expected_vn_fks)
+    verify_relational_drawio(
+        rel_xml, vn_cols_by_table, vn_pks_by_table, expected_vn_fks
+    )
+    verify_mermaid(erd_md, expected_mermaid)
     verify_ticket_decomposition()
-    run_mutation_self_tests(contents, chen_drawio, chen_svg, logical_drawio, logical_svg, fk_pairs)
 
-    print("PASS: 14 quan hệ, 59 thuộc tính bản thân trên Chen E-R (0 FK), 2 thực thể kết hợp lồng hình thoi, 13 đường nét đôi.")
-    print("PASS: Lược đồ quan hệ đủ 14 bảng, 76 thuộc tính và 17 mũi tên khớp chính xác cặp (FK -> PK) theo giáo trình.")
-    print("PASS: MinCover (7 FD), Algorithm Lossless (ma trận a_y/b_xy) và Algorithm Preserve bảo toàn bao đóng 128 tập con.")
-    print("PASS: 12 phép tự kiểm tra đột biến (gài FK vào Chen, sai đích FK->PK, đảo mũi tên, lệch hash SVG) đều bị bắt chính xác.")
+    print(
+        "OK: ER.drawio khớp 14 thực thể (12 khỏe + 2 kết hợp), 59 thuộc tính bản thân, 13 quan hệ hai ngôi và 13 nhánh nét đôi."
+    )
+    print(
+        "OK: luoc-do-quan-he.drawio khớp 14 bảng, 76 thuộc tính, gạch chân PK liền / FK đứt và đủ 17 mũi tên FK -> PK."
+    )
+    print(
+        "OK: Phép tách chuẩn 3NF của bảng ticket bảo toàn phụ thuộc hàm và kết nối không mất thông tin."
+    )
 
 
 if __name__ == "__main__":

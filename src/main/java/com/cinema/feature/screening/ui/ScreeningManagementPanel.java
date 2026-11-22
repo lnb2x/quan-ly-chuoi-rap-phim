@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Màn hình Nhập liệu 1: Quản lý Lịch chiếu & Suất chiếu (Screen 1 - R5).
+ * Màn hình Nhập liệu 1: Quản lý Lịch chiếu & Suất chiếu.
  * Cho phép tạo mới, cập nhật, hủy suất chiếu và kiểm tra hợp lệ thời lượng,
  * giá cơ sở và chống chồng lấn lịch chiếu trong cùng một phòng chiếu.
  */

@@ -1,6 +1,6 @@
 # Kết quả kiểm chứng bản nộp
 
-Lần thực thi ngày **15/11/2026**, trên **Java 21.0.13** và **MySQL Community Server 8.4.0**:
+Lần thực thi ngày **22/11/2026**, trên **Java 21.0.13** và **MySQL Community Server 8.4**:
 
 | Phép kiểm tra | Kết quả ghi nhận |
 |---|---|
@@ -20,6 +20,6 @@ Chạy lại `database/verify_all.ps1` sẽ tạo log, XML và manifest mới tr
 Chưa chứng nhận giao dịch VNPay merchant, hoàn tiền thật, tải lớn, phục hồi sau mất điện hoặc vận hành hệ thống đặt vé online.
 
 
-## Đối chiếu sơ đồ quan hệ ngày 21/11/2026
+## Đối chiếu sơ đồ E–R và lược đồ quan hệ
 
-Bộ kiểm tra ERD chạy riêng bằng `python -X utf8 -B tools/verify_erd.py`. Với [bản vẽ dùng để trình bày](../erd/luoc-do-quan-he.drawio), công cụ đếm được 30 cạnh và dừng ở điều kiện yêu cầu 17 cạnh. Khi áp dụng cùng phép kiểm tra cho [bản vẽ dùng để đối chiếu](../erd/erd-logical.drawio) và [bản SVG tương ứng](../erd/erd-logical.svg), cả 17 cặp khóa ngoại đều khớp [định nghĩa SQL](../../database/schema/01b_foreign_keys.sql). Việc xác minh tự động bản trình bày còn mở.
+Script `python -X utf8 -B tools/verify_erd.py` kiểm tra chéo [ER.drawio](../erd/ER.drawio) và [luoc-do-quan-he.drawio](../erd/luoc-do-quan-he.drawio) với [01_schema.sql](../../database/schema/01_schema.sql) và [01b_foreign_keys.sql](../../database/schema/01b_foreign_keys.sql): khớp 14 bảng, 59 thuộc tính bản thân trên E–R, 76 thuộc tính logic trên lược đồ quan hệ, quy ước gạch chân khóa chính/khóa ngoại và đủ 17 mũi tên tham chiếu `FK -> PK`.

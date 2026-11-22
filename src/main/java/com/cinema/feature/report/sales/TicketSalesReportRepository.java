@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tầng truy cập dữ liệu cho Báo cáo Tình hình Bán vé & Lấp đầy Suất chiếu (Screen 5 - R7).
+ * Tầng truy cập dữ liệu cho Báo cáo Tình hình Bán vé & Lấp đầy Suất chiếu.
  */
 public final class TicketSalesReportRepository {
 
@@ -103,7 +103,7 @@ public final class TicketSalesReportRepository {
 
     /**
      * Truy vấn SQL độc lập trực tiếp từ bảng ticket + booking + screening + EXISTS(payment SUCCESS)
-     * để kiểm chứng chéo độ chính xác tuyệt đối của Báo cáo Bán vé (Gate E).
+     * để đối chiếu kết quả của Báo cáo Bán vé.
      */
     public BigDecimal queryIndependentVerifiedSalesRevenue(
             LocalDate fromDate,

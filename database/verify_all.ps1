@@ -56,7 +56,7 @@ try {
 
     Write-Output "======================================================================"
     Write-Output " [1/6] XÁC MINH MYSQL 8.4.0 LTS & DẤU VÂN TAY SHA-256 BAN ĐẦU CỦA 'cinema_chain'"
-    Write-Output "       (CHỈ ĐỌC — TUYỆT ĐỐI KHÔNG GỌI setup.ps1 HAY SỬA SCHEMA/TÀI KHOẢN)"
+    Write-Output "       (Chế độ chỉ đọc trên cinema_chain, không gọi setup.ps1)"
     Write-Output "======================================================================"
     powershell -NoProfile -ExecutionPolicy Bypass -File "$PSScriptRoot\start_mysql84.ps1"
     if ($LASTEXITCODE -ne 0) { throw "start_mysql84.ps1 thất bại." }
@@ -72,7 +72,7 @@ try {
 
     Write-Output ""
     Write-Output "======================================================================"
-    Write-Output " [2/6] XÓA XML CŨ, CHẠY MAVEN CLEAN VERIFY (-Pmysql-it) & KIỂM TOÁN XML MỚI"
+    Write-Output " [2/6] XÓA XML CŨ, CHẠY MAVEN CLEAN VERIFY (-Pmysql-it) & KIỂM TRA BÁO CÁO XML"
     Write-Output "======================================================================"
     Remove-Item -Path "verification\test-results\TEST-*.xml" -Force -ErrorAction SilentlyContinue
     $runStart = (Get-Date).AddSeconds(-2)
@@ -105,7 +105,7 @@ try {
         }
     }
     python -X utf8 -B tools\verify_test_results.py --reports-dir target\surefire-reports --reports-dir target\failsafe-reports --started-at $runStart.ToUniversalTime().ToString("o") --copy-to verification\test-results --summary verification\test-results\summary.json
-    if ($LASTEXITCODE -ne 0) { throw "Kiểm toán XML tươi thất bại: phải có đủ mọi suite *Test/*IT trong source, không lỗi và Skipped=0." }
+    if ($LASTEXITCODE -ne 0) { throw "Kiểm tra XML kết quả test thất bại: phải có đủ mọi suite *Test/*IT trong source, không lỗi và Skipped=0." }
 
     Write-Output ""
     Write-Output "======================================================================"
@@ -147,7 +147,7 @@ try {
 
     Write-Output ""
     Write-Output "======================================================================"
-    Write-Output " [5/6] THỰC THI BỘ TRUY VẤN SQL CHỨC NĂNG R5-R7 TRÊN 'cinema_chain_test'"
+    Write-Output " [5/6] THỰC THI BỘ TRUY VẤN SQL CHỨC NĂNG TRÊN 'cinema_chain_test'"
     Write-Output "======================================================================"
     if (Test-Path $funcSqlPath) {
         Invoke-TestDbSqlStdin -DatabaseName "cinema_chain_test" -SqlScriptPath $funcSqlPath -LogOutputPath "verification\logs\functional_sql_examples_test_db.log"
@@ -171,7 +171,7 @@ try {
     $summary | Add-Member -NotePropertyName demo_fingerprint_preserved -NotePropertyValue $true
     $summary | Add-Member -NotePropertyName demo_fingerprint -NotePropertyValue ((Get-Content -LiteralPath $baselineFp -Raw -Encoding UTF8 | ConvertFrom-Json).overall_sha256)
     $summary | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath "verification\last-run.json" -Encoding UTF8
-    Write-Output "[ALL VERIFICATION GATES PASSED] Đã xác minh trên MySQL 8.4.0 LTS thật; CSDL demo cinema_chain bảo toàn nguyên vẹn (SHA-256 khớp 100% phạm vi kiểm tra)."
+    Write-Output "[VERIFICATION PASSED] Đã kiểm tra đầy đủ trên MySQL 8.4; dữ liệu cinema_chain giữ nguyên SHA-256."
 } finally {
     Pop-Location
 }

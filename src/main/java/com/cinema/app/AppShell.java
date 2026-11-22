@@ -30,8 +30,7 @@ import java.util.Map;
 
 /**
  * Cửa sổ chính của Ứng dụng Desktop Hệ thống Quản lý Chuỗi Rạp Chiếu Phim CineViet.
- * Thiết kế theo phong cách hiện đại với thanh điều hướng dọc (Sidebar Navigation)
- * gồm đúng 5 phân hệ chức năng bắt buộc (R5, R6, R7).
+ * Thiết kế thanh điều hướng dọc (Sidebar Navigation) gồm 5 màn hình chức năng chính.
  */
 public final class AppShell extends JFrame {
 
@@ -130,7 +129,7 @@ public final class AppShell extends JFrame {
         JLabel lblSub = new JLabel("Quản lý Chuỗi Rạp Chiếu Phim");
         lblSub.setFont(Theme.FONT_SMALL);
         lblSub.setForeground(new Color(148, 163, 184));
-        JLabel lblStandard = new JLabel("Chuẩn 3NF • ACID Transaction");
+        JLabel lblStandard = new JLabel("Hệ thống bán vé & lịch chiếu");
         lblStandard.setFont(new Font("Segoe UI", Font.ITALIC, 11));
         lblStandard.setForeground(new Color(56, 189, 248));
         brandBox.add(lblBrand);
@@ -141,14 +140,14 @@ public final class AppShell extends JFrame {
         JPanel navList = new JPanel(new GridLayout(8, 1, 0, 8));
         navList.setOpaque(false);
 
-        navList.add(createSectionLabel("NHẬP LIỆU NGHIỆP VỤ (R5)"));
+        navList.add(createSectionLabel("NHẬP LIỆU NGHIỆP VỤ"));
         navList.add(createNavButton(TAB_SCREENING, "1. Quản lý Suất chiếu"));
         navList.add(createNavButton(TAB_BOOKING, "2. Đặt vé & Chọn ghế"));
 
-        navList.add(createSectionLabel("TRA CỨU VẬN HÀNH (R6)"));
+        navList.add(createSectionLabel("TRA CỨU VẬN HÀNH"));
         navList.add(createNavButton(TAB_SEARCH, "3. Tra cứu Suất chiếu"));
 
-        navList.add(createSectionLabel("BÁO CÁO QUẢN TRỊ & PDF (R7)"));
+        navList.add(createSectionLabel("BÁO CÁO & THỐNG KÊ"));
         navList.add(createNavButton(TAB_REVENUE_REPORT, "4. Báo cáo Doanh thu"));
         navList.add(createNavButton(TAB_SALES_REPORT, "5. Báo cáo Tình hình Bán vé"));
 
@@ -156,10 +155,10 @@ public final class AppShell extends JFrame {
         JPanel footer = new JPanel(new GridLayout(3, 1, 2, 2));
         footer.setOpaque(false);
         footer.setBorder(BorderFactory.createEmptyBorder(12, 6, 0, 6));
-        JLabel lblDb = new JLabel("● CSDL: MySQL 8.4 LTS (InnoDB)");
+        JLabel lblDb = new JLabel("● CSDL: MySQL 8.4");
         lblDb.setFont(Theme.FONT_BOLD);
         lblDb.setForeground(new Color(74, 222, 128));
-        JLabel lblUser = new JLabel("Tài khoản: " + config.username() + " (Least-Priv)");
+        JLabel lblUser = new JLabel("Tài khoản DB: " + config.username());
         lblUser.setFont(Theme.FONT_SMALL);
         lblUser.setForeground(new Color(148, 163, 184));
         JLabel lblJava = new JLabel("Java Runtime: " + System.getProperty("java.version"));

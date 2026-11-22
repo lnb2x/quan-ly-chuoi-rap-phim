@@ -54,7 +54,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- ArchUnit for Automated Architecture Gate (Gate B) -->
+        <!-- ArchUnit kiểm tra phân tầng kiến trúc -->
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit5</artifactId>

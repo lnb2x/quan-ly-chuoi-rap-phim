@@ -1,13 +1,13 @@
 -- =============================================================================
 -- TỆP: business_queries.sql
 -- MỤC ĐÍCH: Bộ câu lệnh SQL mẫu chạy được trực tiếp trên `cinema_chain_test`
---           tương ứng 100% với 5 chức năng nghiệp vụ R5, R6, R7 (Phụ lục R8).
+--           tương ứng với 5 màn hình chức năng của ứng dụng.
 -- =============================================================================
 
 SET NAMES utf8mb4;
 
 -- -----------------------------------------------------------------------------
--- Q1. Kiểm tra xung đột lịch chiếu trong cùng một phòng chiếu (Form 1 - R5)
+-- Q1. Kiểm tra xung đột lịch chiếu trong cùng một phòng chiếu (Form 1)
 -- -----------------------------------------------------------------------------
 SELECT
     s.screening_id,
@@ -24,7 +24,7 @@ WHERE s.room_id = 1
 
 -- -----------------------------------------------------------------------------
 -- Q2. Truy vấn sơ đồ ghế và trạng thái ghế theo suất chiếu qua bảng khóa 3NF
---     `screening_seat_lock` (Form 2 - R5)
+--     `screening_seat_lock` (Form 2)
 -- -----------------------------------------------------------------------------
 SELECT
     st.seat_id,
@@ -50,7 +50,7 @@ ORDER BY st.seat_row, st.seat_number
 LIMIT 20;
 
 -- -----------------------------------------------------------------------------
--- Q3. Đếm tổng số kết quả và phân trang tra cứu suất chiếu (Màn hình 3 - R6)
+-- Q3. Đếm tổng số kết quả và phân trang tra cứu suất chiếu (Màn hình 3)
 -- -----------------------------------------------------------------------------
 SELECT COUNT(*) AS total_matching_screenings
 FROM vw_screening_search v
@@ -80,7 +80,7 @@ ORDER BY v.start_time ASC, v.branch_name ASC, v.room_name ASC
 LIMIT 15 OFFSET 0;
 
 -- -----------------------------------------------------------------------------
--- Q4. Báo cáo Doanh thu theo Chi nhánh và Khoảng thời gian thanh toán (Báo cáo 1 - R7)
+-- Q4. Báo cáo Doanh thu theo Chi nhánh và Khoảng thời gian thanh toán (Báo cáo 1)
 --     Người lập: Kế toán | Người nhận: Giám đốc Kinh doanh
 --     Chỉ ghi nhận đơn CONFIRMED có thanh toán SUCCESS và vé VALID;
 --     loại trừ hoàn toàn đơn PENDING, CANCELLED, thanh toán FAILED và REFUNDED.
@@ -101,7 +101,7 @@ GROUP BY br.branch_id, br.branch_code, br.branch_name, br.city
 ORDER BY total_paid_revenue DESC, br.branch_id ASC;
 
 -- -----------------------------------------------------------------------------
--- Q5. Chi tiết doanh thu theo ngày thanh toán và chi nhánh (Báo cáo 1 - R7)
+-- Q5. Chi tiết doanh thu theo ngày thanh toán và chi nhánh (Báo cáo 1)
 -- -----------------------------------------------------------------------------
 SELECT
     revenue_date,
@@ -115,7 +115,7 @@ WHERE revenue_date BETWEEN '2026-11-01' AND '2026-11-15'
 ORDER BY revenue_date ASC, branch_code ASC;
 
 -- -----------------------------------------------------------------------------
--- Q6. Báo cáo Tình hình Bán vé & Tỷ lệ Lấp đầy theo Suất chiếu (Báo cáo 2 - R7)
+-- Q6. Báo cáo Tình hình Bán vé & Tỷ lệ Lấp đầy theo Suất chiếu (Báo cáo 2)
 --     Người lập: Quản lý Chi nhánh | Người nhận: Ban Điều hành / Quản lý Kinh doanh
 -- -----------------------------------------------------------------------------
 SELECT
@@ -140,7 +140,7 @@ LIMIT 20;
 -- -----------------------------------------------------------------------------
 -- Q7. Đối soát toàn vẹn Doanh thu Độc lập (Kiểm chứng chống nhân bản doanh thu):
 --     Chứng minh tổng doanh thu từ bảng ticket (thuộc đơn CONFIRMED có payment SUCCESS)
---     khớp tuyệt đối với tổng doanh thu trên View báo cáo.
+--     khớp với tổng doanh thu trên View báo cáo.
 -- -----------------------------------------------------------------------------
 SELECT
     (SELECT SUM(tk.unit_price)

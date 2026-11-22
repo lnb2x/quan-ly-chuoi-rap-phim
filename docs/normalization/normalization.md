@@ -1,5 +1,4 @@
-# PHỤ THUỘC HÀM VÀ CHỨNG MINH CHUẨN HÓA QUAN HỆ (1NF, 2NF, 3NF)
-**(Tài liệu đáp ứng Tiêu chí R4 — 1.0 điểm)**
+# Phụ thuộc hàm và chứng minh chuẩn hóa quan hệ (1NF, 2NF, 3NF)
 
 ---
 
@@ -8,7 +7,7 @@
 Cho lược đồ quan hệ $R(U, F)$ với tập thuộc tính $U = \{A_1, A_2, \dots, A_n\}$ và tập phụ thuộc hàm $F$ xác định trên $U$ (Slide 6, Slide 7 & Giáo trình *Bài giảng DBMS v1.1*, Chương 4):
 
 ### 1.1. Phụ thuộc Hàm, Hệ Tiên đề Armstrong và Các Thuật toán Phủ Tối thiểu
-- **Phụ thuộc hàm ($X \to Y$):** $X$ là *đối tượng xác định* (vế trái), $Y$ là *đối tượng hệ quả* (vế phải). $Y$ phụ thuộc hàm vào $X$ nếu mỗi giá trị của $X$ liên hệ tới duy nhất một giá trị của $Y$ trên **mọi thể hiện hợp lệ (bất biến theo thời gian)** của quan hệ $R$. Phụ thuộc hàm $X \to Y$ là *hiển nhiên đúng* khi và chỉ khi $Y \subseteq X$ (được bỏ qua khi xét chuẩn hóa).
+- **Phụ thuộc hàm ($X \to Y$):** $X$ là *đối tượng xác định* (vế trái), $Y$ là *đối tượng hệ quả* (vế phải). $Y$ phụ thuộc hàm vào $X$ nếu mỗi giá trị của $X$ liên hệ tới duy nhất một giá trị của $Y$ trên **mọi thể hiện hợp lệ** của quan hệ $R$. Phụ thuộc hàm $X \to Y$ là *hiển nhiên đúng* khi và chỉ khi $Y \subseteq X$ (được bỏ qua khi xét chuẩn hóa).
 - **Bao đóng tập phụ thuộc hàm ($F^+$) và Sáu luật suy diễn (`IR1`–`IR6`):** $F^+ \equiv \{X \to Y \mid F \models X \to Y\}$ được sinh đầy đủ từ **Hệ tiên đề Armstrong** (`IR1`–`IR3`) cùng ba luật dẫn xuất (`IR4`–`IR6`):
   - `IR1` *(Luật phản xạ)*: Nếu $X \supseteq Y$ thì $X \to Y$.
   - `IR2` *(Luật tăng trưởng)*: Nếu $X \to Y$ thì $XZ \to YZ$.
@@ -40,7 +39,7 @@ Cho lược đồ quan hệ $R(U, F)$ với tập thuộc tính $U = \{A_1, A_2,
 ### 1.3. Hai Phân biệt Lý thuyết Bắt buộc (Tránh Nhầm lẫn Học thuật)
 1. **Khóa dự bị toàn bảng (Candidate Key) $\neq$ Ràng buộc duy nhất trên tập con (Partial / Subset Uniqueness Constraint):**
    - Một tập thuộc tính chỉ được gọi là *Khóa dự bị (Candidate Key)* hoặc *Khóa phụ (Alternate Key)* của quan hệ $R$ nếu nó định danh duy nhất **mọi bộ** trong $R$ và không nhận giá trị `NULL`.
-   - Ngược lại, quy tắc *"mỗi `booking_id` chỉ có tối đa một dòng `payment` mang trạng thái `SUCCESS`"* chỉ áp dụng trên tập con $\sigma_{\text{payment\_status}='SUCCESS'}(\text{payment})$, còn các dòng `PENDING`, `FAILED`, `REFUNDED` có thể lặp lại cùng `booking_id` (và biểu thức `active_success_booking` nhận `NULL` trên các dòng đó). Vì vậy, `booking_id` hay `active_success_booking` **tuyệt đối không phải là khóa dự bị / khóa phụ** của quan hệ `payment`.
+   - Ngược lại, quy tắc *"mỗi `booking_id` chỉ có tối đa một dòng `payment` mang trạng thái `SUCCESS`"* chỉ áp dụng trên tập con $\sigma_{\text{payment\_status}='SUCCESS'}(\text{payment})$, còn các dòng `PENDING`, `FAILED`, `REFUNDED` có thể lặp lại cùng `booking_id` (và biểu thức `active_success_booking` nhận `NULL` trên các dòng đó). Vì vậy, `booking_id` hay `active_success_booking` **không phải là khóa dự bị / khóa phụ** của quan hệ `payment`.
 2. **Mô hình Quan hệ Mức Logic $\neq$ Cột Chỉ mục Sinh Mức Vật lý (`GENERATED ALWAYS AS ... STORED`, Slide 2 trang 9–12):**
    - Việc một cột được khai báo `GENERATED` ở mức trong/vật lý hay được bảo vệ bởi Trigger chống sửa sai **không làm biến mất phụ thuộc hàm** giữa các thuộc tính. Chuẩn hóa `1NF`/`2NF`/`3NF` là tính chất toán học của tập thuộc tính $U$ và tập phụ thuộc hàm $F$, không phụ thuộc vào việc ứng dụng hay Trigger có chặn lệnh `UPDATE` hay không.
 
@@ -51,7 +50,7 @@ Cho lược đồ quan hệ $R(U, F)$ với tập thuộc tính $U = \{A_1, A_2,
 ### 2.1. Chẩn đoán Vi phạm 3NF ở Thiết kế Cũ (`ticket` 13 bảng trước đây)
 Trong thiết kế 13 bảng ban đầu, bảng `ticket` có lược đồ:
 $$U_{\text{old}} = \{\text{ticket\_id}, \text{booking\_id}, \text{screening\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\}$$
-Xét các quy tắc nghiệp vụ bất biến:
+Xét các quy tắc nghiệp vụ của bài toán:
 - Mỗi đơn đặt vé (`booking`) được lập cho **đúng một** suất chiếu xác định: $\text{booking\_id} \to \text{screening\_id}$.
 - Mỗi vé thuộc về một đơn đặt vé xác định: $\text{ticket\_id} \to \text{booking\_id}$, và trong cùng một đơn đặt vé không thể xuất hiện hai dòng vé cho cùng một ghế: $\{\text{booking\_id}, \text{seat\_id}\} \to \text{ticket\_id}$.
 - Khóa dự tuyển của $U_{\text{old}}$ là $K_1 = \{\text{ticket\_id}\}$ và $K_2 = \{\text{booking\_id}, \text{seat\_id}\}$. Khi đó tập thuộc tính khóa là $\{\text{ticket\_id}, \text{booking\_id}, \text{seat\_id}\}$; thuộc tính `screening_id` là **thuộc tính không khóa (Non-prime attribute)**.
@@ -66,7 +65,7 @@ Xét các quy tắc nghiệp vụ bất biến:
 | Tiêu chí Đánh giá | Phương án A: Chỉ bỏ `ticket.screening_id`, kiểm tra trùng ghế bằng `SELECT` trong Java / Trigger | **Phương án B (ĐƯỢC CHỌN): Bỏ `ticket.screening_id` + Tách quan hệ chuẩn 3NF `screening_seat_lock(screening_id, seat_id, ticket_id)`** | Phương án C: Gộp `booking` và `ticket` thành 1 dòng mỗi ghế |
 |---|---|---|---|
 | **Đạt chuẩn 3NF / BCNF?** | Đạt 3NF trên `ticket`. | **Đạt 3NF và BCNF** trên cả `ticket` lẫn `screening_seat_lock`. | Phá vỡ nghiệp vụ 1 hóa đơn nhiều ghế hoặc lặp lại `customer_id, employee_id, booked_at` theo `booking_code` (gây vi phạm 3NF mới). |
-| **Chống bán trùng ghế ở mức chỉ mục phần cứng B-Tree InnoDB?** | **Không có UNIQUE Index trực tiếp** trên `(screening_id, seat_id)`; nếu chạy dưới `READ COMMITTED` hoặc ghi SQL trực tiếp ngoài ứng dụng dễ hở race condition. | **Có khóa chính vật lý `PRIMARY KEY (screening_id, seat_id)`** và `UNIQUE (ticket_id)` trực tiếp trong InnoDB — bất khả xâm phạm ngay cả khi 20 luồng giao dịch chạy đồng thời hoặc ghi SQL trực tiếp. | Có `UNIQUE`, nhưng đánh mất thực thể `booking` nhiều ghế. |
+| **Chống bán trùng ghế ở mức chỉ mục InnoDB?** | **Không có UNIQUE Index trực tiếp** trên `(screening_id, seat_id)`; nếu chạy dưới `READ COMMITTED` hoặc ghi SQL trực tiếp ngoài ứng dụng dễ gặp race condition. | **Có khóa chính `PRIMARY KEY (screening_id, seat_id)`** và `UNIQUE (ticket_id)` trực tiếp trong InnoDB, ngăn trùng ghế ngay cả khi nhiều giao dịch chạy đồng thời hoặc ghi SQL trực tiếp. | Có `UNIQUE`, nhưng đánh mất thực thể `booking` nhiều ghế. |
 | **Lưu lịch sử vé hủy (`CANCELLED`) & bán lại ghế?** | Lưu được lịch sử trong `ticket`. | **Lưu trọn vẹn lịch sử** mọi lần hủy trong `ticket`, đồng thời tự động giải phóng dòng trong `screening_seat_lock` khi hủy để bán lại ghế ngay lập tức. | Phức tạp khi hủy toàn đơn nhiều ghế và đối chiếu `payment`. |
 
 ### 2.3. Thực thi Đầy đủ `MinCover`, `3NF.2–3`, `Lossless` và `Preserve` trên Lược đồ Vé

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Màn hình Tìm kiếm Vận hành: Tra cứu Suất chiếu & Kiểm tra Ghế trống (Screen 3 - R6).
+ * Màn hình Tìm kiếm Vận hành: Tra cứu Suất chiếu & Kiểm tra Ghế trống.
  * Cho phép tìm theo tên phim, chi nhánh, ngày chiếu và khoảng thời gian bắt đầu,
  * hiển thị kết quả trên JTable có phân trang tường minh kèm tổng số ghế còn trống toàn bộ tập kết quả.
  */
@@ -132,7 +132,7 @@ public final class ScreeningSearchPanel extends JPanel {
 
     private JPanel buildFilterCard() {
         JPanel card = Theme.createCardPanel(new BorderLayout(8, 8));
-        JLabel subTitle = new JLabel("Bộ lọc Tra cứu Tham số hóa (Parameterized Query)");
+        JLabel subTitle = new JLabel("Bộ lọc tra cứu suất chiếu");
         subTitle.setFont(Theme.FONT_SUBTITLE);
 
         // Long dropdown items should not determine the width of the other inputs.

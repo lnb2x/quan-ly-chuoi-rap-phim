@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Tầng truy cập dữ liệu cho phân hệ Quản lý Suất chiếu (Screen 1 - R5).
+ * Tầng truy cập dữ liệu cho phân hệ Quản lý Suất chiếu.
  * Sử dụng PreparedStatement hoàn toàn và hỗ trợ khóa dòng phòng chiếu (FOR UPDATE)
  * để chống trùng lịch chiếu dưới tải đồng thời.
  */

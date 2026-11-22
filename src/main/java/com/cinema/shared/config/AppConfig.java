@@ -93,7 +93,7 @@ public final class AppConfig {
     }
 
     /**
-     * Làm sạch URL kết nối trước khi ghi nhật ký khởi động để tuyệt đối không bao giờ lộ mật khẩu.
+     * Làm sạch URL kết nối trước khi ghi nhật ký khởi động để không lộ mật khẩu.
      */
     public static String sanitizeJdbcUrl(String rawUrl) {
         if (rawUrl == null) {

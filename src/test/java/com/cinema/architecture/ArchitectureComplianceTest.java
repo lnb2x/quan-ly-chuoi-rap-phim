@@ -19,9 +19,9 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Kiểm thử Kiến trúc Tự động (Gate B — Architecture Compliance).
+ * Kiểm thử phân tầng kiến trúc bằng ArchUnit.
  * Đảm bảo:
- * 1. Tầng giao diện (..ui.. và ..app..) tuyệt đối không gọi trực tiếp java.sql hoặc javax.sql.
+ * 1. Tầng giao diện (..ui.. và ..app..) không gọi trực tiếp java.sql hoặc javax.sql.
  * 2. Tầng domain độc lập hoàn toàn với UI và JDBC.
  * 3. Tầng repository và service không bao giờ phụ thuộc ngược vào tầng UI.
  */
@@ -37,17 +37,17 @@ class ArchitectureComplianceTest {
     }
 
     @Test
-    @DisplayName("Gate B.1: Các lớp giao diện Swing (..ui..) không được truy cập trực tiếp java.sql hoặc javax.sql")
+    @DisplayName("Các lớp giao diện Swing (..ui..) không được truy cập trực tiếp java.sql hoặc javax.sql")
     void uiClassesMustNeverAccessSqlDirectly() {
         noClasses()
                 .that().resideInAnyPackage("..ui..", "com.cinema.app..")
                 .should().dependOnClassesThat().resideInAnyPackage("java.sql..", "javax.sql..")
-                .because("Giao diện người dùng (UI) tuyệt đối không được thực thi SQL trực tiếp (Rule 2 & Gate B)")
+                .because("Giao diện người dùng (UI) không được thực thi SQL trực tiếp")
                 .check(importedClasses);
     }
 
     @Test
-    @DisplayName("Gate B.2: Các lớp giao diện Feature UI không được gọi trực tiếp Repository mà phải đi qua Service")
+    @DisplayName("Các lớp giao diện Feature UI không được gọi trực tiếp Repository mà phải đi qua Service")
     void featureUiClassesMustNotAccessRepositoriesDirectly() {
         noClasses()
                 .that().resideInAPackage("com.cinema.feature..ui..")
@@ -57,7 +57,7 @@ class ArchitectureComplianceTest {
     }
 
     @Test
-    @DisplayName("Gate B.3: Tầng Domain, Repository và Service không được phụ thuộc ngược vào tầng Giao diện")
+    @DisplayName("Tầng Domain, Repository và Service không được phụ thuộc ngược vào tầng Giao diện")
     void backendLayersMustNotDependOnUi() {
         noClasses()
                 .that().resideInAnyPackage("com.cinema.domain..", "com.cinema.shared.db..")
@@ -69,7 +69,7 @@ class ArchitectureComplianceTest {
     }
 
     @Test
-    @DisplayName("Gate B.4: Mã nguồn vận hành chính (src/main/java) tuyệt đối không chứa lệnh DROP, TRUNCATE hoặc DELETE hàng loạt")
+    @DisplayName("Mã nguồn vận hành chính (src/main/java) không chứa lệnh DROP, TRUNCATE hoặc DELETE hàng loạt")
     void productionCodeMustNeverExecuteDestructiveSchemaOrBulkDeleteCommands() throws IOException {
         Pattern destructiveSql = Pattern.compile(
                 "(?i)\\b(DROP\\s+DATABASE|DROP\\s+TABLE|TRUNCATE\\s+TABLE|DELETE\\s+FROM)\\b");
@@ -85,7 +85,7 @@ class ArchitectureComplianceTest {
     }
 
     @Test
-    @DisplayName("Gate B.5: Khởi động ứng dụng (Main, AppShell) không được phép gọi tiến trình hệ thống để chạy script reset CSDL")
+    @DisplayName("Khởi động ứng dụng (Main, AppShell) không được phép gọi tiến trình hệ thống để chạy script reset CSDL")
     void applicationStartupMustNotInvokeExternalResetProcesses() {
         noClasses()
                 .that().resideInAPackage("com.cinema..")

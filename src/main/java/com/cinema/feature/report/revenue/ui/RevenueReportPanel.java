@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Màn hình Báo cáo 1: Báo cáo Doanh thu Chuỗi rạp theo Kỳ hạn và Chi nhánh (Screen 4 - R7).
+ * Màn hình Báo cáo 1: Báo cáo Doanh thu Chuỗi rạp theo Kỳ hạn và Chi nhánh.
  * Người lập báo cáo: Kế toán chuỗi rạp.
  * Người nhận báo cáo: Giám đốc Kinh doanh chuỗi rạp.
  * Hỗ trợ xem trước trực tiếp trên màn hình (Preview) và kết xuất ra tệp PDF tiếng Việt.

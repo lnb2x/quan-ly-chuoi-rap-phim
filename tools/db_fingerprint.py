@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
 """
-Công cụ tính toán và đối chứng dấu vân tay nội dung bất biến (SHA-256) theo Khóa chính
-cho toàn bộ bảng, cấu trúc DDL, Trigger và View của một cơ sở dữ liệu MySQL 8.4 (chỉ đọc).
+Tính và đối chiếu mã băm SHA-256 theo khóa chính cho dữ liệu các bảng, DDL,
+Trigger và View của một cơ sở dữ liệu MySQL 8.4 (chế độ chỉ đọc).
 
-Phạm vi kiểm chứng:
-- Toàn bộ nội dung tất cả dòng của mọi BASE TABLE trong schema, sắp xếp tất định theo PRIMARY KEY.
-- Định nghĩa DDL (SHOW CREATE TABLE, bao gồm cả AUTO_INCREMENT hiện hành), danh sách TRIGGER và định nghĩa VIEW.
-Giới hạn kiểm chứng:
-- Công cụ chỉ đọc qua kết nối TCP (SELECT / SHOW CREATE TABLE), không đọc trực tiếp tệp nhị phân .ibd trên đĩa
-  và không kiểm tra biến trạng thái phiên tạm thời hoặc bảng mysql.user toàn cục.
-Bảo mật:
-- Truyền thông tin xác thực qua tệp tạm --defaults-extra-file (quyền truy cập giới hạn cho user hiện tại)
-  và truyền câu lệnh SQL qua stdin; tuyệt đối không truyền mật khẩu hay SQL qua tham số dòng lệnh tiến trình.
+- Đọc toàn bộ dòng của các BASE TABLE sắp xếp theo PRIMARY KEY, cùng SHOW CREATE TABLE,
+  danh sách TRIGGER và VIEW.
+- Truyền thông tin đăng nhập qua tệp tạm --defaults-extra-file và câu lệnh SQL qua stdin.
 """
 
 from __future__ import annotations
@@ -24,14 +18,16 @@ import re
 import subprocess
 import sys
 import tempfile
+from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Iterator
 
 
 def validate_database_name(name: str) -> str:
     if not re.fullmatch(r"[A-Za-z0-9_]{1,64}", name):
-        raise ValueError("Tên CSDL chỉ được chứa chữ ASCII, số và dấu gạch dưới (tối đa 64 ký tự).")
+        raise ValueError(
+            "Tên CSDL chỉ được chứa chữ ASCII, số và dấu gạch dưới (tối đa 64 ký tự)."
+        )
     return name
 
 
@@ -39,7 +35,13 @@ def resolve_mysql_exe() -> Path:
     override = os.environ.get("CINEMA_MYSQL_EXE_OVERRIDE")
     if override and Path(override).exists():
         return Path(override)
-    candidate = Path(os.environ.get("USERPROFILE", "")) / ".mysql" / "mysql-8.4" / "bin" / "mysql.exe"
+    candidate = (
+        Path(os.environ.get("USERPROFILE", ""))
+        / ".mysql"
+        / "mysql-8.4"
+        / "bin"
+        / "mysql.exe"
+    )
     if candidate.exists():
         return candidate
     raise RuntimeError(f"Không tìm thấy mysql.exe tại {candidate}")
@@ -63,10 +65,14 @@ def restrict_file_access(path: Path) -> None:
     username = os.environ.get("USERNAME", "")
     if os.name == "nt":
         if not username:
-            raise RuntimeError("Không xác định được tài khoản Windows để bảo vệ tệp cục bộ.")
+            raise RuntimeError(
+                "Không xác định được tài khoản Windows để bảo vệ tệp cục bộ."
+            )
         subprocess.run(
             ["icacls", str(path), "/inheritance:r", "/grant:r", f"{username}:(R,W,D)"],
-            capture_output=True, text=True, check=True,
+            capture_output=True,
+            text=True,
+            check=True,
         )
     path.chmod(0o600)
 
@@ -74,12 +80,15 @@ def restrict_file_access(path: Path) -> None:
 @contextmanager
 def mysql_defaults_file(user: str, pwd: str) -> Iterator[Path]:
     if any(char in user + pwd for char in "\r\n\x00"):
-        raise ValueError("Thông tin xác thực không được chứa ký tự xuống dòng hoặc NUL.")
+        raise ValueError(
+            "Thông tin xác thực không được chứa ký tự xuống dòng hoặc NUL."
+        )
+    port = int(os.environ.get("CINEMA_DB_PORT", "3306"))
     escaped_pwd = pwd.replace("\\", "\\\\").replace('"', '\\"')
     content = (
         "[client]\n"
         "host=127.0.0.1\n"
-        "port=3306\n"
+        f"port={port}\n"
         "protocol=TCP\n"
         f"user={user}\n"
         f'password="{escaped_pwd}"\n'
@@ -119,9 +128,12 @@ def run_mysql_readonly(mysql_exe: Path, cfg_path: Path, sql: str, db: str = "") 
         capture_output=True,
         text=True,
         encoding="utf-8",
+        check=False,
     )
     if res.returncode != 0:
-        raise RuntimeError(f"Truy vấn chỉ đọc thất bại ({res.returncode}): {res.stderr.strip()}")
+        raise RuntimeError(
+            f"Truy vấn chỉ đọc thất bại ({res.returncode}): {res.stderr.strip()}"
+        )
     return res.stdout
 
 
@@ -163,9 +175,14 @@ def compute_fingerprint(root: Path, db_name: str, use_root: bool = False) -> dic
             pk_cols = [c.strip() for c in pk_raw.splitlines() if c.strip()]
             order_clause = ", ".join(f"`{c}` ASC" for c in pk_cols) if pk_cols else "1"
 
-            ddl_out = run_mysql_readonly(mysql_exe, cfg_path, f"SHOW CREATE TABLE `{tbl}`;", db_name)
+            ddl_out = run_mysql_readonly(
+                mysql_exe, cfg_path, f"SHOW CREATE TABLE `{tbl}`;", db_name
+            )
             rows_out = run_mysql_readonly(
-                mysql_exe, cfg_path, f"SELECT * FROM `{tbl}` ORDER BY {order_clause};", db_name
+                mysql_exe,
+                cfg_path,
+                f"SELECT * FROM `{tbl}` ORDER BY {order_clause};",
+                db_name,
             )
             row_count_raw = run_mysql_readonly(
                 mysql_exe, cfg_path, f"SELECT COUNT(*) FROM `{tbl}`;", db_name
@@ -180,7 +197,7 @@ def compute_fingerprint(root: Path, db_name: str, use_root: bool = False) -> dic
                 "ddl_sha256": ddl_sha,
                 "data_sha256": data_sha,
             }
-            overall.update(f"{tbl}|{row_count}|{ddl_sha}|{data_sha}\n".encode("utf-8"))
+            overall.update(f"{tbl}|{row_count}|{ddl_sha}|{data_sha}\n".encode())
 
         triggers_out = run_mysql_readonly(
             mysql_exe,
@@ -198,13 +215,15 @@ def compute_fingerprint(root: Path, db_name: str, use_root: bool = False) -> dic
         vw_sha = hashlib.sha256(views_out.encode("utf-8")).hexdigest()
         manifest["schema_objects"]["triggers_sha256"] = trg_sha
         manifest["schema_objects"]["views_sha256"] = vw_sha
-        overall.update(f"TRIGGERS|{trg_sha}\nVIEWS|{vw_sha}\n".encode("utf-8"))
+        overall.update(f"TRIGGERS|{trg_sha}\nVIEWS|{vw_sha}\n".encode())
 
         manifest["overall_sha256"] = overall.hexdigest()
         return manifest
 
 
-def dump_database(root: Path, db_name: str, dump_path: Path, use_root: bool = False) -> None:
+def dump_database(
+    root: Path, db_name: str, dump_path: Path, use_root: bool = False
+) -> None:
     """Create a new backup only; remove a partial dump when mysqldump fails."""
     validate_database_name(db_name)
     dump_path = dump_path.absolute()
@@ -213,27 +232,42 @@ def dump_database(root: Path, db_name: str, dump_path: Path, use_root: bool = Fa
     mysqldump_exe = resolve_mysql_exe().with_name("mysqldump.exe")
     if not mysqldump_exe.is_file():
         raise RuntimeError(f"Không tìm thấy mysqldump.exe tại {mysqldump_exe}")
-    user, pwd = ("root", os.environ.get("MYSQL_ROOT_PASSWORD", "")) if use_root else load_local_app_credentials(root)
+    user, pwd = (
+        ("root", os.environ.get("MYSQL_ROOT_PASSWORD", ""))
+        if use_root
+        else load_local_app_credentials(root)
+    )
     dump_path.parent.mkdir(parents=True, exist_ok=True)
-    with mysql_defaults_file(user, pwd) as cfg_path:
-        with dump_path.open("xb") as output:
-            try:
-                restrict_file_access(dump_path)
-                result = subprocess.run(
-                    [str(mysqldump_exe), f"--defaults-extra-file={cfg_path}", "--single-transaction",
-                     "--triggers", "--routines", "--no-tablespaces", "--set-gtid-purged=OFF", db_name],
-                    stdout=output, stderr=subprocess.PIPE,
+    with mysql_defaults_file(user, pwd) as cfg_path, dump_path.open("xb") as output:
+        try:
+            restrict_file_access(dump_path)
+            result = subprocess.run(
+                [
+                    str(mysqldump_exe),
+                    f"--defaults-extra-file={cfg_path}",
+                    "--single-transaction",
+                    "--triggers",
+                    "--routines",
+                    "--no-tablespaces",
+                    "--set-gtid-purged=OFF",
+                    db_name,
+                ],
+                stdout=output,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+            if result.returncode != 0:
+                raise RuntimeError(
+                    f"mysqldump thất bại ({result.returncode}): {result.stderr.decode('utf-8', errors='replace').strip()}"
                 )
-                if result.returncode != 0:
-                    raise RuntimeError(f"mysqldump thất bại ({result.returncode}): {result.stderr.decode('utf-8', errors='replace').strip()}")
-                if output.tell() == 0:
-                    raise RuntimeError("mysqldump trả về bản sao lưu rỗng.")
-                output.flush()
-                os.fsync(output.fileno())
-            except BaseException:
-                output.close()
-                dump_path.unlink(missing_ok=True)
-                raise
+            if output.tell() == 0:
+                raise RuntimeError("mysqldump trả về bản sao lưu rỗng.")
+            output.flush()
+            os.fsync(output.fileno())
+        except BaseException:
+            output.close()
+            dump_path.unlink(missing_ok=True)
+            raise
 
 
 def main() -> int:
@@ -241,12 +275,18 @@ def main() -> int:
         sys.stdout.reconfigure(encoding="utf-8")
     if hasattr(sys.stderr, "reconfigure"):
         sys.stderr.reconfigure(encoding="utf-8")
-    parser = argparse.ArgumentParser(description="Capture or verify read-only SHA-256 DB fingerprint.")
+    parser = argparse.ArgumentParser(
+        description="Capture or verify read-only SHA-256 DB fingerprint."
+    )
     parser.add_argument("--db", default="cinema_chain", help="Target database name")
     parser.add_argument("--file", required=True, help="JSON manifest path")
     parser.add_argument("--mode", choices=["capture", "verify"], required=True)
-    parser.add_argument("--use-root", action="store_true", help="Connect as root (read-only queries)")
-    parser.add_argument("--dump-backup", default="", help="Optional SQL backup output path on capture")
+    parser.add_argument(
+        "--use-root", action="store_true", help="Connect as root (read-only queries)"
+    )
+    parser.add_argument(
+        "--dump-backup", default="", help="Optional SQL backup output path on capture"
+    )
     args = parser.parse_args()
 
     validate_database_name(args.db)
@@ -261,7 +301,9 @@ def main() -> int:
 
     if args.mode == "capture":
         out_file.parent.mkdir(parents=True, exist_ok=True)
-        out_file.write_text(json.dumps(current, indent=2, ensure_ascii=False), encoding="utf-8")
+        out_file.write_text(
+            json.dumps(current, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
         print(
             f"[DB-FINGERPRINT-CAPTURE] DB={args.db} | Tables={current['table_count']} | "
             f"OverallSHA256={current['overall_sha256']}"
@@ -271,14 +313,21 @@ def main() -> int:
     expected = json.loads(out_file.read_text(encoding="utf-8"))
     if expected["overall_sha256"] != current["overall_sha256"]:
         print(f"[DB-FINGERPRINT-MISMATCH] DB={args.db} bị thay đổi!", file=sys.stderr)
-        print(f"  Expected OverallSHA256: {expected['overall_sha256']}", file=sys.stderr)
+        print(
+            f"  Expected OverallSHA256: {expected['overall_sha256']}", file=sys.stderr
+        )
         print(f"  Actual   OverallSHA256: {current['overall_sha256']}", file=sys.stderr)
-        all_tbls = sorted(set(expected["tables"].keys()) | set(current["tables"].keys()))
+        all_tbls = sorted(
+            set(expected["tables"].keys()) | set(current["tables"].keys())
+        )
         for t in all_tbls:
             e_t = expected["tables"].get(t)
             c_t = current["tables"].get(t)
             if e_t != c_t:
-                print(f"  -> Lệch bảng `{t}`: before={e_t} vs after={c_t}", file=sys.stderr)
+                print(
+                    f"  -> Lệch bảng `{t}`: before={e_t} vs after={c_t}",
+                    file=sys.stderr,
+                )
         if expected["schema_objects"] != current["schema_objects"]:
             print(
                 f"  -> Lệch Trigger/View: before={expected['schema_objects']} vs after={current['schema_objects']}",
@@ -288,7 +337,7 @@ def main() -> int:
 
     print(
         f"[DB-FINGERPRINT-VERIFIED] DB={args.db} | Tables={current['table_count']} | "
-        f"OverallSHA256={current['overall_sha256']} (KHỚP TUYỆT ĐỐI 100%)"
+        f"OverallSHA256={current['overall_sha256']}"
     )
     return 0
 

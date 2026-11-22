@@ -6,7 +6,7 @@
 --   - 12 nhân viên, 45 khách hàng thành viên, 160 suất chiếu, 160 đơn đặt vé,
 --   - 373 bản ghi vé chuẩn 3NF (bao gồm 23 ghế hủy được bán lại; tự động sinh 327
 --     khóa ghế hiệu lực trong screening_seat_lock qua Trigger), 175 giao dịch thanh toán.
--- THIẾT KẾ CHUẨN MỰC:
+-- GHI CHÚ DỮ LIỆU MẪU:
 --   - KHÔNG dùng TRUNCATE TABLE, DELETE hay SET FOREIGN_KEY_CHECKS = 0.
 --   - Dữ liệu được chèn tuần tự theo đúng thứ tự phụ thuộc Bảng Cha -> Bảng Con,
 --     đi qua đầy đủ 17 Khóa ngoại, các ràng buộc CHECK/UNIQUE và 12 Trigger

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Tầng dịch vụ nghiệp vụ cho Báo cáo Doanh thu Chuỗi rạp (Screen 4 - R7).
+ * Tầng dịch vụ nghiệp vụ cho Báo cáo Doanh thu Chuỗi rạp.
  * Người lập báo cáo: Kế toán chuỗi rạp.
  * Người nhận báo cáo: Giám đốc Kinh doanh chuỗi rạp.
  */

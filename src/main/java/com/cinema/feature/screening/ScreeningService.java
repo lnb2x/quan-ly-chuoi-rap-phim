@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * Tầng dịch vụ nghiệp vụ cho Quản lý Suất chiếu (Screen 1 - R5).
+ * Tầng dịch vụ nghiệp vụ cho Quản lý Suất chiếu.
  * Kiểm tra đầy đủ các quy tắc BR-01, BR-04, BR-05, BR-06 và bảo vệ
  * chống trùng lịch dưới các yêu cầu đồng thời bằng khóa dòng phòng chiếu (FOR UPDATE).
  */

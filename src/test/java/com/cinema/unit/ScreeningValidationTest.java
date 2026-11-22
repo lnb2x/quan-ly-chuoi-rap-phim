@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Kiểm thử đơn vị (Unit Tests) cho các quy tắc kiểm tra hợp lệ dữ liệu đầu vào
- * của Quản lý Suất chiếu và Đặt vé (R5).
+ * của Quản lý Suất chiếu và Đặt vé.
  */
 class ScreeningValidationTest {
 

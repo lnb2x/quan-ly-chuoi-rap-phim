@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Kiểm thử Đồng thời Đặt vé, Hủy vé & Bán lại ghế và Chuyển tiếp Trạng thái Thanh toán
- * (Gate C & Gate D — Concurrent Booking, Cancellation, Resale & Payment Transitions).
+ * Kiểm tra đặt vé đồng thời, hủy đơn, mở bán lại ghế và chuyển trạng thái thanh toán.
  */
 class BookingConcurrencyIT {
 

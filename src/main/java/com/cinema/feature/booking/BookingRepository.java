@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tầng truy cập dữ liệu cho phân hệ Đặt vé & Quản lý Đơn vé (Screen 2 - R5).
+ * Tầng truy cập dữ liệu cho phân hệ Đặt vé & Quản lý Đơn vé.
  * Tất cả các câu lệnh SQL đều dùng PreparedStatement và hỗ trợ khóa dòng suất chiếu
  * (SELECT ... FOR UPDATE) để chống bán trùng ghế dưới tải đồng thời cao.
  */

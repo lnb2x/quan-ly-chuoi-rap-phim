@@ -1,6 +1,6 @@
 # Các tình huống kiểm chứng bản nộp
 
-Kết quả thực thi ngày 15/11/2026 được tổng hợp ở `verification/test-results/summary.json`. Java có **104 kiểm thử thuộc 15 suite**, không lỗi/không bỏ qua. Bảng dưới nhóm các tình huống đã kiểm tra; không đồng nhất một dòng bảng với một test JUnit. Log/XML được sinh cục bộ khi chạy lại.
+Kết quả thực thi ngày 22/11/2026 được tổng hợp ở `verification/test-results/summary.json`. Java có **104 kiểm thử thuộc 15 suite**, không lỗi/không bỏ qua. Bảng dưới nhóm các tình huống đã kiểm tra; không đồng nhất một dòng bảng với một test JUnit. Log/XML được sinh cục bộ khi chạy lại.
 
 | Nhóm | Thao tác hoặc đầu vào | Kết quả mong đợi | Bằng chứng |
 |---|---|---|---|

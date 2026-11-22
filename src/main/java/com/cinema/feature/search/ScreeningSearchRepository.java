@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tầng truy cập dữ liệu cho màn hình Tra cứu Suất chiếu (Screen 3 - R6).
+ * Tầng truy cập dữ liệu cho màn hình Tra cứu Suất chiếu.
  * Tất cả các điều kiện lọc đều truyền qua PreparedStatement tham số hóa,
  * hỗ trợ phân trang tường minh (LIMIT / OFFSET) thay vì cắt ngầm LIMIT 1000.
  */

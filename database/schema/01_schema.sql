@@ -3,11 +3,11 @@
 -- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
 -- BƯỚC KHỞI TẠO: [Bước 1 - Tạo Bảng] Định nghĩa 14 bảng đạt chuẩn 3NF thực sự với
 --                PRIMARY KEY, UNIQUE, CHECK, chỉ mục vật lý có điều kiện và INDEX.
--- THIẾT KẾ CHUẨN MỰC:
+-- GHI CHÚ THIẾT KẾ:
 --   - KHÔNG sử dụng `DROP TABLE` hay `SET FOREIGN_KEY_CHECKS = 0` để tránh
 --     xóa nhầm dữ liệu khi chạy ở chế độ khởi tạo không phá hủy.
 --   - Bảng `ticket` đã loại bỏ hoàn toàn thuộc tính bắc cầu `screening_id`
---     (vì `ticket_id -> booking_id -> screening_id`), đảm bảo đạt chuẩn 3NF chặt chẽ.
+--     (vì `ticket_id -> booking_id -> screening_id`), đảm bảo đạt chuẩn 3NF.
 --   - Bảng `screening_seat_lock` (quan hệ phân bổ ghế đang hiệu lực) bảo đảm
 --     chống bán trùng ghế `(screening_id, seat_id)` ngay ở mức B-Tree PRIMARY KEY
 --     của MySQL 8.4 InnoDB đồng thời cho phép bán lại ghế sau khi vé hủy (`CANCELLED`).

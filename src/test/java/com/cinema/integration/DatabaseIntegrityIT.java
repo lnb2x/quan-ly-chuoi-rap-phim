@@ -24,7 +24,7 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Kiểm thử Tích hợp Toàn vẹn Cơ sở dữ liệu (Gate C — Database Integrity Verification).
+ * Kiểm thử Tích hợp Toàn vẹn Cơ sở dữ liệu .
  * Thực thi trực tiếp trên CSDL kiểm thử (cinema_chain_test) thông qua tài khoản
  * phân quyền tối thiểu (cinema_app) để chứng minh:
  * - Quy mô dữ liệu khởi tạo (>= 4 chi nhánh, >= 12 phòng, >= 960 ghế, >= 20 phim, >= 80 suất, >= 150 đơn).
@@ -41,7 +41,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.0: Kiểm chứng Hệ quản trị CSDL thực thi bắt buộc là MySQL Server 8.x (không phải MariaDB)")
+    @DisplayName("Kiểm chứng Hệ quản trị CSDL thực thi bắt buộc là MySQL Server 8.x (không phải MariaDB)")
     void verifyRunningDatabaseEngineIsGenuineMySql8() throws SQLException {
         try (Connection conn = connectionProvider.getConnection();
              Statement st = conn.createStatement();
@@ -60,7 +60,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.1: Kiểm chứng quy mô dữ liệu khởi tạo đáp ứng và vượt mức yêu cầu")
+    @DisplayName("Kiểm chứng quy mô dữ liệu khởi tạo đáp ứng và vượt mức yêu cầu")
     void verifySeedDataScale() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             assertTrue(countRows(conn, "cinema_branch") >= 4, "Phải có ít nhất 4 chi nhánh rạp");
@@ -73,7 +73,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.2: Trigger CSDL phải từ chối trực tiếp câu lệnh SQL chèn suất chiếu trùng lịch trong cùng phòng [BR-06]")
+    @DisplayName("Trigger CSDL phải từ chối trực tiếp câu lệnh SQL chèn suất chiếu trùng lịch trong cùng phòng [BR-06]")
     void databaseTriggerMustRejectOverlappingScreeningOnDirectSqlWrite() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -96,7 +96,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.3: Trigger CSDL chuẩn 3NF phải từ chối vé có ghế thuộc phòng chiếu khác với phòng của suất chiếu [BR-09]")
+    @DisplayName("Trigger CSDL chuẩn 3NF phải từ chối vé có ghế thuộc phòng chiếu khác với phòng của suất chiếu [BR-09]")
     void databaseTriggerMustRejectSeatFromWrongRoom() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -119,7 +119,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.4: Khóa chính PK(screening_id, seat_id) trên screening_seat_lock và uq_ticket_booking_seat chặn tuyệt đối bán trùng ghế [BR-10]")
+    @DisplayName("Khóa chính PK(screening_id, seat_id) trên screening_seat_lock và uq_ticket_booking_seat chặn bán trùng ghế [BR-10]")
     void databaseUniqueIndexMustRejectDuplicateValidSeat() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -178,7 +178,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.5: Chỉ mục uq_payment_one_success phải chặn giao dịch thanh toán SUCCESS thứ hai cho cùng một đơn [BR-13]")
+    @DisplayName("Chỉ mục uq_payment_one_success phải chặn giao dịch thanh toán SUCCESS thứ hai cho cùng một đơn [BR-13]")
     void databaseMustRejectSecondSuccessfulPaymentForSameBooking() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -208,7 +208,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.6: Bảo toàn giá vé lịch sử ngay cả khi thay đổi giá cơ sở của suất chiếu hoặc phụ thu hạng ghế [BR-12]")
+    @DisplayName("Bảo toàn giá vé lịch sử ngay cả khi thay đổi giá cơ sở của suất chiếu hoặc phụ thu hạng ghế [BR-12]")
     void historicalTicketPriceMustRemainUnchangedWhenCurrentPricingChanges() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -242,7 +242,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.7: Kiểm chứng mã hóa tiếng Việt UTF-8 (utf8mb4) chính xác 100% trong CSDL")
+    @DisplayName("Kiểm chứng mã hóa tiếng Việt UTF-8 (utf8mb4) đúng dấu tiếng Việt trong CSDL")
     void databaseVietnameseUtf8DiacriticsMustBeIntact() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             try (Statement st = conn.createStatement();
@@ -270,7 +270,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.8: Trigger CSDL phải từ chối lệnh UPDATE suất chiếu gây trùng lịch với suất khác trong cùng phòng [BR-06]")
+    @DisplayName("Trigger CSDL phải từ chối lệnh UPDATE suất chiếu gây trùng lịch với suất khác trong cùng phòng [BR-06]")
     void databaseTriggerMustRejectOverlappingScreeningOnUpdate() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -298,7 +298,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.9: Cấm thay đổi phòng chiếu (room_id) của suất chiếu đã có vé phát hành để bảo toàn ghế thuộc đúng phòng [BR-09]")
+    @DisplayName("Cấm thay đổi phòng chiếu (room_id) của suất chiếu đã có vé phát hành để bảo toàn ghế thuộc đúng phòng [BR-09]")
     void databaseTriggerMustRejectChangingRoomOfScreeningWithExistingTickets() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -345,7 +345,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.10: Trigger CSDL phải từ chối UPDATE chuyển suất chiếu vào phòng đang tạm ngưng hoạt động [BR-01]")
+    @DisplayName("Trigger CSDL phải từ chối UPDATE chuyển suất chiếu vào phòng đang tạm ngưng hoạt động [BR-01]")
     void databaseTriggerMustRejectUpdatingScreeningToInactiveRoom() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -379,7 +379,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.11: Chuyển trạng thái thanh toán không được phép kích hoạt lại đơn đã CANCELLED và tổng tiền phải nhất quán [BR-13, BR-14]")
+    @DisplayName("Chuyển trạng thái thanh toán không được phép kích hoạt lại đơn đã CANCELLED và tổng tiền phải nhất quán [BR-13, BR-14]")
     void paymentTransitionMustRejectCancelledBookingAndMaintainConsistentTotals() throws Exception {
         BookingService bookingService = new BookingService(
                 new BookingRepository(connectionProvider),
@@ -435,7 +435,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.12: Kiểm chứng FK, CHECK constraint và cơ chế ROLLBACK nguyên tử khi vi phạm ràng buộc")
+    @DisplayName("Kiểm chứng FK, CHECK constraint và cơ chế ROLLBACK nguyên tử khi vi phạm ràng buộc")
     void foreignKeyCheckConstraintAndTransactionRollbackMustEnforceIntegrity() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             conn.setAutoCommit(false);
@@ -487,7 +487,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.13: Kiểm chứng lược đồ 14 bảng đạt chuẩn 3NF (ticket không chứa screening_id/active_seat_key) và chống sửa trái phép khóa ghế")
+    @DisplayName("Kiểm chứng lược đồ 14 bảng đạt chuẩn 3NF (ticket không chứa screening_id/active_seat_key) và chống sửa trái phép khóa ghế")
     void verifyTrue3nfTicketSchemaAndSeatLockTamperProtection() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
             // 1. Bảng ticket tuyệt đối không còn cột bắc cầu screening_id hay cột sinh active_seat_key
@@ -522,7 +522,7 @@ class DatabaseIntegrityIT {
                         "Số dòng khóa ghế trong screening_seat_lock phải bằng đúng số vé VALID");
             }
 
-            // 3. Kiểm chứng các Trigger bảo vệ bất biến trên booking và screening_seat_lock
+            // 3. Kiểm chứng các Trigger kiểm tra ràng buộc trên booking và screening_seat_lock
             conn.setAutoCommit(false);
             try {
                 int bookingWithTickets;
@@ -599,7 +599,7 @@ class DatabaseIntegrityIT {
     }
 
     @Test
-    @DisplayName("Gate C.14: Công cụ dấu vân tay SHA-256 phát hiện ngay sửa đổi nội dung 1 dòng dù số dòng và tổng doanh thu không đổi")
+    @DisplayName("Công cụ dấu vân tay SHA-256 phát hiện ngay sửa đổi nội dung 1 dòng dù số dòng và tổng doanh thu không đổi")
     void pkOrderedFingerprintToolMustDetectSingleRowContentMutation() throws Exception {
         Path tempFp = Files.createTempFile("test_db_fp_", ".json");
         String originalName;

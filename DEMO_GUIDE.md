@@ -1,6 +1,6 @@
 # Kịch bản bảo vệ BTL Cơ sở dữ liệu nhóm 8
 
-Lớp INT1313-20261-01, giảng viên Nguyễn Quỳnh Chi. Chuẩn bị báo cáo PDF, ERD Chen A1 và Data Diagram A3; mở chương trình Swing trên MySQL 8.4/JDK 21. Không reset database đang dùng.
+Lớp INT1313-20261-01, giảng viên Nguyễn Quỳnh Chi. Chuẩn bị báo cáo PDF, sơ đồ ERD (`docs/erd/ER.drawio.pdf`) và lược đồ quan hệ (`docs/erd/luoc-do-quan-he.drawio.pdf`); mở chương trình Swing trên MySQL 8.4/JDK 21. Không reset database đang dùng.
 
 ## Phân bổ 15 phút
 

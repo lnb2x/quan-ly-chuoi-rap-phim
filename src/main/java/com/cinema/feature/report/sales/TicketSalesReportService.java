@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Tầng dịch vụ nghiệp vụ cho Báo cáo Tình hình Bán vé & Lấp đầy Suất chiếu (Screen 5 - R7).
+ * Tầng dịch vụ nghiệp vụ cho Báo cáo Tình hình Bán vé & Lấp đầy Suất chiếu.
  * Người lập báo cáo: Quản lý Chi nhánh.
  * Người nhận báo cáo: Ban Điều hành và Quản lý Kinh doanh.
  */

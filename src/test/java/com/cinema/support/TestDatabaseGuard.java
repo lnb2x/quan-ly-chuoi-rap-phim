@@ -11,10 +11,10 @@ import java.sql.Statement;
 import java.util.Locale;
 
 /**
- * Chốt chặn an toàn thực thi (Executable Test Guardrail) bảo vệ CSDL vận hành/demo {@code cinema_chain}.
+ * Lớp kiểm tra cấu hình kết nối nhằm bảo vệ CSDL vận hành/demo {@code cinema_chain}.
  * <p>
  * Mọi bài kiểm thử có thay đổi/xóa dữ liệu ({@code *IT}, {@code GuiVerificationRunner}, kiểm thử lưu trữ qua khởi động lại)
- * bắt buộc phải đi qua chốt chặn này trước khi thực hiện bất kỳ thao tác nào:
+ * đều kiểm tra qua lớp này trước khi thực hiện thao tác:
  * <ul>
  *   <li>Từ chối ngay lập tức nếu URL hoặc {@code SELECT DATABASE()} trỏ vào {@code cinema_chain} hoặc khác {@code cinema_chain_test}.</li>
  *   <li>Từ chối nếu hệ quản trị đích không phải là MySQL Server 8.x thật (chặn MariaDB).</li>

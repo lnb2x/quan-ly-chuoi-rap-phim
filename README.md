@@ -41,7 +41,7 @@ Cần **JDK 21**, **Maven** và **MySQL Community Server 8.4**. Chạy các lệ
 
 ## Kiểm thử và kết quả
 
-Bản kết quả lưu trong Git ngày **15/11/2026** ghi nhận **104/104 bài kiểm thử Java đạt** trên JDK 21 và MySQL 8.4.0, với 15 bộ kiểm thử và 0 bài bị bỏ qua. Trên bộ dữ liệu mẫu, báo cáo doanh thu ghi nhận **125 đơn, 292 vé và 35.165.000 đồng**, khớp với truy vấn SQL độc lập. [Kết quả chi tiết](docs/demo/verification-results.md) · [Kết quả từng bộ kiểm thử (JSON)](verification/test-results/summary.json) · [Các tình huống kiểm thử](docs/demo/test-cases.md)
+Bản kết quả lưu trong Git ngày **22/11/2026** ghi nhận **104/104 bài kiểm thử Java đạt** trên JDK 21 và MySQL 8.4, với 15 bộ kiểm thử và 0 bài bị bỏ qua. Trên bộ dữ liệu mẫu, báo cáo doanh thu ghi nhận **125 đơn, 292 vé và 35.165.000 đồng**, khớp với truy vấn SQL độc lập. [Kết quả chi tiết](docs/demo/verification-results.md) · [Kết quả từng bộ kiểm thử (JSON)](verification/test-results/summary.json) · [Các tình huống kiểm thử](docs/demo/test-cases.md)
 
 Để chạy lại toàn bộ quy trình trên máy Windows đã cấu hình như trên, cần thêm **Python 3** và một phiên desktop để mở Swing. Chạy trong bản sao mã nguồn dành cho kiểm thử vì Maven dọn thư mục `target/`. Bộ kiểm chứng dùng `cinema_chain_test` cho các thao tác ghi, kiểm tra năm màn hình, hai PDF, dữ liệu sau khi khởi động lại và so sánh SHA-256 của `cinema_chain` trước và sau khi chạy.
 
