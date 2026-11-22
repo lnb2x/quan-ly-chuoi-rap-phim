@@ -416,23 +416,25 @@ Theo Slide 8 (*Ngôn ngữ truy vấn Đại số quan hệ*) và Giáo trình *
   - Bốn giao diện hiển thị (`vw_screening_search`, `vw_verified_booking_revenue`, `vw_branch_daily_revenue`, `vw_screening_occupancy`) trong `03_views.sql` vận dụng đúng 4 đặc tính của `CREATE VIEW` trên Slide 11 trang 26: dùng thay tên bảng trong `SELECT`, tự động cập nhật dữ liệu mới nhất khi kích hoạt, giới hạn cột/hàng theo ngữ cảnh nghiệp vụ, và làm nguồn tổng hợp chuẩn cho báo cáo.
 - **Đơn vị giao dịch nguyên tử `COMMIT` / `ROLLBACK` (Slide 12):** Mọi chuỗi lệnh `SELECT ... FOR UPDATE` + `INSERT`/`UPDATE` nhiều bảng trong `TransactionTemplate` chỉ `COMMIT` khi toàn bộ quy tắc hợp lệ, và lập tức `ROLLBACK` khôi phục tính nhất quán CSDL khi xảy ra lỗi hoặc vi phạm Trigger.
 
-## Thanh toán VNPay Sandbox (mở rộng demo, chỉ DB test)
+## Thanh toán SePay Sandbox (mở rộng demo, chỉ DB test)
 
-Đặc tả: ../requirements/sandbox-payment.md. Launcher SandboxMain dùng
-AppConfig.loadTest, HMAC-SHA512, IPN có kiểm tra merchant/reference/amount,
-locking booking/payment và idempotency. Return URL không cập nhật CSDL.
-Giữ 14 bảng/12 trigger; không thêm trạng thái. Main bình thường không bật callback.
+Đặc tả: ../requirements/sandbox-payment.md. Launcher `SandboxMain` dùng
+`AppConfig.loadTest`, hiển thị hộp thoại VietQR động (`qr.sepay.vn/img`), nhận
+Webhook JSON có xác thực `HMAC-SHA256` (hoặc `API Key`), đối chiếu tài khoản nhận,
+mã `SP<bookingId>P<paymentId>`, số tiền VND, khóa dòng `booking`/`payment` và
+idempotency. Giữ 14 bảng/12 trigger; không thêm trạng thái. `Main` bình thường
+không bật máy chủ nhận Webhook.
 
-Đối soát callback thành công đến sau khi đơn đã hủy/hết hạn:
+Đối soát Webhook thành công đến sau khi đơn đã hủy/hết hạn:
 
 ```sql
 SELECT b.booking_id, b.booking_status, p.payment_id, p.amount,
        p.payment_status, p.transaction_ref
 FROM booking b JOIN payment p ON p.booking_id = b.booking_id
-WHERE p.transaction_ref LIKE 'VNPAY-LATE-%';
+WHERE p.transaction_ref LIKE 'SEPAY-LATE-%';
 ```
 
-Dấu LATE nghĩa là cổng báo tiền về sau khi đơn không còn hiệu lực: không ghi
-nhận doanh thu/không chiếm lại ghế; cần đối soát thủ công. Không diễn giải FAILED
-của đơn nội bộ là ngân hàng chưa trừ tiền, hoặc là đã refund. API hoàn tiền/query
-chưa tích hợp; không dùng demo để nhận tiền thật.
+Dấu `SEPAY-LATE` nghĩa là thông báo tiền về sau khi đơn không còn hiệu lực: không ghi
+nhận doanh thu/không chiếm lại ghế; cần đối soát thủ công. Không diễn giải `FAILED`
+của đơn nội bộ là ngân hàng chưa trừ tiền, hoặc là đã hoàn tiền. API hoàn tiền tự động
+chưa tích hợp; không dùng chế độ Sandbox để nhận tiền thật.

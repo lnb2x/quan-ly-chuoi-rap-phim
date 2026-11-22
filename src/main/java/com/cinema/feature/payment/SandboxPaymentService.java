@@ -2,83 +2,237 @@ package com.cinema.feature.payment;
 
 import com.cinema.feature.booking.BookingRepository;
 import com.cinema.feature.booking.BookingService;
-import com.cinema.shared.config.VnpayConfig;
+import com.cinema.shared.config.SepayConfig;
 import com.cinema.shared.db.TransactionTemplate;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
-import java.time.*;
+import java.nio.charset.StandardCharsets;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Map;
+import java.util.Optional;
 
 public final class SandboxPaymentService {
-    public record Checkout(int bookingId,URI url) {}
-    private static final Pattern REFERENCE=Pattern.compile("VP([1-9][0-9]{0,9})P([1-9][0-9]{0,9})");
+
+    public record Checkout(
+            int bookingId,
+            int paymentId,
+            String transferCode,
+            BigDecimal amount,
+            String bankCode,
+            String accountNumber,
+            String accountName,
+            LocalDateTime createdAt,
+            LocalDateTime expiresAt,
+            URI qrImageUri
+    ) {
+        public Checkout {
+            if (transferCode == null || !transferCode.matches("^SP[1-9][0-9]{0,8}P[1-9][0-9]{0,8}$")) {
+                throw new IllegalArgumentException("Mã chuyển khoản SePay không hợp lệ.");
+            }
+        }
+    }
+
+    public record CheckoutStatus(
+            int bookingId,
+            String bookingStatus,
+            String paymentStatus,
+            String transactionRef
+    ) {
+    }
+
+    public record WebhookResult(
+            int httpStatus,
+            boolean success,
+            String code,
+            String message
+    ) {
+    }
+
+    private static final ZoneId BUSINESS_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
+    private static final int HOLD_MINUTES = 15;
+
     private final SandboxPaymentRepository repository;
     private final BookingRepository bookings;
     private final BookingService bookingService;
     private final TransactionTemplate tx;
-    private final VnpayConfig config;
-    private final VnpayGateway gateway;
+    private final SepayConfig config;
+    private final SepayGateway gateway;
+    private final SepayGateway.QrImageFetcher qrFetcher;
     private final Clock clock;
 
-    public SandboxPaymentService(SandboxPaymentRepository repository,BookingRepository bookings,
-                                 TransactionTemplate tx,VnpayConfig config,Clock clock) {
-        repository.assertTestDatabase();this.repository=repository;this.bookings=bookings;this.tx=tx;
-        this.config=config;this.gateway=new VnpayGateway(config);this.clock=clock;
-        this.bookingService=new BookingService(bookings,tx,clock);
+    public SandboxPaymentService(
+            SandboxPaymentRepository repository,
+            BookingRepository bookings,
+            TransactionTemplate tx,
+            SepayConfig config,
+            Clock clock
+    ) {
+        this(repository, bookings, tx, config, clock, SepayGateway.defaultQrImageFetcher());
     }
 
-    public Checkout create(int screeningId,Integer customerId,int employeeId,List<Integer> seats) {
+    public SandboxPaymentService(
+            SandboxPaymentRepository repository,
+            BookingRepository bookings,
+            TransactionTemplate tx,
+            SepayConfig config,
+            Clock clock,
+            SepayGateway.QrImageFetcher qrFetcher
+    ) {
+        repository.assertTestDatabase();
+        this.repository = repository;
+        this.bookings = bookings;
+        this.tx = tx;
+        this.config = config;
+        this.gateway = new SepayGateway(config);
+        this.qrFetcher = qrFetcher;
+        this.clock = clock;
+        this.bookingService = new BookingService(bookings, tx, clock);
+    }
+
+    public Checkout create(int screeningId, Integer customerId, int employeeId, List<Integer> seats) {
         config.requireCredentials();
-        int id=bookingService.createSandboxBooking(screeningId,customerId,employeeId,seats);
+        int bookingId = bookingService.createSandboxBooking(screeningId, customerId, employeeId, seats);
         try {
-            return tx.execute(c->{
-                var payment=repository.lock(c,id,0);
-                return new Checkout(id,gateway.checkout("VP"+id+"P"+payment.paymentId(),payment.amount(),payment.created()));
+            return tx.execute(c -> {
+                var payment = repository.lock(c, bookingId, 0);
+                if (payment == null) {
+                    throw new IllegalStateException("Không tìm thấy giao dịch thanh toán cho đơn #" + bookingId);
+                }
+                String transferCode = "SP" + bookingId + "P" + payment.paymentId();
+                LocalDateTime expiresAt = payment.created().plusMinutes(HOLD_MINUTES);
+                URI qrUri = gateway.qrImageUri(transferCode, payment.amount());
+                return new Checkout(
+                        bookingId,
+                        payment.paymentId(),
+                        transferCode,
+                        payment.amount(),
+                        config.bankCode(),
+                        config.accountNumber(),
+                        config.accountName(),
+                        payment.created(),
+                        expiresAt,
+                        qrUri
+                );
             });
-        } catch(RuntimeException e) {bookingService.cancelBooking(id);throw e;}
-    }
-
-    public String ipn(String query) {
-        final java.util.Map<String,String> data;
-        try{data=gateway.verify(query);}catch(IllegalArgumentException e){return "97";}
-        var matcher=REFERENCE.matcher(data.getOrDefault("vnp_TxnRef",""));
-        if(!matcher.matches() || !data.getOrDefault("vnp_Amount","").matches("[0-9]{1,12}")
-                || !data.getOrDefault("vnp_ResponseCode","").matches("[0-9]{2}")
-                || !data.getOrDefault("vnp_TransactionStatus","").matches("[0-9]{2}"))return "99";
-        boolean success="00".equals(data.get("vnp_ResponseCode")) && "00".equals(data.get("vnp_TransactionStatus"));
-        if(!java.util.Set.of("00","02").contains(data.get("vnp_TransactionStatus"))
-                || ("00".equals(data.get("vnp_TransactionStatus")) && !success))return "99";
-        String providerId=data.getOrDefault("vnp_TransactionNo","0");
-        if(!providerId.matches("[0-9]{1,15}") || (success && new java.math.BigInteger(providerId).signum()==0))return "99";
-        int bookingId,paymentId;
-        try{bookingId=Integer.parseInt(matcher.group(1));paymentId=Integer.parseInt(matcher.group(2));}
-        catch(NumberFormatException e){return "01";}
-        return tx.execute(c->{
-            var p=repository.lock(c,bookingId,paymentId);
-            if(p==null || p.reference()==null || !p.reference().startsWith("VNPAY-"))return "01";
-            if(!VnpayGateway.scaled(p.amount()).equals(new java.math.BigInteger(data.get("vnp_Amount")).toString()))return "04";
-            if("SUCCESS".equals(p.paymentStatus()))return p.reference().equals("VNPAY-SUCCESS-"+providerId) ? "02" : "99";
-            if(p.reference().startsWith("VNPAY-LATE-"))return p.reference().equals("VNPAY-LATE-"+providerId) ? "02" : "99";
-            if("CANCELLED".equals(p.bookingStatus()) || !now().isBefore(p.created().plusMinutes(15))) {
-                if("PENDING".equals(p.bookingStatus()))bookings.cancelBookingRecords(c,bookingId);
-                if(success)repository.reference(c,paymentId,"VNPAY-LATE-"+providerId);
-                return "00";
+        } catch (RuntimeException ex) {
+            try {
+                bookingService.cancelBooking(bookingId);
+            } catch (RuntimeException cancelEx) {
+                ex.addSuppressed(cancelEx);
             }
-            if(!"PENDING".equals(p.bookingStatus()) || !"PENDING".equals(p.paymentStatus()))return "02";
-            bookings.transitionPendingPayment(c,bookingId,success ? "SUCCESS" : "FAILED");
-            repository.reference(c,paymentId,"VNPAY-"+(success ? "SUCCESS-" : "FAILED-")+providerId);
-            return "00";
+            throw ex;
+        }
+    }
+
+    public byte[] fetchQrImage(URI qrImageUri) throws IOException {
+        return qrFetcher.fetchPng(qrImageUri);
+    }
+
+    public Optional<CheckoutStatus> statusOf(int bookingId) {
+        return repository.findCheckoutStatus(bookingId);
+    }
+
+    public WebhookResult webhook(Map<String, List<String>> headers, byte[] rawBody) {
+        try {
+            gateway.verifyAuth(headers, rawBody, clock);
+        } catch (SecurityException | IllegalStateException ex) {
+            return new WebhookResult(401, false, "INVALID_SIGNATURE", "Xác thực Webhook SePay không hợp lệ.");
+        }
+
+        final SepayWebhookEvent event;
+        try {
+            event = SepayJsonParser.parseWebhookEvent(new String(rawBody, StandardCharsets.UTF_8));
+        } catch (IllegalArgumentException ex) {
+            return new WebhookResult(400, false, "INVALID_PAYLOAD", "Dữ liệu JSON Webhook không hợp lệ.");
+        }
+
+        if (!config.matchesReceivingAccount(event.accountNumber(), event.subAccount())) {
+            return new WebhookResult(422, false, "ACCOUNT_MISMATCH", "Tài khoản nhận không khớp cấu hình SePay Sandbox.");
+        }
+        if (!"in".equals(event.transferType())) {
+            return new WebhookResult(422, false, "IGNORED_TRANSFER_TYPE", "Chỉ xử lý biến động tiền vào (transferType=in).");
+        }
+
+        final Optional<SepayGateway.ReferenceToken> refOpt;
+        try {
+            refOpt = SepayGateway.extractReference(event.code(), event.content());
+        } catch (IllegalStateException ex) {
+            return new WebhookResult(422, false, "AMBIGUOUS_REFERENCE", "Nội dung chuyển khoản chứa nhiều mã đơn mâu thuẫn.");
+        }
+        if (refOpt.isEmpty()) {
+            return new WebhookResult(422, false, "ORDER_NOT_FOUND", "Không tìm thấy mã đơn SePay trong nội dung chuyển khoản.");
+        }
+
+        SepayGateway.ReferenceToken ref = refOpt.get();
+        return processMatchedTransaction(ref.bookingId(), ref.paymentId(), event);
+    }
+
+    private WebhookResult processMatchedTransaction(int bookingId, int paymentId, SepayWebhookEvent event) {
+        String successRef = "SEPAY-SUCCESS-" + event.id();
+        String lateRef = "SEPAY-LATE-" + event.id();
+
+        return tx.execute(c -> {
+            repository.acquireProviderTxLock(c, event.id());
+            var p = repository.lock(c, bookingId, paymentId);
+            if (p == null || p.reference() == null || !p.reference().startsWith("SEPAY-")) {
+                return new WebhookResult(422, false, "ORDER_NOT_FOUND", "Đơn đặt vé SePay không tồn tại.");
+            }
+            if (repository.isProviderTxUsedElsewhere(c, event.id(), p.paymentId())) {
+                return new WebhookResult(422, false, "CONFLICTING_TRANSACTION", "Mã giao dịch SePay đã gắn với đơn khác.");
+            }
+            if ("SUCCESS".equals(p.paymentStatus())) {
+                return p.reference().equals(successRef)
+                        ? new WebhookResult(200, true, "ALREADY_PROCESSED", "Giao dịch đã được ghi nhận trước đó.")
+                        : new WebhookResult(422, false, "CONFLICTING_TRANSACTION", "Đơn đã thanh toán bằng mã giao dịch khác.");
+            }
+            if (p.reference().startsWith("SEPAY-LATE-")) {
+                return p.reference().equals(lateRef)
+                        ? new WebhookResult(200, true, "ALREADY_PROCESSED", "Giao dịch đến muộn đã được ghi dấu trước đó.")
+                        : new WebhookResult(422, false, "CONFLICTING_TRANSACTION", "Đơn đã có dấu đối soát muộn khác.");
+            }
+            if (p.amount().compareTo(event.transferAmount()) != 0) {
+                return new WebhookResult(422, false, "AMOUNT_MISMATCH", "Số tiền chuyển khoản không khớp tổng tiền vé.");
+            }
+            if ("CANCELLED".equals(p.bookingStatus()) || !now().isBefore(p.created().plusMinutes(HOLD_MINUTES))) {
+                if ("PENDING".equals(p.bookingStatus())) {
+                    bookings.cancelBookingRecords(c, bookingId);
+                }
+                repository.reference(c, paymentId, lateRef);
+                return new WebhookResult(200, true, "LATE_PAYMENT_RECORDED",
+                        "Đơn đã hết hạn hoặc đã hủy; đã ghi dấu SEPAY-LATE để đối soát thủ công.");
+            }
+            if (!"PENDING".equals(p.bookingStatus()) || !"PENDING".equals(p.paymentStatus())) {
+                return new WebhookResult(200, true, "ALREADY_PROCESSED", "Trạng thái đơn đã kết thúc.");
+            }
+            bookings.transitionPendingPayment(c, bookingId, "SUCCESS");
+            repository.reference(c, paymentId, successRef);
+            return new WebhookResult(200, true, "CONFIRMED", "Đã xác nhận thanh toán vé thành công qua SePay.");
         });
     }
 
-    public void expirePending() throws java.sql.SQLException {
-        for(int id:repository.expired(now().minusMinutes(15)))tx.execute(c->{
-            var p=repository.lock(c,id,0);
-            if(p!=null && "PENDING".equals(p.bookingStatus()) && "PENDING".equals(p.paymentStatus())
-                    && p.reference().startsWith("VNPAY-") && !now().isBefore(p.created().plusMinutes(15)))
-                bookings.cancelBookingRecords(c,id);
-            return null;
-        });
+    public void expirePending() {
+        for (int id : repository.expired(now().minusMinutes(HOLD_MINUTES))) {
+            tx.execute(c -> {
+                var p = repository.lock(c, id, 0);
+                if (p != null
+                        && "PENDING".equals(p.bookingStatus())
+                        && "PENDING".equals(p.paymentStatus())
+                        && p.reference() != null
+                        && p.reference().startsWith("SEPAY-")
+                        && !now().isBefore(p.created().plusMinutes(HOLD_MINUTES))) {
+                    bookings.cancelBookingRecords(c, id);
+                }
+                return null;
+            });
+        }
     }
-    private LocalDateTime now(){return LocalDateTime.ofInstant(clock.instant(),ZoneId.of("Asia/Ho_Chi_Minh"));}
+
+    private LocalDateTime now() {
+        return LocalDateTime.ofInstant(clock.instant(), BUSINESS_ZONE);
+    }
 }

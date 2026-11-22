@@ -15,7 +15,7 @@ Kết quả thực thi ngày 22/11/2026 được tổng hợp ở `verification/
 | Hai JVM và thời gian | Hai JVM UTC tạo đơn cùng instant ở hai ghế khác nhau | Hai mã đơn khác nhau; booked_at đúng Việt Nam | BookingIdentityIT |
 | Hủy và bán lại | Hủy đơn theo chính sách | Hủy vé, đổi payment nội bộ, giải phóng lock; bán lại được, giữ lịch sử | DatabaseIntegrityIT, BusinessRulesIT |
 | Thanh toán/rollback | Sai amount/trạng thái, lặp callback, SQL/Runtime/Error, cắt kết nối/kill JVM trước commit | Từ chối hoặc rollback sạch, không tiền/vé/lock mâu thuẫn | PaymentRecoveryIT, SandboxPaymentIT |
-| Ranh giới gateway | Gọi đường xác nhận thủ công cho đơn VNPay | Bị chặn; IPN ký hợp lệ theo nhánh sandbox mới được xử lý | SandboxPaymentIT, VnpayGatewayTest |
+| Ranh giới gateway | Gọi đường xác nhận thủ công cho đơn SePay | Bị chặn; Webhook xác thực hợp lệ theo nhánh sandbox mới được xử lý | SandboxPaymentIT, SepayGatewayTest |
 | Tìm kiếm | Nhiều bộ lọc và duyệt trang | Tổng và kết quả đúng; mỗi trang 50 dòng, không trùng/sót hoặc cắt ngầm | ScreeningSearchIT, GUI |
 | Báo cáo | Tổng kỳ/chi nhánh, nhiều payment thử lại | Khớp SQL độc lập, seed 35.165.000 VNĐ, không nhân đôi | ReportAccuracyIT, BusinessRulesIT |
 | Snapshot báo cáo | Writer commit giữa summary và daily | Cùng report giữ một snapshot; lần đọc mới thấy tiền mới | ReportAccuracyIT |
@@ -24,4 +24,4 @@ Kết quả thực thi ngày 22/11/2026 được tổng hợp ở `verification/
 | Bền vững dữ liệu | Đóng JVM thứ nhất rồi mở JVM mới | IDs, vé, giá, payment và tổng báo cáo khớp | persistence_restart_verify.log |
 | Kết quả kiểm thử | XML cũ/thiếu/lặp/skip hoặc bộ test rỗng | Từ chối công nhận kết quả | tools/tests/test_verify_test_results.py |
 
-Kịch bản GUI nhập đúng/sai có ảnh thật tại `verification/screenshots/`. SQL demo ghi đều rollback trên DB test. Không coi IPN mô phỏng là giao dịch VNPay merchant hoặc refund thật; không tuyên bố đã kiểm tra crash server, mất điện hoặc tải lớn.
+Kịch bản GUI nhập đúng/sai có ảnh thật tại `verification/screenshots/`. SQL demo ghi đều rollback trên DB test. Không coi Webhook mô phỏng là giao dịch ngân hàng thật hoặc hoàn tiền thật; không tuyên bố đã kiểm tra crash server, mất điện hoặc tải lớn.

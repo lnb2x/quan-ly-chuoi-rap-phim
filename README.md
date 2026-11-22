@@ -50,7 +50,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File database/setup.ps1 -TargetDa
 powershell -NoProfile -ExecutionPolicy Bypass -File database/verify_all.ps1
 ```
 
-Phần thanh toán VNPay dùng môi trường sandbox để minh họa luồng giao dịch. [Phạm vi thanh toán thử nghiệm](docs/requirements/sandbox-payment.md)
+Phần thanh toán SePay (VietQR & Webhook JSON) dùng môi trường sandbox để minh họa luồng giao dịch tự động. [Phạm vi thanh toán thử nghiệm](docs/requirements/sandbox-payment.md)
 
 ## Thành viên nhóm 8
 

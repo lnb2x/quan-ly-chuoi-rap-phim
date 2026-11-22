@@ -378,12 +378,12 @@ public final class BookingRepository {
         }
 
         try (PreparedStatement ps = conn.prepareStatement(
-                "SELECT COUNT(*) FROM payment WHERE booking_id=? AND payment_status='SUCCESS' AND transaction_ref LIKE 'VNPAY-%'")) {
+                "SELECT COUNT(*) FROM payment WHERE booking_id=? AND payment_status='SUCCESS' AND transaction_ref LIKE 'SEPAY-%'")) {
             ps.setInt(1, bookingId);
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 if (rs.getInt(1) > 0) {
-                    throw new BusinessRuleException("Giao dịch VNPay đã thành công cần được đối soát/hoàn tiền tại cổng trước khi hủy. Demo chưa tích hợp API hoàn tiền.");
+                    throw new BusinessRuleException("Giao dịch SePay đã thành công cần được đối soát/hoàn tiền trước khi hủy. Demo chưa tích hợp API hoàn tiền.");
                 }
             }
         }
@@ -423,11 +423,11 @@ public final class BookingRepository {
             }
         }
         try (PreparedStatement ps = conn.prepareStatement(
-                "SELECT payment_id FROM payment WHERE booking_id = ? AND transaction_ref LIKE 'VNPAY-%' FOR UPDATE")) {
+                "SELECT payment_id FROM payment WHERE booking_id = ? AND transaction_ref LIKE 'SEPAY-%' FOR UPDATE")) {
             ps.setInt(1, bookingId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    throw new BusinessRuleException("Đơn VNPay chỉ được xác nhận bởi IPN đã kiểm tra chữ ký và số tiền.");
+                    throw new BusinessRuleException("Đơn SePay chỉ được xác nhận bởi Webhook đã kiểm tra xác thực và số tiền.");
                 }
             }
         }

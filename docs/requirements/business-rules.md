@@ -39,6 +39,6 @@ Mỗi quy tắc nghiệp vụ dưới đây được định danh duy nhất (`B
 - BR-12: trg_ticket_validate_upd từ chối sửa unit_price của vé đã phát hành.
 - BR-14: báo cáo và bộ lọc chi nhánh giữ doanh thu lịch sử của chi nhánh đã đóng.
 - Sandbox dùng cổng, thời hạn, audit và điều kiện đối soát riêng mô tả tại
-  sandbox-payment.md; chặn hủy VNPay SUCCESS khi chưa tích hợp refund.
+  sandbox-payment.md; chặn hủy SePay SUCCESS khi chưa tích hợp hoàn tiền tự động.
 
 Lưu ý kỹ thuật: trong quá trình khởi tạo đơn đặt vé, bản ghi `booking` được chèn trước rồi tiếp nối ngay bởi các bản ghi `ticket` và `payment` trong cùng một giao dịch nguyên tử (`TransactionTemplate`) do `BookingService` điều phối.

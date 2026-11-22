@@ -17,7 +17,7 @@ Tóm tắt từng suite và hash nguồn của lần chạy nằm trong [summary
 
 Chạy lại `database/verify_all.ps1` sẽ tạo log, XML và manifest mới trên máy chạy. Kết quả ở bảng trên mô tả lần thực thi đã ghi nhận, không tự áp dụng cho môi trường khác.
 
-Chưa chứng nhận giao dịch VNPay merchant, hoàn tiền thật, tải lớn, phục hồi sau mất điện hoặc vận hành hệ thống đặt vé online.
+Chưa chứng nhận giao dịch ngân hàng SePay Production, hoàn tiền thật, tải lớn, phục hồi sau mất điện hoặc vận hành hệ thống đặt vé online.
 
 
 ## Đối chiếu sơ đồ E - R và lược đồ quan hệ

@@ -129,7 +129,7 @@ public final class BookingService {
     }
 
     public int createSandboxBooking(int screeningId, Integer customerId, int employeeId, List<Integer> seatIds) {
-        return createBooking(screeningId,customerId,employeeId,seatIds,"EWALLET","PENDING",true);
+        return createBooking(screeningId,customerId,employeeId,seatIds,"TRANSFER","PENDING",true);
     }
 
     private int createBooking(int screeningId, Integer customerId, int employeeId, List<Integer> seatIds,
@@ -179,7 +179,7 @@ public final class BookingService {
                 repository.insertTicket(conn, bookingId, seatInfo.seatId(), unitPrice, "VALID");
             }
 
-            String txnRef = sandbox ? "VNPAY-" + bookingId : "TXN-" + paymentMethod + "-" + bookingId;
+            String txnRef = sandbox ? "SEPAY-" + bookingId : "TXN-" + paymentMethod + "-" + bookingId;
             LocalDateTime paidAt = "SUCCESS".equals(paymentStatus) ? now : null;
             repository.insertPayment(conn, bookingId, totalAmount, paymentMethod, paymentStatus, paidAt, txnRef);
 

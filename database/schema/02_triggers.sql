@@ -203,10 +203,10 @@ BEGIN
     IF NEW.booking_status = 'CANCELLED' AND OLD.booking_status <> 'CANCELLED' THEN
         SELECT COUNT(*) INTO v_gateway_count FROM payment
         WHERE booking_id = OLD.booking_id AND payment_status = 'SUCCESS'
-          AND transaction_ref LIKE 'VNPAY-%';
+          AND transaction_ref LIKE 'SEPAY-%';
         IF v_gateway_count > 0 THEN
             SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'Loi nghiep vu [BR-13]: Can doi soat hoan tien VNPay truoc khi huy don.';
+                SET MESSAGE_TEXT = 'Loi nghiep vu [BR-13]: Can doi soat hoan tien SePay truoc khi huy don.';
         END IF;
         UPDATE ticket SET ticket_status = 'CANCELLED', cancelled_at = CURRENT_TIMESTAMP
         WHERE booking_id = OLD.booking_id AND ticket_status = 'VALID';
@@ -487,9 +487,30 @@ BEGIN
     DECLARE v_booking_status VARCHAR(20) DEFAULT NULL;
     DECLARE v_ticket_total DECIMAL(12,2) DEFAULT 0;
 
+    IF NEW.booking_id <> OLD.booking_id THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Loi nghiep vu [BR-13]: Khong duoc doi don dat ve cua giao dich thanh toan.';
+    END IF;
+
     IF NEW.amount <= 0 THEN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Loi nghiep vu [BR-13]: So tien thanh toan phai lon hon 0.';
+    END IF;
+
+    IF OLD.transaction_ref LIKE 'SEPAY-%' THEN
+        IF NEW.transaction_ref IS NULL OR NEW.transaction_ref NOT LIKE 'SEPAY-%' THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Loi nghiep vu [BR-13]: Khong duoc xoa tien to doi soat SePay.';
+        END IF;
+        IF (OLD.transaction_ref LIKE 'SEPAY-SUCCESS-%' OR OLD.transaction_ref LIKE 'SEPAY-LATE-%')
+           AND NEW.transaction_ref <> OLD.transaction_ref THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Loi nghiep vu [BR-13]: Khong duoc sua ma doi soat SePay da chot.';
+        END IF;
+        IF OLD.payment_status = 'SUCCESS' AND NEW.payment_status = 'REFUNDED' THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Loi nghiep vu [BR-13]: Giao dich SePay da thanh cong can doi soat hoan tien ngoai he thong.';
+        END IF;
     END IF;
 
     IF NEW.payment_status = 'SUCCESS' THEN

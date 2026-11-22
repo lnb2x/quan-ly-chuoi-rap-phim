@@ -58,6 +58,7 @@ public final class TicketBookingPanel extends JPanel {
     private List<CinemaBranch> branches = new ArrayList<>();
     private List<BookingSummaryView> recentBookings = new ArrayList<>();
     private boolean updatingScreenings;
+    private SepayQrDialog activeQrDialog;
 
     public TicketBookingPanel(BookingService service) {
         this(service, null);
@@ -254,8 +255,8 @@ public final class TicketBookingPanel extends JPanel {
         buttonsContainer.setOpaque(false);
         buttonsContainer.add(btnPanel, BorderLayout.NORTH);
         if (sandboxPayments != null) {
-            JButton btnSandbox = Theme.createSecondaryButton("Thanh toán VNPay Sandbox");
-            btnSandbox.setName("btnVnpaySandbox");
+            JButton btnSandbox = Theme.createSecondaryButton("Thanh toán SePay VietQR (Sandbox)");
+            btnSandbox.setName("btnSepaySandbox");
             btnSandbox.addActionListener(e -> handleSandboxPayment(btnSandbox));
             buttonsContainer.add(btnSandbox, BorderLayout.SOUTH);
         }
@@ -568,30 +569,48 @@ public final class TicketBookingPanel extends JPanel {
             statusBanner.showError("Vui lòng chọn suất chiếu, nhân viên và khách hàng hoặc khách vãng lai.");
             return;
         }
-        if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            statusBanner.showError("Máy chưa hỗ trợ mở trình duyệt để thanh toán sandbox.");
-            return;
-        }
         Integer customerId = chkWalkInCustomer.isSelected() ? null : customer.customerId();
         List<Integer> seatIds = seatMapPanel.getSelectedSeats().stream().map(SeatAvailabilityView::seatId).toList();
         button.setEnabled(false);
-        new SwingWorker<SandboxPaymentService.Checkout,Void>() {
-            @Override protected SandboxPaymentService.Checkout doInBackground() {
-                return sandboxPayments.create(selected.screeningId(),customerId,employee.employeeId(),seatIds);
+        new SwingWorker<SandboxPaymentService.Checkout, Void>() {
+            @Override
+            protected SandboxPaymentService.Checkout doInBackground() {
+                return sandboxPayments.create(selected.screeningId(), customerId, employee.employeeId(), seatIds);
             }
-            @Override protected void done() {
+
+            @Override
+            protected void done() {
                 button.setEnabled(true);
                 try {
-                    var checkout=get();
-                    Desktop.getDesktop().browse(checkout.url());
+                    var checkout = get();
                     reloadScreeningsDropdown();
-                    statusBanner.showWarning("Đơn #"+checkout.bookingId()+" giữ ghế 15 phút. Chỉ IPN xác minh mới xác nhận vé; làm mới để xem kết quả. Đây là sandbox.");
-                } catch(Exception ex) {
-                    Throwable cause=ex.getCause()!=null?ex.getCause():ex;
-                    statusBanner.showError("Chưa mở được thanh toán sandbox: "+cause.getMessage());
+                    statusBanner.showWarning("Đơn #" + checkout.bookingId() + " (" + checkout.transferCode()
+                            + ") giữ ghế 15 phút. Chỉ Webhook SePay xác thực mới xác nhận vé (Sandbox).");
+                    showSepayQrPopup(checkout);
+                } catch (Exception ex) {
+                    Throwable cause = ex.getCause() != null ? ex.getCause() : ex;
+                    statusBanner.showError("Chưa tạo được thanh toán SePay Sandbox: " + cause.getMessage());
                 }
             }
         }.execute();
+    }
+
+    private void showSepayQrPopup(SandboxPaymentService.Checkout checkout) {
+        if (activeQrDialog != null) {
+            activeQrDialog.dispose();
+        }
+        Window owner = SwingUtilities.getWindowAncestor(this);
+        activeQrDialog = new SepayQrDialog(owner, sandboxPayments, checkout, st -> {
+            reloadScreeningsDropdown();
+            if ("CONFIRMED".equals(st.bookingStatus())) {
+                statusBanner.showSuccess("Webhook SePay đã xác nhận thanh toán thành công cho đơn #"
+                        + st.bookingId() + " (" + st.transactionRef() + ").");
+            } else {
+                statusBanner.showWarning("Đơn SePay Sandbox #" + st.bookingId() + " đã chuyển sang trạng thái "
+                        + st.bookingStatus() + ".");
+            }
+        });
+        activeQrDialog.setVisible(true);
     }
 
     public void handleCancelSelectedBooking() {

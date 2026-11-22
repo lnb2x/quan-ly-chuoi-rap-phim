@@ -27,7 +27,7 @@ Ngày 15/11/2026, dữ liệu demo hiện có 161 suất, 162 đơn, 376 vé và
 ## Hai form nhập và tìm kiếm
 
 1. **Quản lý suất chiếu:** chọn chi nhánh/phòng/phim; đặt một ngày chưa có lịch và khung giờ đủ thời lượng; nhập giá dương, thêm thành công. Sau đó thử cùng phòng/cùng giờ để thấy lỗi BR-06. Thử giá âm hoặc thời lượng ngắn; giải thích service validation và trigger DB. Chọn suất đã có vé và thử đổi phòng để minh họa BR-09.
-2. **Đặt vé:** chọn một suất OPEN, chọn khách hoặc khách vãng lai, nhân viên và ghế trống. Nhấn đặt, quan sát đơn/vé/tiền. Thử không chọn ghế hoặc ghế đã giữ để hiện lỗi; nếu demo tranh chấp thật, mở hai cửa sổ cùng suất/ghế. Hủy một đơn tại quầy hợp lệ và kiểm ghế mở lại; không dùng nhánh VNPay để giả hoàn tiền.
+2. **Đặt vé:** chọn một suất OPEN, chọn khách hoặc khách vãng lai, nhân viên và ghế trống. Nhấn đặt, quan sát đơn/vé/tiền. Thử không chọn ghế hoặc ghế đã giữ để hiện lỗi; nếu demo tranh chấp thật, mở hai cửa sổ cùng suất/ghế. Hủy một đơn tại quầy hợp lệ và kiểm ghế mở lại; không dùng nhánh SePay Sandbox để giả hoàn tiền.
 3. **Tìm kiếm:** thử ngày sai định dạng để thấy lỗi; nhập ngày có lịch và từ khóa phim; đổi bộ lọc chi nhánh/cờ còn ghế. Xóa bớt lọc để duyệt trang 2, nêu tổng số dòng và 50 dòng/trang.
 
 ## Hai báo cáo
@@ -42,7 +42,7 @@ Ngày 15/11/2026, dữ liệu demo hiện có 161 suất, 162 đơn, 376 vé và
 - PK(screening_id,seat_id) ở screening_seat_lock cưỡng chế một ghế hiệu lực/suất; UNIQUE(ticket_id) gắn một lock với một vé. Trigger đồng bộ khi thêm/hủy vé. Giá unit_price là lịch sử, không lấy giá hiện hành tính lại doanh thu.
 - Cột generated payment.active_success_booking là cơ chế UNIQUE có điều kiện vật lý của MySQL, không phải khóa dự tuyển logic toàn bảng.
 - Phần giao booking_id xác định quan hệ (booking_id,screening_id) nên phép tách ticket là lossless; chứng minh này không tự mở rộng thành phép phân rã quan hệ phổ quát 14 bảng.
-- Bộ 104 bài kiểm thử tự động bao phủ các quy tắc nghiệp vụ, giao dịch đồng thời và đối soát báo cáo trên `cinema_chain_test`. Nhánh thanh toán VNPay được cài đặt ở chế độ sandbox phục vụ minh họa luồng thanh toán trực tuyến.
+- Bộ kiểm thử tự động bao phủ các quy tắc nghiệp vụ, giao dịch đồng thời và đối soát báo cáo trên `cinema_chain_test`. Nhánh thanh toán SePay VietQR được cài đặt ở chế độ sandbox phục vụ minh họa luồng thanh toán tự động qua Webhook.
 
 ## Kết thúc
 
