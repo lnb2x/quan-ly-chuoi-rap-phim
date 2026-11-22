@@ -2,6 +2,8 @@
 
 Lớp INT1313-20261-01, giảng viên Nguyễn Quỳnh Chi. Chuẩn bị báo cáo PDF, sơ đồ ERD (`docs/erd/ER.drawio.pdf`) và lược đồ quan hệ (`docs/erd/luoc-do-quan-he.drawio.pdf`); mở chương trình Swing trên MySQL 8.4/JDK 21. Không reset database đang dùng.
 
+Hoàng Tiến Dũng trình bày thiết kế dữ liệu trong 7 phút đầu. Dương Bảo Trung tiếp nối bằng phần trình diễn Swing, hai báo cáo và kết quả đối chiếu. [Slide bảo vệ](docs/demo/Bao-ve-chuoi-rap.pptx)
+
 ## Phân bổ 15 phút
 
 | Thời gian | Nội dung |
@@ -11,7 +13,7 @@ Lớp INT1313-20261-01, giảng viên Nguyễn Quỳnh Chi. Chuẩn bị báo c�
 | 5–7 phút | Khóa/FD, ticket cũ vi phạm 2NF/3NF; phép tách lossless và bảng lock ghế |
 | 7–11 phút | Hai form nhập đúng/sai và tìm kiếm |
 | 11–14 phút | Hai báo cáo preview/PDF, người lập/người nhận và SQL đối soát |
-| 14–15 phút | Transaction/concurrency, bằng chứng 104 tests và giới hạn phạm vi |
+| 14–15 phút | Transaction/concurrency, bằng chứng 109 kiểm thử và giới hạn phạm vi |
 
 ## Chuẩn bị trên máy hiện tại
 

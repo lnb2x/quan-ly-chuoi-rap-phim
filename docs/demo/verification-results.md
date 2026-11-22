@@ -4,14 +4,14 @@ Lần thực thi ngày **22/11/2026**, trên **Java 21.0.13** và **MySQL Commun
 
 | Phép kiểm tra | Kết quả ghi nhận |
 |---|---|
-| Maven biên dịch và kiểm thử | 104 tests, 15 suites; Failures=0, Errors=0, Skipped=0 |
+| Maven biên dịch và kiểm thử | 109/109 đạt trong 15 bộ (34 kiểm thử đơn vị và kiến trúc, 75 kiểm thử tích hợp), 0 thất bại, 0 lỗi, 0 bỏ qua |
 | Hai form nhập | Nhập hợp lệ thành công; dữ liệu sai, chồng lịch và ghế đã giữ bị từ chối |
 | Tìm kiếm | Kết quả, tổng số dòng và phân trang khớp SQL |
 | Doanh thu và bán vé | 125 đơn, 292 vé, 35.165.000 VNĐ trên bộ seed báo cáo; khớp SQL độc lập |
 | Hai JVM | Đọc lại đúng suất, đơn, vé, payment, giá và tổng báo cáo sau khi đóng/mở |
 | Giao dịch đồng thời | Tranh chấp cùng ghế và lịch phòng được kiểm tra bằng các lớp concurrency IT |
 | PDF | Đã kiểm tra tiếng Việt, nhiều trang, tên dài và xử lý lỗi ghi; xem từng trang hai báo cáo mẫu |
-| Database demo | Kiểm tra fingerprint trong bộ verify; dữ liệu demo được bảo toàn |
+| Database demo | SHA-256 trước và sau khớp: `e827a6a114e7bf08c130792b34f8209398e09289131f14496d196d4c5568e5d1` |
 
 Tóm tắt từng suite và hash nguồn của lần chạy nằm trong [summary.json](../../verification/test-results/summary.json). Ảnh minh họa ở `verification/screenshots/`; hai PDF nghiệp vụ ở `reports/exports/`.
 

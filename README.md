@@ -4,9 +4,11 @@
 
 Lớp INT1313-20261-01 · Giảng viên Nguyễn Quỳnh Chi
 
-[**Báo cáo học phần (PDF)**](docs/academic-report/BaoCao_QuanLyChuoiRap.pdf) · [Bản Word](docs/academic-report/BaoCao_QuanLyChuoiRap.docx) · [Sơ đồ ERD Chen](docs/erd/ER.drawio.pdf) · [Lược đồ quan hệ](docs/erd/luoc-do-quan-he.drawio.pdf) · [Kịch bản bảo vệ 15 phút](DEMO_GUIDE.md)
+[**Báo cáo học phần (PDF)**](docs/academic-report/BaoCao_QuanLyChuoiRap.pdf) · [Bản Word](docs/academic-report/BaoCao_QuanLyChuoiRap.docx) · [Sơ đồ ERD Chen](docs/erd/ER.drawio.pdf) · [Lược đồ quan hệ](docs/erd/luoc-do-quan-he.drawio.pdf) · [Kịch bản bảo vệ 15 phút](DEMO_GUIDE.md) · [Slide thuyết trình](docs/demo/Bao-ve-chuoi-rap.pptx)
 
 Khi hai nhân viên cùng bán một ghế cho cùng một suất chiếu, hệ thống phải giữ chỗ cho đúng một vé. Nhóm giải quyết bài toán này bằng giao dịch đặt vé và khóa chính ghép `(screening_id, seat_id)` trong bảng `screening_seat_lock`. Ứng dụng Java Swing cho phép nhân viên lập lịch chiếu, tra cứu suất, đặt vé trên sơ đồ ghế và xuất báo cáo doanh thu, bán vé từ dữ liệu MySQL.
+
+Báo cáo gồm bảy phần. Phần I–IV trình bày yêu cầu, ERD, mô hình quan hệ và chuẩn hóa. Phần V–VII đặt câu lệnh SQL cạnh kết quả của hai màn hình nhập, màn hình tra cứu và hai báo cáo. Bảng phân công nằm ngay sau bìa.
 
 ## Nội dung bài nộp
 
@@ -41,7 +43,7 @@ Cần **JDK 21**, **Maven** và **MySQL Community Server 8.4**. Chạy các lệ
 
 ## Kiểm thử và kết quả
 
-Bản kết quả lưu trong Git ngày **22/11/2026** ghi nhận **104/104 bài kiểm thử Java đạt** trên JDK 21 và MySQL 8.4, với 15 bộ kiểm thử và 0 bài bị bỏ qua. Trên bộ dữ liệu mẫu, báo cáo doanh thu ghi nhận **125 đơn, 292 vé và 35.165.000 đồng**, khớp với truy vấn SQL độc lập. [Kết quả chi tiết](docs/demo/verification-results.md) · [Kết quả từng bộ kiểm thử (JSON)](verification/test-results/summary.json) · [Các tình huống kiểm thử](docs/demo/test-cases.md)
+Bản kết quả lưu trong Git ngày **22/11/2026** ghi nhận **109/109 bài kiểm thử Java đạt** trên JDK 21 và MySQL 8.4, với 15 bộ kiểm thử và 0 bài bị bỏ qua. Trên bộ dữ liệu mẫu, báo cáo doanh thu ghi nhận **125 đơn, 292 vé và 35.165.000 đồng**, khớp với truy vấn SQL độc lập. [Kết quả chi tiết](docs/demo/verification-results.md) · [Kết quả từng bộ kiểm thử (JSON)](verification/test-results/summary.json) · [Các tình huống kiểm thử](docs/demo/test-cases.md)
 
 Để chạy lại toàn bộ quy trình trên máy Windows đã cấu hình như trên, cần thêm **Python 3** và một phiên desktop để mở Swing. Chạy trong bản sao mã nguồn dành cho kiểm thử vì Maven dọn thư mục `target/`. Bộ kiểm chứng dùng `cinema_chain_test` cho các thao tác ghi, kiểm tra năm màn hình, hai PDF, dữ liệu sau khi khởi động lại và so sánh SHA-256 của `cinema_chain` trước và sau khi chạy.
 

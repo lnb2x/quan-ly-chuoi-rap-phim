@@ -1,6 +1,6 @@
 # Các tình huống kiểm chứng bản nộp
 
-Kết quả thực thi ngày 22/11/2026 được tổng hợp ở `verification/test-results/summary.json`. Java có **104 kiểm thử thuộc 15 suite**, không lỗi/không bỏ qua. Bảng dưới nhóm các tình huống đã kiểm tra; không đồng nhất một dòng bảng với một test JUnit. Log/XML được sinh cục bộ khi chạy lại.
+Kết quả thực thi ngày 22/11/2026 được tổng hợp ở `verification/test-results/summary.json`. Java có **109 kiểm thử thuộc 15 suite**, không lỗi/không bỏ qua. Bảng dưới nhóm các tình huống đã kiểm tra; không đồng nhất một dòng bảng với một test JUnit. Log/XML được sinh cục bộ khi chạy lại.
 
 | Nhóm | Thao tác hoặc đầu vào | Kết quả mong đợi | Bằng chứng |
 |---|---|---|---|
@@ -15,6 +15,7 @@ Kết quả thực thi ngày 22/11/2026 được tổng hợp ở `verification/
 | Hai JVM và thời gian | Hai JVM UTC tạo đơn cùng instant ở hai ghế khác nhau | Hai mã đơn khác nhau; booked_at đúng Việt Nam | BookingIdentityIT |
 | Hủy và bán lại | Hủy đơn theo chính sách | Hủy vé, đổi payment nội bộ, giải phóng lock; bán lại được, giữ lịch sử | DatabaseIntegrityIT, BusinessRulesIT |
 | Thanh toán/rollback | Sai amount/trạng thái, lặp callback, SQL/Runtime/Error, cắt kết nối/kill JVM trước commit | Từ chối hoặc rollback sạch, không tiền/vé/lock mâu thuẫn | PaymentRecoveryIT, SandboxPaymentIT |
+| Hai đơn chờ cùng suất | Một đơn SePay và một đơn thủ công giữ hai ghế khác nhau. Webhook chứa hai mã mâu thuẫn | Từ chối xác nhận. Khóa của đơn SePay vẫn khớp vé, suất và ghế của đơn | SandboxPaymentIT |
 | Ranh giới gateway | Gọi đường xác nhận thủ công cho đơn SePay | Bị chặn; Webhook xác thực hợp lệ theo nhánh sandbox mới được xử lý | SandboxPaymentIT, SepayGatewayTest |
 | Tìm kiếm | Nhiều bộ lọc và duyệt trang | Tổng và kết quả đúng; mỗi trang 50 dòng, không trùng/sót hoặc cắt ngầm | ScreeningSearchIT, GUI |
 | Báo cáo | Tổng kỳ/chi nhánh, nhiều payment thử lại | Khớp SQL độc lập, seed 35.165.000 VNĐ, không nhân đôi | ReportAccuracyIT, BusinessRulesIT |

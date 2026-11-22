@@ -13,7 +13,7 @@ Môi trường: JDK 21, MySQL Community Server 8.4, tài khoản ứng dụng `c
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File database/verify_all.ps1
 python -X utf8 -B tools/verify_erd.py
-python -X utf8 -B -m unittest discover -s tools/tests -v
+uv run --no-project --with pytest pytest -q tools/tests/test_verify_erd.py tools/tests/test_verify_test_results.py
 ```
 
 Log và XML được sinh cục bộ trong `verification/`; kết quả lần chạy đã ghi nhận nằm ở `docs/demo/verification-results.md`.

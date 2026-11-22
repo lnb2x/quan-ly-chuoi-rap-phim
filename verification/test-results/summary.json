@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-11-22T08:52:00.074791+00:00",
-  "run_started_at_utc": "2026-11-22T08:51:08.726603+00:00",
+  "generated_at_utc": "2026-11-22T16:51:03.807532+00:00",
+  "run_started_at_utc": "2026-11-22T16:50:18.030437+00:00",
   "suite_count": 15,
-  "tests": 104,
+  "tests": 109,
   "failures": 0,
   "errors": 0,
   "skipped": 0,
@@ -13,7 +13,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.BookingConcurrencyIT.xml",
-      "sha256": "9300a4b8ddf7a0b97ce694120c9ec33d663294fc6a87683216697751859dcd6a"
+      "sha256": "ea3dc0f731755bccfa115a03761b349f28ed3e5f40d59cb59ac3ff33dc675ca0"
     },
     "com.cinema.integration.BookingIdentityIT": {
       "tests": 1,
@@ -21,7 +21,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.BookingIdentityIT.xml",
-      "sha256": "710e6e43bacd76dd1c9757cdb8e0192763711dc9ed966ebb4b7ee3a4b7d685cb"
+      "sha256": "0b360b55581eb889df8813002268d530b109f85a17d43b9078475b4436934cac"
     },
     "com.cinema.integration.BusinessRulesIT": {
       "tests": 17,
@@ -29,7 +29,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.BusinessRulesIT.xml",
-      "sha256": "835b61fc352c9e71b7d00afae9eb6be14ec34167db6d87a53dceddc14675d019"
+      "sha256": "df840edbe6d15d554b85d21dcb9610c77ca98416c974050143cfd005fe5ee68c"
     },
     "com.cinema.integration.DatabaseIntegrityIT": {
       "tests": 15,
@@ -37,7 +37,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.DatabaseIntegrityIT.xml",
-      "sha256": "75fcc9bd6de3f615cc0175322a313f896b32e6f924b74ea887109f5aef1d7bc1"
+      "sha256": "b1e2161dc91d62d4a07bb05ea01358f0b92d7687d80a077368b3cc02b09999d6"
     },
     "com.cinema.integration.PaymentRecoveryIT": {
       "tests": 13,
@@ -45,7 +45,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.PaymentRecoveryIT.xml",
-      "sha256": "0b14f5bef23fef7ae38ff5dc6ae2b223ea6f08ba7dea6f836062329002597fb3"
+      "sha256": "f7778de6713e4dfde6d52bd1df94a8802c5f54a106163c0a9bdb0c1f6898ae8b"
     },
     "com.cinema.integration.ReportAccuracyIT": {
       "tests": 4,
@@ -53,15 +53,15 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.ReportAccuracyIT.xml",
-      "sha256": "10dc8567a63efa1386f0200eea3a7a1cb2c5a2a964761fcf601dbc88493cee5d"
+      "sha256": "21fa5e2379ff1dad4a20735ae928eaf0ba661ebc48483fd96b1559c4d55c6599"
     },
     "com.cinema.integration.SandboxPaymentIT": {
-      "tests": 17,
+      "tests": 19,
       "failures": 0,
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.SandboxPaymentIT.xml",
-      "sha256": "6c7173166af6c30d9a82b46472c565bf866a3afad4b60be02d6cbf0d7f37b766"
+      "sha256": "5734f955082cc390c48cba8b1e73e976e743f5e6bd1d38a4b3164512ede56fa4"
     },
     "com.cinema.integration.ScreeningConcurrencyIT": {
       "tests": 2,
@@ -69,7 +69,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.ScreeningConcurrencyIT.xml",
-      "sha256": "4e42e6f7e32a87cea4bed329548089cc72f71d03604024d88885aed5400201c9"
+      "sha256": "9b1ed6a0886164d5f2c382b6bbaa273f3e02d67803c3e6817e86d791d148c686"
     },
     "com.cinema.integration.ScreeningSearchIT": {
       "tests": 3,
@@ -77,7 +77,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.integration.ScreeningSearchIT.xml",
-      "sha256": "6f8804584d725c20e12576987f310a0ca5b1eabb617db566d558832bc15bf926"
+      "sha256": "6b4371eb51be5bbf0e2031c7679720067c9bf1d08b19dc749485a665788d937d"
     },
     "com.cinema.architecture.ArchitectureComplianceTest": {
       "tests": 5,
@@ -85,7 +85,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.architecture.ArchitectureComplianceTest.xml",
-      "sha256": "de6a586d0926517652cc450aeb06d1ccf670fe0ec7a3669e6b288bf694b12211"
+      "sha256": "1227bfc21771945b7af103c8c3f67795e14fc6779050d12dbf3c22015f91febf"
     },
     "com.cinema.unit.PdfReportWriterTest": {
       "tests": 3,
@@ -93,7 +93,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.PdfReportWriterTest.xml",
-      "sha256": "eaa6f61df9ec5fe9f91936d58d5ecd64a5a20bf01845237506fc26f3fa320000"
+      "sha256": "3c7f61a523850bd27e0f8f5f9e7947e099c835b1b8a956b8fa60564978509b81"
     },
     "com.cinema.unit.ScreeningValidationTest": {
       "tests": 5,
@@ -101,7 +101,15 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.ScreeningValidationTest.xml",
-      "sha256": "ee7850de2b8ed2e0f4563063b7c539960997ff36ff183f52233500c58d0aec6a"
+      "sha256": "462a9654fd4f1efc0f56b90999b73289e5747bff6fba1505f42fa5ec7d06b3a7"
+    },
+    "com.cinema.unit.SepayGatewayTest": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "TEST-com.cinema.unit.SepayGatewayTest.xml",
+      "sha256": "37f54727b33f72c2df1f61b7090e2134127cff5dcfe14d555bbb1a92e0b19dc7"
     },
     "com.cinema.unit.TestSafetyGuardTest": {
       "tests": 6,
@@ -109,7 +117,7 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.TestSafetyGuardTest.xml",
-      "sha256": "a083b17da21a44c00ac21833bab79f58ca383cade32545d4f9dc233a901665f8"
+      "sha256": "7811e4da5c554f69795bfefa3cdb729e0b5add19b4cb62fd0ac65b3a02d70108"
     },
     "com.cinema.unit.UiTaskTest": {
       "tests": 2,
@@ -117,48 +125,43 @@
       "errors": 0,
       "skipped": 0,
       "xml": "TEST-com.cinema.unit.UiTaskTest.xml",
-      "sha256": "1685b50e80bfa168753bc11a3a39d27dc851086f57da53bd637061e1cffaa42b"
-    },
-    "com.cinema.unit.VnpayGatewayTest": {
-      "tests": 10,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "xml": "TEST-com.cinema.unit.VnpayGatewayTest.xml",
-      "sha256": "4caa28215e30b8071ce4395951487cdb98d83ec3f3936a9af982f2ca309349b7"
+      "sha256": "24555b18c587bb7c1ec649d0a58e42af51e1977fecc3e1c7b99ff9a5c6f47b82"
     }
   },
   "tested_source_hashes": {
     "database/schema/00_clean_reset_test_db.sql": "9a8b17823d5c83fbce232ccfbe49036482851104fb163ed03894312d07c75e83",
     "database/schema/01_schema.sql": "f66c9720e24dade7cfed94d53b1db729363793fe8fcf4f996b7c65208090b397",
     "database/schema/01b_foreign_keys.sql": "cb03049df68d9140e51bcf577fa8182978384e17c79f110fbd78e802b07ec690",
-    "database/schema/02_triggers.sql": "43dee6b0164e8100028496489db37835a5ac59412bbd3b9548d49c92c0432444",
+    "database/schema/02_triggers.sql": "af424df9da9a76b72338c268385e62a2d19e3f718a95cb04689ac72d80ea4e4d",
     "database/schema/03_views.sql": "e3968ecbee2e9d69f1292aa79b27a81bf8da9108db5e5a3e2fd2b7177267e126",
     "pom.xml": "3182ba24a05213910b701bf4b65ea9dc91f6f8c3ff350a76912038222767cf0a",
     "src/main/java/com/cinema/app/AppShell.java": "9a3707107ef9a4a393c57c8a31062237947cb26bb7b2ec4023608166f3657621",
-    "src/main/java/com/cinema/app/Main.java": "23ee9cc46605d41b33024123d038be3be03f919fd118a75c7cbdb1577d6e2dec",
-    "src/main/java/com/cinema/app/SandboxMain.java": "c639784d906a25dff783163f9375cb4ffffde6299000fd5bc81e95599953efde",
-    "src/main/java/com/cinema/domain/BookingSummaryView.java": "4d6434c0a7d1cfcc626ef8581a94fa494959cee4ee297b4934a84f893a122a02",
-    "src/main/java/com/cinema/domain/CinemaBranch.java": "ebde9ce351c7b7150c98a3ec57e6985b862adfd5887e02e64e355bfc0b6e450d",
-    "src/main/java/com/cinema/domain/Customer.java": "ed3ed561b65e9bfd76f9406d4312c3644ca94b09af0140d0443f0cd4c0821e7e",
-    "src/main/java/com/cinema/domain/Employee.java": "baa6d4bd6942a4c509c74b8da95ff13038aefd58acdb4d47b35f3ac0b465fb04",
-    "src/main/java/com/cinema/domain/Genre.java": "12610a35438d96e9f308eaae7bd27a25314e34898366ab85b0e635e631a9ccc9",
-    "src/main/java/com/cinema/domain/Movie.java": "31ec8fd30666efdd6452f445dc48d62ff256d49cdfc3ec500d8282b090e45465",
+    "src/main/java/com/cinema/app/Main.java": "e913e79e563565078b5b3bba0a750ec2e36636dd74616e33720aea4ff517b6d7",
+    "src/main/java/com/cinema/app/SandboxMain.java": "917242202d304fc7aae59cb8defe353c5baea62c6b0e1a293ddf15bdc2043590",
+    "src/main/java/com/cinema/domain/BookingSummaryView.java": "8abdb0aa466a770648058f614205f74fe4efa160be98aef98c97304792949958",
+    "src/main/java/com/cinema/domain/CinemaBranch.java": "7233a1a6801f30b84210e052ae893edae76c26b6390d0524bf84f1975e9a400d",
+    "src/main/java/com/cinema/domain/Customer.java": "d66ca5803216c76da7f3e96f7ed82bf822f915e573a77fe52ef33166ff2c8e94",
+    "src/main/java/com/cinema/domain/Employee.java": "04ef685b8c5bc05aa39c317e09ae1d551ca9f8a87011f9fbe2c4ab82b9d6a670",
+    "src/main/java/com/cinema/domain/Genre.java": "de2acb99bd5737e40a201b16d7ebde31e90f75360d2e296ac100f66676f94b15",
+    "src/main/java/com/cinema/domain/Movie.java": "296b9aeafb588b9c05d25d4a42b372358ef06cf8d1e579f33fd6dcef19e0fdb2",
     "src/main/java/com/cinema/domain/PageResult.java": "733f20c3b94a6cc12bcc4e15cc4103f3137e0d98aa4c8dd3ff7ceddf9ce06551",
     "src/main/java/com/cinema/domain/RevenueReportData.java": "947823a896a3fc415237edb52d57e1e0ef89052dc8bca01fc94b995c2023419f",
-    "src/main/java/com/cinema/domain/ScreeningDetailView.java": "914c1909135de7c76f5dc8c4fe539470d6b0e922ad7a5b39b7ba933ea1b1d97d",
-    "src/main/java/com/cinema/domain/ScreeningRoom.java": "f75debb10a1f570350f5f0ed83ca4956b5a261b33b99e7041b39f0ceb69873e7",
+    "src/main/java/com/cinema/domain/ScreeningDetailView.java": "591dc2179cc9531dd2f5be90c9eb49b99e2f30789c15c04afdf2170bf197a3df",
+    "src/main/java/com/cinema/domain/ScreeningRoom.java": "c9df7042d6f91716e35eb54e425531b5e4d931d361489c6ce897f4450fdca2ab",
     "src/main/java/com/cinema/domain/SearchPageResult.java": "1b6e9583701cf44cea3a15259e18c842c4b3dc43fd01766185493d4b0153869a",
-    "src/main/java/com/cinema/domain/SeatAvailabilityView.java": "7780948fd0996c69af27d2b477716154c6f3d8bf0dacde8c518acda00db54791",
-    "src/main/java/com/cinema/domain/SeatType.java": "cc5c2f7e22d8415bd4ce9fa519515beeb0ee108eaee4277976d35a1735a61cef",
+    "src/main/java/com/cinema/domain/SeatAvailabilityView.java": "0c64ea826e9725f19af0d91440a2d1528d29495551430a135b5453e233e7b62a",
+    "src/main/java/com/cinema/domain/SeatType.java": "0d256768ca99a4344b2896b37e2754987c86c5b80d9ffb415205cf3ac8009ae0",
     "src/main/java/com/cinema/domain/TicketSalesReportData.java": "c4460c22eaf7d18f02613f8ed58ada34e8d07b33615953ad2c0b310392959ba3",
-    "src/main/java/com/cinema/feature/booking/BookingRepository.java": "71f9c8fcd12458eee1996d7d5fbab1778ffa710f30bc3e7a8404bdad30f8ac32",
-    "src/main/java/com/cinema/feature/booking/BookingService.java": "190d6bda9813134dc4ebcbc3b034757f39112211f147ce39c291779bfc169420",
-    "src/main/java/com/cinema/feature/booking/ui/TicketBookingPanel.java": "7cabe3376dfa2b71321bafc8295719b9f3ded96b9127b7ee12bb7c06e2013078",
-    "src/main/java/com/cinema/feature/payment/SandboxPaymentRepository.java": "18ed5184758f3da6758b70786b2bde75d91b79e17329da47093a9596f67ed463",
-    "src/main/java/com/cinema/feature/payment/SandboxPaymentService.java": "df9cb41d31e486e6f9e5c47430e0916ab4ab1a3e02b987be5131acead891d51e",
-    "src/main/java/com/cinema/feature/payment/VnpayCallbackServer.java": "3715b03a1d8837f0807b3151463a4016ac2a7b9bfa6579684e55fe30e160519e",
-    "src/main/java/com/cinema/feature/payment/VnpayGateway.java": "65276cab5412f1cc342d9d8412307cd7869f317e4f3a7d6046125cf7e1e4d942",
+    "src/main/java/com/cinema/feature/booking/BookingRepository.java": "1683f8ec733ee0071d95e843bca6398417d5175c5e3e04f0cb05acd75e33642e",
+    "src/main/java/com/cinema/feature/booking/BookingService.java": "19fd38028551afb243ccf921bb6f20a953a02a53d7668f96fb10b9500977225b",
+    "src/main/java/com/cinema/feature/booking/ui/SepayQrDialog.java": "c8d4d6f229134250f8db02eb08b6f6a7c5d08ae47064619813f1e97229e870bb",
+    "src/main/java/com/cinema/feature/booking/ui/TicketBookingPanel.java": "f35881639371edbf6e6fbaf9061cebf6d351fba16bbe4edf08de8fbaaca085bc",
+    "src/main/java/com/cinema/feature/payment/SandboxPaymentRepository.java": "8be4b2ff82cfe58d693e8bf2fd4291fb34d75bc4270027b63ef7c48c71049055",
+    "src/main/java/com/cinema/feature/payment/SandboxPaymentService.java": "56caa7a6a124760f59d7b71bdd3a761688065cd2beae6320ad47f4d574b758f9",
+    "src/main/java/com/cinema/feature/payment/SepayGateway.java": "41a401ebce069931eff28c0c6eeba3d4b2f98482eebaae3c818372689987aa62",
+    "src/main/java/com/cinema/feature/payment/SepayJsonParser.java": "16914d378ba967a1f5144da8013bf46c86da01ae9195d08133c1b279c63c3852",
+    "src/main/java/com/cinema/feature/payment/SepayWebhookEvent.java": "b4f2d90e6b42c794059fd832288da8cf0d9ca649d04a3a393c55e84d6f266ec4",
+    "src/main/java/com/cinema/feature/payment/SepayWebhookServer.java": "69f11d9515ef6cb29f236fef29d99c9bb86fcd578e01fdc37b927ab1fe26f692",
     "src/main/java/com/cinema/feature/report/revenue/RevenueReportRepository.java": "f4f5a0f4f1ace671842f3d57d7ca283f1208d02f0ef044639c0167a728883878",
     "src/main/java/com/cinema/feature/report/revenue/RevenueReportService.java": "dc02cba2161f66ed4a1628d6ff7d045fede36eb48caca393904e6b9df4be6015",
     "src/main/java/com/cinema/feature/report/revenue/ui/RevenueReportPanel.java": "fac97387d29812111cf4fb47b789a24891b74df84b1ef6eb8faa660bfa149271",
@@ -173,36 +176,36 @@
     "src/main/java/com/cinema/feature/search/ui/ScreeningSearchPanel.java": "ee6a30e68542e9347c856503db05560586553d24b2c2dc59abfb74ee0b5e7b39",
     "src/main/java/com/cinema/reporting/PdfReportWriter.java": "141fce59734a596d6496647e33fc2eb31ab0024cacdf932becdbc6a2b708e08b",
     "src/main/java/com/cinema/shared/config/AppConfig.java": "0d4c3530809c324c309fde0e37d6172e5205198ed425378b58c6101d01395cd1",
-    "src/main/java/com/cinema/shared/config/VnpayConfig.java": "7d94e722ef21b736fc8b9f696e5d5399659bea60d4870291f2991c4f7daa2beb",
+    "src/main/java/com/cinema/shared/config/SepayConfig.java": "39bb9801112272593a3492663b058c5e0b5c8e1ead9392aaa954c5ede9cf79ab",
     "src/main/java/com/cinema/shared/db/ConnectionProvider.java": "d5efcc5a39b63f67c88c27da9206c295deacbec4271eebb291b9392ad3c453c8",
-    "src/main/java/com/cinema/shared/db/DataAccessException.java": "4cba5a9008723733f8904424e9fb0fb5b38392bd7bb3c741096c317a8df0895b",
-    "src/main/java/com/cinema/shared/db/TransactionTemplate.java": "1269052b355ebf2220c14f6d442cefb89ff2a0cbb141ed599e2ed7625de61d55",
+    "src/main/java/com/cinema/shared/db/DataAccessException.java": "d8a78d40ae9b3d269608bed185a91b56246653784d566bb4ae7fe3f1227cca9e",
+    "src/main/java/com/cinema/shared/db/TransactionTemplate.java": "850c3f467c9bcd85f78df2b7f96b3ebee6e800821585842189eff5e85fca8e63",
     "src/main/java/com/cinema/shared/ui/SeatMapPanel.java": "bce2b65f93935a85ce1c823f08a1776778542d465fe56eadb43d6adebd7a9267",
-    "src/main/java/com/cinema/shared/ui/StatusBanner.java": "20f353a65c28c1a2b673ee5ec18576d3e12a6c1c5c4cc842edf4c64d7cb63d8e",
-    "src/main/java/com/cinema/shared/ui/Theme.java": "4e79256204f8636e90a63372f70f9c66b9ec1de9a349628c4bac21b163d298aa",
-    "src/main/java/com/cinema/shared/ui/UiTask.java": "4b82c98f5d255f87e1943b5dafa0f0f947844d916d1d75a8b7a31e15df42a4ef",
-    "src/main/java/com/cinema/shared/validation/BusinessRuleException.java": "2915bc39ba5f505cf3de03a057080c364252f2a0742090dcfa44dc0aa8b567ac",
-    "src/main/java/com/cinema/shared/validation/ValidationResult.java": "64003cc10926f579a742a8e29c98a478adf49ead110029f51639008e5eba04fa",
+    "src/main/java/com/cinema/shared/ui/StatusBanner.java": "c750ccfa0e798b8829c7c22f807be69ee8ba19580ed00d7e475900cf215ae452",
+    "src/main/java/com/cinema/shared/ui/Theme.java": "28345be10a6115130eede832e9bcc56acb827a452944e0cea96d138137b61bfc",
+    "src/main/java/com/cinema/shared/ui/UiTask.java": "cd10c395b4288656db85d255cdf76ab83b28bba188a8f0391271e0997674387a",
+    "src/main/java/com/cinema/shared/validation/BusinessRuleException.java": "43a1f9732ae917c725fda3ce7f9658659fc4aa26513bd9933787acb4f730d380",
+    "src/main/java/com/cinema/shared/validation/ValidationResult.java": "5d4efa9bb2c44d00d93ec7f05bd997dfe2b710411486656e6994e0f711b43e0c",
     "src/test/java/com/cinema/architecture/ArchitectureComplianceTest.java": "dae7149dd0529bd72a49cb329a91c6fae686073235fb11386363384b08e6fd75",
     "src/test/java/com/cinema/gui/AppPersistenceVerificationRunner.java": "ef838d4406b8790328db740c856ab44fddfdff009a2275e7c38ecacdb2b9a7f6",
     "src/test/java/com/cinema/gui/DemoCinemaChainVerificationRunner.java": "bf5844da85a256b2e1a24d6ef1aa58d87831270e818509bcf799aab2223fde59",
     "src/test/java/com/cinema/gui/GuiVerificationRunner.java": "f3bfe902a94a4f6b92f15eeb70e83086a637eb82a44fda8dba18335e38a77742",
-    "src/test/java/com/cinema/gui/SandboxGuiVerificationRunner.java": "457064dae5c58fd65837b427b0a8cf70ef7f853f093981b2652a3681d3c471ca",
+    "src/test/java/com/cinema/gui/SandboxGuiVerificationRunner.java": "328bec8eb4369bfdfd0f3a9740df3712b83b53df77f387e21572cf71fda7b0e7",
     "src/test/java/com/cinema/integration/BookingConcurrencyIT.java": "a65870ad72c1c0902a3c252b55a5b0227c15da16993eac1204c5f9985b3d9a8e",
-    "src/test/java/com/cinema/integration/BookingIdentityIT.java": "bee9765b69d2cf0f6638c9fef66f669562ef39341ac1bd6789d8469c4cf55e1c",
-    "src/test/java/com/cinema/integration/BusinessRulesIT.java": "0b269e640e2836c8f79ee606db1152e3fcc532cd9ad209f8672555faf4bc00dc",
-    "src/test/java/com/cinema/integration/CinemaDatasetCheck.java": "c7e9c218b58d076c088b8ccf56b57e56af4b9b63f77591824e3cdd263d67864f",
+    "src/test/java/com/cinema/integration/BookingIdentityIT.java": "34434bf3f7062ab6d3d85cce47a2f4d1b874c7d6f688ffb77519125689180439",
+    "src/test/java/com/cinema/integration/BusinessRulesIT.java": "81f93a6ece9c946cbc8e153c5095e2db53ff1b2b13a85c25fce31e49458f5ef7",
+    "src/test/java/com/cinema/integration/CinemaDatasetCheck.java": "a995ee0e2cf3522d70f3b947a4eb9024885547e80f308f945e174e70a9091f09",
     "src/test/java/com/cinema/integration/DatabaseIntegrityIT.java": "2b607f3732a3ec3deeb56dc8946348cfd107317d3edb44255b21ff8ea193e06a",
-    "src/test/java/com/cinema/integration/PaymentRecoveryIT.java": "b9e1a758fb3bc0275f6a8d33c928f2c9ec80690472479df15a250be7c391b781",
+    "src/test/java/com/cinema/integration/PaymentRecoveryIT.java": "cf70030cfdf29859bfefb4f7adaafb4b73437d4042f0b72b18b247dc41d9c9c9",
     "src/test/java/com/cinema/integration/ReportAccuracyIT.java": "b5327c0e82960a975cd542c96c3e6ca5ad31dd61b8268880d1fe31737f050230",
-    "src/test/java/com/cinema/integration/SandboxPaymentIT.java": "101623da0a026d28ded2b082b83a623a70d7c86bf38e6a8e88ca493a56061b7f",
-    "src/test/java/com/cinema/integration/ScreeningConcurrencyIT.java": "da396de6a715e8cb7a27e225148f2021001d8160fd57260fdc967867e014937d",
+    "src/test/java/com/cinema/integration/SandboxPaymentIT.java": "5eea5c8d82b8c08eefcccc97d6f5fa504e28322cd0b6660bc5e20fa49388fb36",
+    "src/test/java/com/cinema/integration/ScreeningConcurrencyIT.java": "7f51c303d15fb74e0c61844e2e6b8f7172ac855e5d4e624c3a23dc5042ffaaee",
     "src/test/java/com/cinema/integration/ScreeningSearchIT.java": "ff6859216180e200c80725745d8cf74f240a0557b3b66a66b87d79e0c9e57a0a",
     "src/test/java/com/cinema/support/TestDatabaseGuard.java": "02d110153ee33df44f29a0180565938b746ede41815dbc4d38a29607cef23cde",
     "src/test/java/com/cinema/unit/PdfReportWriterTest.java": "62c00fca4ad53855414afc696da98563d73f1417dc6cf3fad3da24181ed66eae",
     "src/test/java/com/cinema/unit/ScreeningValidationTest.java": "3e7bd9470282932b8f00b4670e5bdfa5a78532eedbc30f8f50b2dd953a85464a",
+    "src/test/java/com/cinema/unit/SepayGatewayTest.java": "de8f61cfc3e6257b4624d8d939e8497db51488179496a77d71b7c7b220c85bd6",
     "src/test/java/com/cinema/unit/TestSafetyGuardTest.java": "aad0fa34691c860d5eea86bd80bc49c4db93330cc6a9a9007c94880e095ce76a",
-    "src/test/java/com/cinema/unit/UiTaskTest.java": "a8c3033e2aa7dd81231176060f4263cef3eff89ce610805446352dcdfe7ec162",
-    "src/test/java/com/cinema/unit/VnpayGatewayTest.java": "8f760d9904114e037ce39706c64b716c4a97dd2b953a9224533863a108db1268"
+    "src/test/java/com/cinema/unit/UiTaskTest.java": "76e75986888b25a4151ac0e0fa2f7b8da4865da2ff34491cc38b4a49d3b7afe5"
   }
 }
