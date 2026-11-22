@@ -20,6 +20,6 @@ Chạy lại `database/verify_all.ps1` sẽ tạo log, XML và manifest mới tr
 Chưa chứng nhận giao dịch VNPay merchant, hoàn tiền thật, tải lớn, phục hồi sau mất điện hoặc vận hành hệ thống đặt vé online.
 
 
-## Đối chiếu sơ đồ E–R và lược đồ quan hệ
+## Đối chiếu sơ đồ E - R và lược đồ quan hệ
 
-Script `python -X utf8 -B tools/verify_erd.py` kiểm tra chéo [ER.drawio](../erd/ER.drawio) và [luoc-do-quan-he.drawio](../erd/luoc-do-quan-he.drawio) với [01_schema.sql](../../database/schema/01_schema.sql) và [01b_foreign_keys.sql](../../database/schema/01b_foreign_keys.sql): khớp 14 bảng, 59 thuộc tính bản thân trên E–R, 76 thuộc tính logic trên lược đồ quan hệ, quy ước gạch chân khóa chính/khóa ngoại và đủ 17 mũi tên tham chiếu `FK -> PK`.
+Script `python -X utf8 -B tools/verify_erd.py` kiểm tra chéo [ER.drawio](../erd/ER.drawio) và [luoc-do-quan-he.drawio](../erd/luoc-do-quan-he.drawio) với [01_schema.sql](../../database/schema/01_schema.sql) và [01b_foreign_keys.sql](../../database/schema/01b_foreign_keys.sql): khớp 14 bảng, 59 thuộc tính bản thân trên E - R, 76 thuộc tính logic trên lược đồ quan hệ, quy ước gạch chân khóa chính/khóa ngoại và đủ 17 mũi tên tham chiếu `FK -> PK`.

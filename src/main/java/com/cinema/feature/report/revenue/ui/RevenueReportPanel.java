@@ -51,7 +51,7 @@ public final class RevenueReportPanel extends JPanel {
         // Top Header
         JPanel topPanel = new JPanel(new BorderLayout(8, 8));
         topPanel.setOpaque(false);
-        JLabel title = new JLabel("BÁO CÁO DOANH THU CHUỖI RẠP (REVENUE REPORT — PREVIEW & PDF EXPORT)");
+        JLabel title = new JLabel("BÁO CÁO DOANH THU CHUỖI RẠP (REVENUE REPORT)");
         title.setFont(Theme.FONT_TITLE);
         title.setForeground(Theme.TEXT_PRIMARY);
         topPanel.add(title, BorderLayout.NORTH);

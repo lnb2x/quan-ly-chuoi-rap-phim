@@ -29,7 +29,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Kiểm thử Tích hợp Tra cứu Suất chiếu, Bộ lọc nhanh & Phân trang tường minh (Screen 1, Screen 2 & Screen 3).
+ * Kiểm thử Tích hợp Tra cứu Suất chiếu, Bộ lọc nhanh & Phân trang cố định (Screen 1, Screen 2 & Screen 3).
  */
 class ScreeningSearchIT {
 

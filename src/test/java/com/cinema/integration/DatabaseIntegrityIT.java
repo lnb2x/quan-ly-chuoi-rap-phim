@@ -234,7 +234,7 @@ class DatabaseIntegrityIT {
                 }
 
                 assertEquals(0, beforeRevenue.compareTo(afterRevenue),
-                        "Doanh thu lịch sử tuyệt đối không được thay đổi khi bảng giá hiện hành thay đổi [BR-12]");
+                        "Doanh thu lịch sử không được thay đổi khi bảng giá hiện hành thay đổi [BR-12]");
             } finally {
                 conn.rollback();
             }
@@ -490,7 +490,7 @@ class DatabaseIntegrityIT {
     @DisplayName("Kiểm chứng lược đồ 14 bảng đạt chuẩn 3NF (ticket không chứa screening_id/active_seat_key) và chống sửa trái phép khóa ghế")
     void verifyTrue3nfTicketSchemaAndSeatLockTamperProtection() throws SQLException {
         try (Connection conn = connectionProvider.getConnection()) {
-            // 1. Bảng ticket tuyệt đối không còn cột bắc cầu screening_id hay cột sinh active_seat_key
+            // 1. Bảng ticket không còn cột bắc cầu screening_id hay cột sinh active_seat_key
             try (Statement st = conn.createStatement();
                  ResultSet rs = st.executeQuery("""
                          SELECT COUNT(*)
@@ -501,7 +501,7 @@ class DatabaseIntegrityIT {
                          """)) {
                 assertTrue(rs.next());
                 assertEquals(0, rs.getInt(1),
-                        "Bảng ticket chuẩn 3NF tuyệt đối không được chứa cột phụ thuộc bắc cầu screening_id hoặc active_seat_key");
+                        "Bảng ticket chuẩn 3NF không được chứa cột phụ thuộc bắc cầu screening_id hoặc active_seat_key");
             }
 
             // 2. Đủ 14 bảng cơ sở và nối không mất mát (lossless join) ticket ⋈ booking + đồng bộ 1-1 screening_seat_lock

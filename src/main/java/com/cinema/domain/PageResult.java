@@ -3,7 +3,7 @@ package com.cinema.domain;
 import java.util.List;
 
 /**
- * Kết quả phân trang tường minh cho các danh sách nghiệp vụ (loại bỏ cắt ngầm LIMIT 1000).
+ * Kết quả phân trang cố định cho các danh sách nghiệp vụ (loại bỏ cắt ngầm LIMIT 1000).
  */
 public record PageResult<T>(
         List<T> items,

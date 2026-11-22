@@ -2,7 +2,7 @@
 -- TỆP: 02_triggers.sql
 -- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
 -- BƯỚC KHỞI TẠO: [Bước 3 - Tạo Trigger] Thiết lập 12 Trigger bảo vệ toàn vẹn
---                nghiệp vụ liên bảng trực tiếp ở tầng Hệ quản trị MySQL 8.4 LTS:
+--                nghiệp vụ liên bảng trực tiếp ở tầng Hệ quản trị MySQL 8.4:
 --   1. Chống trùng lịch chiếu trong cùng phòng & đảm bảo thời lượng tối thiểu.
 --   2. Khóa không cho đổi `booking.screening_id` khi đơn đặt vé đã phát sinh vé.
 --   3. Đảm bảo ghế trên vé thuộc đúng phòng chiếu của suất chiếu (qua `booking`).
@@ -218,7 +218,7 @@ BEGIN
 END$$
 
 -- -----------------------------------------------------------------------------
--- 4. Trigger kiểm tra khi THÊM MỚI vé xem phim (ticket — 3NF)
+-- 4. Trigger kiểm tra khi THÊM MỚI vé xem phim (ticket - 3NF)
 -- -----------------------------------------------------------------------------
 CREATE TRIGGER trg_ticket_validate_ins
 BEFORE INSERT ON ticket
@@ -268,7 +268,7 @@ BEGIN
 END$$
 
 -- -----------------------------------------------------------------------------
--- 5. Trigger kiểm tra khi CẬP NHẬT vé xem phim (ticket — 3NF)
+-- 5. Trigger kiểm tra khi CẬP NHẬT vé xem phim (ticket - 3NF)
 -- -----------------------------------------------------------------------------
 CREATE TRIGGER trg_ticket_validate_upd
 BEFORE UPDATE ON ticket

@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 
 /**
- * Cung cấp kết nối JDBC tới MySQL Server 8.4 LTS từ cấu hình AppConfig.
+ * Cung cấp kết nối JDBC tới MySQL Server 8.4 từ cấu hình AppConfig.
  */
 public final class ConnectionProvider {
 

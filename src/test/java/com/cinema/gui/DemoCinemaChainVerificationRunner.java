@@ -70,7 +70,7 @@ public final class DemoCinemaChainVerificationRunner {
     public static void main(String[] args) throws Exception {
         if (args.length < 2 || !REQUIRED_FLAG.equals(args[0])) {
             throw new SecurityException(
-                    "CHẶN AN TOÀN: DemoCinemaChainVerificationRunner chỉ được phép chạy khi truyền cờ tường minh "
+                    "CHẶN AN TOÀN: DemoCinemaChainVerificationRunner chỉ được phép chạy khi truyền tham số xác nhận "
                             + REQUIRED_FLAG + " (--session1|--session2 <stateFile>).");
         }
         String sessionMode = args[1].trim();
@@ -169,7 +169,7 @@ public final class DemoCinemaChainVerificationRunner {
                     + baselineSeedRev[0].toPlainString());
 
             // =========================================================================
-            // 1. MÀN HÌNH 1 — FORM 1: QUẢN LÝ SUẤT CHIẾU (4 kịch bản BỊ TỪ CHỐI + 1 HỢP LỆ)
+            // 1. MÀN HÌNH 1 - FORM 1: QUẢN LÝ SUẤT CHIẾU (4 kịch bản BỊ TỪ CHỐI + 1 HỢP LỆ)
             // =========================================================================
             final int[] newDemoScreeningId = new int[1];
             SwingUtilities.invokeAndWait(() -> {
@@ -233,7 +233,7 @@ public final class DemoCinemaChainVerificationRunner {
             captureWindow(shell, SCREENSHOT_DIR.resolve("demo_cinema_chain_02_screening_created.png"));
 
             // =========================================================================
-            // 2. MÀN HÌNH 2 — FORM 2: ĐẶT VÉ & CHỌN GHẾ (2 BỊ TỪ CHỐI + 2 HỢP LỆ KÈM HỦY VÉ)
+            // 2. MÀN HÌNH 2 - FORM 2: ĐẶT VÉ & CHỌN GHẾ (2 BỊ TỪ CHỐI + 2 HỢP LỆ KÈM HỦY VÉ)
             // =========================================================================
             final int[] persistedBookingId = new int[1];
             final String[] persistedBookingCode = new String[1];
@@ -300,7 +300,7 @@ public final class DemoCinemaChainVerificationRunner {
             });
 
             // =========================================================================
-            // 3. MÀN HÌNH 3 — TRA CỨU SUẤT CHIẾU (1 BỊ TỪ CHỐI + PHÂN TRANG + TRA CỨU ĐÚNG SUẤT DEMO)
+            // 3. MÀN HÌNH 3 - TRA CỨU SUẤT CHIẾU (1 BỊ TỪ CHỐI + PHÂN TRANG + TRA CỨU ĐÚNG SUẤT DEMO)
             // =========================================================================
             SwingUtilities.invokeAndWait(() -> {
                 shell.showScreen(AppShell.TAB_SEARCH);
@@ -334,7 +334,7 @@ public final class DemoCinemaChainVerificationRunner {
             captureWindow(shell, SCREENSHOT_DIR.resolve("demo_cinema_chain_05_search_verified.png"));
 
             // =========================================================================
-            // 4. MÀN HÌNH 4 & 5 — HAI BÁO CÁO QUẢN TRỊ: TỪ CHỐI SAI NGÀY + PREVIEW + XUẤT 2 PDF + ĐỐI CHIẾU SQL
+            // 4. MÀN HÌNH 4 & 5 - HAI BÁO CÁO QUẢN TRỊ: TỪ CHỐI SAI NGÀY + PREVIEW + XUẤT 2 PDF + ĐỐI CHIẾU SQL
             // =========================================================================
             final RevenueReportData[] revDataHolder = new RevenueReportData[1];
             final Path[] revDefaultPdf = new Path[1];

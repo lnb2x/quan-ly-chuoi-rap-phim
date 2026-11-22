@@ -8,7 +8,7 @@ $mysqlExe        = Join-Path $mysqlDir "bin\mysql.exe"
 $myIni           = Join-Path $mysqlDir "my.ini"
 
 if (-not (Test-Path $mysqldExe) -or -not (Test-Path $myIni)) {
-    throw "Không tìm thấy bản cài đặt MySQL 8.4 LTS chuẩn tại $mysqlDir hoặc thiếu tệp $myIni."
+    throw "Không tìm thấy bản cài đặt MySQL 8.4 chuẩn tại $mysqlDir hoặc thiếu tệp $myIni."
 }
 
 function Test-Port3306Open {
@@ -39,7 +39,7 @@ function New-RestrictedMySqlDefaultsFile([string]$user, [string]$pass) {
 }
 
 if (-not (Test-Port3306Open)) {
-    Write-Output "Đang khởi động MySQL Community Server 8.4.0 LTS từ: $mysqldExe (--defaults-file=$myIni)..."
+    Write-Output "Đang khởi động MySQL Community Server 8.4.0 từ: $mysqldExe (--defaults-file=$myIni)..."
     Start-Process -FilePath $mysqldExe -ArgumentList "--defaults-file=$myIni" -WindowStyle Hidden
     for ($i = 0; $i -lt 15; $i++) {
         Start-Sleep -Milliseconds 700
@@ -48,7 +48,7 @@ if (-not (Test-Port3306Open)) {
 }
 
 if (-not (Test-Port3306Open)) {
-    throw "MySQL 8.4 LTS chưa phản hồi trên 127.0.0.1:3306. Kiểm tra nhật ký lỗi tại $expectedDataDir\*.err."
+    throw "MySQL 8.4 chưa phản hồi trên 127.0.0.1:3306. Kiểm tra nhật ký lỗi tại $expectedDataDir\*.err."
 }
 
 $rootPwd = if ($env:MYSQL_ROOT_PASSWORD) { $env:MYSQL_ROOT_PASSWORD } else { "" }
@@ -72,4 +72,4 @@ if ($ver -notlike "8.4.*" -or $liveDataDir.ToLower() -ne $expectedDataDir.ToLowe
     throw "CẢNH BÁO SAI INSTANCE: Cổng 3306 đang chạy '$ver ($comment)' với datadir='$liveDataDir' thay vì '$expectedDataDir'!"
 }
 
-Write-Output "[OK] Đúng instance MySQL 8.4 LTS đang hoạt động: Version=$ver | Distribution=$comment | DataDir=$liveDataDir | Endpoint=127.0.0.1:3306"
+Write-Output "[OK] Đúng instance MySQL 8.4 đang hoạt động: Version=$ver | Distribution=$comment | DataDir=$liveDataDir | Endpoint=127.0.0.1:3306"

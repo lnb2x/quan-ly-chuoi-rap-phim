@@ -59,7 +59,7 @@ class TestSafetyGuardTest {
         );
         assertDoesNotThrow(() -> TestDatabaseGuard.assertSafeTestConfig(validTestConfig));
         assertFalse(validTestConfig.toString().contains("SuperSecretLeak"),
-                "AppConfig.toString() tuyệt đối không được làm lộ mật khẩu trong log");
+                "AppConfig.toString() không được làm lộ mật khẩu trong log");
         assertEquals("jdbc:mysql://127.0.0.1:3306/cinema_chain_test",
                 AppConfig.sanitizeJdbcUrl(validTestConfig.jdbcUrl()));
     }
@@ -115,7 +115,7 @@ class TestSafetyGuardTest {
                 .toList();
         for (String line : executableLines) {
             assertFalse(line.contains("setup.ps1") || line.contains("prepare_demo_db.ps1"),
-                    "verify_all.ps1 tuyệt đối không được gọi setup.ps1 hay prepare_demo_db.ps1: " + line);
+                    "verify_all.ps1 không được gọi setup.ps1 hay prepare_demo_db.ps1: " + line);
         }
         assertTrue(verifyScript.contains("db_fingerprint.py") && verifyScript.contains("cinema_chain"),
                 "verify_all.ps1 phải đối chiếu dấu vân tay SHA-256 đầy đủ cho cinema_chain");
@@ -126,7 +126,7 @@ class TestSafetyGuardTest {
     }
 
     @Test
-    @DisplayName("Kiểm chứng hành vi tiến trình con: setup.ps1 và db_fingerprint.py tuyệt đối không truyền mật khẩu hay IDENTIFIED BY qua dòng lệnh hoặc MYSQL_PWD")
+    @DisplayName("Kiểm chứng hành vi tiến trình con: setup.ps1 và db_fingerprint.py không truyền mật khẩu hay IDENTIFIED BY qua dòng lệnh hoặc MYSQL_PWD")
     void provisioningAndFingerprintScriptsMustNeverLeakSecretsInChildProcessArgumentsOrEnv() throws Exception {
         String sentinelAppSecret = "SENTINEL_APP_SECRET_DO_NOT_LEAK_88421";
         String sentinelRootSecret = "SENTINEL_ROOT_SECRET_DO_NOT_LEAK_77319";
@@ -189,7 +189,7 @@ class TestSafetyGuardTest {
             assertNotEquals(0, setupExit,
                     "setup.ps1 trên cinema_chain đã có bảng phải dừng lại ở chốt chặn bảo vệ không ghi đè: " + setupOut);
             assertFalse(setupOut.contains(sentinelAppSecret) || setupOut.contains(sentinelRootSecret),
-                    "Đầu ra console của setup.ps1 tuyệt đối không được in lộ mật khẩu");
+                    "Đầu ra console của setup.ps1 không được in lộ mật khẩu");
 
             assertTrue(Files.exists(spyLog), "Tiến trình con mysql_spy phải ghi nhận các lời gọi thực tế từ setup.ps1");
             List<String> records = Files.readAllLines(spyLog, StandardCharsets.UTF_8);
@@ -232,7 +232,7 @@ class TestSafetyGuardTest {
             assertTrue(Files.exists(spyLog), "db_fingerprint.py phải gọi mysql thông qua tiến trình con");
             for (String line : Files.readAllLines(spyLog, StandardCharsets.UTF_8)) {
                 assertFalse(line.contains(sentinelAppSecret),
-                        "db_fingerprint.py tuyệt đối không được để lộ mật khẩu trên tham số dòng lệnh hay MYSQL_PWD");
+                        "db_fingerprint.py không được để lộ mật khẩu trên tham số dòng lệnh hay MYSQL_PWD");
                 assertTrue(line.contains("--defaults-extra-file="),
                         "db_fingerprint.py phải dùng --defaults-extra-file cho mọi truy vấn");
             }

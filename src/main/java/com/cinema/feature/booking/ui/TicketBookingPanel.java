@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 /**
  * Màn hình Nhập liệu 2: Đặt vé & Chọn ghế theo Sơ đồ Phòng chiếu.
- * Hỗ trợ khách thành viên và khách vãng lai, hiển thị sơ đồ ghế trực quan,
+ * Hỗ trợ khách thành viên và khách vãng lai, hiển thị lưới sơ đồ ghế,
  * tạo đơn đặt vé + vé + thanh toán trong một giao dịch nguyên tử và cho phép hủy đơn để bán lại ghế.
  */
 public final class TicketBookingPanel extends JPanel {
@@ -73,7 +73,7 @@ public final class TicketBookingPanel extends JPanel {
         // Header
         JPanel topPanel = new JPanel(new BorderLayout(8, 8));
         topPanel.setOpaque(false);
-        JLabel title = new JLabel("ĐẶT VÉ XEM PHIM & CHỌN GHẾ TRỰC QUAN (TICKET BOOKING)");
+        JLabel title = new JLabel("ĐẶT VÉ XEM PHIM & CHỌN GHẾ (TICKET BOOKING)");
         title.setFont(Theme.FONT_TITLE);
         title.setForeground(Theme.TEXT_PRIMARY);
         topPanel.add(title, BorderLayout.NORTH);
@@ -408,7 +408,7 @@ public final class TicketBookingPanel extends JPanel {
 
             recentBookings = bookings;
             lblHistoryTitle.setText(String.format(
-                    "Danh sách Đơn đặt vé của Suất #%d (Hiển thị đầy đủ %d đơn — Hỗ trợ Hủy đơn & Mở bán lại ghế):",
+                    "Danh sách đơn đặt vé của suất #%d (%d đơn - Hỗ trợ hủy đơn & mở bán lại ghế):",
                     selected.screeningId(), recentBookings.size()));
             bookingTableModel.setRowCount(0);
             for (BookingSummaryView b : recentBookings) {

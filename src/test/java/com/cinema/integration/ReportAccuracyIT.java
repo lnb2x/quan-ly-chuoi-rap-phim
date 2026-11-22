@@ -185,7 +185,7 @@ class ReportAccuracyIT {
         assertEquals(0, knownSeedExpected.compareTo(report.totalPaidRevenue()),
                 "Tổng doanh thu kỳ mẫu chuẩn 01/11-15/11/2026 phải khớp đáp án biết trước 35.165.000 VNĐ");
         assertEquals(0, independentTotal.compareTo(report.totalPaidRevenue()),
-                "Tổng doanh thu trên Báo cáo Doanh thu phải khớp tuyệt đối với truy vấn SQL độc lập ngoài tầng ứng dụng");
+                "Tổng doanh thu trên Báo cáo Doanh thu phải khớp đúng với truy vấn SQL độc lập ngoài tầng ứng dụng");
 
         // Kiểm tra bộ lọc từng chi nhánh riêng lẻ so với SQL độc lập
         BigDecimal sumOfBranches = BigDecimal.ZERO;
@@ -193,7 +193,7 @@ class ReportAccuracyIT {
             RevenueReportData branchReport = revenueService.generateReport(from, to, branchId, "Chi nhánh #" + branchId);
             BigDecimal branchOracleTotal = executeIndependentRevenueOracleSql(from, to, branchId);
             assertEquals(0, branchOracleTotal.compareTo(branchReport.totalPaidRevenue()),
-                    "Doanh thu chi nhánh #" + branchId + " phải khớp tuyệt đối với SQL độc lập");
+                    "Doanh thu chi nhánh #" + branchId + " phải khớp đúng với SQL độc lập");
             sumOfBranches = sumOfBranches.add(branchReport.totalPaidRevenue());
         }
         assertEquals(0, report.totalPaidRevenue().compareTo(sumOfBranches),
@@ -214,7 +214,7 @@ class ReportAccuracyIT {
             assertTrue(extracted.contains("Giám đốc Kinh doanh Chuỗi rạp"), "PDF phải ghi rõ Người nhận là Giám đốc Kinh doanh Chuỗi rạp");
             assertTrue(extracted.contains("CineViet Vincom Bà Triệu"), "PDF phải hiển thị đúng dấu tiếng Việt tên chi nhánh từ CSDL");
             assertTrue(extracted.contains("Hà Nội") && extracted.contains("Đà Nẵng"), "PDF phải hiển thị đúng dấu tiếng Việt tên thành phố từ CSDL");
-            assertFalse(extracted.contains("??"), "PDF tuyệt đối không được chứa ký tự lỗi mã hóa '??'");
+            assertFalse(extracted.contains("??"), "PDF không được chứa ký tự lỗi mã hóa '??'");
             assertTrue(extracted.contains(Theme.formatCurrency(report.totalPaidRevenue())),
                     "PDF phải chứa chính xác số tổng doanh thu: " + Theme.formatCurrency(report.totalPaidRevenue()));
         }
@@ -232,7 +232,7 @@ class ReportAccuracyIT {
 
         assertTrue(report.totalSalesRevenue().compareTo(BigDecimal.ZERO) > 0, "Doanh thu bán vé phải > 0");
         assertEquals(0, independentSalesTotal.compareTo(report.totalSalesRevenue()),
-                "Tổng doanh thu trên Báo cáo Bán vé phải khớp tuyệt đối với SQL độc lập ngoài tầng ứng dụng");
+                "Tổng doanh thu trên Báo cáo Bán vé phải khớp đúng với SQL độc lập ngoài tầng ứng dụng");
 
         // Kiểm tra lọc theo Chi nhánh #1
         TicketSalesReportData branch1Report = salesService.generateReport(
@@ -259,7 +259,7 @@ class ReportAccuracyIT {
             assertTrue(extracted.contains("Đào, Phở và Piano"),
                     "PDF phải hiển thị đúng dấu tiếng Việt tựa đề phim từ CSDL");
             assertFalse(extracted.contains("??"),
-                    "PDF tuyệt đối không được chứa ký tự lỗi mã hóa '??'");
+                    "PDF không được chứa ký tự lỗi mã hóa '??'");
             assertTrue(extracted.contains(Theme.formatCurrency(report.totalSalesRevenue())),
                     "PDF phải chứa chính xác tổng doanh thu bán vé: " + Theme.formatCurrency(report.totalSalesRevenue()));
         }

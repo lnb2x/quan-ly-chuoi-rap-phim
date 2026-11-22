@@ -29,7 +29,7 @@ public final class SandboxGuiVerificationRunner {
             SwingUtilities.invokeAndWait(() -> {
                 frame[0] = new AppShell(AppConfig.loadTest(), payments);
                 frame[0].setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                frame[0].setTitle("CineViet — VNPay Sandbox — Chưa cấu hình merchant");
+                frame[0].setTitle("CineViet - VNPay Sandbox - Chưa cấu hình merchant");
                 frame[0].setVisible(true);
                 frame[0].showScreen(AppShell.TAB_BOOKING);
                 frame[0].getBookingPanel().selectFirstAvailableSeatsForDemo(1);

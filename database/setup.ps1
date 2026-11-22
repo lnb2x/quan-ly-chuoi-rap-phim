@@ -18,10 +18,10 @@ $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 
 # =============================================================================
 # 0. Chốt chặn an toàn cứng trước khi mở bất kỳ kết nối nào tới MySQL
-#    Tuyệt đối cấm xóa/reset `cinema_chain` trong mọi workflow phát triển/kiểm thử!
+#    Không cho phép xóa/reset `cinema_chain` trong mọi workflow phát triển/kiểm thử!
 # =============================================================================
 if ($CleanReset -or $Mode -eq "CleanReset") {
-    throw "CHẶN AN TOÀN TUYỆT ĐỐI: Chế độ -CleanReset nhắm vào CSDL chính đã bị VÔ HIỆU HÓA để bảo vệ dữ liệu 'cinema_chain'. Để làm mới môi trường kiểm thử, chỉ được phép dùng: -ResetTestDb -TargetDatabase cinema_chain_test"
+    throw "CHẶN AN TOÀN: Chế độ -CleanReset nhắm vào CSDL chính đã bị VÔ HIỆU HÓA để bảo vệ dữ liệu 'cinema_chain'. Để làm mới môi trường kiểm thử, chỉ được phép dùng: -ResetTestDb -TargetDatabase cinema_chain_test"
 }
 
 if ($ResetTestDb) {
@@ -33,32 +33,32 @@ if ($TargetDatabase -notin @("cinema_chain_test", "cinema_chain")) {
 }
 
 if ($Mode -eq "ResetTestDb" -and $TargetDatabase -cne "cinema_chain_test") {
-    throw "CHẶN AN TOÀN TUYỆT ĐỐI: Tác vụ Reset chỉ được phép nhắm vào duy nhất 'cinema_chain_test', tuyệt đối cấm chạy trên '$TargetDatabase'!"
+    throw "CHẶN AN TOÀN: Tác vụ Reset chỉ được phép nhắm vào duy nhất 'cinema_chain_test', không cho phép chạy trên '$TargetDatabase'!"
 }
 
 $rootDir = Split-Path -Parent $PSScriptRoot
 
 # =============================================================================
-# 1. Định vị đúng MySQL Community Server 8.4 LTS (Tuyệt đối không chạm XAMPP)
+# 1. Định vị đúng MySQL Community Server 8.4 (Không chạm XAMPP)
 # =============================================================================
 $mysqlDir        = Join-Path $env:USERPROFILE ".mysql\mysql-8.4"
 $expectedDataDir = (Join-Path $env:USERPROFILE ".mysql\data-8.4").Replace('\', '/').TrimEnd('/')
 $mysqlExe        = if ($env:CINEMA_MYSQL_EXE_OVERRIDE) { $env:CINEMA_MYSQL_EXE_OVERRIDE } else { Join-Path $mysqlDir "bin\mysql.exe" }
 
 if (-not (Test-Path $mysqlExe)) {
-    throw "Không tìm thấy MySQL Community Server 8.4 LTS tại $mysqlExe."
+    throw "Không tìm thấy MySQL Community Server 8.4 tại $mysqlExe."
 }
 
 if (-not $env:CINEMA_MYSQL_EXE_OVERRIDE) {
     powershell -NoProfile -ExecutionPolicy Bypass -File "$PSScriptRoot\start_mysql84.ps1"
     if ($LASTEXITCODE -ne 0) {
-        throw "Không thể xác minh hoặc khởi động đúng instance MySQL 8.4.0 LTS."
+        throw "Không thể xác minh hoặc khởi động đúng instance MySQL 8.4.0."
     }
 }
 
 # =============================================================================
 # 2. Đọc thông tin xác thực cục bộ & truyền qua --defaults-extra-file + stdin
-#    (Tuyệt đối không truyền mật khẩu hay IDENTIFIED BY trên dòng lệnh tiến trình)
+#    (Không truyền mật khẩu hay IDENTIFIED BY trên dòng lệnh tiến trình)
 # =============================================================================
 $localPropsPath = Join-Path $rootDir "config\application.properties"
 $propsMap = @{}
@@ -114,7 +114,7 @@ function Invoke-MySqlFile([string]$filePath, [string]$user, [string]$pass, [stri
 
 function Provision-LeastPrivilegeAppUser([string]$user, [string]$pass, [string]$rootPwd) {
     $escapedPass = $pass.Replace("'", "''")
-    # Chỉ cấp quyền qua stdin, tuyệt đối không xuất hiện trên tham số dòng lệnh tiến trình
+    # Chỉ cấp quyền qua stdin, không xuất hiện trên tham số dòng lệnh tiến trình
     $provisionSql = @"
 CREATE USER IF NOT EXISTS '$user'@'localhost' IDENTIFIED BY '$escapedPass';
 ALTER USER '$user'@'localhost' IDENTIFIED BY '$escapedPass';
@@ -167,7 +167,7 @@ function Initialize-DatabaseNonDestructive([string]$dbName, [string]$rootPwd) {
     $before = Get-DatabaseSummary $dbName $rootPwd
 
     if ($dbName -ceq "cinema_chain" -and $before.Tables -gt 0) {
-        throw "CHẶN AN TOÀN: CSDL chính 'cinema_chain' đã tồn tại dữ liệu ($($before.Detail)). Tuyệt đối không tự động ghi đè schema/trigger/view của 'cinema_chain' qua setup.ps1! Mọi thay đổi schema cần kế hoạch migration có kiểm soát, sao lưu và xác nhận riêng."
+        throw "CHẶN AN TOÀN: CSDL chính 'cinema_chain' đã tồn tại dữ liệu ($($before.Detail)). Không tự động ghi đè schema/trigger/view của 'cinema_chain' qua setup.ps1! Mọi thay đổi schema cần kế hoạch migration có kiểm soát, sao lưu và xác nhận riêng."
     }
 
     Write-Output "  -> [$dbName] Khởi tạo 14 bảng chuẩn 3NF (CREATE TABLE IF NOT EXISTS)..."
@@ -208,7 +208,7 @@ function Initialize-DatabaseNonDestructive([string]$dbName, [string]$rootPwd) {
 }
 
 # =============================================================================
-# 3. Xác minh trực tiếp phiên bản và datadir MySQL 8.4 LTS
+# 3. Xác minh trực tiếp phiên bản và datadir MySQL 8.4
 # =============================================================================
 $serverCheck = (Invoke-MySqlStdin "SELECT CONCAT(VERSION(), '|', @@version_comment, '|', REPLACE(@@datadir, '\\', '/'));" "root" $rootPass) -join ""
 $sParts = $serverCheck.Split("|")
@@ -217,7 +217,7 @@ $verComment = $sParts[1].Trim()
 $liveDataDir = $sParts[2].Trim().TrimEnd('/')
 
 if ($verComment -match "(?i)mariadb" -or $verNumber -notlike "8.4.*" -or $liveDataDir.ToLower() -ne $expectedDataDir.ToLower()) {
-    throw "LỖI INSTANCE MYSQL: Đang kết nối tới '$verNumber ($verComment)' tại '$liveDataDir', không khớp chuẩn MySQL 8.4 LTS tại '$expectedDataDir'."
+    throw "LỖI INSTANCE MYSQL: Đang kết nối tới '$verNumber ($verComment)' tại '$liveDataDir', không khớp chuẩn MySQL 8.4 tại '$expectedDataDir'."
 }
 
 Write-Output "======================================================================"
@@ -249,7 +249,7 @@ if ($Mode -eq "ResetTestDb") {
     if (-not $ConfirmYes) {
         Write-Output " [XÁC NHẬN RESET CSDL KIỂM THỬ 'cinema_chain_test']"
         Write-Output " - Trạng thái hiện tại: $($existingTest.Detail)"
-        Write-Output " - CSDL chính 'cinema_chain' và các CSDL khác: ĐƯỢC BẢO VỆ TUYỆT ĐỐI"
+        Write-Output " - CSDL chính 'cinema_chain' và các CSDL khác: ĐƯỢC GIỮ NGUYÊN"
         $confirmInput = Read-Host "Nhập chính xác 'YES' để làm mới 'cinema_chain_test'"
         if ($confirmInput -cne "YES") {
             Write-Output "[ĐÃ HỦY AN TOÀN] Giữ nguyên trạng thái hiện tại của 'cinema_chain_test'."
@@ -257,14 +257,14 @@ if ($Mode -eq "ResetTestDb") {
         }
     }
 
-    "=== MYSQL 8.4 LTS TEST DB PROVISIONING LOG [MODE: RESET TEST DB -> cinema_chain_test] ($(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) ===" | Out-File -FilePath $logFile -Encoding utf8
+    "=== MYSQL 8.4 TEST DB PROVISIONING LOG [MODE: RESET TEST DB -> cinema_chain_test] ($(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) ===" | Out-File -FilePath $logFile -Encoding utf8
     Invoke-MySqlStdin "SELECT VERSION() AS mysql_version, @@version_comment AS distribution, @@sql_mode AS sql_mode, @@character_set_server AS charset, @@collation_server AS collation;" "root" $rootPass -TableOutput | Out-File -FilePath $logFile -Append -Encoding utf8
 
     Write-Output "[ResetTestDb] Xóa và tạo mới duy nhất CSDL kiểm thử 'cinema_chain_test' (00_clean_reset_test_db.sql)..."
     Invoke-MySqlFile "$PSScriptRoot\schema\00_clean_reset_test_db.sql" "root" $rootPass | Out-Null
 }
 else {
-    "=== MYSQL 8.4 LTS SETUP LOG [MODE: NORMAL | TARGET: $TargetDatabase] ($(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) ===" | Out-File -FilePath $logFile -Encoding utf8
+    "=== MYSQL 8.4 SETUP LOG [MODE: NORMAL | TARGET: $TargetDatabase] ($(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) ===" | Out-File -FilePath $logFile -Encoding utf8
     Invoke-MySqlStdin "CREATE DATABASE IF NOT EXISTS $TargetDatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" "root" $rootPass | Out-Null
 }
 

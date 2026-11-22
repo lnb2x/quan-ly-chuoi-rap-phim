@@ -55,7 +55,7 @@ try {
     New-Item -ItemType Directory -Force -Path "verification\test-results" | Out-Null
 
     Write-Output "======================================================================"
-    Write-Output " [1/6] XÁC MINH MYSQL 8.4.0 LTS & DẤU VÂN TAY SHA-256 BAN ĐẦU CỦA 'cinema_chain'"
+    Write-Output " [1/6] XÁC MINH MYSQL 8.4.0 & DẤU VÂN TAY SHA-256 BAN ĐẦU CỦA 'cinema_chain'"
     Write-Output "       (Chế độ chỉ đọc trên cinema_chain, không gọi setup.ps1)"
     Write-Output "======================================================================"
     powershell -NoProfile -ExecutionPolicy Bypass -File "$PSScriptRoot\start_mysql84.ps1"

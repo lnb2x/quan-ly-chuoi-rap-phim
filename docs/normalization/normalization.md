@@ -20,21 +20,21 @@ Cho lược đồ quan hệ $R(U, F)$ với tập thuộc tính $U = \{A_1, A_2,
   - `Member(F, X -> Y)`: Trả về `true` nếu $Y \subseteq \text{Closure}(X, F)$, ngược lại `false` (kiểm tra $F \models X \to Y$ mà không cần sinh toàn bộ $F^+$).
   - `Left-Reduce(G)` *(Tối giản trái / Phụ thuộc hàm đầy đủ)*: Loại bỏ thuộc tính dư thừa $A \in X$ khỏi $X \to Y \in F$ nếu `Member(F, (X - {A}) -> Y) = true`.
   - `Nonredundant(G)` *(Phủ không dư thừa)*: Loại bỏ phụ thuộc hàm dư thừa $X \to Y$ khỏi $F$ nếu `Member(F - {X -> Y}, X -> Y) = true`.
-  - `MinCover(F)` *(Tìm phủ tối thiểu — thực hiện đúng thứ tự 3 bước)*: (1) Tách mọi vế phải thành thuộc tính đơn $X \to A_1, \dots, X \to A_k$; (2) Chạy `Left-Reduce(G)` trước; (3) Chạy `Nonredundant(G)` sau để thu được tập phụ thuộc hàm tối thiểu tương đương ($G^+ = F^+$).
+  - `MinCover(F)` *(Tìm phủ tối thiểu - thực hiện đúng thứ tự 3 bước)*: (1) Tách mọi vế phải thành thuộc tính đơn $X \to A_1, \dots, X \to A_k$; (2) Chạy `Left-Reduce(G)` trước; (3) Chạy `Nonredundant(G)` sau để thu được tập phụ thuộc hàm tối thiểu tương đương ($G^+ = F^+$).
 
 ### 1.2. Khóa của Lược đồ Quan hệ và Các Dạng Chuẩn (`N1NF`, `1NF`, `2NF`, `3NF`, `BCNF`)
 - **Siêu khóa (Superkey):** Tập thuộc tính $X \subseteq U$ xác định duy nhất thực thể trong quan hệ ($\text{Closure}(X, F) = U$ trên mọi thể hiện hợp lệ và không nhận `NULL` làm mất tính định danh bộ). Với quan hệ $n$ thuộc tính, số tập con khác rỗng tối đa cần xét theo phương pháp tổng quát là $2^n - 1$ (xét tăng dần lực lượng $1, 2, \dots, n$; Slide 7, trang 2–7).
-- **Khóa dự bị / Khóa dự tuyển (Candidate Key – $K$):** Siêu khóa có số thuộc tính nhỏ nhất — không tồn tại tập con thực sự $Y \subset K$ mà $\text{Closure}(Y, F) = U$. Một khóa dự bị được chọn làm **Khóa chính (Primary Key – PK)**; tất cả các khóa dự bị còn lại trở thành **Khóa phụ / Khóa thứ cấp (Alternate Key – AK)** (Slide 7, trang 15).
+- **Khóa dự bị / Khóa dự tuyển (Candidate Key - $K$):** Siêu khóa có số thuộc tính nhỏ nhất - không tồn tại tập con thực sự $Y \subset K$ mà $\text{Closure}(Y, F) = U$. Một khóa dự bị được chọn làm **Khóa chính (Primary Key - PK)**; tất cả các khóa dự bị còn lại trở thành **Khóa phụ / Khóa thứ cấp (Alternate Key - AK)** (Slide 7, trang 15).
 - **Thuộc tính khóa (Prime Attribute) & Thuộc tính không khóa (Non-prime Attribute):** Thuộc tính khóa là thành viên của ít nhất một khóa dự bị $K$ của $R$; thuộc tính không khóa không thuộc bất kỳ khóa dự bị nào của $R$ (Slide 7, trang 16).
-- **Dạng chưa chuẩn hóa (`N1NF`) và Dạng chuẩn 1 (`1NF` — Slide 7, trang 11–14 & PDF trang 158):** Một quan hệ đạt **1NF** khi và chỉ khi thỏa mãn đồng thời **3 điều kiện**:
+- **Dạng chưa chuẩn hóa (`N1NF`) và Dạng chuẩn 1 (`1NF` - Slide 7, trang 11–14 & PDF trang 158):** Một quan hệ đạt **1NF** khi và chỉ khi thỏa mãn đồng thời **3 điều kiện**:
   1. Mọi giá trị thuộc tính của quan hệ đều ở dạng **nguyên tố** (đơn trị, không thể phân rã được nữa);
   2. **Không có thuộc tính đa trị** hay nhóm lặp;
   3. **Không có thuộc tính dẫn xuất** (thuộc tính tính toán được từ các thuộc tính/quan hệ khác).
-- **Dạng chuẩn 2 (`2NF` — Slide 7, trang 17–18):** $R$ đạt **1NF** và mọi thuộc tính không khóa đều **phụ thuộc hàm đầy đủ** (tối giản trái) vào mọi khóa dự bị của $R$ (không tồn tại thuộc tính không khóa $A$ phụ thuộc một phần vào tập con thực sự $X \subset K$, $X \neq \varnothing$).
-- **Dạng chuẩn 3 (`3NF` — hai định nghĩa tương đương trên Slide 7, trang 21–22):**
+- **Dạng chuẩn 2 (`2NF` - Slide 7, trang 17–18):** $R$ đạt **1NF** và mọi thuộc tính không khóa đều **phụ thuộc hàm đầy đủ** (tối giản trái) vào mọi khóa dự bị của $R$ (không tồn tại thuộc tính không khóa $A$ phụ thuộc một phần vào tập con thực sự $X \subset K$, $X \neq \varnothing$).
+- **Dạng chuẩn 3 (`3NF` - hai định nghĩa tương đương trên Slide 7, trang 21–22):**
   - *Định nghĩa 1:* $R$ đạt **2NF** và với bất kỳ phụ thuộc hàm không hiển nhiên $X \to A \in F^+$ ($A \notin X$), hoặc $X$ là một **siêu khóa** của $R$, hoặc $A$ là một **thuộc tính khóa** của $R$.
   - *Định nghĩa 2:* $R$ đạt **2NF** và **không có thuộc tính không khóa nào phụ thuộc hàm bắc cầu** vào khóa của $R$ (không tồn tại $Y \subseteq U$ và thuộc tính không khóa $A$ mà $K \to Y$, $Y \not\to K$, $Y \to A$ với $A \notin K \cup Y$).
-- **Dạng chuẩn Boyce–Codd (`BCNF` — Slide 7, trang 32–36):** Mọi phụ thuộc hàm không hiển nhiên $X \to A \in F^+$ ($A \notin X$) đều có $X$ là **siêu khóa** của $R$ ($\text{BCNF} \Rightarrow \text{3NF} \Rightarrow \text{2NF} \Rightarrow \text{1NF}$). Theo Slide 7 trang 35–36, phân tách về `3NF` luôn đảm bảo đồng thời cả **(1) Kết nối không mất mát thông tin** và **(2) Bảo toàn các phụ thuộc hàm**; đặc biệt trên lược đồ 14 bảng của hệ thống rạp phim, cả 14 quan hệ đều đạt đồng thời **3NF và BCNF** mà vẫn bảo toàn trọn vẹn các phụ thuộc hàm nội bộ.
+- **Dạng chuẩn Boyce - Codd (`BCNF` - Slide 7, trang 32–36):** Mọi phụ thuộc hàm không hiển nhiên $X \to A \in F^+$ ($A \notin X$) đều có $X$ là **siêu khóa** của $R$ ($\text{BCNF} \Rightarrow \text{3NF} \Rightarrow \text{2NF} \Rightarrow \text{1NF}$). Theo Slide 7 trang 35–36, phân tách về `3NF` luôn đảm bảo đồng thời cả **(1) Kết nối không mất mát thông tin** và **(2) Bảo toàn các phụ thuộc hàm**; đặc biệt trên lược đồ 14 bảng của hệ thống rạp phim, cả 14 quan hệ đều đạt đồng thời **3NF và BCNF** mà vẫn bảo toàn đầy đủ các phụ thuộc hàm nội bộ.
 
 ### 1.3. Hai Phân biệt Lý thuyết Bắt buộc (Tránh Nhầm lẫn Học thuật)
 1. **Khóa dự bị toàn bảng (Candidate Key) $\neq$ Ràng buộc duy nhất trên tập con (Partial / Subset Uniqueness Constraint):**
@@ -58,7 +58,7 @@ Xét các quy tắc nghiệp vụ của bài toán:
   $$\text{booking\_id} \to \text{screening\_id}$$
   - Vế trái `booking_id` **không phải siêu khóa** của `ticket` (vì một đơn đặt vé mua nhiều ghế khác nhau, $(\text{booking\_id})^+ \neq U_{\text{old}}$).
   - Vế phải `screening_id` **không phải thuộc tính khóa** (không nằm trong $K_1$ hay $K_2$).
-- **Kết luận nghiêm ngặt:** Sự hiện diện của cột `screening_id` trong `ticket` tạo ra phụ thuộc hàm bộ phận vào $K_2$ ($\{\text{booking\_id}\} \subset \{\text{booking\_id}, \text{seat\_id}\}$, **vi phạm 2NF**) đồng thời là phụ thuộc hàm bắc cầu từ khóa chính $K_1$ ($\text{ticket\_id} \to \text{booking\_id} \to \text{screening\_id}$, **vi phạm 3NF**). Việc dùng khóa ngoại tổ hợp `FOREIGN KEY (booking_id, screening_id)` hay Trigger đồng bộ ở thiết kế cũ chỉ ngăn dữ liệu mâu thuẫn khi ghi, **không hề xóa bỏ phụ thuộc hàm $\text{booking\_id} \to \text{screening\_id}$** nên quan hệ cũ không đạt 3NF về mặt lý thuyết!
+- **Kết luận:** Sự hiện diện của cột `screening_id` trong `ticket` tạo ra phụ thuộc hàm bộ phận vào $K_2$ ($\{\text{booking\_id}\} \subset \{\text{booking\_id}, \text{seat\_id}\}$, **vi phạm 2NF**) đồng thời là phụ thuộc hàm bắc cầu từ khóa chính $K_1$ ($\text{ticket\_id} \to \text{booking\_id} \to \text{screening\_id}$, **vi phạm 3NF**). Việc dùng khóa ngoại tổ hợp `FOREIGN KEY (booking_id, screening_id)` hay Trigger đồng bộ ở thiết kế cũ chỉ ngăn dữ liệu mâu thuẫn khi ghi, **không hề xóa bỏ phụ thuộc hàm $\text{booking\_id} \to \text{screening\_id}$** nên quan hệ cũ không đạt 3NF về mặt lý thuyết!
 
 ### 2.2. So sánh Các Phương án Thiết kế Chuẩn hóa 3NF cho Nghiệp vụ Vé & Chống Bán Trùng Ghế
 
@@ -66,14 +66,14 @@ Xét các quy tắc nghiệp vụ của bài toán:
 |---|---|---|---|
 | **Đạt chuẩn 3NF / BCNF?** | Đạt 3NF trên `ticket`. | **Đạt 3NF và BCNF** trên cả `ticket` lẫn `screening_seat_lock`. | Phá vỡ nghiệp vụ 1 hóa đơn nhiều ghế hoặc lặp lại `customer_id, employee_id, booked_at` theo `booking_code` (gây vi phạm 3NF mới). |
 | **Chống bán trùng ghế ở mức chỉ mục InnoDB?** | **Không có UNIQUE Index trực tiếp** trên `(screening_id, seat_id)`; nếu chạy dưới `READ COMMITTED` hoặc ghi SQL trực tiếp ngoài ứng dụng dễ gặp race condition. | **Có khóa chính `PRIMARY KEY (screening_id, seat_id)`** và `UNIQUE (ticket_id)` trực tiếp trong InnoDB, ngăn trùng ghế ngay cả khi nhiều giao dịch chạy đồng thời hoặc ghi SQL trực tiếp. | Có `UNIQUE`, nhưng đánh mất thực thể `booking` nhiều ghế. |
-| **Lưu lịch sử vé hủy (`CANCELLED`) & bán lại ghế?** | Lưu được lịch sử trong `ticket`. | **Lưu trọn vẹn lịch sử** mọi lần hủy trong `ticket`, đồng thời tự động giải phóng dòng trong `screening_seat_lock` khi hủy để bán lại ghế ngay lập tức. | Phức tạp khi hủy toàn đơn nhiều ghế và đối chiếu `payment`. |
+| **Lưu lịch sử vé hủy (`CANCELLED`) & bán lại ghế?** | Lưu được lịch sử trong `ticket`. | **Giữ đầy đủ lịch sử** mọi lần hủy trong `ticket`, đồng thời tự động giải phóng dòng trong `screening_seat_lock` khi hủy để bán lại ghế ngay lập tức. | Phức tạp khi hủy toàn đơn nhiều ghế và đối chiếu `payment`. |
 
 ### 2.3. Thực thi Đầy đủ `MinCover`, `3NF.2–3`, `Lossless` và `Preserve` trên Lược đồ Vé
 
 Áp dụng đúng hệ thống thuật toán trong Bài giảng của TS. Nguyễn Quỳnh Chi lên lược đồ vé cũ $R_{\text{old}}(U_{\text{old}}, F_{\text{old}})$ với thứ tự thuộc tính $(A_1=\text{ticket\_id},\ A_2=\text{booking\_id},\ A_3=\text{screening\_id},\ A_4=\text{seat\_id},\ A_5=\text{unit\_price},\ A_6=\text{ticket\_status},\ A_7=\text{cancelled\_at})$ và tập phụ thuộc hàm ban đầu:
 $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\},\ \{\text{booking\_id}, \text{seat\_id}\} \to \text{ticket\_id},\ \text{booking\_id} \to \text{screening\_id}\}$$
 
-1. **Bước 1 — Tìm phủ tối thiểu bằng `Thuật toán MinCover(F_old)` (Slide 6, trang 47):**
+1. **Bước 1: Tìm phủ tối thiểu bằng `Thuật toán MinCover(F_old)` (Slide 6, trang 47):**
    - **Tách vế phải thành thuộc tính đơn:** Thu được tập $G$ gồm 8 phụ thuộc hàm vế phải đơn: `ticket_id → booking_id`, `ticket_id → screening_id`, `ticket_id → seat_id`, `ticket_id → unit_price`, `ticket_id → ticket_status`, `ticket_id → cancelled_at`, `{booking_id, seat_id} → ticket_id`, `booking_id → screening_id`.
    - **Tối giản vế trái `Left-Reduce(G)`:** Chỉ có FD `{booking_id, seat_id} → ticket_id` có vế trái ghép. Kiểm tra `Member(G, {booking_id} → ticket_id)`: $\text{Closure}(\{\text{booking\_id}\}, G) = \{\text{booking\_id}, \text{screening\_id}\} \not\ni \text{ticket\_id} \Rightarrow \text{false}$; kiểm tra `Member(G, {seat_id} → ticket_id)`: $\text{Closure}(\{\text{seat\_id}\}, G) = \{\text{seat\_id}\} \not\ni \text{ticket\_id} \Rightarrow \text{false}$. Vậy $G$ đã tối giản trái.
    - **Loại bỏ phụ thuộc hàm dư thừa `Nonredundant(G)`:** Xét $f = (\text{ticket\_id} \to \text{screening\_id})$, tính bao đóng trên $G \setminus \{f\}$:
@@ -81,13 +81,13 @@ $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening
      Do $\text{screening\_id}$ vẫn suy diễn được qua chuỗi bắc cầu `ticket_id → booking_id` và `booking_id → screening_id`, `Member(G - {f}, f) = true` nên loại bỏ `ticket_id → screening_id`. Kiểm tra 7 FD còn lại đều cho `Member = false`. Phủ tối thiểu thu được gồm đúng **7 phụ thuộc hàm**:
      $$G_{\min} = \{\text{ticket\_id} \to \text{booking\_id},\ \text{ticket\_id} \to \text{seat\_id},\ \text{ticket\_id} \to \text{unit\_price},\ \text{ticket\_id} \to \text{ticket\_status},\ \text{ticket\_id} \to \text{cancelled\_at},\ \{\text{booking\_id}, \text{seat\_id}\} \to \text{ticket\_id},\ \text{booking\_id} \to \text{screening\_id}\}$$
 
-2. **Bước 2 — Phân tách về chuẩn 3NF theo Slide 7 trang 23–24 & `Thuật toán 3NF.2 / 3NF.3` (PDF trang 175–178):**
+2. **Bước 2: Phân tách về chuẩn 3NF theo Slide 7 trang 23–24 & `Thuật toán 3NF.2 / 3NF.3` (PDF trang 175–178):**
    - Theo *Cách 1* (tách thuộc tính phụ thuộc bắc cầu `screening_id` sang bảng riêng với khóa chính là thuộc tính bắc cầu `booking_id`) và *Cách 2 / `Thuật toán 3NF.3`* (gộp các FD cùng vế trái trong $G_{\min}$, hợp nhất hai lược đồ chứa hai khóa dự bị tương đương $K_1 = \{\text{ticket\_id}\}$ và $K_2 = \{\text{booking\_id}, \text{seat\_id}\}$ của $R_{\text{old}}$, đồng thời kiểm tra đã có lược đồ con chứa khóa dự bị của $R_{\text{old}}$), ta thu được phép phân tách $D = \{R_{\text{ticket}}, R_{\text{bs}}\}$ trên đúng tập $U_{\text{old}}$ ($R_{\text{ticket}} \cup R_{\text{bs}} = U_{\text{old}}$):
      - $R_{\text{ticket}}(\underline{\text{ticket\_id}}, \text{booking\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at})$
      - $R_{\text{bs}}(\underline{\text{booking\_id}}, \text{screening\_id})$
    - *(Lưu ý phạm vi hình thức: Không gọi toàn bộ bảng `booking` là thành phần phân tách của $U_{\text{old}}$ vì `booking_code`, `customer_id`, `employee_id`, `booked_at`, `booking_status` không thuộc $U_{\text{old}}$. Trong cài đặt CSDL 14 bảng, $R_{\text{bs}}$ được cung cấp bởi phép chiếu hai cột `booking(booking_id, screening_id)` của bảng `booking`, kết hợp `fk_ticket_booking` `NOT NULL` bảo đảm mỗi vé kết nối tự nhiên đúng một đơn: $\pi_{U_{\text{old}}}(R_{\text{ticket}} * R_{\text{booking}}) = r_{\text{old}}$).*
 
-3. **Bước 3 — Kiểm tra Kết nối Không Mất Thông tin bằng `Thuật toán Lossless(R_old, F_old, D)` (PDF trang 163–165):**
+3. **Bước 3: Kiểm tra Kết nối Không Mất Thông tin bằng `Thuật toán Lossless(R_old, F_old, D)` (PDF trang 163–165):**
    - **Theo bảng ma trận $T$ kích thước $2 \times 7$:** Khởi tạo $T[i, j] = a_j$ nếu $A_j \in R_i$, ngược lại $T[i, j] = b_{ij}$:
 
    | Lược đồ con / Trạng thái bảng $T$ | `ticket_id` ($A_1$) | `booking_id` ($A_2$) | `screening_id` ($A_3$) | `seat_id` ($A_4$) | `unit_price` ($A_5$) | `ticket_status` ($A_6$) | `cancelled_at` ($A_7$) |
@@ -99,13 +99,13 @@ $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening
    - Áp dụng phụ thuộc hàm $\text{booking\_id} \to \text{screening\_id} \in G_{\min}$: hai hàng $R_{\text{ticket}}$ và $R_{\text{bs}}$ có cùng giá trị $a_2$ tại cột `booking_id`, nên đồng nhất cột `screening_id` ưu tiên ký hiệu $a_3$ ($b_{13} \leftarrow a_3$). Hàng $R_{\text{ticket}}$ trở thành toàn ký hiệu $a_1 \dots a_7$ $\Rightarrow$ `Lossless` trả về **`true`**.
    - **Đối chiếu theo định lý phân tách hai ngôi:** $R_{\text{ticket}} \cap R_{\text{bs}} = \{\text{booking\_id}\}$ và $\{\text{booking\_id}\} \to R_{\text{bs}} \in F_{\text{old}}^+$, nên với mọi thể hiện hợp lệ $r_{\text{old}}$: $\pi_{R_{\text{ticket}}}(r_{\text{old}}) * \pi_{R_{\text{bs}}}(r_{\text{old}}) = r_{\text{old}}$.
 
-4. **Bước 4 — Kiểm tra Bảo toàn Phụ thuộc Hàm bằng `Thuật toán Preserve(D, F_old, X -> Y)` (PDF trang 166–167) & Ràng buộc Liên Quan hệ:**
+4. **Bước 4: Kiểm tra Bảo toàn Phụ thuộc Hàm bằng `Thuật toán Preserve(D, F_old, X -> Y)` (PDF trang 166–167) & Ràng buộc Liên Quan hệ:**
    - Mọi FD trong $G_{\min}$ đều nằm trọn trong $R_{\text{ticket}}$ hoặc $R_{\text{bs}}$ nên hiển nhiên được bảo toàn. Kiểm tra trực tiếp bằng `Preserve(D, F_old, ticket_id -> screening_id)` đối với FD bắc cầu gốc:
      - Khởi tạo $Z \leftarrow \{\text{ticket\_id}\}$.
      - Vòng lặp 1 trên $R_{\text{ticket}}$: $Z \cap R_{\text{ticket}} = \{\text{ticket\_id}\}$, $\text{Closure}(\{\text{ticket\_id}\}, F_{\text{old}}) \cap R_{\text{ticket}} = R_{\text{ticket}} \Rightarrow Z = \{\text{ticket\_id}, \text{booking\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\}$.
      - Vòng lặp 1 trên $R_{\text{bs}}$: $Z \cap R_{\text{bs}} = \{\text{booking\_id}\}$, $\text{Closure}(\{\text{booking\_id}\}, F_{\text{old}}) \cap R_{\text{bs}} = \{\text{booking\_id}, \text{screening\_id}\} \Rightarrow Z = U_{\text{old}}$.
      - Vì $\{\text{screening\_id}\} \subseteq Z$, `Preserve` trả về **`true`**. (Đã kiểm chứng tự động bao đóng trên toàn bộ $2^7 = 128$ tập con của $U_{\text{old}}$ trong `tools/verify_erd.py`).
-   - **Phân biệt rõ với quan hệ bổ sung và ràng buộc liên bảng:** `screening_seat_lock` là quan hệ bổ sung biểu diễn thực thể kết hợp phân bổ ghế đang hiệu lực (FD nội bộ chứng minh tại Mục 4.13), không phải phép chiếu của toàn bộ lịch sử vé. Hai điều kiện liên quan hệ — (i) `seat.room_id = screening.room_id` (`BR-09`) và (ii) $r_{\text{ssl}} = \pi_{\text{screening\_id},\text{seat\_id},\text{ticket\_id}}(\sigma_{\text{ticket\_status}='VALID'}(\text{ticket} * \text{booking}))$ (`BR-10`) — được cưỡng chế bằng FK, `PRIMARY KEY (screening_id, seat_id)`, `UNIQUE (ticket_id)` và bộ trigger đồng bộ trong `database/schema/02_triggers.sql`.
+   - **Phân biệt rõ với quan hệ bổ sung và ràng buộc liên bảng:** `screening_seat_lock` là quan hệ bổ sung biểu diễn thực thể kết hợp phân bổ ghế đang hiệu lực (FD nội bộ chứng minh tại Mục 4.13), không phải phép chiếu của toàn bộ lịch sử vé. Hai điều kiện liên quan hệ - (i) `seat.room_id = screening.room_id` (`BR-09`) và (ii) $r_{\text{ssl}} = \pi_{\text{screening\_id},\text{seat\_id},\text{ticket\_id}}(\sigma_{\text{ticket\_status}='VALID'}(\text{ticket} * \text{booking}))$ (`BR-10`) - được cưỡng chế bằng FK, `PRIMARY KEY (screening_id, seat_id)`, `UNIQUE (ticket_id)` và bộ trigger đồng bộ trong `database/schema/02_triggers.sql`.
 
 ---
 
@@ -115,7 +115,7 @@ $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening
 2. **Không lưu `total_amount` trong `booking`:** Tổng tiền đơn vé được tính từ `SUM(ticket.unit_price)` của các vé hợp lệ thuộc đơn.
 3. **Không lưu `room_id` trong `ticket` hoặc `booking`:** Nếu lưu `room_id` sẽ sinh phụ thuộc bắc cầu qua `screening_id -> room_id` và `seat_id -> room_id`.
 4. **Bản chất lịch sử của `ticket.unit_price` (`BR-12`):** Tại thời điểm xuất vé, giá bán được tính bằng `screening.base_price + seat_type.surcharge` hiện hành và chốt cố định vào `ticket.unit_price`. Khi rạp điều chỉnh bảng giá phụ thu `seat_type.surcharge` hoặc giá cơ sở cho đợt mới, đơn giá trên các vé lịch sử đã bán không được thay đổi. Do đó trên quan hệ lịch sử `ticket`, `unit_price` không phụ thuộc hàm vào giá hiện hành của `seat_type` hay `screening`, mà phụ thuộc đầy đủ vào khóa của `ticket`.
-5. **Bản chất vận hành của `screening.end_time` (`BR-05`):** Thời điểm kết thúc suất chiếu bao gồm thời lượng phim cộng thời gian chiếu trailer quảng cáo và dọn vệ sinh phòng linh hoạt (15–30 phút tùy khung giờ thường hay suất IMAX), nên `end_time` không phải hàm tất định thuần túy của `(movie_id, start_time)` mà chỉ chịu ràng buộc miền giá trị $\text{end\_time} \ge \text{start\_time} + \text{duration\_minutes}$.
+5. **Bản chất vận hành của `screening.end_time` (`BR-05`):** Thời điểm kết thúc suất chiếu bao gồm thời lượng phim cộng thời gian chiếu trailer quảng cáo và dọn vệ sinh phòng thay đổi theo suất (15–30 phút tùy khung giờ thường hay suất IMAX), nên `end_time` không phải hàm tất định thuần túy của `(movie_id, start_time)` mà chỉ chịu ràng buộc miền giá trị $\text{end\_time} \ge \text{start\_time} + \text{duration\_minutes}$.
 
 ---
 
@@ -172,7 +172,7 @@ $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening
   - $f_{4.2}: \{\text{room\_id}, \text{seat\_row}, \text{seat\_number}\} \to \{\text{seat\_id}, \text{seat\_type\_code}\}$
 - **Bao đóng & Khóa dự tuyển tối thiểu:**
   - $(\text{seat\_id})^+ = U_4$ và $(\{\text{room\_id}, \text{seat\_row}, \text{seat\_number}\})^+ = U_4$.
-  - Không tập con thực sự nào của $\{\text{room\_id}, \text{seat\_row}, \text{seat\_number}\}$ suy ra được `seat_id` hoặc `seat_type_code` (vì sơ đồ phân hạng ghế có thể bố trí ghế VIP ở vùng giữa hàng — ví dụ ghế 3..8 là VIP còn ghế 1..2 cùng hàng là Thường — và khác nhau giữa các phòng chiếu).
+  - Không tập con thực sự nào của $\{\text{room\_id}, \text{seat\_row}, \text{seat\_number}\}$ suy ra được `seat_id` hoặc `seat_type_code` (vì sơ đồ phân hạng ghế có thể bố trí ghế VIP ở vùng giữa hàng - ví dụ ghế 3..8 là VIP còn ghế 1..2 cùng hàng là Thường - và khác nhau giữa các phòng chiếu).
   - Khóa dự tuyển: $K_{4.1} = \{\text{seat\_id}\}$ (**PK**), $K_{4.2} = \{\text{room\_id}, \text{seat\_row}, \text{seat\_number}\}$ (**AK**).
   - Thuộc tính khóa: $\{\text{seat\_id}, \text{room\_id}, \text{seat\_row}, \text{seat\_number}\}$; Thuộc tính không khóa: $\{\text{seat\_type\_code}\}$.
 - **Chứng minh dạng chuẩn:**
@@ -217,7 +217,7 @@ $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening
 - **Bao đóng & Khóa dự tuyển tối thiểu:**
   - Duy nhất $K_8 = \{\text{screening\_id}\}$ (**PK**).
   - *Vì sao `{room_id, start_time}` không phải khóa dự tuyển trên toàn bảng?* Trên lịch sử vận hành, một suất chiếu ở phòng $r$ lúc `19:00` có thể bị hủy (`status = 'CANCELLED'`) do sự cố kỹ thuật rồi được lập lại một suất chiếu mới `status = 'OPEN'` chiếu phim khác tại cùng phòng $r$ lúc `19:00`. Quy tắc không chồng lấn thời gian chỉ áp dụng trên tập con $\sigma_{\text{status}='OPEN'}(\text{screening})$, không phải phụ thuộc hàm toàn bảng.
-  - Như đã phân tích tại Mục 3, `end_time` bao gồm thời gian trailer/vệ sinh linh hoạt và `base_price` thay đổi theo khung giờ vàng/ngày lễ nên không tồn tại FD $\{\text{movie\_id}, \text{start\_time}\} \to \text{end\_time}$ hay $\{\text{movie\_id}, \text{room\_id}\} \to \text{base\_price}$.
+  - Như đã phân tích tại Mục 3, `end_time` bao gồm thời gian trailer và dọn phòng thay đổi theo suất và `base_price` thay đổi theo khung giờ vàng/ngày lễ nên không tồn tại FD $\{\text{movie\_id}, \text{start\_time}\} \to \text{end\_time}$ hay $\{\text{movie\_id}, \text{room\_id}\} \to \text{base\_price}$.
 - **Chứng minh dạng chuẩn:** Thuộc tính nguyên tố (**1NF**); khóa đơn thuộc tính `screening_id` (**2NF**); FD không tầm thường duy nhất $f_{8.1}$ có vế trái là siêu khóa $K_8$ $\Rightarrow$ Đạt **3NF** (và **BCNF**).
 
 ---
@@ -254,7 +254,7 @@ $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening
 
 ---
 
-### 4.12. Quan hệ 12: `ticket` (Sau khi Chuẩn hóa 3NF — Loại bỏ `screening_id`)
+### 4.12. Quan hệ 12: `ticket` (Sau khi Chuẩn hóa 3NF - Loại bỏ `screening_id`)
 - **Tập thuộc tính:** $U_{12} = \{\text{ticket\_id}, \text{booking\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\}$
 - **Tập phụ thuộc hàm cơ sở $F_{12}$:**
   - $f_{12.1}: \text{ticket\_id} \to \{\text{booking\_id}, \text{seat\_id}, \text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\}$
@@ -268,7 +268,7 @@ $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening
   - Thuộc tính khóa: $\{\text{ticket\_id}, \text{booking\_id}, \text{seat\_id}\}$; Thuộc tính không khóa: $\{\text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\}$.
 - **Chứng minh dạng chuẩn:**
   - **1NF:** Mọi thuộc tính đều nguyên tố.
-  - **2NF:** Xét khóa phức hợp $K_{12.2} = \{\text{booking\_id}, \text{seat\_id}\}$: không tồn tại phụ thuộc hàm nào từ tập con thực sự $\{\text{booking\_id}\}$ hay $\{\text{seat\_id}\}$ sang $\{\text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\}$ (vì `screening_id` đã được loại bỏ hoàn toàn khỏi `ticket`!). Mọi thuộc tính không khóa đều phụ thuộc hàm đầy đủ vào cả $K_{12.1}$ và $K_{12.2}$ $\Rightarrow$ Đạt **2NF**.
+  - **2NF:** Xét khóa phức hợp $K_{12.2} = \{\text{booking\_id}, \text{seat\_id}\}$: không tồn tại phụ thuộc hàm nào từ tập con thực sự $\{\text{booking\_id}\}$ hay $\{\text{seat\_id}\}$ sang $\{\text{unit\_price}, \text{ticket\_status}, \text{cancelled\_at}\}$ (vì `screening_id` đã được loại bỏ khỏi `ticket`!). Mọi thuộc tính không khóa đều phụ thuộc hàm đầy đủ vào cả $K_{12.1}$ và $K_{12.2}$ $\Rightarrow$ Đạt **2NF**.
   - **3NF & BCNF:** Giữa các thuộc tính không khóa (`unit_price`, `ticket_status`, `cancelled_at`) không có phụ thuộc hàm không tầm thường nào *(lưu ý: quy tắc "khi `ticket_status = 'VALID'` thì `cancelled_at IS NULL`, khi `ticket_status = 'CANCELLED'` thì `cancelled_at` nhận thời điểm hủy cụ thể" là ràng buộc toàn vẹn trạng thái / miền giá trị có điều kiện trên cột `NULLable`, không phải phụ thuộc hàm toàn bảng gây tách bảng trong 3NF; mặt khác nhiều thời điểm hủy khác nhau đều ứng với cùng trạng thái `'CANCELLED'` nên `ticket_status` $\not\to$ `cancelled_at`)*. Mọi FD không tầm thường trong $F_{12}^+$ đều có vế trái là siêu khóa ($K_{12.1}$ hoặc $K_{12.2}$) $\Rightarrow$ Đạt **3NF** (và **BCNF**).
 
 ---
@@ -317,11 +317,11 @@ $$F_{\text{old}} = \{\text{ticket\_id} \to \{\text{booking\_id}, \text{screening
 | 4 | `seat` | `seat_id` | `(room_id, seat_row, seat_number)` | `seat_type_code` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
 | 5 | `movie` | `movie_id` | `movie_code` | `title, duration_minutes, release_date, age_rating, country, description` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
 | 6 | `genre` | `genre_id` | `genre_name` | `description` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
-| 7 | `movie_genre` | `(movie_id, genre_id)` | — | *(Không có)* | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
-| 8 | `screening` | `screening_id` | — | `movie_id, room_id, start_time, end_time, base_price, status` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
+| 7 | `movie_genre` | `(movie_id, genre_id)` | Không | *(Không có)* | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
+| 8 | `screening` | `screening_id` | Không | `movie_id, room_id, start_time, end_time, base_price, status` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
 | 9 | `customer` | `customer_id` | `phone`, `email` | `full_name, birth_date, created_at` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
 | 10 | `employee` | `employee_id` | `employee_code`, `phone` | `branch_id, full_name, role, hired_date` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
 | 11 | `booking` | `booking_id` | `booking_code` | `screening_id, customer_id, employee_id, booked_at, booking_status` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
 | 12 | `ticket` | `ticket_id` | `(booking_id, seat_id)` | `unit_price, ticket_status, cancelled_at` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
 | 13 | `screening_seat_lock` | `(screening_id, seat_id)` | `ticket_id` | *(Không có)* | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
-| 14 | `payment` | `payment_id` | — | `booking_id, amount, payment_method, payment_status, paid_at, transaction_ref` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |
+| 14 | `payment` | `payment_id` | Không | `booking_id, amount, payment_method, payment_status, paid_at, transaction_ref` | Đạt | Đạt | Đạt | **Đạt 3NF (BCNF)** |

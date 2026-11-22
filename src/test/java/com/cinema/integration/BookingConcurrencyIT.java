@@ -118,9 +118,9 @@ class BookingConcurrencyIT {
                     "Bảng khóa ghế 3NF screening_seat_lock phải giữ đúng 1 dòng khóa cho ghế VALID");
             // Kiểm chứng không để lại bất kỳ booking hay payment dở dang nào từ 19 giao dịch bị từ chối
             assertEquals(1, countBookingsForScreening(testScreeningId),
-                    "Tuyệt đối không được để lại booking dở dang sau khi 19 luồng đồng thời bị từ chối");
+                    "Không được để lại booking dở dang sau khi 19 luồng đồng thời bị từ chối");
             assertEquals(1, countPaymentsForScreening(testScreeningId),
-                    "Tuyệt đối không được để lại payment dở dang sau khi 19 luồng đồng thời bị từ chối");
+                    "Không được để lại payment dở dang sau khi 19 luồng đồng thời bị từ chối");
 
             // 2. Hủy đơn đặt vé vừa thắng (Cancellation) -> Thanh toán chuyển sang REFUNDED, vé chuyển sang CANCELLED
             bookingService.cancelBooking(winningBookingId.get());

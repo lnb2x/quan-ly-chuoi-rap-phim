@@ -1,19 +1,19 @@
-# Mô hình Thực thể – Liên kết (ERD)
+# Mô hình Thực thể - Liên kết (ERD)
 
 ---
 
-## 1. Tổng quan Sơ đồ Thực thể – Liên kết theo Bài giảng CSDL
+## 1. Tổng quan Sơ đồ Thực thể - Liên kết theo Bài giảng CSDL
 
-Mô hình Thực thể – Liên kết của **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được xây dựng theo quy trình thiết kế mức khái niệm (Chương 2, *Bài giảng Cơ sở dữ liệu* — TS. Nguyễn Quỳnh Chi), gồm **12 tập thực thể thông thường (thực thể khỏe)** và **02 tập thực thể kết hợp (`PHIM_THE_LOAI` / `movie_genre`, `KHOA_GHE_SUAT_CHIEU` / `screening_seat_lock`)**, ánh xạ sang **14 lược đồ quan hệ chuẩn 3NF (và BCNF)** với **17 ràng buộc khóa ngoại**.
+Mô hình Thực thể - Liên kết của **Hệ thống Quản lý Chuỗi Rạp Chiếu Phim** được xây dựng theo quy trình thiết kế mức khái niệm (Chương 2, *Bài giảng Cơ sở dữ liệu* - TS. Nguyễn Quỳnh Chi), gồm **12 tập thực thể thông thường (thực thể khỏe)** và **02 tập thực thể kết hợp (`PHIM_THE_LOAI` / `movie_genre`, `KHOA_GHE_SUAT_CHIEU` / `screening_seat_lock`)**, ánh xạ sang **14 lược đồ quan hệ chuẩn 3NF (và BCNF)** với **17 ràng buộc khóa ngoại**.
 
 Các nguyên tắc thiết kế áp dụng trên sơ đồ:
-- **Không đưa khóa ngoại lên Sơ đồ E–R mức khái niệm** *(Giáo trình tr. 44–45, Slide 5 tr. 26)*: Sơ đồ E–R Chen chỉ biểu diễn đúng **59 thuộc tính bản thân** của 12 thực thể khỏe; cả **17 cột khóa ngoại** chỉ sinh ra ở bước ánh xạ sang Lược đồ Quan hệ thông qua các mối liên kết và thực thể kết hợp.
+- **Không đưa khóa ngoại lên Sơ đồ E - R mức khái niệm** *(Giáo trình tr. 44–45, Slide 5 tr. 26)*: Sơ đồ E - R Chen chỉ biểu diễn đúng **59 thuộc tính bản thân** của 12 thực thể khỏe; cả **17 cột khóa ngoại** chỉ sinh ra ở bước ánh xạ sang Lược đồ Quan hệ thông qua các mối liên kết và thực thể kết hợp.
 - **Không lưu thuộc tính dẫn xuất và thuộc tính đa trị chưa chuẩn hóa** *(Slide 1 tr. 24, Slide 3 tr. 25, Slide 7 tr. 14, Giáo trình tr. 22 & 158)*: Không lưu sức chứa phòng (`capacity` tính từ `COUNT(seat)`), không lưu tổng tiền đơn (`total_amount` tính từ `SUM(ticket.unit_price)`), không lưu tuổi khách hàng (`age` suy từ `birth_date`); thuộc tính đa trị thể loại phim được tách thành thực thể kết hợp `PHIM_THE_LOAI`.
 - **Loại bỏ phụ thuộc hàm bắc cầu trên Vé (`ticket`)**: Thực thể `VE_XEM_PHIM` liên kết với `SUAT_CHIEU` thông qua `DON_DAT_VE`, không nối trực tiếp `SUAT_CHIEU -> VE_XEM_PHIM` để tránh phụ thuộc bắc cầu $\text{ticket\_id} \to \text{booking\_id} \to \text{screening\_id}$.
-- **Ký hiệu và bản số của Thực thể kết hợp theo bài giảng** *(Slide 3 tr. 18, Slide 4 tr. 42–44, Slide 5 tr. 18 & 32–34)*: Hai thực thể kết hợp `PHIM_THE_LOAI` và `KHOA_GHE_SUAT_CHIEU` hình thành từ mối quan hệ nhiều – nhiều giữa hai tập thực thể gốc, được vẽ bằng **hình chữ nhật viền đơn bao quanh hình thoi nội tiếp** và không gán định danh riêng trên E–R. Theo cách biểu diễn của bài giảng (tương tự `PRODUCT —< [order-line] >== ORDER` ở Slide 5 tr. 33), mỗi tập thực thể gốc liên kết `1 : N` (hoặc `1 : M`) vào hộp thực thể kết hợp (`1` đặt phía thực thể gốc, `N`/`M` đặt phía thực thể kết hợp).
+- **Ký hiệu và bản số của Thực thể kết hợp theo bài giảng** *(Slide 3 tr. 18, Slide 4 tr. 42–44, Slide 5 tr. 18 & 32–34)*: Hai thực thể kết hợp `PHIM_THE_LOAI` và `KHOA_GHE_SUAT_CHIEU` hình thành từ mối quan hệ nhiều - nhiều giữa hai tập thực thể gốc, được vẽ bằng **hình chữ nhật viền đơn bao quanh hình thoi nội tiếp** và không gán định danh riêng trên E - R. Theo cách biểu diễn của bài giảng (tương tự `PRODUCT -< [order-line] >== ORDER` ở Slide 5 tr. 33), mỗi tập thực thể gốc liên kết `1 : N` (hoặc `1 : M`) vào hộp thực thể kết hợp (`1` đặt phía thực thể gốc, `N`/`M` đặt phía thực thể kết hợp).
 
 Các tệp sơ đồ trong thư mục `docs/erd/`:
-1. **Sơ đồ Thực thể – Liên kết (ERD Chen):** Tệp nguồn chỉnh sửa `docs/erd/ER.drawio`, bản PDF `docs/erd/ER.drawio.pdf` và ảnh `docs/erd/ER.drawio.png`. Gồm 12 hình chữ nhật thực thể khỏe, 02 thực thể kết hợp (`PHIM_THE_LOAI`, `KHOA_GHE_SUAT_CHIEU`), 13 hình thoi quan hệ hai ngôi, 59 hình elip thuộc tính bản thân (khóa chính gạch chân liền), 34 nhãn bản số `1` / `N` / `M`, đường nét đơn cho tham gia một phần và **13 đường nét đôi** cho tham gia đầy đủ.
+1. **Sơ đồ Thực thể - Liên kết (ERD Chen):** Tệp nguồn chỉnh sửa `docs/erd/ER.drawio`, bản PDF `docs/erd/ER.drawio.pdf` và ảnh `docs/erd/ER.drawio.png`. Gồm 12 hình chữ nhật thực thể khỏe, 02 thực thể kết hợp (`PHIM_THE_LOAI`, `KHOA_GHE_SUAT_CHIEU`), 13 hình thoi quan hệ hai ngôi, 59 hình elip thuộc tính bản thân (khóa chính gạch chân liền), 34 nhãn bản số `1` / `N` / `M`, đường nét đơn cho tham gia một phần và **13 đường nét đôi** cho tham gia đầy đủ.
 2. **Sơ đồ Lược đồ Quan hệ:** Tệp nguồn chỉnh sửa `docs/erd/luoc-do-quan-he.drawio`, bản PDF `docs/erd/luoc-do-quan-he.drawio.pdf` và ảnh `docs/erd/luoc-do-quan-he.drawio.png`. Gồm 14 thanh ngang quan hệ với 76 ô thuộc tính theo đúng quy ước Slide 5 tr. 27, 31 & 33: thuộc tính khóa chính (`PK`, bao gồm cả khóa chính ghép kiêm khóa ngoại của `PHIM_THE_LOAI`, `KHOA_GHE_SUAT_CHIEU`) gạch chân nét liền, 13 khóa ngoại đơn (`FK`, kể cả `KHOA_GHE_SUAT_CHIEU.MaVe`) gạch chân nét đứt, và **17 mũi tên cong xuất phát từ ô khóa ngoại (`FK`) trỏ về ô khóa chính (`PK`) được tham chiếu**.
 3. **Sơ đồ Mermaid đối chiếu nhanh với DDL:**
 
@@ -149,10 +149,10 @@ erDiagram
 
 - **Ký hiệu cơ bản (Slide 3 tr. 17–18, Giáo trình tr. 30–32):** Thực thể khỏe vẽ bằng hình chữ nhật viền đơn; thực thể kết hợp vẽ bằng hình chữ nhật viền đơn bao lấy hình thoi nội tiếp; mối quan hệ hai ngôi vẽ bằng hình thoi; thuộc tính vẽ bằng hình elip nối với thực thể (khóa chính gạch chân liền).
 - **Lực lượng liên kết và Ràng buộc tham gia (Slide 3 tr. 29–35, Giáo trình tr. 35–37):** Nhãn `1`, `N`, `M` thể hiện ánh xạ lực lượng liên kết tối đa; **đường nét đôi** biểu diễn sự tham gia đầy đủ (bắt buộc mọi thực thể trong tập đều phải tham gia ít nhất một liên kết), **đường nét đơn** biểu diễn sự tham gia một phần (tùy chọn).
-  - Ví dụ 1: `CHI_NHANH_RAP` (**1**, nét đơn) — `SO_HUU` === (**N**, nét đôi) `PHONG_CHIEU`: một chi nhánh mới thành lập có thể chưa tạo phòng chiếu (tham gia một phần), nhưng mỗi phòng chiếu bắt buộc thuộc đúng một chi nhánh xác định (tham gia đầy đủ).
+  - Ví dụ 1: `CHI_NHANH_RAP` (**1**, nét đơn) --- `SO_HUU` === (**N**, nét đôi) `PHONG_CHIEU`: một chi nhánh mới thành lập có thể chưa tạo phòng chiếu (tham gia một phần), nhưng mỗi phòng chiếu bắt buộc thuộc đúng một chi nhánh xác định (tham gia đầy đủ).
   - Ví dụ 2 (`BR-08`): `DON_DAT_VE` (**1**, nét đôi) === `BAO_GOM_VE` === (**N**, nét đôi) `VE_XEM_PHIM`: cả hai phía đều tham gia đầy đủ vì một đơn mua hoàn chỉnh bắt buộc có ít nhất một vé và mỗi vé thuộc duy nhất một đơn (`BookingService` kiểm tra danh sách ghế khác rỗng và tạo đơn + vé nguyên tử trong cùng một giao dịch).
-- **Quy tắc đặt khóa ngoại cho liên kết `1 : 1` tùy chọn – bắt buộc (Slide 5 tr. 30, Giáo trình tr. 70–71):** Trên liên kết `VE_XEM_PHIM` (**1**, nét đơn) — `GIU_KHOA_GHE` === (**1**, nét đôi) `KHOA_GHE_SUAT_CHIEU`, vé tham gia tùy chọn (khi `CANCELLED` không giữ khóa ghế), còn khóa ghế tham gia bắt buộc (mỗi khóa ghế phải thuộc đúng một vé `VALID`). Áp dụng đúng quy tắc bài giảng, khóa chính `MaVe` (`ticket_id`) của bên tùy chọn được đặt sang bên tham gia bắt buộc `KHOA_GHE_SUAT_CHIEU` làm khóa ngoại `NOT NULL UNIQUE`, loại bỏ hoàn toàn việc lưu giá trị rỗng `NULL`.
-- **Phân tách mức khái niệm và mức vật lý (Slide 2 tr. 9–12, Giáo trình tr. 22–24):** Cột sinh vật lý `payment.active_success_booking` trong MySQL 8.4 chỉ phục vụ chỉ mục duy nhất có điều kiện cho tập con `payment_status = 'SUCCESS'` ở mức trong, không phải thuộc tính của thực thể trên E–R hay lược đồ quan hệ mức logic.
+- **Quy tắc đặt khóa ngoại cho liên kết `1 : 1` tùy chọn - bắt buộc (Slide 5 tr. 30, Giáo trình tr. 70–71):** Trên liên kết `VE_XEM_PHIM` (**1**, nét đơn) --- `GIU_KHOA_GHE` === (**1**, nét đôi) `KHOA_GHE_SUAT_CHIEU`, vé tham gia tùy chọn (khi `CANCELLED` không giữ khóa ghế), còn khóa ghế tham gia bắt buộc (mỗi khóa ghế phải thuộc đúng một vé `VALID`). Áp dụng đúng quy tắc bài giảng, khóa chính `MaVe` (`ticket_id`) của bên tùy chọn được đặt sang bên tham gia bắt buộc `KHOA_GHE_SUAT_CHIEU` làm khóa ngoại `NOT NULL UNIQUE`, loại bỏ việc lưu giá trị rỗng `NULL`.
+- **Phân tách mức khái niệm và mức vật lý (Slide 2 tr. 9–12, Giáo trình tr. 22–24):** Cột sinh vật lý `payment.active_success_booking` trong MySQL 8.4 chỉ phục vụ chỉ mục duy nhất có điều kiện cho tập con `payment_status = 'SUCCESS'` ở mức trong, không phải thuộc tính của thực thể trên E - R hay lược đồ quan hệ mức logic.
 - Script `python -X utf8 -B tools/verify_erd.py` dùng để kiểm tra chéo giữa `ER.drawio`, `luoc-do-quan-he.drawio`, Mermaid và DDL SQL.
 
 ---
@@ -161,7 +161,7 @@ erDiagram
 
 *(Lưu ý: Khóa dự bị / khóa phụ `Alternate Keys` chỉ liệt kê các siêu khóa tối thiểu định danh duy nhất trên **mọi bộ** của quan hệ và không chứa `NULL`).*
 
-| STT | Tên trên Sơ đồ (`ERD` / `Lược đồ QH`) | Phân loại trên E–R | Tên Bảng (`SQL`) | Khóa chính (`PK`) | Khóa dự bị khác (`AK`) | Giải thích Ý nghĩa Nghiệp vụ |
+| STT | Tên trên Sơ đồ (`ERD` / `Lược đồ QH`) | Phân loại trên E - R | Tên Bảng (`SQL`) | Khóa chính (`PK`) | Khóa dự bị khác (`AK`) | Giải thích Ý nghĩa Nghiệp vụ |
 |---:|---|---|---|---|---|---|
 | 1 | `CHI_NHANH_RAP` | Thực thể khỏe | `cinema_branch` | `MaCN` (`branch_id`) | `branch_code`, `branch_name`, `phone` | Cụm rạp chiếu phim thuộc chuỗi đặt tại một địa điểm/thành phố cụ thể (7 thuộc tính bản thân). |
 | 2 | `PHONG_CHIEU` | Thực thể khỏe | `screening_room` | `MaPhong` (`room_id`) | `(branch_id, room_name)` | Không gian chiếu phim vật lý (`2D`, `3D`, `IMAX`); `MaCN` sinh ra khi ánh xạ liên kết `SO_HUU`. |
@@ -169,31 +169,31 @@ erDiagram
 | 4 | `GHE` | Thực thể khỏe | `seat` | `MaGhe` (`seat_id`) | `(room_id, seat_row, seat_number)` | Vị trí chỗ ngồi cố định xác định bởi hàng ghế (`HangGhe`) và số ghế (`SoGhe`) trong phòng chiếu. |
 | 5 | `PHIM` | Thực thể khỏe | `movie` | `MaPhim` (`movie_id`) | `movie_code` | Tác phẩm điện ảnh khai thác thương mại với thời lượng (`duration_minutes`) và phân loại tuổi (`age_rating`). |
 | 6 | `THE_LOAI` | Thực thể khỏe | `genre` | `MaTL` (`genre_id`) | `genre_name` | Danh mục thể loại điện ảnh phục vụ phân loại và tra cứu phim. |
-| 7 | `PHIM_THE_LOAI` | **Thực thể kết hợp** (`M:N`) | `movie_genre` | `(MaPhim, MaTL)` *(ngầm định)* | — | Thực thể kết hợp không gán định danh riêng giữa `PHIM` và `THE_LOAI`; nhận khóa ghép `(movie_id, genre_id)` khi ánh xạ. |
-| 8 | `SUAT_CHIEU` | Thực thể khỏe | `screening` | `MaSC` (`screening_id`) | — | Lịch trình chiếu một bộ phim tại một phòng chiếu trong khoảng `[start_time, end_time)` với giá cơ sở `base_price`. |
+| 7 | `PHIM_THE_LOAI` | **Thực thể kết hợp** (`M:N`) | `movie_genre` | `(MaPhim, MaTL)` *(ngầm định)* | Không | Thực thể kết hợp không gán định danh riêng giữa `PHIM` và `THE_LOAI`; nhận khóa ghép `(movie_id, genre_id)` khi ánh xạ. |
+| 8 | `SUAT_CHIEU` | Thực thể khỏe | `screening` | `MaSC` (`screening_id`) | Không | Lịch trình chiếu một bộ phim tại một phòng chiếu trong khoảng `[start_time, end_time)` với giá cơ sở `base_price`. |
 | 9 | `KHACH_HANG` | Thực thể khỏe | `customer` | `MaKH` (`customer_id`) | `phone`, `email` | Khách hàng đăng ký thành viên của chuỗi rạp (lưu `birth_date`, không lưu tuổi dẫn xuất). |
 | 10 | `NHAN_VIEN` | Thực thể khỏe | `employee` | `MaNV` (`employee_id`) | `employee_code`, `phone` | Nhân sự làm việc tại chi nhánh rạp (`CASHIER`, `MANAGER`, `ACCOUNTANT`). |
 | 11 | `DON_DAT_VE` | Thực thể khỏe | `booking` | `MaDDV` (`booking_id`) | `booking_code` | Phiên giao dịch đặt mua một hoặc nhiều vé cho một suất chiếu xác định. |
 | 12 | `VE_XEM_PHIM` | Thực thể khỏe | `ticket` | `MaVe` (`ticket_id`) | `(booking_id, seat_id)` | Tấm vé cụ thể gán ghế trong đơn đặt vé với đơn giá lịch sử `unit_price` và trạng thái `VALID` / `CANCELLED`. |
 | 13 | `KHOA_GHE_SUAT_CHIEU` | **Thực thể kết hợp** (`M:N` + `1:1`) | `screening_seat_lock` | `(MaSC, MaGhe)` *(ngầm định)* | `MaVe` (`ticket_id`) | Thực thể kết hợp biểu diễn phân bổ ghế đang có hiệu lực (`VALID`) trên cặp `(screening_id, seat_id)` và liên kết `1:1` với vé giữ chỗ. |
-| 14 | `THANH_TOAN` | Thực thể khỏe | `payment` | `MaTT` (`payment_id`) | — | Giao dịch thanh toán cho đơn đặt vé (`PENDING`, `SUCCESS`, `FAILED`, `REFUNDED`). |
+| 14 | `THANH_TOAN` | Thực thể khỏe | `payment` | `MaTT` (`payment_id`) | Không | Giao dịch thanh toán cho đơn đặt vé (`PENDING`, `SUCCESS`, `FAILED`, `REFUNDED`). |
 
 ---
 
 ## 3. Thuyết minh Chi tiết 13 Mối Quan hệ Hai ngôi & 02 Liên kết Thực thể Kết hợp
 
-1. **`CHI_NHANH_RAP` (1, nét đơn) — `SO_HUU` === (N, nét đôi) `PHONG_CHIEU`:** Chi nhánh mới mở có thể chưa cấu hình phòng chiếu; mỗi phòng chiếu bắt buộc thuộc duy nhất một chi nhánh (`screening_room.branch_id NOT NULL`).
-2. **`CHI_NHANH_RAP` (1, nét đơn) — `QUAN_LY_NV` === (N, nét đôi) `NHAN_VIEN`:** Mỗi nhân viên bắt buộc thuộc biên chế một chi nhánh xác định (`employee.branch_id NOT NULL`).
-3. **`PHONG_CHIEU` (1, nét đơn) — `CHUA_GHE` === (N, nét đôi) `GHE`:** Mỗi ghế vật lý bắt buộc gắn cố định trong một phòng chiếu (`seat.room_id NOT NULL`).
-4. **`HANG_GHE` (1, nét đơn) — `PHAN_HANG` === (N, nét đôi) `GHE`:** Mỗi ghế vật lý bắt buộc được xếp vào đúng một hạng ghế (`seat.seat_type_code NOT NULL`).
-5. **`PHIM` (1, nét đơn) — (N) `[◇ PHIM_THE_LOAI]` (M) — (1, nét đơn) `THE_LOAI`:** Thực thể kết hợp biểu diễn mối quan hệ nhiều – nhiều giữa Phim và Thể loại (mỗi bộ phim gắn với `N` bản ghi phân loại, mỗi thể loại gắn với `M` bản ghi phân loại). Theo Bước 4a (Slide 5 tr. 33), khi ánh xạ sang mô hình quan hệ sinh ra bảng `movie_genre(movie_id, genre_id)` với khóa chính ghép gồm 2 khóa ngoại tham chiếu `movie` và `genre`.
-6. **`PHIM` (1, nét đơn) — `XEP_LICH` === (N, nét đôi) `SUAT_CHIEU`:** Một phim được xếp nhiều suất chiếu; mỗi suất chiếu trình chiếu đúng một bộ phim (`screening.movie_id NOT NULL`).
-7. **`PHONG_CHIEU` (1, nét đơn) — `TO_CHUC_TAI` === (N, nét đôi) `SUAT_CHIEU`:** Một phòng tổ chức nhiều suất chiếu không giao thời gian; mỗi suất chiếu diễn ra tại đúng một phòng (`screening.room_id NOT NULL`).
-8. **`KHACH_HANG` (1, nét đơn) — `DAT_MUA` — (N, nét đơn) `DON_DAT_VE`:** Khách thành viên có thể đặt nhiều đơn; đơn đặt vé tại quầy của khách vãng lai không cần tài khoản thành viên (`booking.customer_id IS NULL`), nên cả hai phía đều tham gia một phần (nét đơn).
-9. **`NHAN_VIEN` (1, nét đơn) — `LAP_DON` === (N, nét đôi) `DON_DAT_VE`:** Mỗi đơn đặt vé bắt buộc do một nhân viên xác định thực hiện (`booking.employee_id NOT NULL`).
-10. **`SUAT_CHIEU` (1, nét đơn) — `CO_DON_DAT` === (N, nét đôi) `DON_DAT_VE`:** Mỗi đơn đặt vé bắt buộc đặt chỗ cho đúng một suất chiếu (`booking.screening_id NOT NULL`).
-11. **`DON_DAT_VE` (1, nét đôi) === `BAO_GOM_VE` === (N, nét đôi) `VE_XEM_PHIM` & `GHE` (1, nét đơn) — `GAN_CHO_VE` === (N, nét đôi) `VE_XEM_PHIM`:** Theo `BR-08`, mỗi đơn hoàn chỉnh có ít nhất một vé và mỗi vé thuộc đúng một đơn (hai đầu nét đôi); mỗi vé gán đúng một ghế lịch sử (`ticket.seat_id NOT NULL`, `UNIQUE(booking_id, seat_id)`).
-12. **`GHE` (1, nét đơn) — (N) `[◇ KHOA_GHE_SUAT_CHIEU]` (M) — (1, nét đơn) `SUAT_CHIEU` & `VE_XEM_PHIM` (1, nét đơn) — `GIU_KHOA_GHE` === (1, nét đôi) `[◇ KHOA_GHE_SUAT_CHIEU]`:**
+1. **`CHI_NHANH_RAP` (1, nét đơn) --- `SO_HUU` === (N, nét đôi) `PHONG_CHIEU`:** Chi nhánh mới mở có thể chưa cấu hình phòng chiếu; mỗi phòng chiếu bắt buộc thuộc duy nhất một chi nhánh (`screening_room.branch_id NOT NULL`).
+2. **`CHI_NHANH_RAP` (1, nét đơn) --- `QUAN_LY_NV` === (N, nét đôi) `NHAN_VIEN`:** Mỗi nhân viên bắt buộc thuộc biên chế một chi nhánh xác định (`employee.branch_id NOT NULL`).
+3. **`PHONG_CHIEU` (1, nét đơn) --- `CHUA_GHE` === (N, nét đôi) `GHE`:** Mỗi ghế vật lý bắt buộc gắn cố định trong một phòng chiếu (`seat.room_id NOT NULL`).
+4. **`HANG_GHE` (1, nét đơn) --- `PHAN_HANG` === (N, nét đôi) `GHE`:** Mỗi ghế vật lý bắt buộc được xếp vào đúng một hạng ghế (`seat.seat_type_code NOT NULL`).
+5. **`PHIM` (1, nét đơn) --- (N) `[◇ PHIM_THE_LOAI]` (M) --- (1, nét đơn) `THE_LOAI`:** Thực thể kết hợp biểu diễn mối quan hệ nhiều - nhiều giữa Phim và Thể loại (mỗi bộ phim gắn với `N` bản ghi phân loại, mỗi thể loại gắn với `M` bản ghi phân loại). Theo Bước 4a (Slide 5 tr. 33), khi ánh xạ sang mô hình quan hệ sinh ra bảng `movie_genre(movie_id, genre_id)` với khóa chính ghép gồm 2 khóa ngoại tham chiếu `movie` và `genre`.
+6. **`PHIM` (1, nét đơn) --- `XEP_LICH` === (N, nét đôi) `SUAT_CHIEU`:** Một phim được xếp nhiều suất chiếu; mỗi suất chiếu trình chiếu đúng một bộ phim (`screening.movie_id NOT NULL`).
+7. **`PHONG_CHIEU` (1, nét đơn) --- `TO_CHUC_TAI` === (N, nét đôi) `SUAT_CHIEU`:** Một phòng tổ chức nhiều suất chiếu không giao thời gian; mỗi suất chiếu diễn ra tại đúng một phòng (`screening.room_id NOT NULL`).
+8. **`KHACH_HANG` (1, nét đơn) --- `DAT_MUA` --- (N, nét đơn) `DON_DAT_VE`:** Khách thành viên có thể đặt nhiều đơn; đơn đặt vé tại quầy của khách vãng lai không cần tài khoản thành viên (`booking.customer_id IS NULL`), nên cả hai phía đều tham gia một phần (nét đơn).
+9. **`NHAN_VIEN` (1, nét đơn) --- `LAP_DON` === (N, nét đôi) `DON_DAT_VE`:** Mỗi đơn đặt vé bắt buộc do một nhân viên xác định thực hiện (`booking.employee_id NOT NULL`).
+10. **`SUAT_CHIEU` (1, nét đơn) --- `CO_DON_DAT` === (N, nét đôi) `DON_DAT_VE`:** Mỗi đơn đặt vé bắt buộc đặt chỗ cho đúng một suất chiếu (`booking.screening_id NOT NULL`).
+11. **`DON_DAT_VE` (1, nét đôi) === `BAO_GOM_VE` === (N, nét đôi) `VE_XEM_PHIM` & `GHE` (1, nét đơn) --- `GAN_CHO_VE` === (N, nét đôi) `VE_XEM_PHIM`:** Theo `BR-08`, mỗi đơn hoàn chỉnh có ít nhất một vé và mỗi vé thuộc đúng một đơn (hai đầu nét đôi); mỗi vé gán đúng một ghế lịch sử (`ticket.seat_id NOT NULL`, `UNIQUE(booking_id, seat_id)`).
+12. **`GHE` (1, nét đơn) --- (N) `[◇ KHOA_GHE_SUAT_CHIEU]` (M) --- (1, nét đơn) `SUAT_CHIEU` & `VE_XEM_PHIM` (1, nét đơn) --- `GIU_KHOA_GHE` === (1, nét đôi) `[◇ KHOA_GHE_SUAT_CHIEU]`:**
     - Thực thể kết hợp `KHOA_GHE_SUAT_CHIEU` mô hình hóa sự phân bổ ghế hiệu lực giữa Ghế và Suất chiếu (mỗi ghế xuất hiện trong `N` bản ghi khóa ghế qua các suất khác nhau, mỗi suất chiếu có `M` bản ghi khóa ghế; ánh xạ Bước 4a tạo khóa chính ghép `(screening_id, seat_id)` gồm 2 FK).
     - Đồng thời, theo cơ chế *Kết hợp* (Slide 4 tr. 42–43, Giáo trình tr. 53–55), thực thể kết hợp này tham gia bắt buộc (nét đôi, bản số `1`) vào mối quan hệ hai ngôi `1:1` `GIU_KHOA_GHE` với `VE_XEM_PHIM` (tham gia tùy chọn nét đơn, bản số `1`). Theo quy tắc ánh xạ `1:1` (Slide 5 tr. 30–31), `ticket_id` (`MaVe`) được đặt vào `screening_seat_lock` làm khóa ngoại `NOT NULL UNIQUE` (gạch chân nét đứt trên sơ đồ quan hệ). Khi vé hủy (`CANCELLED`), dòng khóa ghế được giải phóng để bán lại ghế mà vẫn giữ lịch sử trong `ticket`.
-13. **`DON_DAT_VE` (1, nét đơn) — `PHAT_SINH_TT` === (N, nét đôi) `THANH_TOAN`:** Một đơn có thể phát sinh nhiều lần thanh toán (ví dụ lần 1 `FAILED`, lần 2 `SUCCESS`); mỗi giao dịch thuộc đúng một đơn (`payment.booking_id NOT NULL`).
+13. **`DON_DAT_VE` (1, nét đơn) --- `PHAT_SINH_TT` === (N, nét đôi) `THANH_TOAN`:** Một đơn có thể phát sinh nhiều lần thanh toán (ví dụ lần 1 `FAILED`, lần 2 `SUCCESS`); mỗi giao dịch thuộc đúng một đơn (`payment.booking_id NOT NULL`).

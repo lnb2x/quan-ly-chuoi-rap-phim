@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PdfReportWriterTest {
     @TempDir Path directory;
     private static final LocalDate DATE = LocalDate.of(2026, 11, 15);
-    private static final String BRANCH = "CineViet chi nhánh Nguyễn Trãi, Thành phố Hồ Chí Minh – Trung tâm thương mại Điện Biên Phủ";
+    private static final String BRANCH = "CineViet chi nhánh Nguyễn Trãi, Thành phố Hồ Chí Minh - Trung tâm thương mại Điện Biên Phủ";
 
     @Test
     void revenueWrapsMetadataAndPaginatesEveryBranchWithoutLosingVietnameseText() throws Exception {
@@ -54,7 +54,7 @@ class PdfReportWriterTest {
         List<TicketSalesReportData.ScreeningSalesRow> rows = new ArrayList<>();
         for (int i = 0; i < 80; i++) {
             rows.add(new TicketSalesReportData.ScreeningSalesRow(i, DATE, DATE.atTime(19, 0), DATE.atTime(21, 0),
-                    BRANCH, "Phòng chiếu IMAX Nguyễn Trãi", "IMAX", "Đào, Phở và Piano – Hành trình của những người trẻ giữa lòng Hà Nội",
+                    BRANCH, "Phòng chiếu IMAX Nguyễn Trãi", "IMAX", "Đào, Phở và Piano - Hành trình của những người trẻ giữa lòng Hà Nội",
                     80, 2, 78, new BigDecimal("2.50"), new BigDecimal("200000"), "OPEN"));
         }
         Path output = directory.resolve("ban-ve.pdf");
@@ -64,7 +64,7 @@ class PdfReportWriterTest {
             String text = checkedText(document);
             assertTrue(text.contains("#79"));
             assertTrue(text.contains("2.50%"));
-            assertTrue(text.replaceAll("\\s+", "").contains("Đào,PhởvàPiano–HànhtrìnhcủanhữngngườitrẻgiữalòngHàNội"));
+            assertTrue(text.replaceAll("\\s+", "").contains("Đào,PhởvàPiano-HànhtrìnhcủanhữngngườitrẻgiữalòngHàNội"));
             assertTrue(text.contains("Trang " + document.getNumberOfPages() + "/" + document.getNumberOfPages()));
         }
     }

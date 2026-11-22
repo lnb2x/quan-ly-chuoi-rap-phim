@@ -3,7 +3,7 @@
 -- DỰ ÁN: HỆ THỐNG QUẢN LÝ CHUỖI RẠP CHIẾU PHIM
 -- BƯỚC KHỞI TẠO: [Bước 2 - Tạo Khóa ngoại] Thiết lập toàn bộ 17 ràng buộc
 --                tham chiếu FOREIGN KEY giữa 14 bảng chuẩn 3NF.
--- LƯU Ý TƯƠNG THÍCH MYSQL 8.4 LTS:
+-- LƯU Ý TƯƠNG THÍCH MYSQL 8.4:
 --   - Bảng `payment` sử dụng cột sinh vật lý (`GENERATED ALWAYS AS ... STORED`)
 --     phục vụ chỉ mục duy nhất có điều kiện cho dòng `SUCCESS`. Theo quy định
 --     của MySQL 8.4 InnoDB (mã lỗi 3108), cột cơ sở `booking_id` tham gia biểu thức

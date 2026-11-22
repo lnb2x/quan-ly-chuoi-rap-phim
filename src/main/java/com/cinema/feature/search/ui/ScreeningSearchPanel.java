@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Màn hình Tìm kiếm Vận hành: Tra cứu Suất chiếu & Kiểm tra Ghế trống.
  * Cho phép tìm theo tên phim, chi nhánh, ngày chiếu và khoảng thời gian bắt đầu,
- * hiển thị kết quả trên JTable có phân trang tường minh kèm tổng số ghế còn trống toàn bộ tập kết quả.
+ * hiển thị kết quả trên JTable có phân trang cố định kèm tổng số ghế còn trống toàn bộ tập kết quả.
  */
 public final class ScreeningSearchPanel extends JPanel {
 
@@ -52,7 +52,7 @@ public final class ScreeningSearchPanel extends JPanel {
     private int currentPage = 1;
     private int totalPages = 1;
     private int totalMatchedCount = 0;
-    private final JLabel lblPageStatus = new JLabel("Trang 1/1 — Hiển thị 0–0 / Tổng 0 suất chiếu");
+    private final JLabel lblPageStatus = new JLabel("Trang 1/1 - Hiển thị 0–0 / Tổng 0 suất chiếu");
     private final JButton btnPrevPage = Theme.createSecondaryButton("« Trang trước");
     private final JButton btnNextPage = Theme.createSecondaryButton("Trang sau »");
 
@@ -389,7 +389,7 @@ public final class ScreeningSearchPanel extends JPanel {
             totalMatchedCount = page.totalCount();
 
             lblPageStatus.setText(String.format(
-                    "Trang %d/%d — Hiển thị %d–%d / Tổng %d suất chiếu khớp điều kiện (%d dòng/trang)",
+                    "Trang %d/%d - Hiển thị %d–%d / Tổng %d suất chiếu khớp điều kiện (%d dòng/trang)",
                     currentPage, totalPages, page.fromIndex(), page.toIndex(), totalMatchedCount, PAGE_SIZE));
             btnPrevPage.setEnabled(page.hasPrevious());
             btnNextPage.setEnabled(page.hasNext());

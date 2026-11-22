@@ -55,7 +55,7 @@ public final class AppShell extends JFrame {
     }
 
     public AppShell(AppConfig appConfig, SandboxPaymentService sandboxPayments) {
-        super("Hệ Thống Quản Lý Chuỗi Rạp Chiếu Phim CineViet — Java 21 LTS & MySQL 8.4 LTS");
+        super("Hệ thống Quản lý Chuỗi Rạp Chiếu Phim CineViet");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(1024, 640));
         int initW = 1420;
@@ -123,7 +123,7 @@ public final class AppShell extends JFrame {
         JPanel brandBox = new JPanel(new GridLayout(3, 1, 2, 2));
         brandBox.setOpaque(false);
         brandBox.setBorder(BorderFactory.createEmptyBorder(0, 6, 18, 6));
-        JLabel lblBrand = new JLabel("CINEVIET ENTERPRISE");
+        JLabel lblBrand = new JLabel("CINEVIET CINEMA");
         lblBrand.setFont(new Font("Segoe UI", Font.BOLD, 17));
         lblBrand.setForeground(Color.WHITE);
         JLabel lblSub = new JLabel("Quản lý Chuỗi Rạp Chiếu Phim");

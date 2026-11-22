@@ -10,7 +10,7 @@
 --   - KHÔNG dùng TRUNCATE TABLE, DELETE hay SET FOREIGN_KEY_CHECKS = 0.
 --   - Dữ liệu được chèn tuần tự theo đúng thứ tự phụ thuộc Bảng Cha -> Bảng Con,
 --     đi qua đầy đủ 17 Khóa ngoại, các ràng buộc CHECK/UNIQUE và 12 Trigger
---     trên MySQL Community Server 8.4 LTS.
+--     trên MySQL Community Server 8.4.
 -- =============================================================================
 
 SET NAMES utf8mb4;

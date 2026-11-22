@@ -49,7 +49,7 @@ public final class TestDatabaseGuard {
         String schema = extractSchemaFromJdbcUrl(url);
         if (PROTECTED_DEMO_SCHEMA.equalsIgnoreCase(schema)) {
             throw new SecurityException(
-                    "CHẶN AN TOÀN: Cấm tuyệt đối chạy kiểm thử thay đổi/xóa dữ liệu trên CSDL demo cần bảo toàn '"
+                    "CHẶN AN TOÀN: Không cho phép chạy kiểm thử thay đổi/xóa dữ liệu trên CSDL demo cần bảo toàn '"
                             + PROTECTED_DEMO_SCHEMA + "'!");
         }
         if (!EXPECTED_TEST_SCHEMA.equals(schema)) {

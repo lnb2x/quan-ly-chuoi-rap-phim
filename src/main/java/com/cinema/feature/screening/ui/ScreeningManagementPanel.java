@@ -56,7 +56,7 @@ public final class ScreeningManagementPanel extends JPanel {
     private int currentPage = 1;
     private int totalPages = 1;
     private int totalScreeningsCount = 0;
-    private final JLabel lblPageStatus = new JLabel("Trang 1/1 — Hiển thị 0–0 / Tổng 0 suất chiếu");
+    private final JLabel lblPageStatus = new JLabel("Trang 1/1 - Hiển thị 0–0 / Tổng 0 suất chiếu");
     private final JButton btnPrevPage = Theme.createSecondaryButton("« Trang trước");
     private final JButton btnNextPage = Theme.createSecondaryButton("Trang sau »");
 
@@ -340,7 +340,7 @@ public final class ScreeningManagementPanel extends JPanel {
             totalScreeningsCount = page.totalCount();
 
             lblPageStatus.setText(String.format(
-                    "Trang %d/%d — Hiển thị %d–%d / Tổng %d suất chiếu (%d dòng/trang)",
+                    "Trang %d/%d - Hiển thị %d–%d / Tổng %d suất chiếu (%d dòng/trang)",
                     currentPage, totalPages, page.fromIndex(), page.toIndex(), totalScreeningsCount, PAGE_SIZE));
             btnPrevPage.setEnabled(page.hasPrevious());
             btnNextPage.setEnabled(page.hasNext());

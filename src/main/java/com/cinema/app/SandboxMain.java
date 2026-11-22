@@ -24,7 +24,7 @@ public final class SandboxMain {
         SwingUtilities.invokeLater(()->{
             try {
                 AppShell shell=new AppShell(app,payments);
-                shell.setTitle("CineViet — VNPay Sandbox — CSDL kiểm thử");
+                shell.setTitle("CineViet - VNPay Sandbox - CSDL kiểm thử");
                 shell.addWindowListener(new WindowAdapter(){@Override public void windowClosing(WindowEvent e){callback.close();}});
                 shell.setVisible(true);
             }catch(RuntimeException e){callback.close();throw e;}

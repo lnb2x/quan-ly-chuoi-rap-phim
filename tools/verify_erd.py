@@ -447,7 +447,7 @@ def verify_er_drawio(
     by_id = {c.get("id", ""): c for c in cells if c.get("id")}
     require(len(by_id) == len(cells), "Trùng hoặc thiếu ID trong ER.drawio")
 
-    # Mọi cạnh phải gắn source và target tường minh
+    # Mọi cạnh phải gắn source và target đầy đủ
     edges = [c for c in cells if c.get("edge") == "1"]
     for edge in edges:
         src, dst = edge.get("source", ""), edge.get("target", "")

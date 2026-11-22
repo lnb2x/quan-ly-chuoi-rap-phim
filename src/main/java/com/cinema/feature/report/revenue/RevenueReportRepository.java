@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Tầng truy cập dữ liệu cho Báo cáo Doanh thu Chuỗi rạp.
- * Tuân thủ nghiêm ngặt quy tắc ghi nhận doanh thu BR-14 & BR-15:
+ * Áp dụng đúng quy tắc ghi nhận doanh thu BR-14 & BR-15:
  * Chỉ cộng vé VALID thuộc đơn CONFIRMED có giao dịch thanh toán SUCCESS,
  * không nhân bản doanh thu khi một đơn có nhiều lần thử thanh toán.
  */

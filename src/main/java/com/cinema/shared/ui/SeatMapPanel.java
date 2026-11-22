@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Sơ đồ ghế trực quan trong phòng chiếu (8 hàng A-H x 10 ghế = 80 ghế).
+ * Sơ đồ ghế trên giao diện trong phòng chiếu (8 hàng A-H x 10 ghế = 80 ghế).
  * Cho phép chọn/bỏ chọn các ghế còn trống và chặn chọn ghế đã bán (OCCUPIED).
  */
 public final class SeatMapPanel extends JPanel implements Scrollable {

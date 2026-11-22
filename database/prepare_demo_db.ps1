@@ -13,9 +13,9 @@ $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 #           CSDL demo 'cinema_chain' với lược đồ 14 bảng chuẩn 3NF và dữ liệu mẫu.
 # QUY TẮC AN TOÀN:
 # - Chỉ được gọi khi người vận hành CHỦ ĐỘNG chuẩn bị lại CSDL demo trước buổi báo cáo.
-# - Tuyệt đối KHÔNG được gọi từ com.cinema.app.Main, setup.ps1 hay verify_all.ps1.
+# - Không được gọi từ com.cinema.app.Main, setup.ps1 hay verify_all.ps1.
 # - Chỉ thao tác trên duy nhất 'cinema_chain'; bảo toàn nguyên vẹn 'cinema_chain_test'
-#   và tất cả các cơ sở dữ liệu khác trên máy chủ MySQL 8.4 LTS.
+#   và tất cả các cơ sở dữ liệu khác trên máy chủ MySQL 8.4.
 # - Truyền thông tin đăng nhập qua --defaults-extra-file + stdin (không lộ mật khẩu CLI).
 # =============================================================================
 
@@ -26,14 +26,14 @@ $expectedDataDir = (Join-Path $env:USERPROFILE ".mysql\data-8.4").Replace('\', '
 $mysqlExe       = if ($env:CINEMA_MYSQL_EXE_OVERRIDE) { $env:CINEMA_MYSQL_EXE_OVERRIDE } else { Join-Path $mysqlDir "bin\mysql.exe" }
 
 if (-not (Test-Path $mysqlExe)) {
-    throw "Không tìm thấy MySQL Community Server 8.4 LTS tại $mysqlExe."
+    throw "Không tìm thấy MySQL Community Server 8.4 tại $mysqlExe."
 }
 
 if (-not $ConfirmYes) {
     Write-Output "======================================================================"
-    Write-Output " [XÁC NHẬN CHUẨN BỊ LẠI CSDL DEMO 'cinema_chain' — 14 BẢNG CHUẨN 3NF]"
+    Write-Output " [XÁC NHẬN CHUẨN BỊ LẠI CSDL DEMO 'cinema_chain' - 14 BẢNG CHUẨN 3NF]"
     Write-Output " - CSDL mục tiêu duy nhất : cinema_chain (Xóa & tạo lại + nạp dữ liệu mẫu)"
-    Write-Output " - Các CSDL khác trên máy : ĐƯỢC GIỮ NGUYÊN TUYỆT ĐỐI"
+    Write-Output " - Các CSDL khác trên máy : ĐƯỢC GIỮ NGUYÊN"
     Write-Output "======================================================================"
     $confirmInput = Read-Host "Nhập chính xác 'PREPARE_DEMO_DB' để tiếp tục (nhập khác để hủy)"
     if ($confirmInput -cne "PREPARE_DEMO_DB") {
@@ -45,7 +45,7 @@ if (-not $ConfirmYes) {
 if (-not $env:CINEMA_MYSQL_EXE_OVERRIDE) {
     powershell -NoProfile -ExecutionPolicy Bypass -File "$PSScriptRoot\start_mysql84.ps1"
     if ($LASTEXITCODE -ne 0) {
-        throw "Không thể xác minh hoặc khởi động đúng instance MySQL 8.4.0 LTS."
+        throw "Không thể xác minh hoặc khởi động đúng instance MySQL 8.4.0."
     }
 }
 
@@ -108,7 +108,7 @@ $verComment = $sParts[1].Trim()
 $liveDataDir = $sParts[2].Trim().TrimEnd('/')
 
 if ($verComment -match "(?i)mariadb" -or $verNumber -notlike "8.4.*" -or $liveDataDir.ToLower() -ne $expectedDataDir.ToLower()) {
-    throw "LỖI INSTANCE MYSQL: Đang kết nối tới '$verNumber ($verComment)' tại '$liveDataDir', không khớp chuẩn MySQL 8.4 LTS tại '$expectedDataDir'."
+    throw "LỖI INSTANCE MYSQL: Đang kết nối tới '$verNumber ($verComment)' tại '$liveDataDir', không khớp chuẩn MySQL 8.4 tại '$expectedDataDir'."
 }
 
 $preOtherDbs = @(Invoke-MySqlStdin "SHOW DATABASES;" "root" $rootPass | Where-Object { $_ -cne "cinema_chain" })
@@ -117,11 +117,11 @@ $logFile = Join-Path $rootDir "verification\logs\cinema_chain_14table_provision.
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $logFile) | Out-Null
 
 Write-Output "======================================================================"
-Write-Output " CHUẨN BỊ CSDL DEMO 'cinema_chain' (14 BẢNG CHUẨN 3NF — MYSQL $verNumber)"
+Write-Output " CHUẨN BỊ CSDL DEMO 'cinema_chain' (14 BẢNG CHUẨN 3NF - MYSQL $verNumber)"
 Write-Output " DataDir: $liveDataDir | AppUser: $appUser (Least-Privilege)"
 Write-Output "======================================================================"
 
-"=== MYSQL 8.4 LTS DEMO DB PROVISIONING LOG [TARGET: cinema_chain] ($(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) ===" | Out-File -FilePath $logFile -Encoding utf8
+"=== MYSQL 8.4 DEMO DB PROVISIONING LOG [TARGET: cinema_chain] ($(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) ===" | Out-File -FilePath $logFile -Encoding utf8
 Invoke-MySqlStdin "SELECT VERSION() AS mysql_version, @@version_comment AS distribution, @@sql_mode AS sql_mode, @@character_set_server AS charset, @@collation_server AS collation;" "root" $rootPass -TableOutput | Out-File -FilePath $logFile -Append -Encoding utf8
 
 Write-Output "[Bước 1/6] Xóa và tạo mới duy nhất CSDL demo 'cinema_chain' (utf8mb4_unicode_ci) & cấp quyền tối thiểu '$appUser'..."

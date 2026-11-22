@@ -4,8 +4,8 @@
 -- BƯỚC KHỞI TẠO: [Bước 4 - Tạo View] Định nghĩa 04 khung nhìn (Views) trên
 --                lược đồ 14 bảng chuẩn 3NF phục vụ Tra cứu Suất chiếu,
 --                Báo cáo Doanh thu và Báo cáo Tình hình Bán vé.
--- TƯƠNG THÍCH MYSQL 8.4 LTS:
---   - Sử dụng `CREATE OR REPLACE VIEW` chuẩn của MySQL 8.4, tuân thủ nghiêm ngặt
+-- TƯƠNG THÍCH MYSQL 8.4:
+--   - Sử dụng `CREATE OR REPLACE VIEW` chuẩn của MySQL 8.4, tuân thủ đúng
 --     chế độ `ONLY_FULL_GROUP_BY`.
 -- =============================================================================
 

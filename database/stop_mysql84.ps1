@@ -58,4 +58,4 @@ try {
     Remove-Item -LiteralPath $cfgFile -Force -ErrorAction SilentlyContinue
 }
 
-Write-Output "[OK] Đã dừng an toàn instance MySQL 8.4 LTS (bảo toàn 100% dữ liệu InnoDB)."
+Write-Output "[OK] Đã dừng an toàn instance MySQL 8.4 (giữ nguyên dữ liệu InnoDB)."

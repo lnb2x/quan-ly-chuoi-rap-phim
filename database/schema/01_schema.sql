@@ -6,13 +6,13 @@
 -- GHI CHÚ THIẾT KẾ:
 --   - KHÔNG sử dụng `DROP TABLE` hay `SET FOREIGN_KEY_CHECKS = 0` để tránh
 --     xóa nhầm dữ liệu khi chạy ở chế độ khởi tạo không phá hủy.
---   - Bảng `ticket` đã loại bỏ hoàn toàn thuộc tính bắc cầu `screening_id`
+--   - Bảng `ticket` đã loại bỏ thuộc tính bắc cầu `screening_id`
 --     (vì `ticket_id -> booking_id -> screening_id`), đảm bảo đạt chuẩn 3NF.
 --   - Bảng `screening_seat_lock` (quan hệ phân bổ ghế đang hiệu lực) bảo đảm
 --     chống bán trùng ghế `(screening_id, seat_id)` ngay ở mức B-Tree PRIMARY KEY
 --     của MySQL 8.4 InnoDB đồng thời cho phép bán lại ghế sau khi vé hủy (`CANCELLED`).
 --   - Các ràng buộc Khóa ngoại (17 FOREIGN KEY) được tách sang `01b_foreign_keys.sql`.
--- TƯƠNG THÍCH: MySQL Community Server 8.4 LTS (InnoDB, utf8mb4_unicode_ci)
+-- TƯƠNG THÍCH: MySQL Community Server 8.4 (InnoDB, utf8mb4_unicode_ci)
 -- =============================================================================
 
 SET NAMES utf8mb4;
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS booking (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
--- 12. Bảng ticket (Vé xem phim chi tiết theo ghế — Đạt chuẩn 3NF / BCNF)
+-- 12. Bảng ticket (Vé xem phim chi tiết theo ghế - Đạt chuẩn 3NF / BCNF)
 --     - Không lưu dư thừa `screening_id` (suy ra bảo toàn qua `booking.screening_id`).
 --     - Khóa dự tuyển tối tiểu trên toàn bảng: `{ticket_id}` (PK) và `{booking_id, seat_id}` (UQ).
 --     - Lưu giữ đầy đủ lịch sử vé hủy (`CANCELLED`) và đơn giá chốt lịch sử (`unit_price`).
@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS ticket (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
--- 13. Bảng screening_seat_lock (Phân bổ khóa ghế đang hiệu lực theo suất chiếu — 3NF / BCNF)
+-- 13. Bảng screening_seat_lock (Phân bổ khóa ghế đang hiệu lực theo suất chiếu - 3NF / BCNF)
 --     - Biểu diễn tập ghế đang bị giữ bởi các vé có `ticket_status = 'VALID'`.
 --     - Khóa dự tuyển tối tiểu trên toàn bảng: `{screening_id, seat_id}` (PK) và `{ticket_id}` (UQ).
 --     - Đảm bảo chống bán trùng ghế ở mức chỉ mục B-Tree InnoDB cho cả giao dịch đồng thời,

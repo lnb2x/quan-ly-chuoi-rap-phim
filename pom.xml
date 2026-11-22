@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>Hệ Thống Quản Lý Chuỗi Rạp Chiếu Phim</name>
-    <description>Dự án Cơ sở dữ liệu - Hệ thống Quản lý Chuỗi Rạp Chiếu Phim (Java 21 LTS, Swing FlatLaf, MySQL 8.4 LTS, PDFBox)</description>
+    <description>Dự án Cơ sở dữ liệu - Hệ thống Quản lý Chuỗi Rạp Chiếu Phim (Java 21, Swing FlatLaf, MySQL 8.4, PDFBox)</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,7 +32,7 @@
             <version>${flatlaf.version}</version>
         </dependency>
 
-        <!-- Official MySQL Connector/J JDBC Driver for MySQL 8.4 LTS -->
+        <!-- Official MySQL Connector/J JDBC Driver for MySQL 8.4 -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
@@ -155,7 +155,7 @@
     </build>
 
     <profiles>
-        <!-- Profile kiểm thử tích hợp CSDL MySQL 8.4 LTS (mặc định kích hoạt trong clean verify và hỗ trợ gọi tường minh -Pmysql-it) -->
+        <!-- Profile kiểm thử tích hợp CSDL MySQL 8.4 (mặc định kích hoạt trong clean verify và hỗ trợ gọi trực tiếp -Pmysql-it) -->
         <profile>
             <id>mysql-it</id>
             <activation>

@@ -1,11 +1,11 @@
-# Cấu hình kết nối Cơ sở dữ liệu MySQL Community Server 8.4 LTS (Tài khoản phân quyền tối thiểu cinema_app)
+# Cấu hình kết nối Cơ sở dữ liệu MySQL Community Server 8.4 (Tài khoản phân quyền tối thiểu cinema_app)
 # Sao chép tệp này thành config/application.properties và điền mật khẩu cục bộ trước khi chạy
 
 db.url=jdbc:mysql://127.0.0.1:3306/cinema_chain?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true&useSSL=false
 db.user=cinema_app
 db.password=<YOUR_LOCAL_DB_PASSWORD>
 
-# Cấu hình cơ sở dữ liệu kiểm thử tự động trên MySQL 8.4 LTS
+# Cấu hình cơ sở dữ liệu kiểm thử tự động trên MySQL 8.4
 test.db.url=jdbc:mysql://127.0.0.1:3306/cinema_chain_test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true&useSSL=false
 test.db.user=cinema_app
 test.db.password=<YOUR_LOCAL_DB_PASSWORD>

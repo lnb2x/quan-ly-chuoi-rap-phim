@@ -24,7 +24,7 @@ public final class PdfReportWriter {
     public void exportRevenueReport(RevenueReportData data, Path outputPath) throws IOException {
         try (PDDocument doc = new PDDocument(); Layout page = new Layout(doc)) {
             page.heading("BÁO CÁO DOANH THU CHUỖI RẠP THEO KỲ HẠN VÀ CHI NHÁNH");
-            page.text("Kỳ báo cáo: " + Theme.formatDate(data.fromDate()) + " – " + Theme.formatDate(data.toDate())
+            page.text("Kỳ báo cáo: " + Theme.formatDate(data.fromDate()) + " - " + Theme.formatDate(data.toDate())
                     + " | Phạm vi: " + data.branchFilterLabel(), 10, false);
             page.metadata(data.creatorName(), data.creatorTitle(), data.recipientTitle(), Theme.formatDateTime(data.generatedAt()));
             page.text("TỔNG HỢP TOÀN KỲ: " + data.totalPaidBookings() + " đơn đã thanh toán | "
@@ -36,7 +36,7 @@ public final class PdfReportWriter {
                 branches.add(new TableRow(new String[]{r.branchCode(), r.branchName(), r.city(),
                         Integer.toString(r.paidBookings()), Integer.toString(r.validTickets()), Theme.formatCurrency(r.paidRevenue())}, false));
             }
-            branches.add(new TableRow(new String[]{"TỔNG", "TỔNG CỘNG TOÀN CHUỖI", "–", Integer.toString(data.totalPaidBookings()),
+            branches.add(new TableRow(new String[]{"TỔNG", "TỔNG CỘNG TOÀN CHUỖI", "-", Integer.toString(data.totalPaidBookings()),
                     Integer.toString(data.totalValidTickets()), Theme.formatCurrency(data.totalPaidRevenue())}, true));
             page.table("I. TỔNG HỢP DOANH THU THEO CHI NHÁNH RẠP", new float[]{65, 220, 100, 90, 90, 200},
                     new String[]{"Mã CN", "Tên chi nhánh rạp", "Thành phố", "Số đơn TT", "Số vé hợp lệ", "Doanh thu thực thu"}, branches, 9);
@@ -56,7 +56,7 @@ public final class PdfReportWriter {
     public void exportTicketSalesReport(TicketSalesReportData data, Path outputPath) throws IOException {
         try (PDDocument doc = new PDDocument(); Layout page = new Layout(doc)) {
             page.heading("BÁO CÁO TÌNH HÌNH BÁN VÉ VÀ TỶ LỆ LẤP ĐẦY THEO SUẤT CHIẾU");
-            page.text("Kỳ báo cáo: " + Theme.formatDate(data.fromDate()) + " – " + Theme.formatDate(data.toDate())
+            page.text("Kỳ báo cáo: " + Theme.formatDate(data.fromDate()) + " - " + Theme.formatDate(data.toDate())
                     + " | Chi nhánh: " + data.branchFilterLabel() + " | Suất chiếu: " + data.screeningFilterLabel(), 10, false);
             page.metadata(data.creatorName(), data.creatorTitle(), data.recipientTitle(), Theme.formatDateTime(data.generatedAt()));
             page.text("TỔNG HỢP: " + data.totalScreenings() + " suất | Sức chứa: " + data.totalCapacity()
@@ -70,7 +70,7 @@ public final class PdfReportWriter {
                         r.roomName(), r.movieTitle(), Integer.toString(r.roomCapacity()), Integer.toString(r.ticketsSold()),
                         Integer.toString(r.availableSeats()), r.occupancyRatePct().toPlainString() + "%", Theme.formatCurrency(r.salesRevenue())}, false));
             }
-            rows.add(new TableRow(new String[]{"TỔNG", data.totalScreenings() + " suất", "–", "–", "TỔNG CỘNG KỲ BÁO CÁO",
+            rows.add(new TableRow(new String[]{"TỔNG", data.totalScreenings() + " suất", "-", "-", "TỔNG CỘNG KỲ BÁO CÁO",
                     Integer.toString(data.totalCapacity()), Integer.toString(data.totalTicketsSold()), Integer.toString(data.totalAvailableSeats()),
                     data.averageOccupancyPct().toPlainString() + "%", Theme.formatCurrency(data.totalSalesRevenue())}, true));
             page.table("CHI TIẾT TÌNH HÌNH BÁN VÉ THEO SUẤT CHIẾU", new float[]{40, 90, 112, 65, 150, 45, 45, 45, 55, 118},

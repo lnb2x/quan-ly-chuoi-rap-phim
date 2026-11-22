@@ -71,7 +71,7 @@ ROLLBACK;
 
 SELECT '=== FORM 2: ĐẶT VÉ & CHỌN GHẾ (SƠ ĐỒ GHẾ 3NF, FOR UPDATE, TẠO ĐƠN/VÉ/THANH TOÁN, HỦY/HOÀN TIỀN) ===' AS section_banner;
 
--- 2a. Truy vấn sơ đồ ghế trực quan của Suất #1 qua bảng khóa ghế 3NF `screening_seat_lock` (BookingRepository.findSeatsForScreening)
+-- 2a. Truy vấn lưới sơ đồ ghế của Suất #1 qua bảng khóa ghế 3NF `screening_seat_lock` (BookingRepository.findSeatsForScreening)
 SELECT
     st.seat_id,
     st.room_id,
@@ -124,7 +124,7 @@ INSERT INTO booking (booking_code, screening_id, customer_id, employee_id, booke
 VALUES ('BK-SQL-DEMO-001', @bk_demo_scr_id, 1, 3, '2026-11-07 10:00:00', 'CONFIRMED');
 SET @bk_demo_id := LAST_INSERT_ID();
 
--- Tạo các dòng vé chuẩn 3NF — KHÔNG lưu cột dư thừa screening_id trên ticket (BookingRepository.insertTicket)
+-- Tạo các dòng vé chuẩn 3NF - KHÔNG lưu cột dư thừa screening_id trên ticket (BookingRepository.insertTicket)
 -- Trigger `trg_ticket_lock_after_ins` tự động ghi khóa ghế vào `screening_seat_lock`
 INSERT INTO ticket (booking_id, seat_id, unit_price, ticket_status)
 VALUES
@@ -190,7 +190,7 @@ LIMIT 50 OFFSET 0;
 
 SELECT '=== MÀN HÌNH 4: BÁO CÁO DOANH THU CHUỖI RẠP (KẾ TOÁN LẬP -> GỬI GIÁM ĐỐC KINH DOANH) ===' AS section_banner;
 
--- 4a. Bảng I — Tổng hợp doanh thu thực thu theo Chi nhánh kỳ 01/11/2026 - 15/11/2026 (RevenueReportRepository.findBranchSummaries)
+-- 4a. Bảng I - Tổng hợp doanh thu thực thu theo Chi nhánh kỳ 01/11/2026 - 15/11/2026 (RevenueReportRepository.findBranchSummaries)
 SELECT
     br.branch_id,
     br.branch_code,
@@ -206,7 +206,7 @@ LEFT JOIN vw_verified_booking_revenue vr
 GROUP BY br.branch_id, br.branch_code, br.branch_name, br.city
 ORDER BY paid_revenue DESC, br.branch_id ASC;
 
--- 4b. Bảng đối soát minh bạch cách xử lý các trạng thái thanh toán & đơn vé (SUCCESS vs PENDING vs CANCELLED/REFUNDED vs FAILED)
+-- 4b. Bảng đối soát cách xử lý các trạng thái thanh toán & đơn vé (SUCCESS vs PENDING vs CANCELLED/REFUNDED vs FAILED)
 SELECT
     bk.booking_status,
     pm.payment_status,
