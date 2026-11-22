@@ -121,7 +121,11 @@ class SandboxPaymentIT {
                 "SELECT COUNT(*) FROM payment WHERE booking_id=? AND payment_status='PENDING' AND payment_method='TRANSFER'", bookingId));
         assertEquals(0, fixture.revenue().totalPaidRevenue().signum());
         assertEquals(1, BusinessRulesIT.scalar(
-                "SELECT COUNT(*) FROM screening_seat_lock WHERE screening_id=?", fixture.screening));
+                """
+                SELECT COUNT(*) FROM screening_seat_lock l
+                JOIN ticket t ON t.ticket_id = l.ticket_id
+                WHERE t.booking_id = ? AND l.screening_id = ? AND l.seat_id = ?
+                """, bookingId, fixture.screening, fixture.standardSeat));
     }
 
     @Test
