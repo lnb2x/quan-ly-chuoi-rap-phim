@@ -53,7 +53,7 @@ public final class TicketSalesReportPanel extends JPanel {
         // Top Header
         JPanel topPanel = new JPanel(new BorderLayout(8, 8));
         topPanel.setOpaque(false);
-        JLabel title = new JLabel("BÁO CÁO TÌNH HÌNH BÁN VÉ & TỶ LỆ LẤP ĐẦY (TICKET SALES REPORT)");
+        JLabel title = new JLabel("Báo cáo bán vé");
         title.setFont(Theme.FONT_TITLE);
         title.setForeground(Theme.TEXT_PRIMARY);
         topPanel.add(title, BorderLayout.NORTH);
@@ -63,10 +63,10 @@ public final class TicketSalesReportPanel extends JPanel {
 
         JPanel kpiRow = new JPanel(new GridLayout(1, 4, 12, 0));
         kpiRow.setOpaque(false);
-        kpiRow.add(Theme.createKpiCard("Tổng số Suất chiếu", lblKpiScreenings, Theme.ACCENT_PRIMARY));
-        kpiRow.add(Theme.createKpiCard("Vé đã bán / Tổng sức chứa", lblKpiSoldVsCap, Theme.ACCENT_TEAL));
-        kpiRow.add(Theme.createKpiCard("Tỷ lệ Lấp đầy Trung bình", lblKpiOccupancy, Theme.ACCENT_WARNING));
-        kpiRow.add(Theme.createKpiCard("Tổng Doanh thu Bán vé", lblKpiRevenue, Theme.ACCENT_SUCCESS));
+        kpiRow.add(Theme.createKpiCard("Số suất chiếu", lblKpiScreenings, Theme.ACCENT_PRIMARY));
+        kpiRow.add(Theme.createKpiCard("Vé đã bán / sức chứa", lblKpiSoldVsCap, Theme.ACCENT_TEAL));
+        kpiRow.add(Theme.createKpiCard("Lấp đầy trung bình", lblKpiOccupancy, Theme.ACCENT_WARNING));
+        kpiRow.add(Theme.createKpiCard("Doanh thu", lblKpiRevenue, Theme.ACCENT_SUCCESS));
 
         JPanel northContainer = new JPanel(new BorderLayout(10, 10));
         northContainer.setOpaque(false);
@@ -75,8 +75,8 @@ public final class TicketSalesReportPanel extends JPanel {
         northContainer.add(kpiRow, BorderLayout.SOUTH);
 
         String[] cols = {
-                "Mã SC", "Ngày chiếu", "Bắt đầu", "Kết thúc", "Chi nhánh", "Phòng chiếu",
-                "Loại", "Tựa đề Phim", "Sức chứa", "Vé đã bán", "Ghế trống", "Tỷ lệ lấp đầy", "Doanh thu bán vé"
+                "Mã suất", "Ngày chiếu", "Bắt đầu", "Kết thúc", "Chi nhánh", "Phòng chiếu",
+                "Loại", "Phim", "Sức chứa", "Vé đã bán", "Ghế trống", "Lấp đầy", "Doanh thu"
         };
         tableModel = new DefaultTableModel(cols, 0) {
             @Override
@@ -89,7 +89,7 @@ public final class TicketSalesReportPanel extends JPanel {
         Theme.styleTable(table);
 
         JPanel tableCard = Theme.createCardPanel(new BorderLayout(8, 8));
-        JLabel lblTable = new JLabel("Bảng Xem trước Chi tiết Tình hình Bán vé, Sức chứa, Ghế trống & Doanh thu theo Suất chiếu:");
+        JLabel lblTable = new JLabel("Chi tiết theo suất chiếu");
         lblTable.setFont(Theme.FONT_SUBTITLE);
         tableCard.add(lblTable, BorderLayout.NORTH);
         tableCard.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -106,7 +106,7 @@ public final class TicketSalesReportPanel extends JPanel {
         JPanel metaBanner = new JPanel(new BorderLayout());
         metaBanner.setOpaque(false);
         JLabel roleInfo = new JLabel(
-                "Người lập báo cáo: Quản lý Chi nhánh (Nguyễn Minh Hoàng)   |   Người nhận báo cáo: Ban Điều hành và Quản lý Kinh doanh");
+                "Người lập: Nguyễn Minh Hoàng (quản lý chi nhánh)   |   Người nhận: Ban điều hành và quản lý kinh doanh");
         roleInfo.setFont(Theme.FONT_BOLD);
         roleInfo.setForeground(new Color(3, 105, 161));
         metaBanner.add(roleInfo, BorderLayout.WEST);
@@ -144,11 +144,11 @@ public final class TicketSalesReportPanel extends JPanel {
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 2));
         actions.setOpaque(false);
 
-        JButton btnPreview = Theme.createPrimaryButton("Xem trước Báo cáo (Preview)");
+        JButton btnPreview = Theme.createPrimaryButton("Xem trước");
         btnPreview.setName("btnPreviewTicketSales");
         btnPreview.addActionListener(e -> refreshPreview());
 
-        JButton btnExportPdf = Theme.createSuccessButton("Xuất Báo cáo ra PDF");
+        JButton btnExportPdf = Theme.createSuccessButton("Xuất PDF");
         btnExportPdf.setName("btnExportTicketSalesPdf");
         btnExportPdf.addActionListener(e -> {
             try {
@@ -168,7 +168,7 @@ public final class TicketSalesReportPanel extends JPanel {
     }
 
     private void loadFilterOptions() {
-        branches = UiTask.call(this, "Đang tải danh sách chi nhánh…", service::listBranches);
+        branches = UiTask.call(this, "Đang tải chi nhánh…", service::listBranches);
         cboBranch.removeAllItems();
         cboBranch.addItem("Tất cả chi nhánh");
         for (CinemaBranch b : branches) {
@@ -184,9 +184,9 @@ public final class TicketSalesReportPanel extends JPanel {
             branchId = branches.get(idx - 1).branchId();
         }
         Integer selectedBranchId = branchId;
-        screenings = UiTask.call(this, "Đang tải danh sách suất chiếu…", () -> service.listScreeningsForBranch(selectedBranchId));
+        screenings = UiTask.call(this, "Đang tải suất chiếu…", () -> service.listScreeningsForBranch(selectedBranchId));
         cboScreening.removeAllItems();
-        cboScreening.addItem("Tất cả các suất chiếu");
+        cboScreening.addItem("Tất cả suất chiếu");
         for (ScreeningDetailView s : screenings) {
             cboScreening.addItem("#" + s.screeningId() + " - " + s.movieTitle() + " (" + Theme.formatDateTime(s.startTime()) + ")");
         }
@@ -247,14 +247,14 @@ public final class TicketSalesReportPanel extends JPanel {
             }
 
             tableModel.addRow(new Object[]{
-                    "TỔNG CỘNG",
+                    "Tổng cộng",
                     currentReportData.totalScreenings() + " suất",
                     "-",
                     "-",
                     branchLabel,
                     "-",
                     "-",
-                    "TỔNG HỢP TOÀN KỲ",
+                    "-",
                     currentReportData.totalCapacity(),
                     currentReportData.totalTicketsSold(),
                     currentReportData.totalAvailableSeats(),
@@ -262,17 +262,11 @@ public final class TicketSalesReportPanel extends JPanel {
                     Theme.formatCurrency(currentReportData.totalSalesRevenue())
             });
 
-            statusBanner.showSuccess(String.format(
-                    "Đã kết xuất bản xem trước Báo cáo Bán vé: %d suất chiếu, %d/%d vé bán ra (Lấp đầy TB: %s%%), Doanh thu: %s.",
-                    currentReportData.totalScreenings(),
-                    currentReportData.totalTicketsSold(),
-                    currentReportData.totalCapacity(),
-                    currentReportData.averageOccupancyPct().toPlainString(),
-                    Theme.formatCurrency(currentReportData.totalSalesRevenue())));
+            statusBanner.showSuccess("Đã cập nhật bản xem trước.");
         } catch (BusinessRuleException bre) {
             statusBanner.showError(bre.getMessage());
         } catch (Exception ex) {
-            statusBanner.showError("Lỗi khi tạo Báo cáo Tình hình Bán vé: " + ex.getMessage());
+            statusBanner.showError("Không thể tạo báo cáo bán vé: " + ex.getMessage());
         }
     }
 
@@ -289,8 +283,8 @@ public final class TicketSalesReportPanel extends JPanel {
         }
         Path absPath = targetPath.toAbsolutePath();
         TicketSalesReportData report = currentReportData;
-        UiTask.run(this, "Đang xuất báo cáo bán vé ra PDF…", () -> service.exportToPdf(report, absPath));
-        statusBanner.showSuccess("Đã xuất thành công Báo cáo Tình hình Bán vé ra tệp PDF: " + absPath);
+        UiTask.run(this, "Đang xuất PDF…", () -> service.exportToPdf(report, absPath));
+        statusBanner.showSuccess("Đã xuất PDF: " + absPath);
         return absPath;
     }
 

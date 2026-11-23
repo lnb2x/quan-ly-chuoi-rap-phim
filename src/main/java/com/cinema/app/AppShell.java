@@ -149,7 +149,7 @@ public final class AppShell extends JFrame {
 
         navList.add(createSectionLabel("BÁO CÁO & THỐNG KÊ"));
         navList.add(createNavButton(TAB_REVENUE_REPORT, "4. Báo cáo Doanh thu"));
-        navList.add(createNavButton(TAB_SALES_REPORT, "5. Báo cáo Tình hình Bán vé"));
+        navList.add(createNavButton(TAB_SALES_REPORT, "5. Báo cáo bán vé"));
 
         // Footer DB Connection Status
         JPanel footer = new JPanel(new GridLayout(3, 1, 2, 2));
