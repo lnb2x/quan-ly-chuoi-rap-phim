@@ -237,6 +237,7 @@ public final class GuiVerificationRunner {
             final Path[] salesPdfHolder = new Path[1];
             SwingUtilities.invokeAndWait(() -> {
                 shell.showScreen(AppShell.TAB_SALES_REPORT);
+                verifySalesScreeningFilterLayout(shell);
                 shell.getSalesReportPanel().setDateRangeForVerification("ngay-sai", "2026-11-10");
                 shell.getSalesReportPanel().refreshPreview();
                 requireBannerContains(shell.getSalesReportPanel().getStatusBanner().currentText(),
@@ -289,6 +290,45 @@ public final class GuiVerificationRunner {
                 });
             }
         }
+    }
+
+    private static void verifySalesScreeningFilterLayout(AppShell shell) {
+        JComboBox<?> filter = findSalesScreeningFilter(shell.getSalesReportPanel());
+        if (filter == null || filter.getItemCount() < 2) {
+            throw new IllegalStateException("Không tìm thấy ô lọc Suất chiếu có dữ liệu.");
+        }
+        Dimension originalSize = shell.getSize();
+        try {
+            for (Dimension size : List.of(shell.getMinimumSize(), originalSize)) {
+                shell.setSize(size);
+                shell.validate();
+                Rectangle bounds = new Rectangle(filter.getSize());
+                if (!filter.isShowing() || bounds.isEmpty() || !bounds.equals(filter.getVisibleRect())) {
+                    throw new IllegalStateException("Ô lọc Suất chiếu bị che ở kích thước "
+                            + size.width + "×" + size.height + ": " + filter.getVisibleRect() + " / " + bounds);
+                }
+                System.out.printf("[GUI-ASSERT-PASS] Ô lọc Suất chiếu hiển thị đầy đủ ở %d×%d%n",
+                        size.width, size.height);
+            }
+        } finally {
+            shell.setSize(originalSize);
+            shell.validate();
+        }
+    }
+
+    private static JComboBox<?> findSalesScreeningFilter(Container parent) {
+        for (Component child : parent.getComponents()) {
+            if (child instanceof JComboBox<?> comboBox && "ticketSalesScreeningFilter".equals(comboBox.getName())) {
+                return comboBox;
+            }
+            if (child instanceof Container container) {
+                JComboBox<?> found = findSalesScreeningFilter(container);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        return null;
     }
 
     private static void requireBannerContains(String actualBanner, String expectedToken, String context) {

@@ -111,17 +111,35 @@ public final class TicketSalesReportPanel extends JPanel {
         roleInfo.setForeground(new Color(3, 105, 161));
         metaBanner.add(roleInfo, BorderLayout.WEST);
 
-        JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 2));
-        controls.setOpaque(false);
-        controls.add(new JLabel("Từ ngày:"));
-        controls.add(txtFromDate);
-        controls.add(new JLabel("Đến ngày:"));
-        controls.add(txtToDate);
-        controls.add(new JLabel("Chi nhánh:"));
+        JPanel dates = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
+        dates.setOpaque(false);
+        dates.add(new JLabel("Từ ngày:"));
+        dates.add(txtFromDate);
+        dates.add(new JLabel("Đến ngày:"));
+        dates.add(txtToDate);
+
+        JLabel branchLabel = new JLabel("Chi nhánh:");
+        branchLabel.setLabelFor(cboBranch);
         cboBranch.addActionListener(e -> reloadScreeningFilter());
-        controls.add(cboBranch);
-        controls.add(new JLabel("Suất chiếu:"));
-        controls.add(cboScreening);
+        JLabel screeningLabel = new JLabel("Suất chiếu:");
+        screeningLabel.setLabelFor(cboScreening);
+        cboScreening.setName("ticketSalesScreeningFilter");
+
+        JPanel selectorLabels = new JPanel(new GridLayout(2, 1, 0, 6));
+        selectorLabels.setOpaque(false);
+        selectorLabels.add(branchLabel);
+        selectorLabels.add(screeningLabel);
+
+        JPanel selectors = new JPanel(new GridLayout(2, 1, 0, 6));
+        selectors.setOpaque(false);
+        selectors.add(cboBranch);
+        selectors.add(cboScreening);
+
+        JPanel controls = new JPanel(new BorderLayout(8, 6));
+        controls.setOpaque(false);
+        controls.add(dates, BorderLayout.NORTH);
+        controls.add(selectorLabels, BorderLayout.WEST);
+        controls.add(selectors, BorderLayout.CENTER);
 
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 2));
         actions.setOpaque(false);
